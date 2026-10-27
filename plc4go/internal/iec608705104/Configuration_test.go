@@ -28,6 +28,13 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// with is the default configuration with some fields changed.
+func with(change func(*Configuration)) Configuration {
+	configuration := DefaultConfiguration()
+	change(&configuration)
+	return configuration
+}
+
 func TestParseFromOptions(t *testing.T) {
 	tests := []struct {
 		name              string
@@ -38,33 +45,56 @@ func TestParseFromOptions(t *testing.T) {
 		{
 			name:              "the defaults",
 			connectionOptions: map[string][]string{},
-			want:              Configuration{requestTimeout: 4 * time.Second, ackThreshold: 8},
+			want:              with(func(c *Configuration) { c.requestTimeout = 4 * time.Second; c.ackThreshold = 8 }),
 		},
 		{
 			name:              "a request timeout in milliseconds",
 			connectionOptions: map[string][]string{"request-timeout-ms": {"1500"}},
-			want:              Configuration{requestTimeout: 1500 * time.Millisecond, ackThreshold: 8},
+			want:              with(func(c *Configuration) { c.requestTimeout = 1500 * time.Millisecond; c.ackThreshold = 8 }),
 		},
 		{
 			name:              "a smaller acknowledgement window",
 			connectionOptions: map[string][]string{"ack-threshold": {"4"}},
-			want:              Configuration{requestTimeout: 4 * time.Second, ackThreshold: 4},
+			want:              with(func(c *Configuration) { c.requestTimeout = 4 * time.Second; c.ackThreshold = 4 }),
 		},
 		{
 			name:              "the largest window a sequence number can express",
 			connectionOptions: map[string][]string{"ack-threshold": {"32767"}},
-			want:              Configuration{requestTimeout: 4 * time.Second, ackThreshold: 32767},
+			want:              with(func(c *Configuration) { c.requestTimeout = 4 * time.Second; c.ackThreshold = 32767 }),
 		},
 		{
 			name:              "an option given twice takes the first",
 			connectionOptions: map[string][]string{"ack-threshold": {"4", "6"}},
-			want:              Configuration{requestTimeout: 4 * time.Second, ackThreshold: 4},
+			want:              with(func(c *Configuration) { c.requestTimeout = 4 * time.Second; c.ackThreshold = 4 }),
 		},
 		{
 			name:              "an empty option list is no option at all",
 			connectionOptions: map[string][]string{"ack-threshold": {}},
-			want:              Configuration{requestTimeout: 4 * time.Second, ackThreshold: 8},
+			want:              with(func(c *Configuration) { c.requestTimeout = 4 * time.Second; c.ackThreshold = 8 }),
 		},
+		{
+			name:              "the keep-alive timers, in milliseconds",
+			connectionOptions: map[string][]string{"t1-ms": {"5000"}, "t3-ms": {"10000"}},
+			want:              with(func(c *Configuration) { c.t1 = 5 * time.Second; c.t3 = 10 * time.Second }),
+		},
+		{
+			name:              "no keep-alive",
+			connectionOptions: map[string][]string{"t3-ms": {"0"}},
+			want:              with(func(c *Configuration) { c.t3 = 0 }),
+		},
+		{
+			name:              "no general interrogation, to one common address, from originator 3",
+			connectionOptions: map[string][]string{"general-interrogation": {"false"}, "interrogation-asdu-address": {"47"}, "originator-address": {"3"}},
+			want: with(func(c *Configuration) {
+				c.generalInterrogation = false
+				c.interrogationAsduAddress = 47
+				c.originatorAddress = 3
+			}),
+		},
+		{name: "a t1 of zero", connectionOptions: map[string][]string{"t1-ms": {"0"}}, wantErr: true},
+		{name: "a general interrogation which isn't a boolean", connectionOptions: map[string][]string{"general-interrogation": {"sometimes"}}, wantErr: true},
+		{name: "a common address past 16 bits", connectionOptions: map[string][]string{"interrogation-asdu-address": {"65536"}}, wantErr: true},
+		{name: "an originator address past 8 bits", connectionOptions: map[string][]string{"originator-address": {"256"}}, wantErr: true},
 		{name: "a request timeout which isn't a number", connectionOptions: map[string][]string{"request-timeout-ms": {"soon"}}, wantErr: true},
 		{name: "a request timeout of zero", connectionOptions: map[string][]string{"request-timeout-ms": {"0"}}, wantErr: true},
 		{name: "a window which isn't a number", connectionOptions: map[string][]string{"ack-threshold": {"lots"}}, wantErr: true},

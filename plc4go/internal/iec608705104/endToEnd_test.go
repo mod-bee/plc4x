@@ -124,7 +124,10 @@ func TestEndToEnd_PushedAsduReachesASubscriber(t *testing.T) {
 
 	handle, responseCode := subscribe(t, connection, changeOfState, "breaker", "10/13")
 	require.Equal(t, apiModel.PlcResponseCode_OK, responseCode)
-	require.Empty(t, sentFrames(t, transportInstance), "subscribing puts nothing on the wire")
+	// Subscribing interrogates the station, so the subscription starts with every current value: a
+	// C_IC_NA_1 (type 100) activation to the global common address, information object 0, QOI 20.
+	assert.Equal(t, []byte{0x68, 0x0E, 0x00, 0x00, 0x00, 0x00, 0x64, 0x01, 0x06, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x14},
+		waitForSentFrames(t, transportInstance, 16), "subscribing sends a general interrogation")
 
 	events := make(chan apiModel.PlcSubscriptionEvent, 8)
 	registration := handle.Register(func(event apiModel.PlcSubscriptionEvent) {
