@@ -710,11 +710,22 @@ public class StaticHelper {
         if (data.length == 0) {
             return 0;
         }
-        return new BigInteger(data).longValue();
+        // Unsigned (signum 1): a one-octet 0xC8 is 200, where new BigInteger(data) reads it as -56.
+        return new BigInteger(1, data).longValue();
     }
 
+    /**
+     * The big-endian octets of an unsigned value, as many as {@link #requiredLength(long)} says the tag header
+     * announces. BigInteger.toByteArray() is two's complement: it adds a leading 0x00 to a value whose top bit is set
+     * (128 is 00 80), leaving the payload an octet longer than the header says.
+     */
     public static byte[] writeVarUint(long value) {
-        return BigInteger.valueOf(value).toByteArray();
+        int length = (int) requiredLength(value);
+        byte[] data = new byte[length];
+        for (int i = 0; i < length; i++) {
+            data[length - 1 - i] = (byte) (value >>> (8 * i));
+        }
+        return data;
     }
 
     public static BACnetTagHeader createBACnetTagHeaderBalanced(boolean isContext, short id, long value) {
