@@ -82,3 +82,16 @@ func TestParseFromOptionsBadBool(t *testing.T) {
 	})
 	require.Error(t, err)
 }
+
+// A communication path that does not make a route is refused when the connection string is read, not routed somewhere
+// else in silence.
+func TestParseFromOptionsRefusesABadCommunicationPath(t *testing.T) {
+	for _, path := range []string{"1", "1,x", "0,1", "15,1", "2,300", "2,192.168.0", "1,0,2"} {
+		_, err := ParseFromOptions(zerolog.Nop(), map[string][]string{"communication-path": {path}})
+		assert.Error(t, err, path)
+	}
+	for _, path := range []string{"1,0", "none", "NONE", "1,4,2,192.168.0.1,1,1", "2,5", " 1 , 0 "} {
+		_, err := ParseFromOptions(zerolog.Nop(), map[string][]string{"communication-path": {path}})
+		assert.NoError(t, err, path)
+	}
+}

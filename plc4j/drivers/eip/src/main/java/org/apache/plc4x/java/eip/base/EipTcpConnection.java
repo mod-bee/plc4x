@@ -110,33 +110,8 @@ public class EipTcpConnection extends PollingSubscriptionConnectionBase<EIPConfi
     }
 
     private void initRoutingAddress() {
-        if (configuration.getCommunicationPath() != null) {
-            String[] splitConnectionPath = configuration.getCommunicationPath().split(",");
-            if (splitConnectionPath.length % 2 == 0) {
-                for (int i = 0; (i + 1) < splitConnectionPath.length; i += 2) {
-                    switch (splitConnectionPath[i]) {
-                        case "1":
-                            int backplanePortId = Integer.parseInt(splitConnectionPath[i]);
-                            int slot = Integer.parseInt(splitConnectionPath[i + 1]);
-                            routingAddress.add(new PortSegment(new PortSegmentNormal((byte) backplanePortId, (short) slot)));
-                            break;
-                        case "2":
-                            int ethernetPortId = Integer.parseInt(splitConnectionPath[i]);
-                            String ipAddress = splitConnectionPath[i + 1];
-                            int lengthString = ipAddress.length();
-                            if ((ipAddress.length() % 2) != 0) {
-                                ipAddress += "\0";
-                            }
-                            routingAddress.add(new PortSegment(new PortSegmentExtended((byte) ethernetPortId, (short) lengthString, ipAddress)));
-                            break;
-                        default:
-                            LOGGER.error("Only backplane or Ethernet module routing is supported");
-                    }
-                }
-            }
-        } else {
-            routingAddress.add(new PortSegment(new PortSegmentNormal((byte) 1, (short) configuration.getSlot())));
-        }
+        routingAddress.addAll(CommunicationPath.portSegments(
+            configuration.getCommunicationPath(), configuration.getBackplane(), configuration.getSlot()));
         routingAddress.add(new LogicalSegment(new ClassID((byte) 0, (short) 2)));
         routingAddress.add(new LogicalSegment(new InstanceID((byte) 0, (short) 1)));
 

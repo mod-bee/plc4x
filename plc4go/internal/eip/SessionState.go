@@ -22,7 +22,6 @@ package eip
 import (
 	"context"
 	"math/rand/v2"
-	"strconv"
 	"strings"
 	"sync/atomic"
 
@@ -70,35 +69,33 @@ func (s *SessionState) nextSequenceCount() uint16 {
 
 func buildRoutingAddress(log zerolog.Logger, configuration Configuration) ([]readWriteModel.PathSegment, uint8) {
 	var routingAddress []readWriteModel.PathSegment
-	if configuration.communicationPath != "" {
-		parts := strings.Split(configuration.communicationPath, ",")
-		if len(parts)%2 == 0 {
-			for i := 0; i+1 < len(parts); i += 2 {
-				switch parts[i] {
-				case "1":
-					slot, err := strconv.Atoi(parts[i+1])
-					if err != nil {
-						log.Error().Str("slot", parts[i+1]).Msg("Invalid slot in communication path")
-						continue
-					}
-					routingAddress = append(routingAddress,
-						readWriteModel.NewPortSegment(readWriteModel.NewPortSegmentNormal(1, uint8(slot))))
-				case "2":
-					address := parts[i+1]
-					addressLength := uint8(len(address))
-					if len(address)%2 != 0 {
-						address += "\x00"
-					}
-					routingAddress = append(routingAddress,
-						readWriteModel.NewPortSegment(readWriteModel.NewPortSegmentExtended(2, addressLength, address)))
-				default:
-					log.Error().Str("port", parts[i]).Msg("Only backplane or Ethernet module routing is supported")
-				}
+	hops, err := parseCommunicationPath(configuration.communicationPath)
+	if err != nil {
+		// ParseFromOptions refuses such a path; a configuration built in code falls back to the default route.
+		log.Error().Err(err).Str("communicationPath", configuration.communicationPath).Msg("Invalid communication path")
+		hops = nil
+	}
+	switch {
+	case hops != nil:
+		for _, hop := range hops {
+			if hop.address == "" {
+				routingAddress = append(routingAddress,
+					readWriteModel.NewPortSegment(readWriteModel.NewPortSegmentNormal(hop.port, hop.link)))
+				continue
 			}
+			address := hop.address
+			addressLength := uint8(len(address))
+			if len(address)%2 != 0 {
+				address += "\x00"
+			}
+			routingAddress = append(routingAddress,
+				readWriteModel.NewPortSegment(readWriteModel.NewPortSegmentExtended(hop.port, addressLength, address)))
 		}
-	} else {
+	case strings.EqualFold(strings.TrimSpace(configuration.communicationPath), communicationPathNone):
+		// No port segment: the controller is reached on its own port (a Micro800).
+	default:
 		routingAddress = append(routingAddress,
-			readWriteModel.NewPortSegment(readWriteModel.NewPortSegmentNormal(1, uint8(configuration.slot))))
+			readWriteModel.NewPortSegment(readWriteModel.NewPortSegmentNormal(uint8(configuration.backplane), uint8(configuration.slot))))
 	}
 	routingAddress = append(routingAddress,
 		readWriteModel.NewLogicalSegment(readWriteModel.NewClassID(0, 2)),
