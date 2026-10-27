@@ -124,7 +124,7 @@ class SlmpConnectionWritePathTest {
     }
 
     private static byte[] responseFrame(int endCode, byte[] data) throws Exception {
-        SlmpResponseFrame3E frame = new SlmpResponseFrame3E(endCode, data);
+        SlmpResponseFrame3E frame = new SlmpResponseFrame3E((short) 0x00, (short) 0xFF, 0x03FF, (short) 0x00, endCode, data);
         WriteBufferByteBased writeBuffer = new WriteBufferByteBased(new byte[frame.getLengthInBytes()]);
         frame.serialize(writeBuffer);
         return writeBuffer.getBytes();

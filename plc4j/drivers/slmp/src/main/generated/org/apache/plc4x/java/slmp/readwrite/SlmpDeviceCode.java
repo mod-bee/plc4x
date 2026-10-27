@@ -37,7 +37,45 @@ public enum SlmpDeviceCode {
 
   Y((short) 0x9D),
 
-  B((short) 0xA0);
+  B((short) 0xA0),
+
+  SM((short) 0x91),
+
+  L((short) 0x92),
+
+  F((short) 0x93),
+
+  V((short) 0x94),
+
+  SB((short) 0xA1),
+
+  DX((short) 0xA2),
+
+  DY((short) 0xA3),
+
+  TS((short) 0xC1),
+
+  TC((short) 0xC0),
+
+  STS((short) 0xC7),
+
+  STC((short) 0xC6),
+
+  CS((short) 0xC4),
+
+  CC((short) 0xC3),
+
+  SD((short) 0xA9),
+
+  SW((short) 0xB5),
+
+  STN((short) 0xC8),
+
+  CN((short) 0xC5),
+
+  Z((short) 0xCC),
+
+  ZR((short) 0xB0);
 
   private static final Map<Short, SlmpDeviceCode> map;
 

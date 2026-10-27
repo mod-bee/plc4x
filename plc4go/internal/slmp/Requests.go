@@ -36,9 +36,12 @@ const (
 	commandBatchRead = uint16(0x0401)
 	// commandBatchWrite is Batch Write, the only write command this version sends.
 	commandBatchWrite = uint16(0x1401)
-	// subCommandWordUnits selects word units for both of them. Bit units (0x0001) are out of scope,
-	// exactly as in plc4j's first version.
+	// subCommandWordUnits selects word units: every read, a bit device's read included (sixteen
+	// points to a word), and the writes of word devices.
 	subCommandWordUnits = uint16(0x0000)
+	// subCommandBitUnits selects bit units: a write to a bit device, which sets exactly the points
+	// named and leaves the rest of their word alone.
+	subCommandBitUnits = uint16(0x0001)
 	// endCodeNormalCompletion is the end code of a response that completed normally; every other
 	// value is an error whose meaning is in SH-080008's error-code list.
 	endCodeNormalCompletion = uint16(0x0000)
@@ -114,7 +117,9 @@ func sendTransactedRequestAndWait(
 	}
 }
 
-// newRequestFrame wraps one piece of request data in a 3E request frame.
-func newRequestFrame(configuration Configuration, command uint16, requestData readWriteModel.SlmpRequestData) readWriteModel.SlmpRequestFrame3E {
-	return readWriteModel.NewSlmpRequestFrame3E(configuration.monitoringTimer, command, subCommandWordUnits, requestData)
+// newRequestFrame wraps one piece of request data in a 3E request frame, along the configured route.
+func newRequestFrame(configuration Configuration, command uint16, subCommand uint16, requestData readWriteModel.SlmpRequestData) readWriteModel.SlmpRequestFrame3E {
+	route := configuration.route
+	return readWriteModel.NewSlmpRequestFrame3E(route.Network, route.Station, route.ModuleIo, route.MultidropStation,
+		configuration.monitoringTimer, command, subCommand, requestData)
 }

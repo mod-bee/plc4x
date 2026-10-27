@@ -24,9 +24,11 @@ is used by Mitsubishi Electric MELSEC PLCs such as the iQ-R, iQ-F, Q and L serie
 
 The driver communicates using binary 3E frames over TCP.
 
-Both the Go and Java drivers address the word devices D, W and R only. This is the
-driver's deliberate scope, not an unfinished port: the bit devices (M, X, Y, B) and the
-wider MELSEC command set are not implemented in either language.
+The Go driver addresses the common bit devices (X, Y, M, L, F, V, B, SM, SB, DX, DY and the
+timer and counter contacts and coils) and word devices (D, W, R, ZR, SD, SW, TN, STN, CN, Z).
+The Java driver addresses the word devices D, W and R. Both send each request along a
+configurable access route, so a station on a network behind the connected one, or another
+CPU of a multiple-CPU system, can be reached.
 
 == Supported Operations
 
@@ -63,9 +65,9 @@ include::partial$slmp.adoc[]
 
 == Tag Addresses
 
-Addressing is implemented in Go and Java. Both address the word devices D, W and R
-only. See the xref:protocols/index.adoc[protocol support matrix] for what each
-implementation does.
+Addressing is implemented in Go and Java: Go addresses the bit and word devices listed
+below, Java the word devices D, W and R. See the xref:protocols/index.adoc[protocol support
+matrix] for what each implementation does.
 
 === General Format
 
@@ -82,27 +84,45 @@ In general all SLMP addresses have this format:
 {device}{address}[selection]:{data-type}
 ----
 
-If the data-type part is omitted, it defaults to `WORD`.
+If the data-type part is omitted, it defaults to `BOOL` on a bit device and `WORD` on a word
+device.
 If no selection is given, a single element is assumed.
 
 === Devices
 
-The following word devices are supported:
+The following word devices are supported (Java: D, W and R):
 
-- `D` (data register, decimal address)
-- `R` (file register, decimal address)
-- `W` (link register, hexadecimal address; an optional `0x` prefix is accepted)
+- `D` (data register), `R` (file register), `ZR` (file register, serial access),
+  `SD` (special register), `TN` (timer current value), `STN` (retentive timer current
+  value), `CN` (counter current value), `Z` (index register) - decimal addresses
+- `W` (link register), `SW` (link special register) - hexadecimal addresses
 
-The `0x` prefix is only valid for hexadecimally addressed devices (W).
+The following bit devices are supported (Go only):
+
+- `M` (internal relay), `L` (latch relay), `F` (annunciator), `V` (edge relay), `SM`
+  (special relay), `TS`/`TC` (timer contact/coil), `STS`/`STC` (retentive timer
+  contact/coil), `CS`/`CC` (counter contact/coil) - decimal addresses
+- `X` (input), `Y` (output), `B` (link relay), `SB` (link special relay), `DX`/`DY`
+  (direct access input/output) - hexadecimal addresses
+
+An optional `0x` prefix is accepted on, and only on, the hexadecimally addressed devices.
+
+A bit device's point is a bit (`BOOL`). It is read in word units, sixteen points to a
+word, from the word its first point is in, and written in bit units, so a write changes
+exactly the points named. A bit device can also be read and written as words (`M32:WORD`
+is M32..M47) from a device number that is a multiple of 16. A word device holds words: to
+use one bit of it, read it as `WORD` and take the bit from the value.
 
 A single read or write request may cover at most 960 words (a conservative
-single-frame ceiling); larger requests are rejected instead of being split.
+single-frame ceiling), and a bit write at most 7168 points; larger requests are rejected
+instead of being split.
 
 === Data Types
 
 The following data types are supported:
 
-- WORD (uint 16, default)
+- BOOL (one point of a bit device; the default there)
+- WORD (uint 16, the default on a word device)
 - INT (int 16)
 - UINT (uint 16)
 - DINT (int 32)
@@ -119,3 +139,14 @@ little-endian (low-word-first) order, as transmitted by the PLC.
 - `R200[0..3]:REAL` (four floats from file register 200)
 - `W1A[0..9]:WORD` (ten words from link register 0x1A)
 - `W0x1A` (link register 0x1A, using the explicit `0x` prefix form)
+- `M100` (internal relay 100, one bit)
+- `X1F[0..7]` (inputs X1F to X26)
+- `M32:WORD` (relays M32 to M47 as one word)
+- `ZR32768:DINT` (one 32-bit integer from serial file register 32768)
+
+=== Access Route
+
+By default every request addresses the connected station itself (network 0, station
+255, module I/O 1023 = 0x03FF, multidrop station 0). To reach another station through
+it, set `network-number` and `station-number` to that station's; to reach CPU No. 1-4 of a
+multiple-CPU system, set `module-io-number` to 992-995 (0x03E0-0x03E3).

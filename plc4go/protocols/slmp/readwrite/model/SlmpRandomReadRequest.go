@@ -210,6 +210,10 @@ func (m *_SlmpRandomReadRequest) GetCommand() uint16 {
 	return 0x0403
 }
 
+func (m *_SlmpRandomReadRequest) GetSubCommand() uint16 {
+	return 0x0000
+}
+
 ///////////////////////
 ///////////////////////
 ///////////////////////////////////////////////////////////
@@ -292,7 +296,7 @@ func (m *_SlmpRandomReadRequest) GetLengthInBytes(ctx context.Context) uint64 {
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_SlmpRandomReadRequest) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_SlmpRequestData, command uint16) (__slmpRandomReadRequest SlmpRandomReadRequest, err error) {
+func (m *_SlmpRandomReadRequest) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_SlmpRequestData, command uint16, subCommand uint16) (__slmpRandomReadRequest SlmpRandomReadRequest, err error) {
 	m.SlmpRequestDataContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

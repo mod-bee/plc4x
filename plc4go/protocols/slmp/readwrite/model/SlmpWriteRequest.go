@@ -212,6 +212,10 @@ func (m *_SlmpWriteRequest) GetCommand() uint16 {
 	return 0x1401
 }
 
+func (m *_SlmpWriteRequest) GetSubCommand() uint16 {
+	return 0x0000
+}
+
 ///////////////////////
 ///////////////////////
 ///////////////////////////////////////////////////////////
@@ -286,7 +290,7 @@ func (m *_SlmpWriteRequest) GetLengthInBytes(ctx context.Context) uint64 {
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_SlmpWriteRequest) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_SlmpRequestData, command uint16) (__slmpWriteRequest SlmpWriteRequest, err error) {
+func (m *_SlmpWriteRequest) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_SlmpRequestData, command uint16, subCommand uint16) (__slmpWriteRequest SlmpWriteRequest, err error) {
 	m.SlmpRequestDataContract = parent
 	parent._SubType = m
 	positionAware := readBuffer
