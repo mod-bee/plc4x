@@ -48,11 +48,14 @@ public class ASDU implements Message {
 
   protected final int asduAddressField;
 
+  protected final Integer sequenceStartAddress;
+
   protected final List<InformationObject> informationObjects;
 
   public ASDU(TypeIdentification typeIdentification, Boolean structureQualifier, Boolean test,
       Boolean negative, CauseOfTransmission causeOfTransmission, Short originatorAddress,
-      Integer asduAddressField, List<InformationObject> informationObjects) {
+      Integer asduAddressField, Integer sequenceStartAddress,
+      List<InformationObject> informationObjects) {
     this.typeIdentification = typeIdentification;
     this.structureQualifier = structureQualifier;
     this.test = test;
@@ -60,6 +63,7 @@ public class ASDU implements Message {
     this.causeOfTransmission = causeOfTransmission;
     this.originatorAddress = originatorAddress;
     this.asduAddressField = asduAddressField;
+    this.sequenceStartAddress = sequenceStartAddress;
     this.informationObjects = informationObjects;
   }
 
@@ -113,6 +117,13 @@ public class ASDU implements Message {
   }
 
   /**
+   * Property field sequenceStartAddress
+   */
+  public Integer getSequenceStartAddress() {
+    return sequenceStartAddress;
+  }
+
+  /**
    * Property field informationObjects
    */
   public List<InformationObject> getInformationObjects() {
@@ -147,11 +158,14 @@ public class ASDU implements Message {
     // Simple Field: asduAddressField
     int asduAddressField = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedInt(readBuffer, 16), WithOption.WithName("asduAddressField"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
 
+    // Optional Field (conditional): sequenceStartAddress
+    Integer sequenceStartAddress = FieldReaderFactory.readOptionalField(DataReaderFactory.readUnsignedInt(readBuffer, 24), structureQualifier, WithOption.WithName("sequenceStartAddress"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
+
     // Array Field: informationObjects
-    List<InformationObject> informationObjects = FieldReaderFactory.readCountArrayField(DataReaderFactory.readComplex(() -> DataReaderFactory.castToDeclaredType(InformationObject.class, InformationObject.staticParse(readBuffer, (org.apache.plc4x.java.iec608705104.readwrite.TypeIdentification) (typeIdentification), (byte) (typeIdentification.getNumTimeBytes()))), readBuffer), numberOfObjects, WithOption.WithName("informationObjects"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
+    List<InformationObject> informationObjects = FieldReaderFactory.readCountArrayField(DataReaderFactory.readComplex(() -> DataReaderFactory.castToDeclaredType(InformationObject.class, InformationObject.staticParse(readBuffer, (org.apache.plc4x.java.iec608705104.readwrite.TypeIdentification) (typeIdentification), (byte) (typeIdentification.getNumTimeBytes()), (boolean) (!(structureQualifier)))), readBuffer), numberOfObjects, WithOption.WithName("informationObjects"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
 
     readBuffer.popContext();
-    return new ASDU(typeIdentification, structureQualifier, test, negative, causeOfTransmission, originatorAddress, asduAddressField, informationObjects);
+    return new ASDU(typeIdentification, structureQualifier, test, negative, causeOfTransmission, originatorAddress, asduAddressField, sequenceStartAddress, informationObjects);
   }
 
   @Override
@@ -183,6 +197,11 @@ public class ASDU implements Message {
 
     // Simple Field: asduAddressField
     FieldWriterFactory.writeSimpleField((int) asduAddressField, DataWriterFactory.writeUnsignedInt(writeBuffer, 16), WithOption.WithName("asduAddressField"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
+
+    if(sequenceStartAddress != null) {
+      // Optional Field: sequenceStartAddress
+      FieldWriterFactory.writeOptionalField((Integer) sequenceStartAddress, DataWriterFactory.writeUnsignedInt(writeBuffer, 24), WithOption.WithName("sequenceStartAddress"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
+    }
 
     // Array Field: informationObjects
     FieldWriterFactory.writeComplexTypeArrayField(informationObjects, writeBuffer, WithOption.WithName("informationObjects"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
@@ -223,6 +242,11 @@ public class ASDU implements Message {
 
     // Simple Field: asduAddressField
     lengthInBits += 16;
+
+    // Optional Field: sequenceStartAddress
+    if(sequenceStartAddress != null) {
+      lengthInBits += 24;
+    }
 
     // Array Field: informationObjects
     if (informationObjects != null) {

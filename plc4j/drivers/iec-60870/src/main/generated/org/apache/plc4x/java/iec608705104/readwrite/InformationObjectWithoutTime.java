@@ -50,84 +50,85 @@ public abstract class InformationObjectWithoutTime extends InformationObject imp
   }
 
   public static InformationObjectBuilder staticParseInformationObjectBuilder(ReadBuffer readBuffer,
-      TypeIdentification typeIdentification, byte numTimeByte) throws BufferException {
+      TypeIdentification typeIdentification, byte numTimeByte, boolean addressed) throws
+      BufferException {
     readBuffer.pushContext(WithOption.WithName("InformationObjectWithoutTime"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
     int startPos = readBuffer.getPositionInBits();
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
     // Switch Field
     InformationObjectWithoutTimeBuilder builder = null;
     if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.SINGLE_POINT_INFORMATION))) {
-      builder = InformationObjectWithoutTime_SINGLE_POINT_INFORMATION.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_SINGLE_POINT_INFORMATION.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.DOUBLE_POINT_INFORMATION))) {
-      builder = InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.STEP_POSITION_INFORMATION))) {
-      builder = InformationObjectWithoutTime_STEP_POSITION_INFORMATION.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_STEP_POSITION_INFORMATION.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.BITSTRING_OF_32_BIT))) {
-      builder = InformationObjectWithoutTime_BITSTRING_OF_32_BIT.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_BITSTRING_OF_32_BIT.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.MEASURED_VALUE_NORMALISED_VALUE))) {
-      builder = InformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.MEASURED_VALUE_SCALED_VALUE))) {
-      builder = InformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER))) {
-      builder = InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.INTEGRATED_TOTALS))) {
-      builder = InformationObjectWithoutTime_INTEGRATED_TOTALS.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_INTEGRATED_TOTALS.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.PACKED_SINGLE_POINT_INFORMATION_WITH_STATUS_CHANGE_DETECTION))) {
-      builder = InformationObjectWithoutTime_PACKED_SINGLE_POINT_INFORMATION_WITH_STATUS_CHANGE_DETECTION.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_PACKED_SINGLE_POINT_INFORMATION_WITH_STATUS_CHANGE_DETECTION.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.MEASURED_VALUE_NORMALIZED_VALUE_WITHOUT_QUALITY_DESCRIPTOR))) {
-      builder = InformationObjectWithoutTime_MEASURED_VALUE_NORMALIZED_VALUE_WITHOUT_QUALITY_DESCRIPTOR.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_MEASURED_VALUE_NORMALIZED_VALUE_WITHOUT_QUALITY_DESCRIPTOR.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.SINGLE_COMMAND))) {
-      builder = InformationObjectWithoutTime_SINGLE_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_SINGLE_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.DOUBLE_COMMAND))) {
-      builder = InformationObjectWithoutTime_DOUBLE_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_DOUBLE_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.REGULATING_STEP_COMMAND))) {
-      builder = InformationObjectWithoutTime_REGULATING_STEP_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_REGULATING_STEP_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.SET_POINT_COMMAND_NORMALISED_VALUE))) {
-      builder = InformationObjectWithoutTime_SET_POINT_COMMAND_NORMALISED_VALUE.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_SET_POINT_COMMAND_NORMALISED_VALUE.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.SET_POINT_COMMAND_SCALED_VALUE))) {
-      builder = InformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.SET_POINT_COMMAND_SHORT_FLOATING_POINT_NUMBER))) {
-      builder = InformationObjectWithoutTime_SET_POINT_COMMAND_SHORT_FLOATING_POINT_NUMBER.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_SET_POINT_COMMAND_SHORT_FLOATING_POINT_NUMBER.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.BITSTRING_32_BIT_COMMAND))) {
-      builder = InformationObjectWithoutTime_BITSTRING_32_BIT_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_BITSTRING_32_BIT_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.END_OF_INITIALISATION))) {
-      builder = InformationObjectWithoutTime_END_OF_INITIALISATION.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_END_OF_INITIALISATION.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.INTERROGATION_COMMAND))) {
-      builder = InformationObjectWithoutTime_INTERROGATION_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_INTERROGATION_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.COUNTER_INTERROGATION_COMMAND))) {
-      builder = InformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.READ_COMMAND))) {
-      builder = InformationObjectWithoutTime_READ_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_READ_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.CLOCK_SYNCHRONISATION_COMMAND))) {
-      builder = InformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.TEST_COMMAND))) {
-      builder = InformationObjectWithoutTime_TEST_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_TEST_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.RESET_PROCESS_COMMAND))) {
-      builder = InformationObjectWithoutTime_RESET_PROCESS_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_RESET_PROCESS_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.DELAY_ACQUISITION_COMMAND))) {
-      builder = InformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.PARAMETER_OF_MEASURED_VALUES_NORMALIZED_VALUE))) {
-      builder = InformationObjectWithoutTime_PARAMETER_OF_MEASURED_VALUES_NORMALIZED_VALUE.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_PARAMETER_OF_MEASURED_VALUES_NORMALIZED_VALUE.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.PARAMETER_OF_MEASURED_VALUES_SCALED_VALUE))) {
-      builder = InformationObjectWithoutTime_PARAMETER_OF_MEASURED_VALUES_SCALED_VALUE.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_PARAMETER_OF_MEASURED_VALUES_SCALED_VALUE.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.PARAMETER_OF_MEASURED_VALUES_SHORT_FLOATING_POINT_NUMBER))) {
-      builder = InformationObjectWithoutTime_PARAMETER_OF_MEASURED_VALUES_SHORT_FLOATING_POINT_NUMBER.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_PARAMETER_OF_MEASURED_VALUES_SHORT_FLOATING_POINT_NUMBER.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.PARAMETER_ACTIVATION))) {
-      builder = InformationObjectWithoutTime_PARAMETER_ACTIVATION.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_PARAMETER_ACTIVATION.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.FILE_READY))) {
-      builder = InformationObjectWithoutTime_FILE_READY.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_FILE_READY.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.SECTION_READY))) {
-      builder = InformationObjectWithoutTime_SECTION_READY.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_SECTION_READY.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION))) {
-      builder = InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.LAST_SECTION_LAST_SEGMENT))) {
-      builder = InformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.ACK_FILE_ACK_SECTION))) {
-      builder = InformationObjectWithoutTime_ACK_FILE_ACK_SECTION.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_ACK_FILE_ACK_SECTION.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.SEGMENT))) {
-      builder = InformationObjectWithoutTime_SEGMENT.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_SEGMENT.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.DIRECTORY))) {
-      builder = InformationObjectWithoutTime_DIRECTORY.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithoutTime_DIRECTORY.staticParseInformationObjectWithoutTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     }
     if (builder == null) {
       throw new BufferException("Unsupported case for discriminated type parameters parameters [typeIdentification]");
@@ -164,7 +165,7 @@ public abstract class InformationObjectWithoutTime extends InformationObject imp
   }
 
   public interface InformationObjectWithoutTimeBuilder {
-    InformationObjectWithoutTime build(int address);
+    InformationObjectWithoutTime build(Integer address);
   }
 
   public static class InformationObjectBuilderImpl implements InformationObject.InformationObjectBuilder {
@@ -174,7 +175,7 @@ public abstract class InformationObjectWithoutTime extends InformationObject imp
       this.builder = builder;
     }
 
-    public InformationObject build(int address) {
+    public InformationObject build(Integer address) {
       return builder.build(address);
     }
   }

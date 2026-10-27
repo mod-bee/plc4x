@@ -67,7 +67,7 @@ var _ InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT = (*_InformationObj
 var _ InformationObjectWithSevenByteTimeRequirements = (*_InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT)(nil)
 
 // NewInformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT factory function for _InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT
-func NewInformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT(address uint32, bsi BinaryStateInformation, qds QualityDescriptor, cp56Time2a SevenOctetBinaryTime) *_InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT {
+func NewInformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT(address *uint32, bsi BinaryStateInformation, qds QualityDescriptor, cp56Time2a SevenOctetBinaryTime) *_InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT {
 	if bsi == nil {
 		panic("bsi of type BinaryStateInformation for InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT must not be nil")
 	}
@@ -316,7 +316,7 @@ func (m *_InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT) GetLengthInByt
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithSevenByteTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithSevenByteTime_BITSTRING_OF_32_BIT InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT, err error) {
+func (m *_InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithSevenByteTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithSevenByteTime_BITSTRING_OF_32_BIT InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT, err error) {
 	m.InformationObjectWithSevenByteTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

@@ -61,7 +61,7 @@ var _ InformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND = (*_Informatio
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND)(nil)
 
 // NewInformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND factory function for _InformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND
-func NewInformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND(address uint32, cp56Time2a SevenOctetBinaryTime) *_InformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND {
+func NewInformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND(address *uint32, cp56Time2a SevenOctetBinaryTime) *_InformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND {
 	if cp56Time2a == nil {
 		panic("cp56Time2a of type SevenOctetBinaryTime for InformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND must not be nil")
 	}
@@ -244,7 +244,7 @@ func (m *_InformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND) GetLengthI
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND InformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND, err error) {
+func (m *_InformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND InformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

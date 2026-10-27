@@ -61,7 +61,7 @@ var _ InformationObjectWithoutTime_END_OF_INITIALISATION = (*_InformationObjectW
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_END_OF_INITIALISATION)(nil)
 
 // NewInformationObjectWithoutTime_END_OF_INITIALISATION factory function for _InformationObjectWithoutTime_END_OF_INITIALISATION
-func NewInformationObjectWithoutTime_END_OF_INITIALISATION(address uint32, coi CauseOfInitialization) *_InformationObjectWithoutTime_END_OF_INITIALISATION {
+func NewInformationObjectWithoutTime_END_OF_INITIALISATION(address *uint32, coi CauseOfInitialization) *_InformationObjectWithoutTime_END_OF_INITIALISATION {
 	if coi == nil {
 		panic("coi of type CauseOfInitialization for InformationObjectWithoutTime_END_OF_INITIALISATION must not be nil")
 	}
@@ -244,7 +244,7 @@ func (m *_InformationObjectWithoutTime_END_OF_INITIALISATION) GetLengthInBytes(c
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_END_OF_INITIALISATION) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_END_OF_INITIALISATION InformationObjectWithoutTime_END_OF_INITIALISATION, err error) {
+func (m *_InformationObjectWithoutTime_END_OF_INITIALISATION) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_END_OF_INITIALISATION InformationObjectWithoutTime_END_OF_INITIALISATION, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

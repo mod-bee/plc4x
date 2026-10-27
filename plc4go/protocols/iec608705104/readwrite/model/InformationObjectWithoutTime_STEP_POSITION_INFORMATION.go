@@ -64,7 +64,7 @@ var _ InformationObjectWithoutTime_STEP_POSITION_INFORMATION = (*_InformationObj
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_STEP_POSITION_INFORMATION)(nil)
 
 // NewInformationObjectWithoutTime_STEP_POSITION_INFORMATION factory function for _InformationObjectWithoutTime_STEP_POSITION_INFORMATION
-func NewInformationObjectWithoutTime_STEP_POSITION_INFORMATION(address uint32, vti ValueWithTransientStateIndication, qds QualityDescriptor) *_InformationObjectWithoutTime_STEP_POSITION_INFORMATION {
+func NewInformationObjectWithoutTime_STEP_POSITION_INFORMATION(address *uint32, vti ValueWithTransientStateIndication, qds QualityDescriptor) *_InformationObjectWithoutTime_STEP_POSITION_INFORMATION {
 	if vti == nil {
 		panic("vti of type ValueWithTransientStateIndication for InformationObjectWithoutTime_STEP_POSITION_INFORMATION must not be nil")
 	}
@@ -280,7 +280,7 @@ func (m *_InformationObjectWithoutTime_STEP_POSITION_INFORMATION) GetLengthInByt
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_STEP_POSITION_INFORMATION) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_STEP_POSITION_INFORMATION InformationObjectWithoutTime_STEP_POSITION_INFORMATION, err error) {
+func (m *_InformationObjectWithoutTime_STEP_POSITION_INFORMATION) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_STEP_POSITION_INFORMATION InformationObjectWithoutTime_STEP_POSITION_INFORMATION, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

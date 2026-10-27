@@ -64,7 +64,7 @@ var _ InformationObjectWithTreeByteTime_INTEGRATED_TOTALS = (*_InformationObject
 var _ InformationObjectWithTreeByteTimeRequirements = (*_InformationObjectWithTreeByteTime_INTEGRATED_TOTALS)(nil)
 
 // NewInformationObjectWithTreeByteTime_INTEGRATED_TOTALS factory function for _InformationObjectWithTreeByteTime_INTEGRATED_TOTALS
-func NewInformationObjectWithTreeByteTime_INTEGRATED_TOTALS(address uint32, bcr BinaryCounterReading, cp24Time2a ThreeOctetBinaryTime) *_InformationObjectWithTreeByteTime_INTEGRATED_TOTALS {
+func NewInformationObjectWithTreeByteTime_INTEGRATED_TOTALS(address *uint32, bcr BinaryCounterReading, cp24Time2a ThreeOctetBinaryTime) *_InformationObjectWithTreeByteTime_INTEGRATED_TOTALS {
 	if bcr == nil {
 		panic("bcr of type BinaryCounterReading for InformationObjectWithTreeByteTime_INTEGRATED_TOTALS must not be nil")
 	}
@@ -280,7 +280,7 @@ func (m *_InformationObjectWithTreeByteTime_INTEGRATED_TOTALS) GetLengthInBytes(
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithTreeByteTime_INTEGRATED_TOTALS) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithTreeByteTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithTreeByteTime_INTEGRATED_TOTALS InformationObjectWithTreeByteTime_INTEGRATED_TOTALS, err error) {
+func (m *_InformationObjectWithTreeByteTime_INTEGRATED_TOTALS) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithTreeByteTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithTreeByteTime_INTEGRATED_TOTALS InformationObjectWithTreeByteTime_INTEGRATED_TOTALS, err error) {
 	m.InformationObjectWithTreeByteTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

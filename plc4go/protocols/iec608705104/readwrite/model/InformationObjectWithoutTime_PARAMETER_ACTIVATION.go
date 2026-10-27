@@ -61,7 +61,7 @@ var _ InformationObjectWithoutTime_PARAMETER_ACTIVATION = (*_InformationObjectWi
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_PARAMETER_ACTIVATION)(nil)
 
 // NewInformationObjectWithoutTime_PARAMETER_ACTIVATION factory function for _InformationObjectWithoutTime_PARAMETER_ACTIVATION
-func NewInformationObjectWithoutTime_PARAMETER_ACTIVATION(address uint32, qpa QualifierOfParameterActivation) *_InformationObjectWithoutTime_PARAMETER_ACTIVATION {
+func NewInformationObjectWithoutTime_PARAMETER_ACTIVATION(address *uint32, qpa QualifierOfParameterActivation) *_InformationObjectWithoutTime_PARAMETER_ACTIVATION {
 	if qpa == nil {
 		panic("qpa of type QualifierOfParameterActivation for InformationObjectWithoutTime_PARAMETER_ACTIVATION must not be nil")
 	}
@@ -244,7 +244,7 @@ func (m *_InformationObjectWithoutTime_PARAMETER_ACTIVATION) GetLengthInBytes(ct
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_PARAMETER_ACTIVATION) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_PARAMETER_ACTIVATION InformationObjectWithoutTime_PARAMETER_ACTIVATION, err error) {
+func (m *_InformationObjectWithoutTime_PARAMETER_ACTIVATION) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_PARAMETER_ACTIVATION InformationObjectWithoutTime_PARAMETER_ACTIVATION, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

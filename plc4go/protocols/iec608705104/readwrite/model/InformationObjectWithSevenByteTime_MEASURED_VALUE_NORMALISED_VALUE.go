@@ -67,7 +67,7 @@ var _ InformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE = (*_In
 var _ InformationObjectWithSevenByteTimeRequirements = (*_InformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE)(nil)
 
 // NewInformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE factory function for _InformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE
-func NewInformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE(address uint32, nva NormalizedValue, qds QualityDescriptor, cp56Time2a SevenOctetBinaryTime) *_InformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE {
+func NewInformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE(address *uint32, nva NormalizedValue, qds QualityDescriptor, cp56Time2a SevenOctetBinaryTime) *_InformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE {
 	if nva == nil {
 		panic("nva of type NormalizedValue for InformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE must not be nil")
 	}
@@ -316,7 +316,7 @@ func (m *_InformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE) Ge
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithSevenByteTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE InformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE, err error) {
+func (m *_InformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithSevenByteTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE InformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE, err error) {
 	m.InformationObjectWithSevenByteTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

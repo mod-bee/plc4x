@@ -67,7 +67,7 @@ var _ InformationObjectWithTreeByteTime_MEASURED_VALUE_SCALED_VALUE = (*_Informa
 var _ InformationObjectWithTreeByteTimeRequirements = (*_InformationObjectWithTreeByteTime_MEASURED_VALUE_SCALED_VALUE)(nil)
 
 // NewInformationObjectWithTreeByteTime_MEASURED_VALUE_SCALED_VALUE factory function for _InformationObjectWithTreeByteTime_MEASURED_VALUE_SCALED_VALUE
-func NewInformationObjectWithTreeByteTime_MEASURED_VALUE_SCALED_VALUE(address uint32, sva ScaledValue, qds QualityDescriptor, cp24Time2a ThreeOctetBinaryTime) *_InformationObjectWithTreeByteTime_MEASURED_VALUE_SCALED_VALUE {
+func NewInformationObjectWithTreeByteTime_MEASURED_VALUE_SCALED_VALUE(address *uint32, sva ScaledValue, qds QualityDescriptor, cp24Time2a ThreeOctetBinaryTime) *_InformationObjectWithTreeByteTime_MEASURED_VALUE_SCALED_VALUE {
 	if sva == nil {
 		panic("sva of type ScaledValue for InformationObjectWithTreeByteTime_MEASURED_VALUE_SCALED_VALUE must not be nil")
 	}
@@ -316,7 +316,7 @@ func (m *_InformationObjectWithTreeByteTime_MEASURED_VALUE_SCALED_VALUE) GetLeng
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithTreeByteTime_MEASURED_VALUE_SCALED_VALUE) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithTreeByteTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithTreeByteTime_MEASURED_VALUE_SCALED_VALUE InformationObjectWithTreeByteTime_MEASURED_VALUE_SCALED_VALUE, err error) {
+func (m *_InformationObjectWithTreeByteTime_MEASURED_VALUE_SCALED_VALUE) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithTreeByteTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithTreeByteTime_MEASURED_VALUE_SCALED_VALUE InformationObjectWithTreeByteTime_MEASURED_VALUE_SCALED_VALUE, err error) {
 	m.InformationObjectWithTreeByteTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

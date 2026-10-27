@@ -64,7 +64,7 @@ var _ InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT = (*_Info
 var _ InformationObjectWithSevenByteTimeRequirements = (*_InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT)(nil)
 
 // NewInformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT factory function for _InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT
-func NewInformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT(address uint32, cp16Time2a TwoOctetBinaryTime, cp56Time2a SevenOctetBinaryTime) *_InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT {
+func NewInformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT(address *uint32, cp16Time2a TwoOctetBinaryTime, cp56Time2a SevenOctetBinaryTime) *_InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT {
 	if cp16Time2a == nil {
 		panic("cp16Time2a of type TwoOctetBinaryTime for InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT must not be nil")
 	}
@@ -280,7 +280,7 @@ func (m *_InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT) GetL
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithSevenByteTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT, err error) {
+func (m *_InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithSevenByteTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT, err error) {
 	m.InformationObjectWithSevenByteTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

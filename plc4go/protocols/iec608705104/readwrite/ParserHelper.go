@@ -110,7 +110,11 @@ func (m Iec608705104ParserHelper) Parse(typeName string, arguments []string, io 
 		if err != nil {
 			return nil, errors.Wrap(err, "Error parsing")
 		}
-		return InformationObjectParseWithBuffer[InformationObject](context.Background(), io, typeIdentification, numTimeByte)
+		addressed, err := utils.StrToBool(arguments[2])
+		if err != nil {
+			return nil, errors.Wrap(err, "Error parsing")
+		}
+		return InformationObjectParseWithBuffer[InformationObject](context.Background(), io, typeIdentification, numTimeByte, addressed)
 	case "FileReadyQualifier":
 		return FileReadyQualifierParseWithBuffer(context.Background(), io)
 	case "StatusChangeDetection":

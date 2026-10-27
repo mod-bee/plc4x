@@ -55,7 +55,7 @@ var _ InformationObjectWithoutTime_READ_COMMAND = (*_InformationObjectWithoutTim
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_READ_COMMAND)(nil)
 
 // NewInformationObjectWithoutTime_READ_COMMAND factory function for _InformationObjectWithoutTime_READ_COMMAND
-func NewInformationObjectWithoutTime_READ_COMMAND(address uint32) *_InformationObjectWithoutTime_READ_COMMAND {
+func NewInformationObjectWithoutTime_READ_COMMAND(address *uint32) *_InformationObjectWithoutTime_READ_COMMAND {
 	_result := &_InformationObjectWithoutTime_READ_COMMAND{
 		InformationObjectWithoutTimeContract: NewInformationObjectWithoutTime(address),
 	}
@@ -195,7 +195,7 @@ func (m *_InformationObjectWithoutTime_READ_COMMAND) GetLengthInBytes(ctx contex
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_READ_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_READ_COMMAND InformationObjectWithoutTime_READ_COMMAND, err error) {
+func (m *_InformationObjectWithoutTime_READ_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_READ_COMMAND InformationObjectWithoutTime_READ_COMMAND, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

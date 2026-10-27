@@ -67,7 +67,7 @@ var _ InformationObjectWithoutTime_FILE_READY = (*_InformationObjectWithoutTime_
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_FILE_READY)(nil)
 
 // NewInformationObjectWithoutTime_FILE_READY factory function for _InformationObjectWithoutTime_FILE_READY
-func NewInformationObjectWithoutTime_FILE_READY(address uint32, nof NameOfFile, lof LengthOfFile, frq FileReadyQualifier) *_InformationObjectWithoutTime_FILE_READY {
+func NewInformationObjectWithoutTime_FILE_READY(address *uint32, nof NameOfFile, lof LengthOfFile, frq FileReadyQualifier) *_InformationObjectWithoutTime_FILE_READY {
 	if nof == nil {
 		panic("nof of type NameOfFile for InformationObjectWithoutTime_FILE_READY must not be nil")
 	}
@@ -316,7 +316,7 @@ func (m *_InformationObjectWithoutTime_FILE_READY) GetLengthInBytes(ctx context.
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_FILE_READY) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_FILE_READY InformationObjectWithoutTime_FILE_READY, err error) {
+func (m *_InformationObjectWithoutTime_FILE_READY) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_FILE_READY InformationObjectWithoutTime_FILE_READY, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

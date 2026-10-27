@@ -61,7 +61,7 @@ var _ InformationObjectWithoutTime_INTEGRATED_TOTALS = (*_InformationObjectWitho
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_INTEGRATED_TOTALS)(nil)
 
 // NewInformationObjectWithoutTime_INTEGRATED_TOTALS factory function for _InformationObjectWithoutTime_INTEGRATED_TOTALS
-func NewInformationObjectWithoutTime_INTEGRATED_TOTALS(address uint32, bcr BinaryCounterReading) *_InformationObjectWithoutTime_INTEGRATED_TOTALS {
+func NewInformationObjectWithoutTime_INTEGRATED_TOTALS(address *uint32, bcr BinaryCounterReading) *_InformationObjectWithoutTime_INTEGRATED_TOTALS {
 	if bcr == nil {
 		panic("bcr of type BinaryCounterReading for InformationObjectWithoutTime_INTEGRATED_TOTALS must not be nil")
 	}
@@ -244,7 +244,7 @@ func (m *_InformationObjectWithoutTime_INTEGRATED_TOTALS) GetLengthInBytes(ctx c
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_INTEGRATED_TOTALS) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_INTEGRATED_TOTALS InformationObjectWithoutTime_INTEGRATED_TOTALS, err error) {
+func (m *_InformationObjectWithoutTime_INTEGRATED_TOTALS) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_INTEGRATED_TOTALS InformationObjectWithoutTime_INTEGRATED_TOTALS, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

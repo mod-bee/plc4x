@@ -55,34 +55,35 @@ public abstract class InformationObjectWithSevenByteTime extends InformationObje
   public abstract SevenOctetBinaryTime getCp56Time2a();
 
   public static InformationObjectBuilder staticParseInformationObjectBuilder(ReadBuffer readBuffer,
-      TypeIdentification typeIdentification, byte numTimeByte) throws BufferException {
+      TypeIdentification typeIdentification, byte numTimeByte, boolean addressed) throws
+      BufferException {
     readBuffer.pushContext(WithOption.WithName("InformationObjectWithSevenByteTime"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
     int startPos = readBuffer.getPositionInBits();
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
     // Switch Field
     InformationObjectWithSevenByteTimeBuilder builder = null;
     if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.SINGLE_POINT_INFORMATION_WITH_TIME_TAG_CP56TIME2A))) {
-      builder = InformationObjectWithSevenByteTime_SINGLE_POINT_INFORMATION.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithSevenByteTime_SINGLE_POINT_INFORMATION.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.DOUBLE_POINT_INFORMATION_WITH_TIME_TAG_CP56TIME2A))) {
-      builder = InformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.STEP_POSITION_INFORMATION_WITH_TIME_TAG_CP56TIME2A))) {
-      builder = InformationObjectWithSevenByteTime_STEP_POSITION_INFORMATION.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithSevenByteTime_STEP_POSITION_INFORMATION.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.BITSTRING_OF_32_BIT_WITH_TIME_TAG_CP56TIME2A))) {
-      builder = InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.MEASURED_VALUE_NORMALISED_VALUE_WITH_TIME_TAG_CP56TIME2A))) {
-      builder = InformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.MEASURED_VALUE_SCALED_VALUE_WITH_TIME_TAG_CP56TIME2A))) {
-      builder = InformationObjectWithSevenByteTime_MEASURED_VALUE_SCALED_VALUE.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithSevenByteTime_MEASURED_VALUE_SCALED_VALUE.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER_WITH_TIME_TAG_CP56TIME2A))) {
-      builder = InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.INTEGRATED_TOTALS_WITH_TIME_TAG_CP56TIME2A))) {
-      builder = InformationObjectWithSevenByteTime_INTEGRATED_TOTALS.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithSevenByteTime_INTEGRATED_TOTALS.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.EVENT_OF_PROTECTION_EQUIPMENT_WITH_TIME_TAG_CP56TIME2A))) {
-      builder = InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT_WITH_TIME_TAG_CP56TIME2A))) {
-      builder = InformationObjectWithSevenByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithSevenByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.PACKED_OUTPUT_CIRCUIT_INFORMATION_OF_PROTECTION_EQUIPMENT_WITH_TIME_TAG_CP56TIME2A))) {
-      builder = InformationObjectWithSevenByteTime_PACKED_OUTPUT_CIRCUIT_INFORMATION_OF_PROTECTION_EQUIPMENT.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithSevenByteTime_PACKED_OUTPUT_CIRCUIT_INFORMATION_OF_PROTECTION_EQUIPMENT.staticParseInformationObjectWithSevenByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     }
     if (builder == null) {
       throw new BufferException("Unsupported case for discriminated type parameters parameters [typeIdentification]");
@@ -119,7 +120,7 @@ public abstract class InformationObjectWithSevenByteTime extends InformationObje
   }
 
   public interface InformationObjectWithSevenByteTimeBuilder {
-    InformationObjectWithSevenByteTime build(int address);
+    InformationObjectWithSevenByteTime build(Integer address);
   }
 
   public static class InformationObjectBuilderImpl implements InformationObject.InformationObjectBuilder {
@@ -129,7 +130,7 @@ public abstract class InformationObjectWithSevenByteTime extends InformationObje
       this.builder = builder;
     }
 
-    public InformationObject build(int address) {
+    public InformationObject build(Integer address) {
       return builder.build(address);
     }
   }

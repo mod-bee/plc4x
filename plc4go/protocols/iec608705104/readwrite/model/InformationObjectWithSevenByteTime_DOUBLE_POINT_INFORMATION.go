@@ -64,7 +64,7 @@ var _ InformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION = (*_Informati
 var _ InformationObjectWithSevenByteTimeRequirements = (*_InformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION)(nil)
 
 // NewInformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION factory function for _InformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION
-func NewInformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION(address uint32, diq DoublePointInformation, cp56Time2a SevenOctetBinaryTime) *_InformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION {
+func NewInformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION(address *uint32, diq DoublePointInformation, cp56Time2a SevenOctetBinaryTime) *_InformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION {
 	if diq == nil {
 		panic("diq of type DoublePointInformation for InformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION must not be nil")
 	}
@@ -280,7 +280,7 @@ func (m *_InformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION) GetLength
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithSevenByteTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION InformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION, err error) {
+func (m *_InformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithSevenByteTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION InformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION, err error) {
 	m.InformationObjectWithSevenByteTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer
