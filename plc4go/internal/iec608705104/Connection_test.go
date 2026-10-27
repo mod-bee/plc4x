@@ -352,3 +352,91 @@ func TestConnection_String(t *testing.T) {
 	connection := NewConnection(DefaultConfiguration(), newStubCodec(), map[string][]string{}, NewTagHandler())
 	assert.Contains(t, connection.String(), "iec608705104.Connection")
 }
+
+// newHandshakenConnectionWith is newHandshakenConnection with a configuration of the test's own.
+func newHandshakenConnectionWith(t *testing.T, configuration Configuration) (*Connection, *stubCodec) {
+	t.Helper()
+	_options := testutils.EnrichOptionsWithOptionsForTesting(t)
+	codec := newStubCodec()
+	connection := NewConnection(configuration, codec, map[string][]string{}, NewTagHandler(_options...), _options...)
+	completeHandshake(t, connection, codec)
+	t.Cleanup(func() {
+		assert.NoError(t, connection.Close())
+	})
+	return connection, codec
+}
+
+// After t3 of silence a test frame goes out; its confirmation keeps the link; when none comes within
+// t1 the connection says it is no longer connected, so its owner reconnects instead of waiting on a
+// station that went away without a word.
+func TestConnection_KeepAlive(t *testing.T) {
+	configuration := DefaultConfiguration()
+	configuration.t3 = 50 * time.Millisecond
+	configuration.t1 = 300 * time.Millisecond
+	connection, codec := newHandshakenConnectionWith(t, configuration)
+
+	eventuallySent(t, codec, []uint16{commandTestFrameActivation, commandStartDataTransferActivation, commandTestFrameActivation})
+	pushIncoming(t, codec, readWriteModel.NewAPDUUFormatTestFrameConfirmation(commandTestFrameConfirmation))
+	// Confirmed, so after the next t3 of silence the link is probed again - and still connected.
+	eventuallySent(t, codec, []uint16{commandTestFrameActivation, commandStartDataTransferActivation, commandTestFrameActivation, commandTestFrameActivation})
+	assert.True(t, connection.IsConnected())
+	// This time nothing answers.
+	assert.Eventually(t, func() bool { return !connection.IsConnected() }, 5*time.Second, 5*time.Millisecond,
+		"an unanswered test frame left the connection connected")
+}
+
+// Data counts as life: a station that keeps reporting is never probed.
+func TestConnection_KeepAliveIsQuietWhileDataFlows(t *testing.T) {
+	configuration := DefaultConfiguration()
+	configuration.t3 = 150 * time.Millisecond
+	_, codec := newHandshakenConnectionWith(t, configuration)
+	for sendSequenceNo := range uint16(6) {
+		pushIncoming(t, codec, parseApdu(t, iFormatFrame(sendSequenceNo, 0, asduBytes(0x01, 3, 10, informationObjectBytes(13, 0x01)))))
+		time.Sleep(50 * time.Millisecond)
+	}
+	assert.Equal(t, []uint16{commandTestFrameActivation, commandStartDataTransferActivation}, codec.sentCommands())
+}
+
+// A new subscription interrogates the station. The I-format frame carries this side's send sequence
+// number (counting from 0) and acknowledges everything received so far; the next one counts on.
+func TestConnection_InterrogationOnSubscribe(t *testing.T) {
+	connection, codec := newHandshakenConnection(t)
+	for sendSequenceNo := range uint16(3) {
+		pushIncoming(t, codec, parseApdu(t, iFormatFrame(sendSequenceNo, 0, asduBytes(0x01, 3, 10, informationObjectBytes(13, 0x01)))))
+	}
+	assert.Eventually(t, func() bool {
+		connection.ackMutex.Lock()
+		defer connection.ackMutex.Unlock()
+		return connection.nextExpectedSequenceNo == 3
+	}, 5*time.Second, time.Millisecond)
+
+	connection.addSubscriber(&Subscriber{})
+	connection.addSubscriber(&Subscriber{})
+	var frames []readWriteModel.APDUIFormat
+	for _, message := range codec.getSent() {
+		if frame, ok := message.(readWriteModel.APDUIFormat); ok {
+			frames = append(frames, frame)
+		}
+	}
+	require.Len(t, frames, 2)
+	for i, frame := range frames {
+		assert.Equal(t, uint16(i)<<1, frame.GetCommand(), "send sequence number of interrogation %d", i)
+		assert.Equal(t, uint16(3)<<1, frame.GetReceiveSequenceNo(), "everything received is acknowledged")
+		asdu := frame.GetAsdu()
+		assert.Equal(t, readWriteModel.TypeIdentification_INTERROGATION_COMMAND, asdu.GetTypeIdentification())
+		assert.Equal(t, readWriteModel.CauseOfTransmission_ACTIVATION_ACT, asdu.GetCauseOfTransmission())
+		assert.Equal(t, uint16(0xFFFF), asdu.GetAsduAddressField())
+		command, ok := asdu.GetInformationObjects()[0].(readWriteModel.InformationObjectWithoutTime_INTERROGATION_COMMAND)
+		require.True(t, ok)
+		assert.Equal(t, uint8(stationInterrogation), command.GetQoi().GetQualifierOfCommand())
+	}
+}
+
+// With general interrogation switched off, subscribing sends nothing.
+func TestConnection_NoInterrogationWhenSwitchedOff(t *testing.T) {
+	configuration := DefaultConfiguration()
+	configuration.generalInterrogation = false
+	connection, codec := newHandshakenConnectionWith(t, configuration)
+	connection.addSubscriber(&Subscriber{})
+	assert.Equal(t, []uint16{commandTestFrameActivation, commandStartDataTransferActivation}, codec.sentCommands())
+}

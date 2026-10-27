@@ -43,6 +43,18 @@ const (
 	// maxAckThreshold is the largest window the sequence number can express: the receive sequence
 	// number is 15 bits wide.
 	maxAckThreshold = 32767
+	// defaultT1 is the standard's t1 (IEC 60870-5-104, 5.2.4): how long a sent test frame waits for
+	// its confirmation before the connection is taken as broken.
+	defaultT1 = 15 * time.Second
+	// defaultT3 is the standard's t3: after this long without receiving any frame, the controlling
+	// station sends a test frame to prove the link is still there. Without it a quiet but healthy
+	// station is indistinguishable from a dead one, and a dead one from a quiet one.
+	defaultT3 = 20 * time.Second
+	// defaultInterrogationAsduAddress is the global common address: one interrogation reaches every
+	// common address the station serves (IEC 60870-5-101, 7.2.4).
+	defaultInterrogationAsduAddress = 0xFFFF
+	// stationInterrogation is the qualifier of interrogation for a general (station) interrogation.
+	stationInterrogation = 20
 )
 
 // Configuration is what an IEC 60870-5-104 connection string can say about the connection as a
@@ -56,13 +68,29 @@ type Configuration struct {
 	// ackThreshold is how many I-format frames may go unacknowledged before an S-format
 	// acknowledgement is sent ('w' in the standard).
 	ackThreshold uint16
+	// t1 is how long a sent test frame waits for its confirmation before the link is taken as broken.
+	t1 time.Duration
+	// t3 is how long the link may stay silent before a test frame is sent. Zero sends none.
+	t3 time.Duration
+	// generalInterrogation sends a station interrogation (C_IC_NA_1, QOI 20) whenever a subscription
+	// is added, so it starts with the current value of every point instead of waiting for each to
+	// change - a breaker that never moves would otherwise never be reported at all.
+	generalInterrogation bool
+	// interrogationAsduAddress is the common address the interrogation is sent to.
+	interrogationAsduAddress uint16
+	// originatorAddress is this controlling station's originator address in the ASDUs it sends.
+	originatorAddress uint8
 }
 
 // DefaultConfiguration is a connection without any options set.
 func DefaultConfiguration() Configuration {
 	return Configuration{
-		requestTimeout: defaultRequestTimeout,
-		ackThreshold:   defaultAckThreshold,
+		requestTimeout:           defaultRequestTimeout,
+		ackThreshold:             defaultAckThreshold,
+		t1:                       defaultT1,
+		t3:                       defaultT3,
+		generalInterrogation:     true,
+		interrogationAsduAddress: defaultInterrogationAsduAddress,
 	}
 }
 
@@ -99,6 +127,47 @@ func ParseFromOptions(localLog zerolog.Logger, connectionOptions map[string][]st
 			return Configuration{}, errors.Errorf("ack-threshold may not be larger than %d. Was %d", maxAckThreshold, parsedInt)
 		}
 		configuration.ackThreshold = uint16(parsedInt)
+	}
+
+	for _, timer := range []struct {
+		option string
+		target *time.Duration
+		zeroOk bool
+	}{{"t1-ms", &configuration.t1, false}, {"t3-ms", &configuration.t3, true}} {
+		if value := reader.Get(timer.option); value != "" {
+			parsedInt, err := strconv.ParseUint(value, 10, 32)
+			if err != nil {
+				return Configuration{}, errors.Wrapf(err, "Error parsing %s %s", timer.option, value)
+			}
+			if parsedInt == 0 && !timer.zeroOk {
+				return Configuration{}, errors.Errorf("%s must be greater than zero", timer.option)
+			}
+			*timer.target = time.Duration(parsedInt) * time.Millisecond
+		}
+	}
+
+	if value := reader.Get("general-interrogation"); value != "" {
+		parsed, err := strconv.ParseBool(value)
+		if err != nil {
+			return Configuration{}, errors.Wrapf(err, "Error parsing general-interrogation %s", value)
+		}
+		configuration.generalInterrogation = parsed
+	}
+
+	if value := reader.Get("interrogation-asdu-address"); value != "" {
+		parsedInt, err := strconv.ParseUint(value, 10, 16)
+		if err != nil {
+			return Configuration{}, errors.Wrapf(err, "Error parsing interrogation-asdu-address %s", value)
+		}
+		configuration.interrogationAsduAddress = uint16(parsedInt)
+	}
+
+	if value := reader.Get("originator-address"); value != "" {
+		parsedInt, err := strconv.ParseUint(value, 10, 8)
+		if err != nil {
+			return Configuration{}, errors.Wrapf(err, "Error parsing originator-address %s", value)
+		}
+		configuration.originatorAddress = uint8(parsedInt)
 	}
 
 	return configuration, nil
