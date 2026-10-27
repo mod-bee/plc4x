@@ -61,7 +61,7 @@ var _ InformationObjectWithoutTime_INTERROGATION_COMMAND = (*_InformationObjectW
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_INTERROGATION_COMMAND)(nil)
 
 // NewInformationObjectWithoutTime_INTERROGATION_COMMAND factory function for _InformationObjectWithoutTime_INTERROGATION_COMMAND
-func NewInformationObjectWithoutTime_INTERROGATION_COMMAND(address uint32, qoi QualifierOfInterrogation) *_InformationObjectWithoutTime_INTERROGATION_COMMAND {
+func NewInformationObjectWithoutTime_INTERROGATION_COMMAND(address *uint32, qoi QualifierOfInterrogation) *_InformationObjectWithoutTime_INTERROGATION_COMMAND {
 	if qoi == nil {
 		panic("qoi of type QualifierOfInterrogation for InformationObjectWithoutTime_INTERROGATION_COMMAND must not be nil")
 	}
@@ -244,7 +244,7 @@ func (m *_InformationObjectWithoutTime_INTERROGATION_COMMAND) GetLengthInBytes(c
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_INTERROGATION_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_INTERROGATION_COMMAND InformationObjectWithoutTime_INTERROGATION_COMMAND, err error) {
+func (m *_InformationObjectWithoutTime_INTERROGATION_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_INTERROGATION_COMMAND InformationObjectWithoutTime_INTERROGATION_COMMAND, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

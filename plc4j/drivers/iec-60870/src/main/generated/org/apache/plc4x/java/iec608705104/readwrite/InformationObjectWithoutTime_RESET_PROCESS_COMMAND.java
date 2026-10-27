@@ -56,8 +56,8 @@ public class InformationObjectWithoutTime_RESET_PROCESS_COMMAND extends Informat
   }
 
   public static InformationObjectWithoutTimeBuilder staticParseInformationObjectWithoutTimeBuilder(
-      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte) throws
-      BufferException {
+      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte,
+      boolean addressed) throws BufferException {
     readBuffer.pushContext(WithOption.WithName("InformationObjectWithoutTime_RESET_PROCESS_COMMAND"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
     int startPos = readBuffer.getPositionInBits();
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
@@ -102,7 +102,7 @@ public class InformationObjectWithoutTime_RESET_PROCESS_COMMAND extends Informat
       this.qrp = qrp;
     }
 
-    public InformationObjectWithoutTime build(int address) {
+    public InformationObjectWithoutTime build(Integer address) {
       return new InformationObjectWithoutTime_RESET_PROCESS_COMMAND(address, qrp);
     }
   }

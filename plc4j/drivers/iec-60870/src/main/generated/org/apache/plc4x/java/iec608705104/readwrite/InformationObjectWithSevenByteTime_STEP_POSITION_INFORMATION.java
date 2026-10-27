@@ -77,8 +77,8 @@ public class InformationObjectWithSevenByteTime_STEP_POSITION_INFORMATION extend
   }
 
   public static InformationObjectWithSevenByteTimeBuilder staticParseInformationObjectWithSevenByteTimeBuilder(
-      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte) throws
-      BufferException {
+      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte,
+      boolean addressed) throws BufferException {
     readBuffer.pushContext(WithOption.WithName("InformationObjectWithSevenByteTime_STEP_POSITION_INFORMATION"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
     int startPos = readBuffer.getPositionInBits();
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
@@ -148,7 +148,7 @@ public class InformationObjectWithSevenByteTime_STEP_POSITION_INFORMATION extend
       this.cp56Time2a = cp56Time2a;
     }
 
-    public InformationObjectWithSevenByteTime build(int address) {
+    public InformationObjectWithSevenByteTime build(Integer address) {
       return new InformationObjectWithSevenByteTime_STEP_POSITION_INFORMATION(address, vti, qds, cp56Time2a);
     }
   }

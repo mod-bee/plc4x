@@ -56,6 +56,11 @@ type ASDU interface {
 	GetOriginatorAddress() uint8
 	// GetAsduAddressField returns AsduAddressField (property field)
 	GetAsduAddressField() uint16
+	// GetSequenceStartAddress returns SequenceStartAddress (property field)
+	// With the structure qualifier set (SQ=1, a sequence of objects) only the first object's address is on the
+	// wire, and object i is at that address plus i (IEC 60870-5-101 7.2.2.1); with it clear every object carries
+	// its own address.
+	GetSequenceStartAddress() *uint32
 	// GetInformationObjects returns InformationObjects (property field)
 	GetInformationObjects() []InformationObject
 	// IsASDU is a marker method to prevent unintentional type checks (interfaces of same signature)
@@ -66,21 +71,22 @@ type ASDU interface {
 
 // _ASDU is the data-structure of this message
 type _ASDU struct {
-	TypeIdentification  TypeIdentification
-	StructureQualifier  bool
-	Test                bool
-	Negative            bool
-	CauseOfTransmission CauseOfTransmission
-	OriginatorAddress   uint8
-	AsduAddressField    uint16
-	InformationObjects  []InformationObject
+	TypeIdentification   TypeIdentification
+	StructureQualifier   bool
+	Test                 bool
+	Negative             bool
+	CauseOfTransmission  CauseOfTransmission
+	OriginatorAddress    uint8
+	AsduAddressField     uint16
+	SequenceStartAddress *uint32
+	InformationObjects   []InformationObject
 }
 
 var _ ASDU = (*_ASDU)(nil)
 
 // NewASDU factory function for _ASDU
-func NewASDU(typeIdentification TypeIdentification, structureQualifier bool, test bool, negative bool, causeOfTransmission CauseOfTransmission, originatorAddress uint8, asduAddressField uint16, informationObjects []InformationObject) *_ASDU {
-	return &_ASDU{TypeIdentification: typeIdentification, StructureQualifier: structureQualifier, Test: test, Negative: negative, CauseOfTransmission: causeOfTransmission, OriginatorAddress: originatorAddress, AsduAddressField: asduAddressField, InformationObjects: informationObjects}
+func NewASDU(typeIdentification TypeIdentification, structureQualifier bool, test bool, negative bool, causeOfTransmission CauseOfTransmission, originatorAddress uint8, asduAddressField uint16, sequenceStartAddress *uint32, informationObjects []InformationObject) *_ASDU {
+	return &_ASDU{TypeIdentification: typeIdentification, StructureQualifier: structureQualifier, Test: test, Negative: negative, CauseOfTransmission: causeOfTransmission, OriginatorAddress: originatorAddress, AsduAddressField: asduAddressField, SequenceStartAddress: sequenceStartAddress, InformationObjects: informationObjects}
 }
 
 ///////////////////////////////////////////////////////////
@@ -107,6 +113,8 @@ type ASDUBuilder interface {
 	WithOriginatorAddress(uint8) ASDUBuilder
 	// WithAsduAddressField adds AsduAddressField (property field)
 	WithAsduAddressField(uint16) ASDUBuilder
+	// WithSequenceStartAddress adds SequenceStartAddress (property field)
+	WithOptionalSequenceStartAddress(uint32) ASDUBuilder
 	// WithInformationObjects adds InformationObjects (property field)
 	WithInformationObjects(...InformationObject) ASDUBuilder
 	// Build builds the ASDU or returns an error if something is wrong
@@ -164,6 +172,11 @@ func (b *_ASDUBuilder) WithOriginatorAddress(originatorAddress uint8) ASDUBuilde
 
 func (b *_ASDUBuilder) WithAsduAddressField(asduAddressField uint16) ASDUBuilder {
 	b.AsduAddressField = asduAddressField
+	return b
+}
+
+func (b *_ASDUBuilder) WithOptionalSequenceStartAddress(sequenceStartAddress uint32) ASDUBuilder {
+	b.SequenceStartAddress = &sequenceStartAddress
 	return b
 }
 
@@ -241,6 +254,10 @@ func (m *_ASDU) GetAsduAddressField() uint16 {
 	return m.AsduAddressField
 }
 
+func (m *_ASDU) GetSequenceStartAddress() *uint32 {
+	return m.SequenceStartAddress
+}
+
 func (m *_ASDU) GetInformationObjects() []InformationObject {
 	return m.InformationObjects
 }
@@ -291,6 +308,11 @@ func (m *_ASDU) GetLengthInBits(ctx context.Context) uint64 {
 
 	// Simple field (asduAddressField)
 	lengthInBits += 16
+
+	// Optional Field (sequenceStartAddress)
+	if m.SequenceStartAddress != nil {
+		lengthInBits += 24
+	}
 
 	// Array field
 	if len(m.InformationObjects) > 0 {
@@ -382,7 +404,14 @@ func (m *_ASDU) parse(ctx context.Context, readBuffer utils.ReadBuffer) (__aSDU 
 	}
 	m.AsduAddressField = asduAddressField
 
-	informationObjects, err := ReadCountArrayField[InformationObject](ctx, "informationObjects", ReadComplex[InformationObject](InformationObjectParseWithBufferProducer[InformationObject]((TypeIdentification)(typeIdentification), (uint8)(typeIdentification.NumTimeBytes())), readBuffer), uint64(numberOfObjects), codegen.WithEncoding("UTF8"), codegen.WithByteOrder(binary.LittleEndian))
+	var sequenceStartAddress *uint32
+	sequenceStartAddress, err = ReadOptionalField[uint32](ctx, "sequenceStartAddress", ReadUnsignedInt(readBuffer, uint8(24)), structureQualifier, codegen.WithEncoding("UTF8"), codegen.WithByteOrder(binary.LittleEndian))
+	if err != nil {
+		return nil, errors.Wrap(err, fmt.Sprintf("Error parsing 'sequenceStartAddress' field"))
+	}
+	m.SequenceStartAddress = sequenceStartAddress
+
+	informationObjects, err := ReadCountArrayField[InformationObject](ctx, "informationObjects", ReadComplex[InformationObject](InformationObjectParseWithBufferProducer[InformationObject]((TypeIdentification)(typeIdentification), (uint8)(typeIdentification.NumTimeBytes()), (bool)(!(structureQualifier))), readBuffer), uint64(numberOfObjects), codegen.WithEncoding("UTF8"), codegen.WithByteOrder(binary.LittleEndian))
 	if err != nil {
 		return nil, errors.Wrap(err, fmt.Sprintf("Error parsing 'informationObjects' field"))
 	}
@@ -444,6 +473,10 @@ func (m *_ASDU) SerializeWithWriteBuffer(ctx context.Context, writeBuffer utils.
 		return errors.Wrap(err, "Error serializing 'asduAddressField' field")
 	}
 
+	if err := WriteOptionalField[uint32](ctx, "sequenceStartAddress", m.GetSequenceStartAddress(), WriteUnsignedInt(writeBuffer, 24), true, codegen.WithEncoding("UTF8"), codegen.WithByteOrder(binary.LittleEndian)); err != nil {
+		return errors.Wrap(err, "Error serializing 'sequenceStartAddress' field")
+	}
+
 	if err := WriteComplexTypeArrayField(ctx, "informationObjects", m.GetInformationObjects(), writeBuffer, codegen.WithEncoding("UTF8"), codegen.WithByteOrder(binary.LittleEndian)); err != nil {
 		return errors.Wrap(err, "Error serializing 'informationObjects' field")
 	}
@@ -472,6 +505,7 @@ func (m *_ASDU) deepCopy() *_ASDU {
 		m.CauseOfTransmission,
 		m.OriginatorAddress,
 		m.AsduAddressField,
+		utils.CopyPtr[uint32](m.SequenceStartAddress),
 		utils.DeepCopySlice[InformationObject, InformationObject](m.InformationObjects),
 	}
 	return _ASDUCopy

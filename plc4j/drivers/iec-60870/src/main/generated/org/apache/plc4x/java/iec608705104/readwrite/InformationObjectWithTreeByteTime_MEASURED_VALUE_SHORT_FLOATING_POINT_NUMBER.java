@@ -76,8 +76,8 @@ public class InformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POI
   }
 
   public static InformationObjectWithTreeByteTimeBuilder staticParseInformationObjectWithTreeByteTimeBuilder(
-      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte) throws
-      BufferException {
+      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte,
+      boolean addressed) throws BufferException {
     readBuffer.pushContext(WithOption.WithName("InformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
     int startPos = readBuffer.getPositionInBits();
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
@@ -147,7 +147,7 @@ public class InformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POI
       this.cp24Time2a = cp24Time2a;
     }
 
-    public InformationObjectWithTreeByteTime build(int address) {
+    public InformationObjectWithTreeByteTime build(Integer address) {
       return new InformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER(address, value, qds, cp24Time2a);
     }
   }

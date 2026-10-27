@@ -67,7 +67,7 @@ var _ InformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMB
 var _ InformationObjectWithTreeByteTimeRequirements = (*_InformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER)(nil)
 
 // NewInformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER factory function for _InformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER
-func NewInformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER(address uint32, value float32, qds QualityDescriptor, cp24Time2a ThreeOctetBinaryTime) *_InformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER {
+func NewInformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER(address *uint32, value float32, qds QualityDescriptor, cp24Time2a ThreeOctetBinaryTime) *_InformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER {
 	if qds == nil {
 		panic("qds of type QualityDescriptor for InformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER must not be nil")
 	}
@@ -298,7 +298,7 @@ func (m *_InformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithTreeByteTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER InformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER, err error) {
+func (m *_InformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithTreeByteTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER InformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER, err error) {
 	m.InformationObjectWithTreeByteTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

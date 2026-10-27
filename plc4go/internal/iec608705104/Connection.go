@@ -274,12 +274,15 @@ func (c *Connection) interrogate(ctx context.Context) {
 	c.unacknowledged = 0
 	c.ackMutex.Unlock()
 
+	// A station-wide command is addressed to information object 0 ("irrelevant", IEC 60870-5-101
+	// 7.2.5), carried in front of the object as every object of a non-sequence ASDU is.
+	irrelevantObjectAddress := uint32(0)
 	asdu := readWriteModel.NewASDU(
 		readWriteModel.TypeIdentification_INTERROGATION_COMMAND, false, false, false,
 		readWriteModel.CauseOfTransmission_ACTIVATION_ACT, c.configuration.originatorAddress,
-		c.configuration.interrogationAsduAddress,
+		c.configuration.interrogationAsduAddress, nil,
 		[]readWriteModel.InformationObject{
-			readWriteModel.NewInformationObjectWithoutTime_INTERROGATION_COMMAND(0, readWriteModel.NewQualifierOfInterrogation(stationInterrogation)),
+			readWriteModel.NewInformationObjectWithoutTime_INTERROGATION_COMMAND(&irrelevantObjectAddress, readWriteModel.NewQualifierOfInterrogation(stationInterrogation)),
 		})
 	// Both sequence numbers sit in their control octet pairs shifted left by one, the low bit being
 	// the format discriminator (zero for the I format).
@@ -478,32 +481,9 @@ func (c *Connection) handleDataFrame(ctx context.Context, apdu readWriteModel.AP
 		c.log.Debug().Msg("An I-format frame without an ASDU")
 		return
 	}
-	if !decodableAsdu(asdu) {
-		// A sequence-of-objects ASDU (structure qualifier set) carries one information object
-		// address followed by that many payloads with no addresses of their own. The mspec reads an
-		// address in front of every object regardless, so the generated model lines the payloads up
-		// against the wrong addresses - and where the arithmetic happens to work out it does so
-		// without any error at all. Publishing that would put a reading of one point under the
-		// address of another, which in grid telemetry is worse than publishing nothing, so the whole
-		// ASDU is refused. The frame is still acknowledged: it did arrive.
-		c.log.Warn().
-			Uint16("asduAddress", asdu.GetAsduAddressField()).
-			Stringer("typeIdentification", asdu.GetTypeIdentification()).
-			Int("numberOfObjects", len(asdu.GetInformationObjects())).
-			Msg("Dropping a sequence-of-objects ASDU: the generated model cannot address its objects")
-		return
-	}
 	for _, subscriber := range c.activeSubscribers() {
 		subscriber.publish(asdu)
 	}
-}
-
-// decodableAsdu reports whether the objects of an ASDU can be trusted to belong to the addresses the
-// model read them under. With the structure qualifier clear every object carries its own address, so
-// they always can; with it set they only can when there is a single object, which is the one case in
-// which both layouts are the same bytes.
-func decodableAsdu(asdu readWriteModel.ASDU) bool {
-	return !asdu.GetStructureQualifier() || len(asdu.GetInformationObjects()) <= 1
 }
 
 // noteReceivedDataFrame records an I-format frame and reports the sequence number to acknowledge

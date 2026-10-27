@@ -61,7 +61,7 @@ var _ InformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND = (*_InformationObj
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND)(nil)
 
 // NewInformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND factory function for _InformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND
-func NewInformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND(address uint32, cp16Time2a TwoOctetBinaryTime) *_InformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND {
+func NewInformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND(address *uint32, cp16Time2a TwoOctetBinaryTime) *_InformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND {
 	if cp16Time2a == nil {
 		panic("cp16Time2a of type TwoOctetBinaryTime for InformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND must not be nil")
 	}
@@ -244,7 +244,7 @@ func (m *_InformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND) GetLengthInByt
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_DELAY_ACQUISITION_COMMAND InformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND, err error) {
+func (m *_InformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_DELAY_ACQUISITION_COMMAND InformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

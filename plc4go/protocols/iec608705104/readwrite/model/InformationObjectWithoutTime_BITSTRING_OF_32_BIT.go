@@ -64,7 +64,7 @@ var _ InformationObjectWithoutTime_BITSTRING_OF_32_BIT = (*_InformationObjectWit
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_BITSTRING_OF_32_BIT)(nil)
 
 // NewInformationObjectWithoutTime_BITSTRING_OF_32_BIT factory function for _InformationObjectWithoutTime_BITSTRING_OF_32_BIT
-func NewInformationObjectWithoutTime_BITSTRING_OF_32_BIT(address uint32, bsi BinaryStateInformation, qds QualityDescriptor) *_InformationObjectWithoutTime_BITSTRING_OF_32_BIT {
+func NewInformationObjectWithoutTime_BITSTRING_OF_32_BIT(address *uint32, bsi BinaryStateInformation, qds QualityDescriptor) *_InformationObjectWithoutTime_BITSTRING_OF_32_BIT {
 	if bsi == nil {
 		panic("bsi of type BinaryStateInformation for InformationObjectWithoutTime_BITSTRING_OF_32_BIT must not be nil")
 	}
@@ -280,7 +280,7 @@ func (m *_InformationObjectWithoutTime_BITSTRING_OF_32_BIT) GetLengthInBytes(ctx
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_BITSTRING_OF_32_BIT) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_BITSTRING_OF_32_BIT InformationObjectWithoutTime_BITSTRING_OF_32_BIT, err error) {
+func (m *_InformationObjectWithoutTime_BITSTRING_OF_32_BIT) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_BITSTRING_OF_32_BIT InformationObjectWithoutTime_BITSTRING_OF_32_BIT, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

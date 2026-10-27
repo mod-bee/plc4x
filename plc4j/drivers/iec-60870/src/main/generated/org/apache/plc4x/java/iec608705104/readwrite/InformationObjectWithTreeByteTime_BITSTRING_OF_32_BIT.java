@@ -76,8 +76,8 @@ public class InformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT extends Infor
   }
 
   public static InformationObjectWithTreeByteTimeBuilder staticParseInformationObjectWithTreeByteTimeBuilder(
-      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte) throws
-      BufferException {
+      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte,
+      boolean addressed) throws BufferException {
     readBuffer.pushContext(WithOption.WithName("InformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
     int startPos = readBuffer.getPositionInBits();
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
@@ -147,7 +147,7 @@ public class InformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT extends Infor
       this.cp24Time2a = cp24Time2a;
     }
 
-    public InformationObjectWithTreeByteTime build(int address) {
+    public InformationObjectWithTreeByteTime build(Integer address) {
       return new InformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT(address, bsi, qds, cp24Time2a);
     }
   }

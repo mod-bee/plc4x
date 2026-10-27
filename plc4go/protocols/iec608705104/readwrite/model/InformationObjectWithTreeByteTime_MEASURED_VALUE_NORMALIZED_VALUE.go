@@ -67,7 +67,7 @@ var _ InformationObjectWithTreeByteTime_MEASURED_VALUE_NORMALIZED_VALUE = (*_Inf
 var _ InformationObjectWithTreeByteTimeRequirements = (*_InformationObjectWithTreeByteTime_MEASURED_VALUE_NORMALIZED_VALUE)(nil)
 
 // NewInformationObjectWithTreeByteTime_MEASURED_VALUE_NORMALIZED_VALUE factory function for _InformationObjectWithTreeByteTime_MEASURED_VALUE_NORMALIZED_VALUE
-func NewInformationObjectWithTreeByteTime_MEASURED_VALUE_NORMALIZED_VALUE(address uint32, nva NormalizedValue, qds QualityDescriptor, cp24Time2a ThreeOctetBinaryTime) *_InformationObjectWithTreeByteTime_MEASURED_VALUE_NORMALIZED_VALUE {
+func NewInformationObjectWithTreeByteTime_MEASURED_VALUE_NORMALIZED_VALUE(address *uint32, nva NormalizedValue, qds QualityDescriptor, cp24Time2a ThreeOctetBinaryTime) *_InformationObjectWithTreeByteTime_MEASURED_VALUE_NORMALIZED_VALUE {
 	if nva == nil {
 		panic("nva of type NormalizedValue for InformationObjectWithTreeByteTime_MEASURED_VALUE_NORMALIZED_VALUE must not be nil")
 	}
@@ -316,7 +316,7 @@ func (m *_InformationObjectWithTreeByteTime_MEASURED_VALUE_NORMALIZED_VALUE) Get
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithTreeByteTime_MEASURED_VALUE_NORMALIZED_VALUE) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithTreeByteTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithTreeByteTime_MEASURED_VALUE_NORMALIZED_VALUE InformationObjectWithTreeByteTime_MEASURED_VALUE_NORMALIZED_VALUE, err error) {
+func (m *_InformationObjectWithTreeByteTime_MEASURED_VALUE_NORMALIZED_VALUE) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithTreeByteTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithTreeByteTime_MEASURED_VALUE_NORMALIZED_VALUE InformationObjectWithTreeByteTime_MEASURED_VALUE_NORMALIZED_VALUE, err error) {
 	m.InformationObjectWithTreeByteTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

@@ -61,7 +61,7 @@ var _ InformationObjectWithoutTime_TEST_COMMAND = (*_InformationObjectWithoutTim
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_TEST_COMMAND)(nil)
 
 // NewInformationObjectWithoutTime_TEST_COMMAND factory function for _InformationObjectWithoutTime_TEST_COMMAND
-func NewInformationObjectWithoutTime_TEST_COMMAND(address uint32, fbp FixedTestBitPatternTwoOctet) *_InformationObjectWithoutTime_TEST_COMMAND {
+func NewInformationObjectWithoutTime_TEST_COMMAND(address *uint32, fbp FixedTestBitPatternTwoOctet) *_InformationObjectWithoutTime_TEST_COMMAND {
 	if fbp == nil {
 		panic("fbp of type FixedTestBitPatternTwoOctet for InformationObjectWithoutTime_TEST_COMMAND must not be nil")
 	}
@@ -244,7 +244,7 @@ func (m *_InformationObjectWithoutTime_TEST_COMMAND) GetLengthInBytes(ctx contex
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_TEST_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_TEST_COMMAND InformationObjectWithoutTime_TEST_COMMAND, err error) {
+func (m *_InformationObjectWithoutTime_TEST_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_TEST_COMMAND InformationObjectWithoutTime_TEST_COMMAND, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

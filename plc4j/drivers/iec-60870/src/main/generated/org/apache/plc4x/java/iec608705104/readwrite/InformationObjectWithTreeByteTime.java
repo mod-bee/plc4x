@@ -55,34 +55,35 @@ public abstract class InformationObjectWithTreeByteTime extends InformationObjec
   public abstract ThreeOctetBinaryTime getCp24Time2a();
 
   public static InformationObjectBuilder staticParseInformationObjectBuilder(ReadBuffer readBuffer,
-      TypeIdentification typeIdentification, byte numTimeByte) throws BufferException {
+      TypeIdentification typeIdentification, byte numTimeByte, boolean addressed) throws
+      BufferException {
     readBuffer.pushContext(WithOption.WithName("InformationObjectWithTreeByteTime"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
     int startPos = readBuffer.getPositionInBits();
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
     // Switch Field
     InformationObjectWithTreeByteTimeBuilder builder = null;
     if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.SINGLE_POINT_INFORMATION_WITH_TIME_TAG))) {
-      builder = InformationObjectWithTreeByteTime_SINGLE_POINT_INFORMATION.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithTreeByteTime_SINGLE_POINT_INFORMATION.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.DOUBLE_POINT_INFORMATION_WITH_TIME_TAG))) {
-      builder = InformationObjectWithTreeByteTime_DOUBLE_POINT_INFORMATION.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithTreeByteTime_DOUBLE_POINT_INFORMATION.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.STEP_POSITION_INFORMATION_WITH_TIME_TAG))) {
-      builder = InformationObjectWithTreeByteTime_STEP_POSITION_INFORMATION.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithTreeByteTime_STEP_POSITION_INFORMATION.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.BITSTRING_OF_32_BIT_WITH_TIME_TAG))) {
-      builder = InformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.MEASURED_VALUE_NORMALIZED_VALUE_WITH_TIME_TAG))) {
-      builder = InformationObjectWithTreeByteTime_MEASURED_VALUE_NORMALIZED_VALUE.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithTreeByteTime_MEASURED_VALUE_NORMALIZED_VALUE.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.MEASURED_VALUE_SCALED_VALUE_WITH_TIME_TAG))) {
-      builder = InformationObjectWithTreeByteTime_MEASURED_VALUE_SCALED_VALUE.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithTreeByteTime_MEASURED_VALUE_SCALED_VALUE.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER_WITH_TIME_TAG))) {
-      builder = InformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithTreeByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.INTEGRATED_TOTALS_WITH_TIME_TAG))) {
-      builder = InformationObjectWithTreeByteTime_INTEGRATED_TOTALS.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithTreeByteTime_INTEGRATED_TOTALS.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.EVENT_OF_PROTECTION_EQUIPMENT_WITH_TIME_TAG))) {
-      builder = InformationObjectWithTreeByteTime_EVENT_OF_PROTECTION_EQUIPMENT.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithTreeByteTime_EVENT_OF_PROTECTION_EQUIPMENT.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT_WITH_TIME_TAG))) {
-      builder = InformationObjectWithTreeByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithTreeByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     } else if (EvaluationHelper.equals(typeIdentification, (TypeIdentification) (TypeIdentification.PACKED_OUTPUT_CIRCUIT_INFORMATION_OF_PROTECTION_EQUIPMENT_WITH_TIME_TAG))) {
-      builder = InformationObjectWithTreeByteTime_PACKED_OUTPUT_CIRCUIT_INFORMATION_OF_PROTECTION_EQUIPMENT.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte);
+      builder = InformationObjectWithTreeByteTime_PACKED_OUTPUT_CIRCUIT_INFORMATION_OF_PROTECTION_EQUIPMENT.staticParseInformationObjectWithTreeByteTimeBuilder(readBuffer, typeIdentification, numTimeByte, addressed);
     }
     if (builder == null) {
       throw new BufferException("Unsupported case for discriminated type parameters parameters [typeIdentification]");
@@ -119,7 +120,7 @@ public abstract class InformationObjectWithTreeByteTime extends InformationObjec
   }
 
   public interface InformationObjectWithTreeByteTimeBuilder {
-    InformationObjectWithTreeByteTime build(int address);
+    InformationObjectWithTreeByteTime build(Integer address);
   }
 
   public static class InformationObjectBuilderImpl implements InformationObject.InformationObjectBuilder {
@@ -129,7 +130,7 @@ public abstract class InformationObjectWithTreeByteTime extends InformationObjec
       this.builder = builder;
     }
 
-    public InformationObject build(int address) {
+    public InformationObject build(Integer address) {
       return builder.build(address);
     }
   }

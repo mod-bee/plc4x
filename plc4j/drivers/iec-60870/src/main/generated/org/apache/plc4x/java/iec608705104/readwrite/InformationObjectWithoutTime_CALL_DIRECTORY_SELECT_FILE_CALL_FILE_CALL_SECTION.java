@@ -76,8 +76,8 @@ public class InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_C
   }
 
   public static InformationObjectWithoutTimeBuilder staticParseInformationObjectWithoutTimeBuilder(
-      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte) throws
-      BufferException {
+      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte,
+      boolean addressed) throws BufferException {
     readBuffer.pushContext(WithOption.WithName("InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
     int startPos = readBuffer.getPositionInBits();
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
@@ -147,7 +147,7 @@ public class InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_C
       this.scq = scq;
     }
 
-    public InformationObjectWithoutTime build(int address) {
+    public InformationObjectWithoutTime build(Integer address) {
       return new InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION(address, nof, nos, scq);
     }
   }

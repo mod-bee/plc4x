@@ -87,13 +87,18 @@
     [simple   CauseOfTransmission                     causeOfTransmission                            ]
     [simple   uint 8                                  originatorAddress                              ]
     [simple   uint 16                                 asduAddressField                               ]
-    [array    InformationObject('typeIdentification', 'typeIdentification.numTimeBytes') informationObjects  count 'numberOfObjects'    ]
+    // With the structure qualifier set (SQ=1, a sequence of objects) only the first object's address is on the
+    // wire, and object i is at that address plus i (IEC 60870-5-101 7.2.2.1); with it clear every object carries
+    // its own address.
+    [optional uint 24                                 sequenceStartAddress 'structureQualifier'      ]
+    [array    InformationObject('typeIdentification', 'typeIdentification.numTimeBytes', '!structureQualifier') informationObjects  count 'numberOfObjects'    ]
 ]
 
 // http://ijlalhaider.pbworks.com/w/file/fetch/64131148/Practical%20Modern%20SCADA%20Protocols.pdf
 
-[discriminatedType InformationObject(TypeIdentification typeIdentification, uint 7 numTimeByte)                    byteOrder='"LITTLE_ENDIAN"' unsignedIntegerEncoding='"unsigned-binary"' signedIntegerEncoding='"twos-complement"' floatEncoding='"IEEE754"' stringEncoding='"UTF8"'
-    [simple uint 24 address]
+[discriminatedType InformationObject(TypeIdentification typeIdentification, uint 7 numTimeByte, bit addressed)                    byteOrder='"LITTLE_ENDIAN"' unsignedIntegerEncoding='"unsigned-binary"' signedIntegerEncoding='"twos-complement"' floatEncoding='"IEEE754"' stringEncoding='"UTF8"'
+    // Absent on the objects of a sequence (see ASDU.sequenceStartAddress).
+    [optional uint 24 address 'addressed']
     [typeSwitch numTimeByte
         ['0' *WithoutTime
             [typeSwitch typeIdentification
