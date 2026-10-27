@@ -84,15 +84,20 @@ func (d *Discoverer) Discover(ctx context.Context, callback func(event apiModel.
 		return errors.Wrap(err, "error extracting protocol specific options")
 	}
 
+	timeout := d.discoveryTimeout
+	if timeout <= 0 {
+		timeout = 5 * time.Second
+	}
+	// Across subnets: register as a foreign device with a BBMD and have it distribute the WhoIs (ASHRAE 135 Annex J).
+	if specificOptions.foreignDeviceBBMD != "" {
+		return d.discoverThroughBBMD(ctx, callback, specificOptions, timeout)
+	}
+
 	communicationChannels, err := d.buildupCommunicationChannels(ctx, interfaces, specificOptions.bacNetPort)
 	if err != nil {
 		return errors.Wrap(err, "error building communication channels")
 	}
 
-	timeout := d.discoveryTimeout
-	if timeout <= 0 {
-		timeout = 5 * time.Second
-	}
 	ctx, cancelFunc := utils.WithNamedTimeout(ctx, "discovery timeout", timeout)
 	defer cancelFunc()
 	incomingBVLCChannel, err := d.broadcastAndDiscover(ctx, communicationChannels, specificOptions)
@@ -254,7 +259,7 @@ func (d *Discoverer) broadcastAndDiscover(ctx context.Context, communicationChan
 						blockingReadChan <- true
 						return
 					}
-					incomingBVLCChannel <- receivedBvlcMessage{incomingBvlc, addr}
+					incomingBVLCChannel <- receivedBvlcMessage{bvlc: incomingBvlc, addr: addr}
 					blockingReadChan <- true
 				})
 				select {
@@ -293,7 +298,7 @@ func (d *Discoverer) broadcastAndDiscover(ctx context.Context, communicationChan
 						d.log.Warn().Err(err).Msg("Could not parse bvlc")
 						blockingReadChan <- true
 					}
-					incomingBVLCChannel <- receivedBvlcMessage{incomingBvlc, addr}
+					incomingBVLCChannel <- receivedBvlcMessage{bvlc: incomingBvlc, addr: addr}
 					blockingReadChan <- true
 				})
 				select {
@@ -319,7 +324,10 @@ func (d *Discoverer) handleIncomingBVLCs(ctx context.Context, callback func(even
 		case <-ctx.Done():
 			d.log.Debug().Err(ctx.Err()).Msg("Ending incoming BVLC handling")
 			return
-		case receivedBvlc := <-incomingBVLCChannel:
+		case receivedBvlc, open := <-incomingBVLCChannel:
+			if !open {
+				return
+			}
 			var npdu driverModel.NPDU
 			if bvlc, ok := receivedBvlc.bvlc.(interface{ GetNpdu() driverModel.NPDU }); ok {
 				npdu = bvlc.GetNpdu()
@@ -351,6 +359,13 @@ func (d *Discoverer) handleIncomingBVLCs(ctx context.Context, callback func(even
 				// reach the device through the relaying router: transport URL =
 				// the router (the frame's UDP source), options = the routed hop.
 				discoveryOptions := routedOriginOptions(npdu)
+				if receivedBvlc.viaBBMD != "" {
+					// Found through a BBMD: the device's own address (from the Forwarded-NPDU), and the BBMD that relayed it.
+					if discoveryOptions == nil {
+						discoveryOptions = map[string][]string{}
+					}
+					discoveryOptions["via-bbmd"] = []string{receivedBvlc.viaBBMD}
+				}
 				discoveryEvent := spiModel.NewDefaultPlcDiscoveryItem(
 					"bacnet-ip",
 					"udp",
@@ -483,6 +498,8 @@ func (d *Discoverer) Close() error {
 type receivedBvlcMessage struct {
 	bvlc driverModel.BVLC
 	addr net.Addr
+	// viaBBMD is the BBMD that forwarded it, when discovery ran as a foreign device.
+	viaBBMD string
 }
 
 type communicationChannel struct {
@@ -534,6 +551,11 @@ func extractInterfaces(discoveryOptions []options.WithDiscoveryOption) ([]net.In
 
 type protocolSpecificOptions struct {
 	bacNetPort int
+	// foreignDeviceBBMD (host or host:port), when set, makes discovery register as a foreign device with that BBMD and
+	// send the WhoIs as a Distribute-Broadcast-To-Network: devices on subnets a local broadcast cannot reach answer,
+	// their IAm forwarded by the BBMD. foreignDeviceTTL is the registration's time-to-live in seconds (60 when 0).
+	foreignDeviceBBMD string
+	foreignDeviceTTL  uint16
 	// remoteAddress, when set, sends the WhoIs as a directed unicast to this
 	// host (in addition to the interface broadcast), enabling targeted discovery
 	// of a specific device or subnet. Host only or host:port; port defaults to
@@ -747,6 +769,27 @@ func extractProtocolSpecificOptions(discoveryOptions []options.WithDiscoveryOpti
 		collectedOptions = append(collectedOptions, bacNetPort(47808))
 	}
 
+	if _, ok := filteredOptionMap["foreign-device-bbmd"]; ok {
+		addr, err := OneString(filteredOptionMap, "foreign-device-bbmd")
+		if err != nil {
+			return nil, err
+		}
+		var ttl uint
+		if _, ok := filteredOptionMap["foreign-device-ttl"]; ok {
+			if ttl, err = OneUint(filteredOptionMap, "foreign-device-ttl"); err != nil {
+				return nil, err
+			}
+			if ttl > 65535 {
+				return nil, errors.Errorf("foreign-device-ttl %d is more than 65535 seconds", ttl)
+			}
+		}
+		collectedOptions = append(collectedOptions, func(o *protocolSpecificOptions) error {
+			o.foreignDeviceBBMD = addr
+			o.foreignDeviceTTL = uint16(ttl)
+			return nil
+		})
+	}
+
 	if _, ok := filteredOptionMap["remote-address"]; ok {
 		addr, err := OneString(filteredOptionMap, "remote-address")
 		if err != nil {
@@ -865,4 +908,94 @@ func One(filteredOptionMap map[string][]any, key string) (any, error) {
 		return nil, errors.Errorf("%s expects only one value", key)
 	}
 	return values[0], nil
+}
+
+// discoverThroughBBMD runs discovery as a foreign device (ASHRAE 135 Annex J.5): it registers with the BBMD, waits for
+// the BBMD to accept, has the BBMD distribute a WhoIs to every subnet in its broadcast distribution table, and reports
+// each IAm — forwarded by the BBMD (the device's own address is in the Forwarded-NPDU) or sent straight back — until
+// the discovery window ends. A local broadcast is not sent: what is found here was reached through the BBMD.
+func (d *Discoverer) discoverThroughBBMD(ctx context.Context, callback func(event apiModel.PlcDiscoveryItem), o *protocolSpecificOptions, timeout time.Duration) error {
+	bbmd, err := resolveBacnetUDPAddr(o.foreignDeviceBBMD, o.bacNetPort)
+	if err != nil {
+		return errors.Wrapf(err, "the BBMD address %q", o.foreignDeviceBBMD)
+	}
+	conn, err := net.ListenUDP("udp4", &net.UDPAddr{})
+	if err != nil {
+		return errors.Wrap(err, "opening a socket for foreign-device discovery")
+	}
+	defer func() { _ = conn.Close() }()
+	ttl := o.foreignDeviceTTL
+	if ttl == 0 {
+		ttl = 60
+	}
+	registration, err := driverModel.NewBVLCRegisterForeignDevice(ttl).Serialize()
+	if err != nil {
+		return err
+	}
+	if _, err := conn.WriteToUDP(registration, bbmd); err != nil {
+		return errors.Wrapf(err, "registering with the BBMD at %s", bbmd)
+	}
+	buf := make([]byte, 4096)
+	ctxForModel := options.GetLoggerContextForModel(ctx, d.log, options.WithPassLoggerToModel(d.passLogToModel))
+	_ = conn.SetReadDeadline(time.Now().Add(min(timeout, 3*time.Second)))
+	for {
+		n, _, err := conn.ReadFromUDP(buf)
+		if err != nil {
+			return errors.Errorf("the BBMD at %s did not answer the foreign-device registration", bbmd)
+		}
+		answer, err := driverModel.BVLCParse[driverModel.BVLC](ctxForModel, buf[:n])
+		if err != nil {
+			continue
+		}
+		if result, ok := answer.(driverModel.BVLCResult); ok {
+			if result.GetCode() != driverModel.BVLCResultCode_SUCCESSFUL_COMPLETION {
+				return errors.Errorf("the BBMD at %s refused the foreign-device registration (%s)", bbmd, result.GetCode())
+			}
+			break
+		}
+	}
+
+	var lowLimit, highLimit driverModel.BACnetContextTagUnsignedInteger
+	if w := o.whoIsOptions; w != nil && w.limits != nil {
+		lowLimit = driverModel.CreateBACnetContextTagUnsignedInteger(0, w.limits.low)
+		highLimit = driverModel.CreateBACnetContextTagUnsignedInteger(1, w.limits.high)
+	}
+	apdu := driverModel.NewAPDUUnconfirmedRequest(driverModel.NewBACnetUnconfirmedServiceRequestWhoIs(lowLimit, highLimit))
+	control := driverModel.NewNPDUControl(false, false, false, false, driverModel.NPDUNetworkPriority_NORMAL_MESSAGE)
+	whoIs, err := driverModel.NewBVLCDistributeBroadcastToNetwork(driverModel.NewNPDU(1, control, nil, nil, nil, nil, nil, nil, nil, nil, apdu)).Serialize()
+	if err != nil {
+		return err
+	}
+	if _, err := conn.WriteToUDP(whoIs, bbmd); err != nil {
+		return errors.Wrapf(err, "asking the BBMD at %s to distribute the WhoIs", bbmd)
+	}
+
+	incoming := make(chan receivedBvlcMessage, 64)
+	handled := make(chan struct{})
+	go func() {
+		d.handleIncomingBVLCs(ctx, callback, incoming)
+		close(handled)
+	}()
+	_ = conn.SetReadDeadline(time.Now().Add(timeout))
+	for ctx.Err() == nil {
+		n, from, err := conn.ReadFromUDP(buf)
+		if err != nil {
+			break // the discovery window ended
+		}
+		message, err := driverModel.BVLCParse[driverModel.BVLC](ctxForModel, buf[:n])
+		if err != nil {
+			d.log.Debug().Err(err).Msg("Could not parse bvlc")
+			continue
+		}
+		switch m := message.(type) {
+		case driverModel.BVLCForwardedNPDU:
+			origin := &net.UDPAddr{IP: net.IP(m.GetIp()), Port: int(m.GetPort())}
+			incoming <- receivedBvlcMessage{bvlc: m, addr: origin, viaBBMD: bbmd.String()}
+		case interface{ GetNpdu() driverModel.NPDU }:
+			incoming <- receivedBvlcMessage{bvlc: message, addr: from, viaBBMD: bbmd.String()}
+		}
+	}
+	close(incoming)
+	<-handled
+	return nil
 }
