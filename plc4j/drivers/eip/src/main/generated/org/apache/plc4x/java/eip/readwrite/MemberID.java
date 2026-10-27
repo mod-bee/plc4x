@@ -33,11 +33,20 @@ import org.apache.plc4x.java.spi.fields.utils.ThreadLocalHelper;
 public class MemberID extends LogicalSegmentType implements Message {
   protected final byte format;
 
-  protected final short instance;
+  protected final Short instance;
 
-  public MemberID(Byte format, Short instance) {
+  protected final Short pad;
+
+  protected final Integer instance16;
+
+  protected final Long instance32;
+
+  public MemberID(Byte format, Short instance, Short pad, Integer instance16, Long instance32) {
     this.format = format;
     this.instance = instance;
+    this.pad = pad;
+    this.instance16 = instance16;
+    this.instance32 = instance32;
   }
 
   /**
@@ -58,8 +67,29 @@ public class MemberID extends LogicalSegmentType implements Message {
   /**
    * Property field instance
    */
-  public short getInstance() {
+  public Short getInstance() {
     return instance;
+  }
+
+  /**
+   * Property field pad
+   */
+  public Short getPad() {
+    return pad;
+  }
+
+  /**
+   * Property field instance16
+   */
+  public Integer getInstance16() {
+    return instance16;
+  }
+
+  /**
+   * Property field instance32
+   */
+  public Long getInstance32() {
+    return instance32;
   }
 
   public static LogicalSegmentTypeBuilder staticParseLogicalSegmentTypeBuilder(
@@ -70,11 +100,20 @@ public class MemberID extends LogicalSegmentType implements Message {
     // Simple Field: format
     byte format = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedByte(readBuffer, 2), WithOption.WithName("format"));
 
-    // Simple Field: instance
-    short instance = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedShort(readBuffer, 8), WithOption.WithName("instance"));
+    // Optional Field (conditional): instance
+    Short instance = FieldReaderFactory.readOptionalField(DataReaderFactory.readUnsignedShort(readBuffer, 8), (format) == (0), WithOption.WithName("instance"));
+
+    // Optional Field (conditional): pad
+    Short pad = FieldReaderFactory.readOptionalField(DataReaderFactory.readUnsignedShort(readBuffer, 8), (format) != (0), WithOption.WithName("pad"));
+
+    // Optional Field (conditional): instance16
+    Integer instance16 = FieldReaderFactory.readOptionalField(DataReaderFactory.readUnsignedInt(readBuffer, 16), (format) == (1), WithOption.WithName("instance16"));
+
+    // Optional Field (conditional): instance32
+    Long instance32 = FieldReaderFactory.readOptionalField(DataReaderFactory.readUnsignedLong(readBuffer, 32), (format) == (2), WithOption.WithName("instance32"));
 
     readBuffer.popContext();
-    return new LogicalSegmentTypeBuilderImpl(format, instance);
+    return new LogicalSegmentTypeBuilderImpl(format, instance, pad, instance16, instance32);
   }
 
   protected void serializeLogicalSegmentTypeChild(WriteBuffer writeBuffer) throws BufferException {
@@ -84,8 +123,25 @@ public class MemberID extends LogicalSegmentType implements Message {
     // Simple Field: format
     FieldWriterFactory.writeSimpleField((byte) format, DataWriterFactory.writeUnsignedByte(writeBuffer, 2), WithOption.WithName("format"));
 
-    // Simple Field: instance
-    FieldWriterFactory.writeSimpleField((short) instance, DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("instance"));
+    if(instance != null) {
+      // Optional Field: instance
+      FieldWriterFactory.writeOptionalField((Short) instance, DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("instance"));
+    }
+
+    if(pad != null) {
+      // Optional Field: pad
+      FieldWriterFactory.writeOptionalField((Short) pad, DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("pad"));
+    }
+
+    if(instance16 != null) {
+      // Optional Field: instance16
+      FieldWriterFactory.writeOptionalField((Integer) instance16, DataWriterFactory.writeUnsignedInt(writeBuffer, 16), WithOption.WithName("instance16"));
+    }
+
+    if(instance32 != null) {
+      // Optional Field: instance32
+      FieldWriterFactory.writeOptionalField((Long) instance32, DataWriterFactory.writeUnsignedLong(writeBuffer, 32), WithOption.WithName("instance32"));
+    }
 
     writeBuffer.popContext();
   }
@@ -103,8 +159,25 @@ public class MemberID extends LogicalSegmentType implements Message {
     // Simple Field: format
     lengthInBits += 2;
 
-    // Simple Field: instance
-    lengthInBits += 8;
+    // Optional Field: instance
+    if(instance != null) {
+      lengthInBits += 8;
+    }
+
+    // Optional Field: pad
+    if(pad != null) {
+      lengthInBits += 8;
+    }
+
+    // Optional Field: instance16
+    if(instance16 != null) {
+      lengthInBits += 16;
+    }
+
+    // Optional Field: instance32
+    if(instance32 != null) {
+      lengthInBits += 32;
+    }
 
     return lengthInBits;
   }
@@ -112,15 +185,25 @@ public class MemberID extends LogicalSegmentType implements Message {
   public static class LogicalSegmentTypeBuilderImpl implements LogicalSegmentType.LogicalSegmentTypeBuilder {
     private final byte format;
 
-    private final short instance;
+    private final Short instance;
 
-    public LogicalSegmentTypeBuilderImpl(byte format, short instance) {
+    private final Short pad;
+
+    private final Integer instance16;
+
+    private final Long instance32;
+
+    public LogicalSegmentTypeBuilderImpl(byte format, Short instance, Short pad, Integer instance16,
+        Long instance32) {
       this.format = format;
       this.instance = instance;
+      this.pad = pad;
+      this.instance16 = instance16;
+      this.instance32 = instance32;
     }
 
     public LogicalSegmentType build() {
-      return new MemberID(format, instance);
+      return new MemberID(format, instance, pad, instance16, instance32);
     }
   }
 }

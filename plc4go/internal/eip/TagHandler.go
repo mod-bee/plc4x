@@ -21,6 +21,7 @@ package eip
 
 import (
 	"fmt"
+	"math"
 	"regexp"
 
 	apiModel "github.com/apache/plc4x/plc4go/pkg/api/model"
@@ -37,7 +38,8 @@ func NewTagHandler() TagHandler {
 	return TagHandler{
 		// The selection sits before the type, as it does everywhere else. The trailing
 		// ":elementNb" count is gone: "%rate:DINT:4" is now written "%rate[0..3]:DINT".
-		addressPattern: regexp.MustCompile(`^%(?P<tag>[%a-zA-Z_.0-9]+)` + spiModel.ArrayGroupPattern + `(?::(?P<dataType>[A-Z]+))?$`),
+		// A tag is controller-scoped (Level, Recipe.Step) or program-scoped (Program:MainProgram.Level).
+		addressPattern: regexp.MustCompile(`^%(?P<tag>(?i:program):[A-Za-z_][A-Za-z_0-9]*\.[A-Za-z_.0-9]+|[%a-zA-Z_.0-9]+)` + spiModel.ArrayGroupPattern + `(?::(?P<dataType>[A-Z]+))?$`),
 	}
 }
 
@@ -47,10 +49,10 @@ const (
 	ARRAY     = "array"
 )
 
-// eipConstraints is what a CIP request can encode of a selection: one dimension, starting no
-// later than 255 - the member segment that carries the offset is a uint 8.
+// eipConstraints is what a CIP request can encode of a selection: one dimension, its offset in
+// a member segment of 8, 16 or 32 bits.
 var eipConstraints = spiModel.SingleDimension.
-	WithMaxIndex(255).
+	WithMaxIndex(math.MaxUint32).
 	WithOnlyTrailingDimensionMayBeRange(true)
 
 func (m TagHandler) ParseTag(tagAddress string) (apiModel.PlcTag, error) {

@@ -146,14 +146,10 @@ class EipTagPathTest {
      * is serialized - and never silently truncated to a different element.
      */
     @Test
-    void indexBeyondAMemberIdIsRejected() {
-        assertThrows(PlcInvalidTagException.class, () -> EipTag.of("a[256]:DINT"));
-        assertThrows(PlcInvalidTagException.class, () -> EipTag.of("a[300]:DINT"));
-        assertThrows(PlcInvalidTagException.class, () -> EipTag.of("a[99999]:DINT"));
-
-        assertEquals(
-            List.of(new SymbolElement("a"), new MemberElement((short) 255)),
-            path("a[255]:DINT"));
+    void anIndexPastAnOctetIsAWiderMemberId() {
+        assertEquals(List.of(new SymbolElement("a"), new MemberElement(255)), path("a[255]:DINT"));
+        assertEquals(List.of(new SymbolElement("a"), new MemberElement(256)), path("a[256]:DINT"));
+        assertEquals(List.of(new SymbolElement("a"), new MemberElement(99999)), path("a[99999]:DINT"));
     }
 
     // --- what a consumer sees ---
