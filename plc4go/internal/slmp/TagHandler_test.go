@@ -43,6 +43,61 @@ func TestTagHandler_ParseTag(t *testing.T) {
 		wantNumberOfPoints uint16
 	}{
 		{
+			name: "a bare M address is one bit", address: "M100",
+			wantDeviceCode: readWriteModel.SlmpDeviceCode_M, wantDeviceNumber: 100,
+			wantDataType: DataTypeBOOL, wantQuantity: 1, wantNumberOfPoints: 1,
+		},
+		{
+			name: "X is addressed in hex", address: "X1F",
+			wantDeviceCode: readWriteModel.SlmpDeviceCode_X, wantDeviceNumber: 0x1F,
+			wantDataType: DataTypeBOOL, wantQuantity: 1, wantNumberOfPoints: 1,
+		},
+		{
+			name: "a run of Y outputs", address: "Y10[0..7]",
+			wantDeviceCode: readWriteModel.SlmpDeviceCode_Y, wantDeviceNumber: 0x10,
+			wantDataType: DataTypeBOOL, wantQuantity: 8, wantNumberOfPoints: 8,
+		},
+		{
+			name: "SB is the link special relay, not a device S", address: "SB1A",
+			wantDeviceCode: readWriteModel.SlmpDeviceCode_SB, wantDeviceNumber: 0x1A,
+			wantDataType: DataTypeBOOL, wantQuantity: 1, wantNumberOfPoints: 1,
+		},
+		{
+			name: "SD is the special register, not a device S", address: "SD100",
+			wantDeviceCode: readWriteModel.SlmpDeviceCode_SD, wantDeviceNumber: 100,
+			wantDataType: DataTypeWORD, wantQuantity: 1, wantNumberOfPoints: 1,
+		},
+		{
+			name: "CC is the counter coil", address: "CC10",
+			wantDeviceCode: readWriteModel.SlmpDeviceCode_CC, wantDeviceNumber: 10,
+			wantDataType: DataTypeBOOL, wantQuantity: 1, wantNumberOfPoints: 1,
+		},
+		{
+			name: "L is the latch relay", address: "l7",
+			wantDeviceCode: readWriteModel.SlmpDeviceCode_L, wantDeviceNumber: 7,
+			wantDataType: DataTypeBOOL, wantQuantity: 1, wantNumberOfPoints: 1,
+		},
+		{
+			name: "ZR is the serial file register", address: "ZR32768:DINT",
+			wantDeviceCode: readWriteModel.SlmpDeviceCode_ZR, wantDeviceNumber: 32768,
+			wantDataType: DataTypeDINT, wantQuantity: 1, wantNumberOfPoints: 2,
+		},
+		{
+			name: "the timer current value TN", address: "TN0",
+			wantDeviceCode: readWriteModel.SlmpDeviceCode_TN, wantDeviceNumber: 0,
+			wantDataType: DataTypeWORD, wantQuantity: 1, wantNumberOfPoints: 1,
+		},
+		{
+			name: "sixteen M relays as one word", address: "M32:WORD",
+			wantDeviceCode: readWriteModel.SlmpDeviceCode_M, wantDeviceNumber: 32,
+			wantDataType: DataTypeWORD, wantQuantity: 1, wantNumberOfPoints: 1,
+		},
+		{
+			name: "words of a bit device step sixteen points", address: "B0[2..3]:WORD",
+			wantDeviceCode: readWriteModel.SlmpDeviceCode_B, wantDeviceNumber: 0x20,
+			wantDataType: DataTypeWORD, wantQuantity: 2, wantNumberOfPoints: 2,
+		},
+		{
 			name: "a bare D address is one WORD", address: "D350",
 			wantDeviceCode: readWriteModel.SlmpDeviceCode_D, wantDeviceNumber: 350,
 			wantDataType: DataTypeWORD, wantQuantity: 1, wantNumberOfPoints: 1,
@@ -148,12 +203,13 @@ func TestTagHandler_ParseTagRejects(t *testing.T) {
 		{name: "an address without a device", address: "350"},
 		// plc4j supports the word devices D, W and R and nothing else. The bit devices the mspec's
 		// device-code enum knows are read in a different point unit, which this version can't do.
-		{name: "the bit device M", address: "M100"},
-		{name: "the bit device X", address: "X20"},
-		{name: "the bit device Y", address: "Y160"},
-		{name: "the bit device B", address: "B100"},
-		{name: "the timer device TN", address: "TN0"},
-		{name: "a device nobody knows", address: "Z100"},
+		{name: "a device nobody knows", address: "Q100"},
+		{name: "not SB at 0x1A but a device S", address: "S1A"},
+		{name: "a bit of a word device", address: "D100:BOOL"},
+		{name: "a bit device read as words off a multiple of 16", address: "M5:WORD"},
+		{name: "a hex bit device read as words off a multiple of 16", address: "X1F:WORD"},
+		{name: "more bits than one bit-unit write carries", address: "M0[0..7168]"},
+		{name: "a 0x prefix on the decimal bit device M", address: "M0x10"},
 		// A hex prefix says "read the digits as hex", which can only be a mistake on a decimal
 		// device.
 		{name: "a 0x prefix on a decimal device", address: "D0x10"},

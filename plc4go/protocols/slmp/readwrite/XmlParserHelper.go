@@ -44,19 +44,24 @@ func init() {
 
 func (m SlmpXmlParserHelper) Parse(typeName string, xmlString string, parserArguments ...string) (any, error) {
 	switch typeName {
-	case "SlmpDeviceBlock":
-		return SlmpDeviceBlockParseWithBuffer(context.Background(), utils.NewXmlReadBuffer(strings.NewReader(xmlString)))
 	case "SlmpMessage":
 		return SlmpMessageParseWithBuffer[SlmpMessage](context.Background(), utils.NewXmlReadBuffer(strings.NewReader(xmlString)))
+	case "SlmpDeviceSpec":
+		return SlmpDeviceSpecParseWithBuffer(context.Background(), utils.NewXmlReadBuffer(strings.NewReader(xmlString)))
+	case "SlmpDeviceBlock":
+		return SlmpDeviceBlockParseWithBuffer(context.Background(), utils.NewXmlReadBuffer(strings.NewReader(xmlString)))
 	case "SlmpRequestData":
 		parsedUint0, err := strconv.ParseUint(parserArguments[0], 10, 16)
 		if err != nil {
 			return nil, err
 		}
 		command := uint16(parsedUint0)
-		return SlmpRequestDataParseWithBuffer[SlmpRequestData](context.Background(), utils.NewXmlReadBuffer(strings.NewReader(xmlString)), command)
-	case "SlmpDeviceSpec":
-		return SlmpDeviceSpecParseWithBuffer(context.Background(), utils.NewXmlReadBuffer(strings.NewReader(xmlString)))
+		parsedUint1, err := strconv.ParseUint(parserArguments[1], 10, 16)
+		if err != nil {
+			return nil, err
+		}
+		subCommand := uint16(parsedUint1)
+		return SlmpRequestDataParseWithBuffer[SlmpRequestData](context.Background(), utils.NewXmlReadBuffer(strings.NewReader(xmlString)), command, subCommand)
 	}
 	return nil, errors.Errorf("Unsupported type %s", typeName)
 }

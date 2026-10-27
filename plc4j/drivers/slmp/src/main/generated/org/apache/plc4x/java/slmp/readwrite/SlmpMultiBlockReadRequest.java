@@ -57,6 +57,14 @@ public class SlmpMultiBlockReadRequest extends SlmpRequestData implements Messag
   }
 
   /**
+   * Discriminator field subCommand
+   */
+  @Override
+  public int getSubCommand() {
+    return (int) 0x0000;
+  }
+
+  /**
    * Property field numberOfWordDeviceBlocks
    */
   public short getNumberOfWordDeviceBlocks() {
@@ -85,7 +93,7 @@ public class SlmpMultiBlockReadRequest extends SlmpRequestData implements Messag
   }
 
   public static SlmpRequestDataBuilder staticParseSlmpRequestDataBuilder(ReadBuffer readBuffer,
-      int command) throws BufferException {
+      int command, int subCommand) throws BufferException {
     readBuffer.pushContext(WithOption.WithName("SlmpMultiBlockReadRequest"));
     int startPos = readBuffer.getPositionInBits();
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();

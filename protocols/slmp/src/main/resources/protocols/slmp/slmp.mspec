@@ -31,10 +31,11 @@
 //     - Random Read data layout ........ section 8.3 (binary, word units)
 //     - Multi-block Read data layout ... section 8.4 (binary, word units)
 //
-// Scope of this initial version: 3E binary frame, Batch Read
-// (command 0x0401), Random Read (command 0x0403) and Batch Read Multiple Blocks
-// (command 0x0406) in word units (subcommand 0x0000), plus Batch Write
-// (command 0x1401) in word units (subcommand 0x0000). This is the wire layer
+// Scope: 3E binary frame with its access route, Batch Read (command 0x0401),
+// Random Read (command 0x0403) and Batch Read Multiple Blocks (command 0x0406)
+// in word units (subcommand 0x0000), plus Batch Write (command 0x1401) in word
+// units (subcommand 0x0000) and in bit units (subcommand 0x0001). A bit device
+// is read in word units, sixteen points to a word. This is the wire layer
 // only; typed value encoding/decoding (INT/WORD/DINT/REAL) and the
 // device-addressing tag layer are owned by the driver layer and intentionally
 // not modelled in the wire spec.
@@ -52,7 +53,7 @@
 
 // Device codes for MELSEC-Q/L series commands (subcommand 0x0000 / 0x0001),
 // 1-byte binary, from the device code list in SH-080008 section 8.1.
-// Only the word/bit devices needed by the initial road-map are listed.
+// The common bit and word devices of MELSEC-Q/L and iQ-R/iQ-F are listed.
 //
 // These 1-byte binary device codes are confirmed identical in the Mitsubishi
 // MELSEC iQ-F FX5 SLMP manual (JY997D56001) -- D=A8 W=B4 R=AF M=90 X=9C Y=9D
@@ -69,6 +70,25 @@
     ['0x9C' X]  // Input            (bit,  hex addressing)
     ['0x9D' Y]  // Output          (bit,  hex addressing)
     ['0xA0' B]  // Link relay      (bit,  hex addressing)
+    ['0x91' SM] // Special relay   (bit,  decimal addressing)
+    ['0x92' L]  // Latch relay     (bit,  decimal addressing)
+    ['0x93' F]  // Annunciator     (bit,  decimal addressing)
+    ['0x94' V]  // Edge relay      (bit,  decimal addressing)
+    ['0xA1' SB] // Link special relay   (bit, hex addressing)
+    ['0xA2' DX] // Direct access input  (bit, hex addressing)
+    ['0xA3' DY] // Direct access output (bit, hex addressing)
+    ['0xC1' TS] // Timer, contact       (bit, decimal addressing)
+    ['0xC0' TC] // Timer, coil          (bit, decimal addressing)
+    ['0xC7' STS] // Retentive timer, contact (bit, decimal addressing)
+    ['0xC6' STC] // Retentive timer, coil    (bit, decimal addressing)
+    ['0xC4' CS] // Counter, contact     (bit, decimal addressing)
+    ['0xC3' CC] // Counter, coil        (bit, decimal addressing)
+    ['0xA9' SD] // Special register     (word, decimal addressing)
+    ['0xB5' SW] // Link special register (word, hex addressing)
+    ['0xC8' STN] // Retentive timer, current value (word, decimal addressing)
+    ['0xC5' CN] // Counter, current value (word, decimal addressing)
+    ['0xCC' Z]  // Index register       (word, decimal addressing)
+    ['0xB0' ZR] // File register, serial number access (word, decimal addressing)
 ]
 
 // 3E frame. The Ethernet/TCP header is added by the transport and is not part
@@ -79,24 +99,28 @@
     [const         uint 8 subHeaderReserved 0x00]     // second subheader byte is always 0x00
     [typeSwitch subHeader
         ['0x50' SlmpRequestFrame3E
-            // Access route - fixed value for 3E frame (chapter 6): 00 FF FF 03 00
-            [const    uint 8  network                  0x00]
-            [const    uint 8  pcNumber                 0xFF]
-            [const    uint 16 requestDestModuleIoNo    0x03FF]
-            [const    uint 8  requestDestModuleStation 0x00]
+            // Access route (chapter 6). The connected station itself is 00 FF FF 03 00: network 0x00,
+            // station 0xFF, module I/O 0x03FF, multidrop station 0x00. Another station on a network
+            // the connected one is on: its network and station numbers. Another CPU of a multiple-CPU
+            // system, or a multidrop station: its module I/O number and multidrop station number.
+            [simple   uint 8  network                 ]
+            [simple   uint 8  pcNumber                ]
+            [simple   uint 16 requestDestModuleIoNo   ]
+            [simple   uint 8  requestDestModuleStation]
             // Number of bytes from the monitoring timer up to the end of the request data.
             // = monitoringTimer(2) + command(2) + subCommand(2) + requestData
             [implicit uint 16 requestDataLength        '6 + requestData.lengthInBytes']
             [simple   uint 16 monitoringTimer]                 // 0x0000 = wait infinitely
             [simple   uint 16 command]                         // 0x0401 = Batch Read
-            [simple   uint 16 subCommand]                      // 0x0000 = word units
-            [simple   SlmpRequestData('command') requestData]
+            [simple   uint 16 subCommand]                      // 0x0000 = word units, 0x0001 = bit units
+            [simple   SlmpRequestData('command', 'subCommand') requestData]
         ]
         ['0xD0' SlmpResponseFrame3E
-            [const    uint 8  network                  0x00]
-            [const    uint 8  pcNumber                 0xFF]
-            [const    uint 16 requestDestModuleIoNo    0x03FF]
-            [const    uint 8  requestDestModuleStation 0x00]
+            // The access route of the request it answers.
+            [simple   uint 8  network                 ]
+            [simple   uint 8  pcNumber                ]
+            [simple   uint 16 requestDestModuleIoNo   ]
+            [simple   uint 8  requestDestModuleStation]
             // Number of bytes from the end code up to the end of the response data.
             // = endCode(2) + responseData
             [implicit uint 16 responseDataLength       '2 + COUNT(responseData)']
@@ -109,12 +133,12 @@
     ]
 ]
 
-// Request data, dispatched by command: Batch Read (0x0401), Random Read (0x0403),
-// Batch Read Multiple Blocks (0x0406) and Batch Write (0x1401) are modelled here,
-// all in word units (subcommand 0x0000).
-[discriminatedType SlmpRequestData(uint 16 command)
-    [typeSwitch command
-        ['0x0401' SlmpReadRequest
+// Request data, dispatched by command and subcommand: Batch Read (0x0401), Random Read (0x0403),
+// Batch Read Multiple Blocks (0x0406) and Batch Write (0x1401) in word units (subcommand 0x0000),
+// and Batch Write in bit units (0x1401 / 0x0001).
+[discriminatedType SlmpRequestData(uint 16 command, uint 16 subCommand)
+    [typeSwitch command, subCommand
+        ['0x0401', '0x0000' SlmpReadRequest
             // Binary, MELSEC-Q/L series: device number (3 bytes, little-endian)
             // then device code (1 byte). See SH-080008 section 8.1.
             [simple uint 24        headDeviceNumber]
@@ -122,7 +146,7 @@
             // Number of points to read. In word units this is the number of 16-bit words.
             [simple uint 16        numberOfPoints]
         ]
-        ['0x0403' SlmpRandomReadRequest
+        ['0x0403', '0x0000' SlmpRandomReadRequest
             // Random Read in word units (SH-080008 section 8.3): read discontinuous
             // devices, given as a list of word-access points followed by a list of
             // double-word-access points. The point counts are single bytes; each
@@ -132,7 +156,7 @@
             [array  SlmpDeviceSpec wordAccessDevices       count 'numberOfWordAccessPoints']
             [array  SlmpDeviceSpec doubleWordAccessDevices count 'numberOfDoubleWordAccessPoints']
         ]
-        ['0x0406' SlmpMultiBlockReadRequest
+        ['0x0406', '0x0000' SlmpMultiBlockReadRequest
             // Batch Read multiple blocks in word units (SH-080008 section 8.4): read a
             // number of word-device blocks followed by a number of bit-device blocks,
             // where each block is a run of consecutive devices. The two block counts are
@@ -145,7 +169,7 @@
             [array  SlmpDeviceBlock wordDeviceBlocks count 'numberOfWordDeviceBlocks']
             [array  SlmpDeviceBlock bitDeviceBlocks  count 'numberOfBitDeviceBlocks']
         ]
-        ['0x1401' SlmpWriteRequest
+        ['0x1401', '0x0000' SlmpWriteRequest
             // Batch Write in word units (SH-080008 section 8.2 "Batch Read and Write"): the same
             // device addressing as SlmpReadRequest (0x0401), followed by the data to write.
             // numberOfPoints is the number of 16-bit words; writeData is exactly that many
@@ -156,6 +180,16 @@
             [simple SlmpDeviceCode deviceCode]
             [simple uint 16        numberOfPoints]
             [array  byte           writeData count 'numberOfPoints * 2']
+        ]
+        ['0x1401', '0x0001' SlmpBitWriteRequest
+            // Batch Write in bit units (SH-080008 section 8.2): the same device addressing, then one
+            // 4-bit value per point - 1 = ON, 0 = OFF - two points to a byte, the first point in the
+            // high nibble; an odd number of points leaves the last low nibble 0. Only a bit device
+            // (M, X, Y, B, L, ...) can be written this way. Packing is owned by the driver layer.
+            [simple uint 24        headDeviceNumber]
+            [simple SlmpDeviceCode deviceCode]
+            [simple uint 16        numberOfPoints]
+            [array  byte           writeData count '(numberOfPoints + 1) / 2']
         ]
     ]
 ]

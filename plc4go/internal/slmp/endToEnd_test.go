@@ -116,7 +116,7 @@ func TestEndToEnd_WriteThroughTheRunningCodec(t *testing.T) {
 
 	assert.Equal(t, mustDecodeHex(t, batchWriteRequestHex), waitForSentFrame(t, transportInstance))
 	// A Batch Write success carries the end code and nothing else.
-	pushFrame(t, transportInstance, readWriteModel.NewSlmpResponseFrame3E(0x0000, nil))
+	pushFrame(t, transportInstance, readWriteModel.NewSlmpResponseFrame3E(0x00, 0xFF, 0x03FF, 0x00, 0x0000, nil))
 
 	select {
 	case result := <-results:
@@ -240,7 +240,7 @@ func TestEndToEnd_ATimedOutReadDoesNotWedgeTheNextOne(t *testing.T) {
 	require.NoError(t, err)
 	results := second.Execute(testutils.TestContext(t))
 	waitForSentFrame(t, transportInstance)
-	pushFrame(t, transportInstance, readWriteModel.NewSlmpResponseFrame3E(0x0000, []byte{0x2A, 0x00}))
+	pushFrame(t, transportInstance, readWriteModel.NewSlmpResponseFrame3E(0x00, 0xFF, 0x03FF, 0x00, 0x0000, []byte{0x2A, 0x00}))
 
 	select {
 	case result := <-results:
@@ -250,5 +250,81 @@ func TestEndToEnd_ATimedOutReadDoesNotWedgeTheNextOne(t *testing.T) {
 		assert.Equal(t, uint16(42), result.GetResponse().GetValue("hurz").GetUint16())
 	case <-time.After(20 * time.Second):
 		require.FailNow(t, "the read after a timed-out one never completed")
+	}
+}
+
+// A bit device is read in word units, sixteen points to a word, from the word its first point is
+// in: M5..M8 is one word from M0, and the points come out of its bits 5 to 8.
+func TestEndToEnd_ReadBitsOfABitDevice(t *testing.T) {
+	connection, transportInstance := newRunningConnection(t)
+
+	readRequest, err := connection.ReadRequestBuilder().AddTagAddress("relays", "M5[0..3]").Build()
+	require.NoError(t, err)
+	results := readRequest.Execute(testutils.TestContext(t))
+
+	// 3E request, own station; 12 bytes on; Batch Read in word units of 1 word from M0 (code 0x90).
+	assert.Equal(t, mustDecodeHex(t, "5000"+"00ffff0300"+"0c00"+"0000"+"0104"+"0000"+"000000"+"90"+"0100"), waitForSentFrame(t, transportInstance))
+	// The word M0..M15 with bits 5 and 6 set.
+	pushFrame(t, transportInstance, readWriteModel.NewSlmpResponseFrame3E(0x00, 0xFF, 0x03FF, 0x00, 0x0000, []byte{0x60, 0x00}))
+
+	select {
+	case result := <-results:
+		require.NoError(t, result.GetErr())
+		require.Equal(t, apiModel.PlcResponseCode_OK, result.GetResponse().GetResponseCode("relays"))
+		value := result.GetResponse().GetValue("relays")
+		require.True(t, value.IsList())
+		var got []bool
+		for _, point := range value.GetList() {
+			got = append(got, point.GetBool())
+		}
+		assert.Equal(t, []bool{true, true, false, false}, got, "M5, M6, M7, M8")
+	case <-time.After(20 * time.Second):
+		require.FailNow(t, "the read never completed")
+	}
+}
+
+// A bit device is written in bit units, so exactly the points named change: four bits per point,
+// two points to a byte, the first point in the high nibble.
+func TestEndToEnd_WriteBitsOfABitDevice(t *testing.T) {
+	connection, transportInstance := newRunningConnection(t)
+
+	writeRequest, err := connection.WriteRequestBuilder().
+		AddTagAddress("relays", "M5[0..2]", []bool{true, false, true}).Build()
+	require.NoError(t, err)
+	results := writeRequest.Execute(testutils.TestContext(t))
+
+	// Batch Write (0x1401) in bit units (0x0001): 3 points from M5, packed 1 0 | 1 0.
+	assert.Equal(t, mustDecodeHex(t, "5000"+"00ffff0300"+"0e00"+"0000"+"0114"+"0100"+"050000"+"90"+"0300"+"1010"), waitForSentFrame(t, transportInstance))
+	pushFrame(t, transportInstance, readWriteModel.NewSlmpResponseFrame3E(0x00, 0xFF, 0x03FF, 0x00, 0x0000, nil))
+
+	select {
+	case result := <-results:
+		require.NoError(t, result.GetErr())
+		assert.Equal(t, apiModel.PlcResponseCode_OK, result.GetResponse().GetResponseCode("relays"))
+	case <-time.After(20 * time.Second):
+		require.FailNow(t, "the write never completed")
+	}
+}
+
+// The access route goes into every request: here station 3 on network 2, reached through the
+// connected one.
+func TestEndToEnd_TheAccessRouteIsInTheFrame(t *testing.T) {
+	configuration := DefaultConfiguration()
+	configuration.route = Route{Network: 2, Station: 3, ModuleIo: 0x03FF, MultidropStation: 0}
+	connection, transportInstance := newRunningConnectionWith(t, configuration)
+
+	readRequest, err := connection.ReadRequestBuilder().AddTagAddress("register", "D350").Build()
+	require.NoError(t, err)
+	results := readRequest.Execute(testutils.TestContext(t))
+
+	assert.Equal(t, mustDecodeHex(t, "5000"+"0203ff0300"+"0c00"+"0000"+"0104"+"0000"+"5e0100"+"a8"+"0100"), waitForSentFrame(t, transportInstance))
+	pushFrame(t, transportInstance, readWriteModel.NewSlmpResponseFrame3E(2, 3, 0x03FF, 0, 0x0000, []byte{0x2A, 0x00}))
+
+	select {
+	case result := <-results:
+		require.NoError(t, result.GetErr())
+		assert.Equal(t, uint16(42), result.GetResponse().GetValue("register").GetUint16())
+	case <-time.After(20 * time.Second):
+		require.FailNow(t, "the read never completed")
 	}
 }

@@ -144,6 +144,26 @@ class SlmpConnectionFailurePathTest {
     }
 
     @Test
+    void connectRejectsARouteFieldOutsideItsWidth() {
+        SlmpConfiguration config = new SlmpConfiguration();
+        config.setRequestTimeout(5000);
+        config.setStationNumber(0x100); // one past the uint8 station number of the access route
+
+        SlmpConnection connection = newDisconnectedConnection(config);
+        assertThrows(PlcConnectionException.class, connection::connect,
+            "an out-of-range access route field must be rejected at connect, before it can be truncated on the wire");
+    }
+
+    @Test
+    void aConfigurationBuiltInCodeAddressesTheConnectedStation() {
+        SlmpConfiguration config = new SlmpConfiguration();
+        assertEquals(0x00, config.getNetworkNumber());
+        assertEquals(0xFF, config.getStationNumber());
+        assertEquals(0x03FF, config.getModuleIoNumber());
+        assertEquals(0x00, config.getMultidropStationNumber());
+    }
+
+    @Test
     void connectRejectsNonPositiveRequestTimeout() {
         SlmpConfiguration config = new SlmpConfiguration();
         config.setRequestTimeout(0); // orTimeout(0) would time out every request immediately
@@ -191,7 +211,7 @@ class SlmpConnectionFailurePathTest {
     }
 
     private static byte[] responseFrame(int endCode, byte[] data) throws Exception {
-        SlmpResponseFrame3E frame = new SlmpResponseFrame3E(endCode, data);
+        SlmpResponseFrame3E frame = new SlmpResponseFrame3E((short) 0x00, (short) 0xFF, 0x03FF, (short) 0x00, endCode, data);
         WriteBufferByteBased writeBuffer = new WriteBufferByteBased(new byte[frame.getLengthInBytes()]);
         frame.serialize(writeBuffer);
         return writeBuffer.getBytes();
