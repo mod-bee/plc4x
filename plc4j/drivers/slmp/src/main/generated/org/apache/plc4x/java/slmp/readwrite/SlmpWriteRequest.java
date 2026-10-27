@@ -56,6 +56,14 @@ public class SlmpWriteRequest extends SlmpRequestData implements Message {
   }
 
   /**
+   * Discriminator field subCommand
+   */
+  @Override
+  public int getSubCommand() {
+    return (int) 0x0000;
+  }
+
+  /**
    * Property field headDeviceNumber
    */
   public int getHeadDeviceNumber() {
@@ -84,7 +92,7 @@ public class SlmpWriteRequest extends SlmpRequestData implements Message {
   }
 
   public static SlmpRequestDataBuilder staticParseSlmpRequestDataBuilder(ReadBuffer readBuffer,
-      int command) throws BufferException {
+      int command, int subCommand) throws BufferException {
     readBuffer.pushContext(WithOption.WithName("SlmpWriteRequest"));
     int startPos = readBuffer.getPositionInBits();
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();

@@ -36,27 +36,34 @@ public abstract class SlmpRequestData implements Message {
    */
   public abstract int getCommand();
 
+  /**
+   * Discriminator field subCommand
+   */
+  public abstract int getSubCommand();
+
   protected abstract void serializeSlmpRequestDataChild(WriteBuffer writeBuffer) throws
       BufferException;
 
-  public static SlmpRequestData staticParse(ReadBuffer readBuffer, int command) throws
-      BufferException {
+  public static SlmpRequestData staticParse(ReadBuffer readBuffer, int command, int subCommand)
+      throws BufferException {
     readBuffer.pushContext(WithOption.WithName("SlmpRequestData"));
     int startPos = readBuffer.getPositionInBits();
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
     // Switch Field
     SlmpRequestDataBuilder builder = null;
-    if (EvaluationHelper.equals(command, (int) (0x0401))) {
-      builder = SlmpReadRequest.staticParseSlmpRequestDataBuilder(readBuffer, command);
-    } else if (EvaluationHelper.equals(command, (int) (0x0403))) {
-      builder = SlmpRandomReadRequest.staticParseSlmpRequestDataBuilder(readBuffer, command);
-    } else if (EvaluationHelper.equals(command, (int) (0x0406))) {
-      builder = SlmpMultiBlockReadRequest.staticParseSlmpRequestDataBuilder(readBuffer, command);
-    } else if (EvaluationHelper.equals(command, (int) (0x1401))) {
-      builder = SlmpWriteRequest.staticParseSlmpRequestDataBuilder(readBuffer, command);
+    if (EvaluationHelper.equals(command, (int) (0x0401)) && EvaluationHelper.equals(subCommand, (int) (0x0000))) {
+      builder = SlmpReadRequest.staticParseSlmpRequestDataBuilder(readBuffer, command, subCommand);
+    } else if (EvaluationHelper.equals(command, (int) (0x0403)) && EvaluationHelper.equals(subCommand, (int) (0x0000))) {
+      builder = SlmpRandomReadRequest.staticParseSlmpRequestDataBuilder(readBuffer, command, subCommand);
+    } else if (EvaluationHelper.equals(command, (int) (0x0406)) && EvaluationHelper.equals(subCommand, (int) (0x0000))) {
+      builder = SlmpMultiBlockReadRequest.staticParseSlmpRequestDataBuilder(readBuffer, command, subCommand);
+    } else if (EvaluationHelper.equals(command, (int) (0x1401)) && EvaluationHelper.equals(subCommand, (int) (0x0000))) {
+      builder = SlmpWriteRequest.staticParseSlmpRequestDataBuilder(readBuffer, command, subCommand);
+    } else if (EvaluationHelper.equals(command, (int) (0x1401)) && EvaluationHelper.equals(subCommand, (int) (0x0001))) {
+      builder = SlmpBitWriteRequest.staticParseSlmpRequestDataBuilder(readBuffer, command, subCommand);
     }
     if (builder == null) {
-      throw new BufferException("Unsupported case for discriminated type parameters parameters [command]");
+      throw new BufferException("Unsupported case for discriminated type parameters parameters [command, subCommand]");
     }
 
     readBuffer.popContext();

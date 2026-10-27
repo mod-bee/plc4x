@@ -41,14 +41,33 @@ type ISlmpDeviceCode interface {
 }
 
 const (
-	SlmpDeviceCode_D  SlmpDeviceCode = 0xA8
-	SlmpDeviceCode_W  SlmpDeviceCode = 0xB4
-	SlmpDeviceCode_R  SlmpDeviceCode = 0xAF
-	SlmpDeviceCode_TN SlmpDeviceCode = 0xC2
-	SlmpDeviceCode_M  SlmpDeviceCode = 0x90
-	SlmpDeviceCode_X  SlmpDeviceCode = 0x9C
-	SlmpDeviceCode_Y  SlmpDeviceCode = 0x9D
-	SlmpDeviceCode_B  SlmpDeviceCode = 0xA0
+	SlmpDeviceCode_D   SlmpDeviceCode = 0xA8
+	SlmpDeviceCode_W   SlmpDeviceCode = 0xB4
+	SlmpDeviceCode_R   SlmpDeviceCode = 0xAF
+	SlmpDeviceCode_TN  SlmpDeviceCode = 0xC2
+	SlmpDeviceCode_M   SlmpDeviceCode = 0x90
+	SlmpDeviceCode_X   SlmpDeviceCode = 0x9C
+	SlmpDeviceCode_Y   SlmpDeviceCode = 0x9D
+	SlmpDeviceCode_B   SlmpDeviceCode = 0xA0
+	SlmpDeviceCode_SM  SlmpDeviceCode = 0x91
+	SlmpDeviceCode_L   SlmpDeviceCode = 0x92
+	SlmpDeviceCode_F   SlmpDeviceCode = 0x93
+	SlmpDeviceCode_V   SlmpDeviceCode = 0x94
+	SlmpDeviceCode_SB  SlmpDeviceCode = 0xA1
+	SlmpDeviceCode_DX  SlmpDeviceCode = 0xA2
+	SlmpDeviceCode_DY  SlmpDeviceCode = 0xA3
+	SlmpDeviceCode_TS  SlmpDeviceCode = 0xC1
+	SlmpDeviceCode_TC  SlmpDeviceCode = 0xC0
+	SlmpDeviceCode_STS SlmpDeviceCode = 0xC7
+	SlmpDeviceCode_STC SlmpDeviceCode = 0xC6
+	SlmpDeviceCode_CS  SlmpDeviceCode = 0xC4
+	SlmpDeviceCode_CC  SlmpDeviceCode = 0xC3
+	SlmpDeviceCode_SD  SlmpDeviceCode = 0xA9
+	SlmpDeviceCode_SW  SlmpDeviceCode = 0xB5
+	SlmpDeviceCode_STN SlmpDeviceCode = 0xC8
+	SlmpDeviceCode_CN  SlmpDeviceCode = 0xC5
+	SlmpDeviceCode_Z   SlmpDeviceCode = 0xCC
+	SlmpDeviceCode_ZR  SlmpDeviceCode = 0xB0
 )
 
 var SlmpDeviceCodeValues []SlmpDeviceCode
@@ -64,6 +83,25 @@ func init() {
 		SlmpDeviceCode_X,
 		SlmpDeviceCode_Y,
 		SlmpDeviceCode_B,
+		SlmpDeviceCode_SM,
+		SlmpDeviceCode_L,
+		SlmpDeviceCode_F,
+		SlmpDeviceCode_V,
+		SlmpDeviceCode_SB,
+		SlmpDeviceCode_DX,
+		SlmpDeviceCode_DY,
+		SlmpDeviceCode_TS,
+		SlmpDeviceCode_TC,
+		SlmpDeviceCode_STS,
+		SlmpDeviceCode_STC,
+		SlmpDeviceCode_CS,
+		SlmpDeviceCode_CC,
+		SlmpDeviceCode_SD,
+		SlmpDeviceCode_SW,
+		SlmpDeviceCode_STN,
+		SlmpDeviceCode_CN,
+		SlmpDeviceCode_Z,
+		SlmpDeviceCode_ZR,
 	}
 }
 
@@ -71,20 +109,58 @@ func SlmpDeviceCodeByValue(value uint8) (enum SlmpDeviceCode, ok bool) {
 	switch value {
 	case 0x90:
 		return SlmpDeviceCode_M, true
+	case 0x91:
+		return SlmpDeviceCode_SM, true
+	case 0x92:
+		return SlmpDeviceCode_L, true
+	case 0x93:
+		return SlmpDeviceCode_F, true
+	case 0x94:
+		return SlmpDeviceCode_V, true
 	case 0x9C:
 		return SlmpDeviceCode_X, true
 	case 0x9D:
 		return SlmpDeviceCode_Y, true
 	case 0xA0:
 		return SlmpDeviceCode_B, true
+	case 0xA1:
+		return SlmpDeviceCode_SB, true
+	case 0xA2:
+		return SlmpDeviceCode_DX, true
+	case 0xA3:
+		return SlmpDeviceCode_DY, true
 	case 0xA8:
 		return SlmpDeviceCode_D, true
+	case 0xA9:
+		return SlmpDeviceCode_SD, true
 	case 0xAF:
 		return SlmpDeviceCode_R, true
+	case 0xB0:
+		return SlmpDeviceCode_ZR, true
 	case 0xB4:
 		return SlmpDeviceCode_W, true
+	case 0xB5:
+		return SlmpDeviceCode_SW, true
+	case 0xC0:
+		return SlmpDeviceCode_TC, true
+	case 0xC1:
+		return SlmpDeviceCode_TS, true
 	case 0xC2:
 		return SlmpDeviceCode_TN, true
+	case 0xC3:
+		return SlmpDeviceCode_CC, true
+	case 0xC4:
+		return SlmpDeviceCode_CS, true
+	case 0xC5:
+		return SlmpDeviceCode_CN, true
+	case 0xC6:
+		return SlmpDeviceCode_STC, true
+	case 0xC7:
+		return SlmpDeviceCode_STS, true
+	case 0xC8:
+		return SlmpDeviceCode_STN, true
+	case 0xCC:
+		return SlmpDeviceCode_Z, true
 	}
 	return 0, false
 }
@@ -93,20 +169,58 @@ func SlmpDeviceCodeByName(value string) (enum SlmpDeviceCode, ok bool) {
 	switch value {
 	case "M":
 		return SlmpDeviceCode_M, true
+	case "SM":
+		return SlmpDeviceCode_SM, true
+	case "L":
+		return SlmpDeviceCode_L, true
+	case "F":
+		return SlmpDeviceCode_F, true
+	case "V":
+		return SlmpDeviceCode_V, true
 	case "X":
 		return SlmpDeviceCode_X, true
 	case "Y":
 		return SlmpDeviceCode_Y, true
 	case "B":
 		return SlmpDeviceCode_B, true
+	case "SB":
+		return SlmpDeviceCode_SB, true
+	case "DX":
+		return SlmpDeviceCode_DX, true
+	case "DY":
+		return SlmpDeviceCode_DY, true
 	case "D":
 		return SlmpDeviceCode_D, true
+	case "SD":
+		return SlmpDeviceCode_SD, true
 	case "R":
 		return SlmpDeviceCode_R, true
+	case "ZR":
+		return SlmpDeviceCode_ZR, true
 	case "W":
 		return SlmpDeviceCode_W, true
+	case "SW":
+		return SlmpDeviceCode_SW, true
+	case "TC":
+		return SlmpDeviceCode_TC, true
+	case "TS":
+		return SlmpDeviceCode_TS, true
 	case "TN":
 		return SlmpDeviceCode_TN, true
+	case "CC":
+		return SlmpDeviceCode_CC, true
+	case "CS":
+		return SlmpDeviceCode_CS, true
+	case "CN":
+		return SlmpDeviceCode_CN, true
+	case "STC":
+		return SlmpDeviceCode_STC, true
+	case "STS":
+		return SlmpDeviceCode_STS, true
+	case "STN":
+		return SlmpDeviceCode_STN, true
+	case "Z":
+		return SlmpDeviceCode_Z, true
 	}
 	return 0, false
 }
@@ -180,20 +294,58 @@ func (e SlmpDeviceCode) PLC4XEnumName() string {
 	switch e {
 	case SlmpDeviceCode_M:
 		return "M"
+	case SlmpDeviceCode_SM:
+		return "SM"
+	case SlmpDeviceCode_L:
+		return "L"
+	case SlmpDeviceCode_F:
+		return "F"
+	case SlmpDeviceCode_V:
+		return "V"
 	case SlmpDeviceCode_X:
 		return "X"
 	case SlmpDeviceCode_Y:
 		return "Y"
 	case SlmpDeviceCode_B:
 		return "B"
+	case SlmpDeviceCode_SB:
+		return "SB"
+	case SlmpDeviceCode_DX:
+		return "DX"
+	case SlmpDeviceCode_DY:
+		return "DY"
 	case SlmpDeviceCode_D:
 		return "D"
+	case SlmpDeviceCode_SD:
+		return "SD"
 	case SlmpDeviceCode_R:
 		return "R"
+	case SlmpDeviceCode_ZR:
+		return "ZR"
 	case SlmpDeviceCode_W:
 		return "W"
+	case SlmpDeviceCode_SW:
+		return "SW"
+	case SlmpDeviceCode_TC:
+		return "TC"
+	case SlmpDeviceCode_TS:
+		return "TS"
 	case SlmpDeviceCode_TN:
 		return "TN"
+	case SlmpDeviceCode_CC:
+		return "CC"
+	case SlmpDeviceCode_CS:
+		return "CS"
+	case SlmpDeviceCode_CN:
+		return "CN"
+	case SlmpDeviceCode_STC:
+		return "STC"
+	case SlmpDeviceCode_STS:
+		return "STS"
+	case SlmpDeviceCode_STN:
+		return "STN"
+	case SlmpDeviceCode_Z:
+		return "Z"
 	}
 	return fmt.Sprintf("Unknown(%v)", uint8(e))
 }

@@ -224,9 +224,9 @@ response future is deliberately left incomplete and `onRegisterConsumer` throws
 `profinet` driver does implement that path - it completes the subscription response, registers
 consumers per subscription handle and dispatches a `PlcSubscriptionEvent` for every incoming cyclic
 frame - so the subscribe entry below, which describes what ships, does not apply to it.
-* *SLMP* addresses the word devices `D`, `W` and `R` only, in both Java and Go. That is the scope
-the driver was written to rather than a port gap - the bit devices and the wider MELSEC command set
-are not implemented in either language.
+* *SLMP* addresses the bit devices (`X`, `Y`, `M`, `L`, `B`, ...) and the word devices (`D`, `W`,
+`R`, `ZR`, ...) in Go; Java addresses the word devices `D`, `W` and `R`. Both send along a
+configurable access route.
 * *UMAS* (Go) refuses `DATE` and `TIME_OF_DAY` tags rather than answering them: the Go data item
 parser has no case for those field names yet, so the bytes would parse to no value. Every other data
 type reads and writes. Note also that UMAS ships no test data in any language, so both drivers are

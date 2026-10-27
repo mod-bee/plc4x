@@ -38,6 +38,10 @@
 5+|Config options:
 |`monitoring-timer` |INT |0| |SLMP monitoring timer written into each 3E request frame (0 = wait infinitely).
 |`request-timeout-ms` |INT |5000| |Client-side timeout in milliseconds awaiting a response.
+|`network-number` |INT |0| |Access route: network number of the station addressed (0 = the connected station's own network).
+|`station-number` |INT |255| |Access route: station number on that network (255 = the connected station).
+|`module-io-number` |INT |1023| |Access route: request destination module I/O number (1023 = 0x03FF, the connected station's CPU; 992-995 = CPU No. 1-4 of a multiple-CPU system).
+|`multidrop-station-number` |INT |0| |Access route: request destination multidrop station number (0 unless the module I/O number names a multidrop link).
 5+|Transport config options:
 5+|
 +++

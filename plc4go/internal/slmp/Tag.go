@@ -38,6 +38,8 @@ const (
 	// a bigger read, so a tag that would need one is refused instead of being sent as a frame the
 	// device rejects.
 	maxPoints = 960
+	// maxBitPoints is the 3E binary ceiling of a bit-unit Batch Write (SH-080008 section 8.2).
+	maxBitPoints = 7168
 	// maxDeviceNumber is the largest device address the 3E frame can carry: the head device number
 	// is an unsigned 24-bit field.
 	maxDeviceNumber = 0xFFFFFF
@@ -135,7 +137,7 @@ func (m plcTag) GetDuration() time.Duration {
 // address back; every other supported device is addressed in decimal.
 func (m plcTag) GetAddressString() string {
 	var address string
-	if m.DeviceCode == readWriteModel.SlmpDeviceCode_W {
+	if addressing, ok := addressingOf(m.DeviceCode); ok && addressing.base == 16 {
 		address = fmt.Sprintf("0x%X", m.DeviceNumber)
 	} else {
 		address = fmt.Sprintf("%d", m.DeviceNumber)

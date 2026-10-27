@@ -90,7 +90,7 @@ func TestConnection_CloseTwice(t *testing.T) {
 
 // readResponseFrame builds a 3E read response carrying the passed end code and payload.
 func readResponseFrame(endCode uint16, responseData []byte) readWriteModel.SlmpResponseFrame3E {
-	return readWriteModel.NewSlmpResponseFrame3E(endCode, responseData)
+	return readWriteModel.NewSlmpResponseFrame3E(0x00, 0xFF, 0x03FF, 0x00, endCode, responseData)
 }
 
 // readTag runs one read through the connection and answers the request the reader sends with the
@@ -577,7 +577,7 @@ func TestConnection_WriteIsolatesPerTagFailures(t *testing.T) {
 func TestConnection_AcceptsAnyResponseFrame(t *testing.T) {
 	assert.True(t, acceptsAnyResponseFrame(readResponseFrame(0x0000, nil)))
 	// A request frame echoed back is not an answer.
-	assert.False(t, acceptsAnyResponseFrame(readWriteModel.NewSlmpRequestFrame3E(0, commandBatchRead, 0,
+	assert.False(t, acceptsAnyResponseFrame(readWriteModel.NewSlmpRequestFrame3E(0x00, 0xFF, 0x03FF, 0x00, 0, commandBatchRead, 0,
 		readWriteModel.NewSlmpReadRequest(350, readWriteModel.SlmpDeviceCode_D, 1))))
 }
 

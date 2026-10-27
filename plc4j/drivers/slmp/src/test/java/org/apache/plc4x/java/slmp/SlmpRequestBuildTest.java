@@ -43,7 +43,7 @@ class SlmpRequestBuildTest {
         SlmpTag tag = SlmpTag.of("D350[0..1]:WORD");
         SlmpReadRequest data = new SlmpReadRequest(
             tag.getDeviceNumber(), tag.getDeviceCode(), tag.getNumberOfPoints());
-        SlmpRequestFrame3E frame = new SlmpRequestFrame3E(0x0000, 0x0401, 0x0000, data);
+        SlmpRequestFrame3E frame = new SlmpRequestFrame3E((short) 0x00, (short) 0xFF, 0x03FF, (short) 0x00, 0x0000, 0x0401, 0x0000, data);
 
         WriteBufferByteBased buffer = new WriteBufferByteBased(new byte[frame.getLengthInBytes()]);
         frame.serialize(buffer);
@@ -58,7 +58,7 @@ class SlmpRequestBuildTest {
         SlmpWriteRequest data = new SlmpWriteRequest(
             tag.getDeviceNumber(), tag.getDeviceCode(), tag.getNumberOfPoints(),
             new byte[]{0x34, 0x12});
-        SlmpRequestFrame3E frame = new SlmpRequestFrame3E(0x0000, 0x1401, 0x0000, data);
+        SlmpRequestFrame3E frame = new SlmpRequestFrame3E((short) 0x00, (short) 0xFF, 0x03FF, (short) 0x00, 0x0000, 0x1401, 0x0000, data);
 
         WriteBufferByteBased buffer = new WriteBufferByteBased(new byte[frame.getLengthInBytes()]);
         frame.serialize(buffer);

@@ -213,6 +213,10 @@ func (m *_SlmpMultiBlockReadRequest) GetCommand() uint16 {
 	return 0x0406
 }
 
+func (m *_SlmpMultiBlockReadRequest) GetSubCommand() uint16 {
+	return 0x0000
+}
+
 ///////////////////////
 ///////////////////////
 ///////////////////////////////////////////////////////////
@@ -295,7 +299,7 @@ func (m *_SlmpMultiBlockReadRequest) GetLengthInBytes(ctx context.Context) uint6
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_SlmpMultiBlockReadRequest) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_SlmpRequestData, command uint16) (__slmpMultiBlockReadRequest SlmpMultiBlockReadRequest, err error) {
+func (m *_SlmpMultiBlockReadRequest) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_SlmpRequestData, command uint16, subCommand uint16) (__slmpMultiBlockReadRequest SlmpMultiBlockReadRequest, err error) {
 	m.SlmpRequestDataContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

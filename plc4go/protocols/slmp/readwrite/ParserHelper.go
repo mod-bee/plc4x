@@ -34,18 +34,22 @@ type SlmpParserHelper struct {
 
 func (m SlmpParserHelper) Parse(typeName string, arguments []string, io utils.ReadBuffer) (any, error) {
 	switch typeName {
-	case "SlmpDeviceBlock":
-		return SlmpDeviceBlockParseWithBuffer(context.Background(), io)
 	case "SlmpMessage":
 		return SlmpMessageParseWithBuffer[SlmpMessage](context.Background(), io)
+	case "SlmpDeviceSpec":
+		return SlmpDeviceSpecParseWithBuffer(context.Background(), io)
+	case "SlmpDeviceBlock":
+		return SlmpDeviceBlockParseWithBuffer(context.Background(), io)
 	case "SlmpRequestData":
 		command, err := utils.StrToUint16(arguments[0])
 		if err != nil {
 			return nil, errors.Wrap(err, "Error parsing")
 		}
-		return SlmpRequestDataParseWithBuffer[SlmpRequestData](context.Background(), io, command)
-	case "SlmpDeviceSpec":
-		return SlmpDeviceSpecParseWithBuffer(context.Background(), io)
+		subCommand, err := utils.StrToUint16(arguments[1])
+		if err != nil {
+			return nil, errors.Wrap(err, "Error parsing")
+		}
+		return SlmpRequestDataParseWithBuffer[SlmpRequestData](context.Background(), io, command, subCommand)
 	}
 	return nil, errors.Errorf("Unsupported type %s", typeName)
 }

@@ -51,17 +51,17 @@ func TestParseFromOptions(t *testing.T) {
 		{
 			name:              "both options",
 			connectionOptions: map[string][]string{"monitoring-timer": {"250"}, "request-timeout-ms": {"1500"}},
-			want:              Configuration{monitoringTimer: 250, requestTimeout: 1500 * time.Millisecond},
+			want:              Configuration{monitoringTimer: 250, requestTimeout: 1500 * time.Millisecond, route: ownStation},
 		},
 		{
 			name:              "the request timeout is spelled in milliseconds",
 			connectionOptions: map[string][]string{"request-timeout-ms": {"250"}},
-			want:              Configuration{monitoringTimer: defaultMonitoringTimer, requestTimeout: 250 * time.Millisecond},
+			want:              Configuration{monitoringTimer: defaultMonitoringTimer, requestTimeout: 250 * time.Millisecond, route: ownStation},
 		},
 		{
 			name:              "the largest monitoring timer the 3E field can carry",
 			connectionOptions: map[string][]string{"monitoring-timer": {"65535"}},
-			want:              Configuration{monitoringTimer: 0xFFFF, requestTimeout: defaultRequestTimeout},
+			want:              Configuration{monitoringTimer: 0xFFFF, requestTimeout: defaultRequestTimeout, route: ownStation},
 		},
 		{
 			// plc4j checks this at connect time, with the same reasoning: the field is an unsigned
@@ -112,6 +112,24 @@ func TestParseFromOptions(t *testing.T) {
 }
 
 func TestConfiguration_String(t *testing.T) {
-	assert.Equal(t, "slmp.Configuration{monitoringTimer: 0x0000, requestTimeout: 5s}",
+	assert.Equal(t, "slmp.Configuration{monitoringTimer: 0x0000, requestTimeout: 5s, route: network 0 station 0xFF module I/O 0x03FF multidrop 0}",
 		DefaultConfiguration().String())
+}
+
+// The access route: decimal or 0x hex, each in its field's width; the connected station by default.
+func TestParseFromOptions_TheAccessRoute(t *testing.T) {
+	configuration, err := ParseFromOptions(testutils.ProduceTestingLogger(t), map[string][]string{
+		"network-number": {"2"}, "station-number": {"3"}, "module-io-number": {"0x03E1"}, "multidrop-station-number": {"0"},
+	})
+	require.NoError(t, err)
+	assert.Equal(t, Route{Network: 2, Station: 3, ModuleIo: 0x03E1, MultidropStation: 0}, configuration.route)
+
+	defaults, err := ParseFromOptions(testutils.ProduceTestingLogger(t), map[string][]string{})
+	require.NoError(t, err)
+	assert.Equal(t, ownStation, defaults.route)
+
+	for name, value := range map[string]string{"network-number": "256", "station-number": "-1", "module-io-number": "0x10000", "multidrop-station-number": "x"} {
+		_, err := ParseFromOptions(testutils.ProduceTestingLogger(t), map[string][]string{name: {value}})
+		assert.Error(t, err, "%s=%s", name, value)
+	}
 }
