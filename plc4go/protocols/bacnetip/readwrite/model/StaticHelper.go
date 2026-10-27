@@ -651,8 +651,16 @@ func ParseVarUint(ctx context.Context, data []byte) uint32 {
 	return uint32(bigInt.SetBytes(data).Uint64())
 }
 
+// WriteVarUint is the big-endian octets of an unsigned value, as many as requiredLength says the tag header announces
+// - at least one: a zero is one octet 0x00 (ASHRAE 135 20.2.4), where big.Int's Bytes() would give none and leave the
+// header announcing an octet the payload does not carry.
 func WriteVarUint(value uint32) []byte {
-	return big.NewInt(int64(value)).Bytes()
+	length := requiredLength(uint(value))
+	data := make([]byte, length)
+	for i := uint32(0); i < length; i++ {
+		data[length-1-i] = byte(value >> (8 * i))
+	}
+	return data
 }
 
 func CreateBACnetTagHeaderBalanced(isContext bool, id uint8, value uint32) BACnetTagHeader {
