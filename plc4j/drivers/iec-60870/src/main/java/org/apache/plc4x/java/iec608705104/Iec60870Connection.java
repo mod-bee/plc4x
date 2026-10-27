@@ -369,11 +369,25 @@ public class Iec60870Connection extends ConnectionBase<Iec608705014Configuration
         }
     }
 
+    /**
+     * The information object address of an ASDU's index-th object. A sequence of objects (structure
+     * qualifier set) carries the first object's address only and numbers the others on from it
+     * (IEC 60870-5-101 7.2.2.1); otherwise every object carries its own.
+     */
+    static int objectAddress(ASDU asdu, InformationObject informationObject, int index) {
+        if (asdu.getStructureQualifier()) {
+            return asdu.getSequenceStartAddress() + index;
+        }
+        return informationObject.getAddress();
+    }
+
     private void processAsdu(ASDU asdu) {
         int asduAddress = asdu.getAsduAddressField();
-        for (InformationObject informationObject : asdu.getInformationObjects()) {
+        List<InformationObject> informationObjects = asdu.getInformationObjects();
+        for (int index = 0; index < informationObjects.size(); index++) {
+            InformationObject informationObject = informationObjects.get(index);
             try {
-                int objectAddress = informationObject.getAddress();
+                int objectAddress = objectAddress(asdu, informationObject, index);
                 Iec608705104Tag tag = new Iec608705104Tag(asduAddress, objectAddress);
                 PlcValue plcValue = Iec608705104TagParser.parseTag(informationObject, asdu.getTypeIdentification());
                 LocalDateTime deviceTime = extractEventTime(informationObject);

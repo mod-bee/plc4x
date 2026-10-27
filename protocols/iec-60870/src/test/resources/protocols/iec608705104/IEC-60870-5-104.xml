@@ -7775,4 +7775,76 @@
     </xml>
   </testcase>
 
+
+  <testcase>
+    <name>Sequence of objects (SQ=1): two double points from IOA 22, in answer to a general interrogation</name>
+    <raw>680f020002000382140030001600000102</raw>
+    <root-type>APDUs</root-type>
+    <xml>
+      <APDUs>
+        <apdus isList="true">
+          <APDU>
+            <startByte dataType="uint" bitLength="8">104</startByte>
+            <apciLength dataType="uint" bitLength="8">15</apciLength>
+            <command dataType="uint" bitLength="16">2</command>
+            <APDUIFormat>
+              <receiveSequenceNo dataType="uint" bitLength="16">2</receiveSequenceNo>
+              <asdu>
+                <ASDU>
+                  <typeIdentification>
+                    <TypeIdentification dataType="uint" bitLength="8" stringRepresentation="DOUBLE_POINT_INFORMATION">3</TypeIdentification>
+                  </typeIdentification>
+                  <structureQualifier dataType="bit" bitLength="1">true</structureQualifier>
+                  <numberOfObjects dataType="uint" bitLength="7">2</numberOfObjects>
+                  <test dataType="bit" bitLength="1">false</test>
+                  <negative dataType="bit" bitLength="1">false</negative>
+                  <causeOfTransmission>
+                    <CauseOfTransmission dataType="uint" bitLength="6" stringRepresentation="INTERROGATED_BY_GENERAL_INTERROGATION_INROGEN">20</CauseOfTransmission>
+                  </causeOfTransmission>
+                  <originatorAddress dataType="uint" bitLength="8">0</originatorAddress>
+                  <asduAddressField dataType="uint" bitLength="16">48</asduAddressField>
+                  <sequenceStartAddress dataType="uint" bitLength="24">22</sequenceStartAddress>
+                  <informationObjects isList="true">
+                    <InformationObject>
+                      <InformationObjectWithoutTime>
+                        <InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION>
+                          <diq>
+                            <DoublePointInformation>
+                              <invalid dataType="bit" bitLength="1">false</invalid>
+                              <notTopical dataType="bit" bitLength="1">false</notTopical>
+                              <substituted dataType="bit" bitLength="1">false</substituted>
+                              <blocked dataType="bit" bitLength="1">false</blocked>
+                              <reserved dataType="uint" bitLength="2">0</reserved>
+                              <dpiCode dataType="uint" bitLength="2">1</dpiCode>
+                            </DoublePointInformation>
+                          </diq>
+                        </InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION>
+                      </InformationObjectWithoutTime>
+                    </InformationObject>
+                    <InformationObject>
+                      <InformationObjectWithoutTime>
+                        <InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION>
+                          <diq>
+                            <DoublePointInformation>
+                              <invalid dataType="bit" bitLength="1">false</invalid>
+                              <notTopical dataType="bit" bitLength="1">false</notTopical>
+                              <substituted dataType="bit" bitLength="1">false</substituted>
+                              <blocked dataType="bit" bitLength="1">false</blocked>
+                              <reserved dataType="uint" bitLength="2">0</reserved>
+                              <dpiCode dataType="uint" bitLength="2">2</dpiCode>
+                            </DoublePointInformation>
+                          </diq>
+                        </InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION>
+                      </InformationObjectWithoutTime>
+                    </InformationObject>
+                  </informationObjects>
+                </ASDU>
+              </asdu>
+            </APDUIFormat>
+          </APDU>
+        </apdus>
+      </APDUs>
+    </xml>
+  </testcase>
+
 </test:testsuite>

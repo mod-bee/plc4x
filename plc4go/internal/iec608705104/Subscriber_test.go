@@ -346,35 +346,27 @@ func TestSubscriber_DeliversUndecodableAsdusWithACode(t *testing.T) {
 	assert.Equal(t, apiValues.NULL, nested(t, events[0].GetValue("file"), fieldValue).GetPlcValueType())
 }
 
-// A sequence-of-objects ASDU (structure qualifier set, several objects) carries one address for all
-// of them, which the generated model cannot represent - it reads an address in front of every
-// object. Publishing it would file one point's reading under another point's address, so the whole
-// ASDU is refused rather than delivered wrong.
-func TestSubscriber_RefusesASequenceOfObjectsAsdu(t *testing.T) {
+// A sequence of objects (structure qualifier set) carries the first object's address only; the
+// objects after it are at the addresses after it, and each is delivered as its own point there. A
+// station answers a general interrogation this way for consecutive points.
+func TestSubscriber_DeliversEveryObjectOfASequence(t *testing.T) {
 	connection, codec := newHandshakenConnection(t)
 
 	handle, responseCode := subscribe(t, connection, eventDriven, "all", "*/*")
 	require.Equal(t, apiModel.PlcResponseCode_OK, responseCode)
 	collected := collectEvents(t, handle)
 
-	// The structure qualifier is the top bit of the octet the number of objects sits in.
-	sequenceAsdu := asduBytes(0x01, 3, 10,
-		informationObjectBytes(1, 0x01),
-		informationObjectBytes(2, 0x01))
-	sequenceAsdu[1] |= 0x80
-	pushAsdu(t, codec, 0, sequenceAsdu)
+	pushAsdu(t, codec, 0, sequenceAsduBytes(0x01, 20, 10, 5, []byte{0x01}, []byte{0x00}, []byte{0x01}))
 
-	assert.Empty(t, collected(0), "a mis-addressable ASDU is dropped rather than delivered wrong")
-
-	// A single-object ASDU is the one case where both layouts are the same bytes, so it still gets
-	// through even with the structure qualifier set.
-	singleAsdu := asduBytes(0x01, 3, 10, informationObjectBytes(1, 0x01))
-	singleAsdu[1] |= 0x80
-	pushAsdu(t, codec, 1, singleAsdu)
-
-	events := collected(1)
-	require.Len(t, events, 1)
-	assert.Equal(t, "10/1", events[0].GetAddress("all"))
+	events := collected(3)
+	require.Len(t, events, 3)
+	for index, want := range []struct {
+		address string
+		on      bool
+	}{{"10/5", true}, {"10/6", false}, {"10/7", true}} {
+		assert.Equal(t, want.address, events[index].GetAddress("all"))
+		assert.Equal(t, want.on, events[index].GetValue("all").GetStruct()[fieldValue].GetBool())
+	}
 }
 
 // A closed connection delivers nothing further, and closing while a subscription is live must not

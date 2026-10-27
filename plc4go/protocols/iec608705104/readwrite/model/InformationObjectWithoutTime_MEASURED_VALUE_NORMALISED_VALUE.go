@@ -64,7 +64,7 @@ var _ InformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE = (*_Informat
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE)(nil)
 
 // NewInformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE factory function for _InformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE
-func NewInformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE(address uint32, nva NormalizedValue, qds QualityDescriptor) *_InformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE {
+func NewInformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE(address *uint32, nva NormalizedValue, qds QualityDescriptor) *_InformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE {
 	if nva == nil {
 		panic("nva of type NormalizedValue for InformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE must not be nil")
 	}
@@ -280,7 +280,7 @@ func (m *_InformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE) GetLengt
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE InformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE, err error) {
+func (m *_InformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE InformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

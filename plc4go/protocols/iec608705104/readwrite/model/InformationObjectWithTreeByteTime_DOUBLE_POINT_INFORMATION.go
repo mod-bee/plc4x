@@ -64,7 +64,7 @@ var _ InformationObjectWithTreeByteTime_DOUBLE_POINT_INFORMATION = (*_Informatio
 var _ InformationObjectWithTreeByteTimeRequirements = (*_InformationObjectWithTreeByteTime_DOUBLE_POINT_INFORMATION)(nil)
 
 // NewInformationObjectWithTreeByteTime_DOUBLE_POINT_INFORMATION factory function for _InformationObjectWithTreeByteTime_DOUBLE_POINT_INFORMATION
-func NewInformationObjectWithTreeByteTime_DOUBLE_POINT_INFORMATION(address uint32, diq DoublePointInformation, cp24Time2a ThreeOctetBinaryTime) *_InformationObjectWithTreeByteTime_DOUBLE_POINT_INFORMATION {
+func NewInformationObjectWithTreeByteTime_DOUBLE_POINT_INFORMATION(address *uint32, diq DoublePointInformation, cp24Time2a ThreeOctetBinaryTime) *_InformationObjectWithTreeByteTime_DOUBLE_POINT_INFORMATION {
 	if diq == nil {
 		panic("diq of type DoublePointInformation for InformationObjectWithTreeByteTime_DOUBLE_POINT_INFORMATION must not be nil")
 	}
@@ -280,7 +280,7 @@ func (m *_InformationObjectWithTreeByteTime_DOUBLE_POINT_INFORMATION) GetLengthI
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithTreeByteTime_DOUBLE_POINT_INFORMATION) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithTreeByteTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithTreeByteTime_DOUBLE_POINT_INFORMATION InformationObjectWithTreeByteTime_DOUBLE_POINT_INFORMATION, err error) {
+func (m *_InformationObjectWithTreeByteTime_DOUBLE_POINT_INFORMATION) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithTreeByteTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithTreeByteTime_DOUBLE_POINT_INFORMATION InformationObjectWithTreeByteTime_DOUBLE_POINT_INFORMATION, err error) {
 	m.InformationObjectWithTreeByteTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

@@ -67,7 +67,7 @@ var _ InformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT = (*_InformationObje
 var _ InformationObjectWithTreeByteTimeRequirements = (*_InformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT)(nil)
 
 // NewInformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT factory function for _InformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT
-func NewInformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT(address uint32, bsi BinaryStateInformation, qds QualityDescriptor, cp24Time2a ThreeOctetBinaryTime) *_InformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT {
+func NewInformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT(address *uint32, bsi BinaryStateInformation, qds QualityDescriptor, cp24Time2a ThreeOctetBinaryTime) *_InformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT {
 	if bsi == nil {
 		panic("bsi of type BinaryStateInformation for InformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT must not be nil")
 	}
@@ -316,7 +316,7 @@ func (m *_InformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT) GetLengthInByte
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithTreeByteTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithTreeByteTime_BITSTRING_OF_32_BIT InformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT, err error) {
+func (m *_InformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithTreeByteTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithTreeByteTime_BITSTRING_OF_32_BIT InformationObjectWithTreeByteTime_BITSTRING_OF_32_BIT, err error) {
 	m.InformationObjectWithTreeByteTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

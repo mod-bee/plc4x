@@ -160,15 +160,34 @@ func isVolatileField(name string) bool {
 	}
 }
 
+// objectAddress is the information object address of the i-th object of an ASDU. A sequence of
+// objects (structure qualifier set) puts only the first object's address on the wire and numbers the
+// others on from it (IEC 60870-5-101 7.2.2.1); otherwise every object carries its own address. It
+// reports false when the address the ASDU's form calls for is missing, which a parsed ASDU never is.
+func objectAddress(asdu readWriteModel.ASDU, i int) (uint32, bool) {
+	if asdu.GetStructureQualifier() {
+		start := asdu.GetSequenceStartAddress()
+		if start == nil {
+			return 0, false
+		}
+		return *start + uint32(i), true
+	}
+	objects := asdu.GetInformationObjects()
+	if i >= len(objects) || objects[i] == nil || objects[i].GetAddress() == nil {
+		return 0, false
+	}
+	return *objects[i].GetAddress(), true
+}
+
 // decodePoint turns one information object of an ASDU into the value a subscription event carries.
 // It hands back the value, the fingerprint change detection compares, and the response code the
 // event reports: OK for a point which decoded, UNSUPPORTED for an ASDU type whose payload the
 // generated model carries nothing decodable for.
-func decodePoint(asdu readWriteModel.ASDU, informationObject readWriteModel.InformationObject) (apiValues.PlcValue, string, apiModel.PlcResponseCode) {
+func decodePoint(asdu readWriteModel.ASDU, informationObject readWriteModel.InformationObject, informationObjectAddress uint32) (apiValues.PlcValue, string, apiModel.PlcResponseCode) {
 	typeIdentification := asdu.GetTypeIdentification()
 	fields := &pointFields{}
 	fields.add(fieldAsduAddress, spiValues.NewPlcUINT(asdu.GetAsduAddressField()))
-	fields.add(fieldObjectAddress, spiValues.NewPlcUDINT(informationObject.GetAddress()))
+	fields.add(fieldObjectAddress, spiValues.NewPlcUDINT(informationObjectAddress))
 	fields.add(fieldTypeIdentification, spiValues.NewPlcUSINT(uint8(typeIdentification)))
 	fields.add(fieldTypeName, spiValues.NewPlcSTRING(typeIdentification.String()))
 	fields.add(fieldCauseOfTransmission, spiValues.NewPlcSTRING(asdu.GetCauseOfTransmission().String()))

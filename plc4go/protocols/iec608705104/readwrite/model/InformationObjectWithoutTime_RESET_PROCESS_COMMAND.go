@@ -61,7 +61,7 @@ var _ InformationObjectWithoutTime_RESET_PROCESS_COMMAND = (*_InformationObjectW
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_RESET_PROCESS_COMMAND)(nil)
 
 // NewInformationObjectWithoutTime_RESET_PROCESS_COMMAND factory function for _InformationObjectWithoutTime_RESET_PROCESS_COMMAND
-func NewInformationObjectWithoutTime_RESET_PROCESS_COMMAND(address uint32, qrp QualifierOfResetProcessCommand) *_InformationObjectWithoutTime_RESET_PROCESS_COMMAND {
+func NewInformationObjectWithoutTime_RESET_PROCESS_COMMAND(address *uint32, qrp QualifierOfResetProcessCommand) *_InformationObjectWithoutTime_RESET_PROCESS_COMMAND {
 	if qrp == nil {
 		panic("qrp of type QualifierOfResetProcessCommand for InformationObjectWithoutTime_RESET_PROCESS_COMMAND must not be nil")
 	}
@@ -244,7 +244,7 @@ func (m *_InformationObjectWithoutTime_RESET_PROCESS_COMMAND) GetLengthInBytes(c
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_RESET_PROCESS_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_RESET_PROCESS_COMMAND InformationObjectWithoutTime_RESET_PROCESS_COMMAND, err error) {
+func (m *_InformationObjectWithoutTime_RESET_PROCESS_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_RESET_PROCESS_COMMAND InformationObjectWithoutTime_RESET_PROCESS_COMMAND, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

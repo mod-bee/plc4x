@@ -64,7 +64,7 @@ var _ InformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE = (*_InformationO
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE)(nil)
 
 // NewInformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE factory function for _InformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE
-func NewInformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE(address uint32, sva ScaledValue, qds QualityDescriptor) *_InformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE {
+func NewInformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE(address *uint32, sva ScaledValue, qds QualityDescriptor) *_InformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE {
 	if sva == nil {
 		panic("sva of type ScaledValue for InformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE must not be nil")
 	}
@@ -280,7 +280,7 @@ func (m *_InformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE) GetLengthInB
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE InformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE, err error) {
+func (m *_InformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE InformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

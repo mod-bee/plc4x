@@ -70,7 +70,7 @@ var _ InformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT = (*_InformationObj
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT)(nil)
 
 // NewInformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT factory function for _InformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT
-func NewInformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT(address uint32, nof NameOfFile, nos NameOfSection, lsq LastSectionOrSegmentQualifier, chs Checksum) *_InformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT {
+func NewInformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT(address *uint32, nof NameOfFile, nos NameOfSection, lsq LastSectionOrSegmentQualifier, chs Checksum) *_InformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT {
 	if nof == nil {
 		panic("nof of type NameOfFile for InformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT must not be nil")
 	}
@@ -352,7 +352,7 @@ func (m *_InformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT) GetLengthInByt
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT InformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT, err error) {
+func (m *_InformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT InformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

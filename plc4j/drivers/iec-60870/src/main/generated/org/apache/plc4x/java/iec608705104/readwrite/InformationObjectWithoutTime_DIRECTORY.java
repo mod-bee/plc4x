@@ -86,8 +86,8 @@ public class InformationObjectWithoutTime_DIRECTORY extends InformationObjectWit
   }
 
   public static InformationObjectWithoutTimeBuilder staticParseInformationObjectWithoutTimeBuilder(
-      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte) throws
-      BufferException {
+      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte,
+      boolean addressed) throws BufferException {
     readBuffer.pushContext(WithOption.WithName("InformationObjectWithoutTime_DIRECTORY"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
     int startPos = readBuffer.getPositionInBits();
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
@@ -169,7 +169,7 @@ public class InformationObjectWithoutTime_DIRECTORY extends InformationObjectWit
       this.cp56Time2a = cp56Time2a;
     }
 
-    public InformationObjectWithoutTime build(int address) {
+    public InformationObjectWithoutTime build(Integer address) {
       return new InformationObjectWithoutTime_DIRECTORY(address, nof, lof, sof, cp56Time2a);
     }
   }

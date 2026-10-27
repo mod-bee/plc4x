@@ -121,7 +121,8 @@ func (m Iec608705104XmlParserHelper) Parse(typeName string, xmlString string, pa
 			return nil, err
 		}
 		numTimeByte := uint8(parsedUint1)
-		return InformationObjectParseWithBuffer[InformationObject](context.Background(), utils.NewXmlReadBuffer(strings.NewReader(xmlString)), typeIdentification, numTimeByte)
+		addressed := parserArguments[2] == "true"
+		return InformationObjectParseWithBuffer[InformationObject](context.Background(), utils.NewXmlReadBuffer(strings.NewReader(xmlString)), typeIdentification, numTimeByte, addressed)
 	case "FileReadyQualifier":
 		return FileReadyQualifierParseWithBuffer(context.Background(), utils.NewXmlReadBuffer(strings.NewReader(xmlString)))
 	case "StatusChangeDetection":

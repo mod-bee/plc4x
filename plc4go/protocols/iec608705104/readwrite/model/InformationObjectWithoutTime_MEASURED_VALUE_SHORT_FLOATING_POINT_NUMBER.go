@@ -64,7 +64,7 @@ var _ InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER = 
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER)(nil)
 
 // NewInformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER factory function for _InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER
-func NewInformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER(address uint32, value float32, qds QualityDescriptor) *_InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER {
+func NewInformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER(address *uint32, value float32, qds QualityDescriptor) *_InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER {
 	if qds == nil {
 		panic("qds of type QualityDescriptor for InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER must not be nil")
 	}
@@ -262,7 +262,7 @@ func (m *_InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBE
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER, err error) {
+func (m *_InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

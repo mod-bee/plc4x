@@ -80,7 +80,7 @@ type _InformationObjectWithSevenByteTime struct {
 var _ InformationObjectWithSevenByteTimeContract = (*_InformationObjectWithSevenByteTime)(nil)
 
 // NewInformationObjectWithSevenByteTime factory function for _InformationObjectWithSevenByteTime
-func NewInformationObjectWithSevenByteTime(address uint32) *_InformationObjectWithSevenByteTime {
+func NewInformationObjectWithSevenByteTime(address *uint32) *_InformationObjectWithSevenByteTime {
 	_result := &_InformationObjectWithSevenByteTime{
 		InformationObjectContract: NewInformationObject(address),
 	}
@@ -399,7 +399,7 @@ func (m *_InformationObjectWithSevenByteTime) GetLengthInBytes(ctx context.Conte
 	return m._SubType.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithSevenByteTime) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObject, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithSevenByteTime InformationObjectWithSevenByteTime, err error) {
+func (m *_InformationObjectWithSevenByteTime) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObject, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithSevenByteTime InformationObjectWithSevenByteTime, err error) {
 	m.InformationObjectContract = parent
 	positionAware := readBuffer
 	_ = positionAware
@@ -413,47 +413,47 @@ func (m *_InformationObjectWithSevenByteTime) parse(ctx context.Context, readBuf
 	var _child InformationObjectWithSevenByteTime
 	switch {
 	case typeIdentification == TypeIdentification_SINGLE_POINT_INFORMATION_WITH_TIME_TAG_CP56TIME2A: // InformationObjectWithSevenByteTime_SINGLE_POINT_INFORMATION
-		if _child, err = new(_InformationObjectWithSevenByteTime_SINGLE_POINT_INFORMATION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithSevenByteTime_SINGLE_POINT_INFORMATION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithSevenByteTime_SINGLE_POINT_INFORMATION for type-switch of InformationObjectWithSevenByteTime")
 		}
 	case typeIdentification == TypeIdentification_DOUBLE_POINT_INFORMATION_WITH_TIME_TAG_CP56TIME2A: // InformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION
-		if _child, err = new(_InformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithSevenByteTime_DOUBLE_POINT_INFORMATION for type-switch of InformationObjectWithSevenByteTime")
 		}
 	case typeIdentification == TypeIdentification_STEP_POSITION_INFORMATION_WITH_TIME_TAG_CP56TIME2A: // InformationObjectWithSevenByteTime_STEP_POSITION_INFORMATION
-		if _child, err = new(_InformationObjectWithSevenByteTime_STEP_POSITION_INFORMATION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithSevenByteTime_STEP_POSITION_INFORMATION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithSevenByteTime_STEP_POSITION_INFORMATION for type-switch of InformationObjectWithSevenByteTime")
 		}
 	case typeIdentification == TypeIdentification_BITSTRING_OF_32_BIT_WITH_TIME_TAG_CP56TIME2A: // InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT
-		if _child, err = new(_InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT for type-switch of InformationObjectWithSevenByteTime")
 		}
 	case typeIdentification == TypeIdentification_MEASURED_VALUE_NORMALISED_VALUE_WITH_TIME_TAG_CP56TIME2A: // InformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE
-		if _child, err = new(_InformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithSevenByteTime_MEASURED_VALUE_NORMALISED_VALUE for type-switch of InformationObjectWithSevenByteTime")
 		}
 	case typeIdentification == TypeIdentification_MEASURED_VALUE_SCALED_VALUE_WITH_TIME_TAG_CP56TIME2A: // InformationObjectWithSevenByteTime_MEASURED_VALUE_SCALED_VALUE
-		if _child, err = new(_InformationObjectWithSevenByteTime_MEASURED_VALUE_SCALED_VALUE).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithSevenByteTime_MEASURED_VALUE_SCALED_VALUE).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithSevenByteTime_MEASURED_VALUE_SCALED_VALUE for type-switch of InformationObjectWithSevenByteTime")
 		}
 	case typeIdentification == TypeIdentification_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER_WITH_TIME_TAG_CP56TIME2A: // InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER
-		if _child, err = new(_InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER for type-switch of InformationObjectWithSevenByteTime")
 		}
 	case typeIdentification == TypeIdentification_INTEGRATED_TOTALS_WITH_TIME_TAG_CP56TIME2A: // InformationObjectWithSevenByteTime_INTEGRATED_TOTALS
-		if _child, err = new(_InformationObjectWithSevenByteTime_INTEGRATED_TOTALS).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithSevenByteTime_INTEGRATED_TOTALS).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithSevenByteTime_INTEGRATED_TOTALS for type-switch of InformationObjectWithSevenByteTime")
 		}
 	case typeIdentification == TypeIdentification_EVENT_OF_PROTECTION_EQUIPMENT_WITH_TIME_TAG_CP56TIME2A: // InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT
-		if _child, err = new(_InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT for type-switch of InformationObjectWithSevenByteTime")
 		}
 	case typeIdentification == TypeIdentification_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT_WITH_TIME_TAG_CP56TIME2A: // InformationObjectWithSevenByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT
-		if _child, err = new(_InformationObjectWithSevenByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithSevenByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithSevenByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT for type-switch of InformationObjectWithSevenByteTime")
 		}
 	case typeIdentification == TypeIdentification_PACKED_OUTPUT_CIRCUIT_INFORMATION_OF_PROTECTION_EQUIPMENT_WITH_TIME_TAG_CP56TIME2A: // InformationObjectWithSevenByteTime_PACKED_OUTPUT_CIRCUIT_INFORMATION_OF_PROTECTION_EQUIPMENT
-		if _child, err = new(_InformationObjectWithSevenByteTime_PACKED_OUTPUT_CIRCUIT_INFORMATION_OF_PROTECTION_EQUIPMENT).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithSevenByteTime_PACKED_OUTPUT_CIRCUIT_INFORMATION_OF_PROTECTION_EQUIPMENT).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithSevenByteTime_PACKED_OUTPUT_CIRCUIT_INFORMATION_OF_PROTECTION_EQUIPMENT for type-switch of InformationObjectWithSevenByteTime")
 		}
 	default:

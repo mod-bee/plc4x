@@ -70,7 +70,7 @@ var _ InformationObjectWithTreeByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPM
 var _ InformationObjectWithTreeByteTimeRequirements = (*_InformationObjectWithTreeByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT)(nil)
 
 // NewInformationObjectWithTreeByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT factory function for _InformationObjectWithTreeByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT
-func NewInformationObjectWithTreeByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT(address uint32, sep SingleEventOfProtectionEquipment, qdp QualityDescriptorForPointsOfProtectionEquipment, cp16Time2a TwoOctetBinaryTime, cp24Time2a ThreeOctetBinaryTime) *_InformationObjectWithTreeByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT {
+func NewInformationObjectWithTreeByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT(address *uint32, sep SingleEventOfProtectionEquipment, qdp QualityDescriptorForPointsOfProtectionEquipment, cp16Time2a TwoOctetBinaryTime, cp24Time2a ThreeOctetBinaryTime) *_InformationObjectWithTreeByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT {
 	if sep == nil {
 		panic("sep of type SingleEventOfProtectionEquipment for InformationObjectWithTreeByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT must not be nil")
 	}
@@ -352,7 +352,7 @@ func (m *_InformationObjectWithTreeByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQ
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithTreeByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithTreeByteTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithTreeByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT InformationObjectWithTreeByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT, err error) {
+func (m *_InformationObjectWithTreeByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithTreeByteTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithTreeByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT InformationObjectWithTreeByteTime_PACKED_START_EVENTS_OF_PROTECTION_EQUIPMENT, err error) {
 	m.InformationObjectWithTreeByteTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

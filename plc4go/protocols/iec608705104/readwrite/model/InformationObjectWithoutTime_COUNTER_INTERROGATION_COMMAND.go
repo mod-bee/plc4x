@@ -61,7 +61,7 @@ var _ InformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND = (*_Informatio
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND)(nil)
 
 // NewInformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND factory function for _InformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND
-func NewInformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND(address uint32, qcc QualifierOfCounterInterrogationCommand) *_InformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND {
+func NewInformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND(address *uint32, qcc QualifierOfCounterInterrogationCommand) *_InformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND {
 	if qcc == nil {
 		panic("qcc of type QualifierOfCounterInterrogationCommand for InformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND must not be nil")
 	}
@@ -244,7 +244,7 @@ func (m *_InformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND) GetLengthI
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND InformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND, err error) {
+func (m *_InformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND InformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

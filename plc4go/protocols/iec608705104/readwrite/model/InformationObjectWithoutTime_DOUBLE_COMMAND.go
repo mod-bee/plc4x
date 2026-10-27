@@ -61,7 +61,7 @@ var _ InformationObjectWithoutTime_DOUBLE_COMMAND = (*_InformationObjectWithoutT
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_DOUBLE_COMMAND)(nil)
 
 // NewInformationObjectWithoutTime_DOUBLE_COMMAND factory function for _InformationObjectWithoutTime_DOUBLE_COMMAND
-func NewInformationObjectWithoutTime_DOUBLE_COMMAND(address uint32, dco DoubleCommand) *_InformationObjectWithoutTime_DOUBLE_COMMAND {
+func NewInformationObjectWithoutTime_DOUBLE_COMMAND(address *uint32, dco DoubleCommand) *_InformationObjectWithoutTime_DOUBLE_COMMAND {
 	if dco == nil {
 		panic("dco of type DoubleCommand for InformationObjectWithoutTime_DOUBLE_COMMAND must not be nil")
 	}
@@ -244,7 +244,7 @@ func (m *_InformationObjectWithoutTime_DOUBLE_COMMAND) GetLengthInBytes(ctx cont
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_DOUBLE_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_DOUBLE_COMMAND InformationObjectWithoutTime_DOUBLE_COMMAND, err error) {
+func (m *_InformationObjectWithoutTime_DOUBLE_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_DOUBLE_COMMAND InformationObjectWithoutTime_DOUBLE_COMMAND, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer
