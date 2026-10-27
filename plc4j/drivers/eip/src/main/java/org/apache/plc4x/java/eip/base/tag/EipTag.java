@@ -42,13 +42,14 @@ import java.util.regex.Pattern;
 public class EipTag implements PlcTag, Serializable {
 
     private static final Pattern ADDRESS_PATTERN = Pattern.compile(
-        "^(?<tag>[%a-zA-Z_.0-9]+)"
+        // A tag is controller-scoped (Level, Recipe.Step) or program-scoped (Program:MainProgram.Level).
+        "^(?<tag>(?i:program):[A-Za-z_][A-Za-z_0-9]*\\.[A-Za-z_.0-9]+|[%a-zA-Z_.0-9]+)"
             + ArrayNotationParser.ARRAY_GROUP
             + "(?::(?<dataType>[A-Z]+))?$");
 
-    /** What a CIP request can encode of a selection: one dimension, starting no later than 255. */
+    /** What a CIP request can encode of a selection: one dimension, its offset in a member segment of 8, 16 or 32 bits. */
     private static final AddressConstraints CONSTRAINTS = AddressConstraints.SINGLE_DIMENSION
-        .withMaxIndex(255)
+        .withMaxIndex(Integer.MAX_VALUE)
         .withOnlyTrailingDimensionMayBeRange(true);
 
     /**
@@ -58,6 +59,9 @@ public class EipTag implements PlcTag, Serializable {
      * again for every request that uses it.
      */
     private static final Pattern PATH_PATTERN = Pattern.compile("([.\\[\\]])*([A-Za-z_0-9]+)");
+
+    /** The program a program-scoped tag names: Program:MainProgram in Program:MainProgram.Level. */
+    private static final Pattern PROGRAM_SCOPE = Pattern.compile("^%?((?i:program):[A-Za-z_][A-Za-z_0-9]*)");
 
     private static final String GROUP_NAME_TAG = "tag";
     private static final String GROUP_NAME_ARRAY = "array";
@@ -72,7 +76,7 @@ public class EipTag implements PlcTag, Serializable {
     }
 
     /** An array member, addressed by index. */
-    public record MemberElement(short index) implements PathElement {
+    public record MemberElement(long index) implements PathElement {
     }
 
     /** A CIP request carries its element count in 16 bits. */
@@ -164,20 +168,27 @@ public class EipTag implements PlcTag, Serializable {
         if (tag == null) {
             return Collections.emptyList();
         }
-        Matcher matcher = PATH_PATTERN.matcher(ArrayNotationParser.addressPart(tag));
+        String path = ArrayNotationParser.addressPart(tag);
         List<PathElement> elements = new ArrayList<>(2);
+        // A program-scoped tag starts with the program, "Program:MainProgram", as one symbol: its colon is part of it.
+        Matcher program = PROGRAM_SCOPE.matcher(path);
+        if (program.find()) {
+            elements.add(new SymbolElement(program.group(1)));
+            path = path.substring(program.end());
+        }
+        Matcher matcher = PATH_PATTERN.matcher(path);
         while (matcher.find()) {
             if ("[".equals(matcher.group(1))) {
                 // An index written inside the path rather than as a trailing selection, as in
                 // "a[2].b". It addresses one element, so it is a member segment like any other.
-                elements.add(new MemberElement(Short.parseShort(matcher.group(2))));
+                elements.add(new MemberElement(Long.parseLong(matcher.group(2))));
             } else {
                 elements.add(new SymbolElement(matcher.group(2)));
             }
         }
         if (!ArrayNotationParser.expressionPart(tag).isEmpty() && !arrayInfo.isEmpty()) {
             ArrayInfo first = arrayInfo.getFirst();
-            short offset = (short) (first.getLowerBound() - first.getBase());
+            long offset = first.getLowerBound() - first.getBase();
             // A member segment says where the selection starts. Starting at the first element is
             // what a request with no member segment already means, so emitting MemberID(0) would
             // add two bytes that say nothing - and every address of the form "tag:TYPE:n" used to

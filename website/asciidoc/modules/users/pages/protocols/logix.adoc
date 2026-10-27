@@ -97,9 +97,11 @@ easier, as you do not need to specify the Datatype for reading.
 NOTE: The selection comes *before* the data type, and a range says how many elements are read.
 Reading four DINTs starting at index 0 is `myArray[0..3]:DINT`.
 
-NOTE: A CIP array index travels in a `MemberID`, whose instance field is a `uint 8`, so a
-selection cannot start past index 255. A range may run beyond it - the request carries a
-start and a count - but it cannot begin there.
+NOTE: A CIP array index travels in a `MemberID` of 8 bits up to 255, 16 bits up to 65535, and
+32 bits past that, so a selection can start at any index (`myArray[300]:DINT`).
+
+NOTE: A program-scoped tag names its program first: `Program:MainProgram.Level:REAL`. The
+program (`Program:MainProgram`) travels as one symbol, then the tag's members.
 
 CAUTION: The Java driver's tag name does not require a leading `%` - `rate:DINT` parses in
 Java. The Go driver's address pattern requires the tag name to start with `%`, so the same
