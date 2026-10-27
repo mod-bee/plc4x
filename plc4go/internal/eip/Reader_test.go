@@ -157,20 +157,36 @@ func TestToAnsi(t *testing.T) {
 // a[300] addressed element 44 and produced a request that looked entirely valid. The Java
 // driver rejects the same address when it serializes ("Value 300 is out of range for 8 bits"),
 // so this reports it too rather than reading the wrong element.
-func TestToAnsiRejectsOutOfRangeIndex(t *testing.T) {
-	for _, tag := range []string{"a[256]", "a[300]", "myArray[1000]"} {
-		t.Run(tag, func(t *testing.T) {
-			_, err := toAnsi(tag)
-			require.Error(t, err)
-			assert.Contains(t, err.Error(), "255")
+// An element index takes the member segment it fits: 8 bits up to 255 (28 nn), 16 bits up to 65535 (29 00 nn nn), 32
+// bits past that (2A 00 nn nn nn nn) - little-endian, after a pad octet, as a padded EPATH carries them.
+func TestToAnsiMemberSegmentWidths(t *testing.T) {
+	for _, testCase := range []struct {
+		tag  string
+		want []byte
+	}{
+		{"a[255]", []byte{0x91, 0x01, 0x61, 0x00, 0x28, 0xFF}},
+		{"a[256]", []byte{0x91, 0x01, 0x61, 0x00, 0x29, 0x00, 0x00, 0x01}},
+		{"myArray[1000]", []byte{0x91, 0x07, 'm', 'y', 'A', 'r', 'r', 'a', 'y', 0x00, 0x29, 0x00, 0xE8, 0x03}},
+		{"a[70000]", []byte{0x91, 0x01, 0x61, 0x00, 0x2A, 0x00, 0x70, 0x11, 0x01, 0x00}},
+	} {
+		t.Run(testCase.tag, func(t *testing.T) {
+			actual, err := toAnsi(testCase.tag)
+			require.NoError(t, err)
+			assert.Equal(t, testCase.want, actual)
 		})
 	}
 }
 
-func TestToAnsiAcceptsTheLargestIndex(t *testing.T) {
-	actual, err := toAnsi("a[255]")
+// A program-scoped tag's program is one symbol, colon and all: Program:MainProgram.Level is
+// 91 13 "Program:MainProgram" 00 | 91 05 "Level" 00.
+func TestToAnsiProgramScope(t *testing.T) {
+	actual, err := toAnsi("Program:MainProgram.Level")
 	require.NoError(t, err)
-	assert.Equal(t, []byte{0x91, 0x01, 0x61, 0x00, 0x28, 0xFF}, actual)
+	want := append([]byte{0x91, 19}, []byte("Program:MainProgram")...)
+	want = append(want, 0x00, 0x91, 5)
+	want = append(want, []byte("Level")...)
+	want = append(want, 0x00)
+	assert.Equal(t, want, actual)
 }
 
 // The CIP path carries a member segment only when the selection starts past the first element.

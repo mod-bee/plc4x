@@ -154,7 +154,7 @@ func TestParseTagRejectsTheOldElementCount(t *testing.T) {
 // What a CIP request can encode: one dimension, starting no later than 255, since the member
 // segment that carries the offset is a uint 8.
 func TestParseTagRejectsWhatCipCannotEncode(t *testing.T) {
-	for _, address := range []string{"%arr[0..1][2..3]:DINT", "%arr[256]:DINT", "%arr[300..302]:DINT"} {
+	for _, address := range []string{"%arr[0..1][2..3]:DINT", "%Program:.Level:DINT", "%Program:Main:DINT"} {
 		t.Run(address, func(t *testing.T) {
 			_, err := NewTagHandler().ParseTag(address)
 			require.Error(t, err, address)
@@ -164,7 +164,8 @@ func TestParseTagRejectsWhatCipCannotEncode(t *testing.T) {
 
 // A rendered address must re-parse to the same tag, so a tag can be carried as a string.
 func TestParseTagRoundTrips(t *testing.T) {
-	for _, address := range []string{"%rate:DINT", "%arr[4]:DINT", "%arr[0..3]:DINT", "%arr[4..7;1]:INT", "%struct.member:INT"} {
+	for _, address := range []string{"%rate:DINT", "%arr[4]:DINT", "%arr[0..3]:DINT", "%arr[4..7;1]:INT", "%struct.member:INT",
+		"%arr[300]:DINT", "%arr[300..302]:DINT", "%Program:MainProgram.Level:REAL", "%Program:Line2.Recipe.Step[3]:DINT"} {
 		t.Run(address, func(t *testing.T) {
 			tag, err := NewTagHandler().ParseTag(address)
 			require.NoError(t, err)

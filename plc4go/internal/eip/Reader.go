@@ -23,6 +23,7 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
+	"math"
 	"regexp"
 	"runtime/debug"
 	"strconv"
@@ -352,11 +353,36 @@ func cipPathOf(tag PlcTag) ([]byte, error) {
 	return toAnsi(address)
 }
 
+// programScope is the program a program-scoped tag names: Program:MainProgram in Program:MainProgram.Level.
+var programScope = regexp.MustCompile(`^%?(?i:program):[A-Za-z_][A-Za-z_0-9]*`)
+
+// memberSegment is the logical segment of an array element: 8 bits up to 255, 16 up to 65535, 32 past that.
+func memberSegment(index uint32) readWriteModel.PathSegment {
+	pad := uint8(0)
+	switch {
+	case index <= math.MaxUint8:
+		instance := uint8(index)
+		return readWriteModel.NewLogicalSegment(readWriteModel.NewMemberID(0, &instance, nil, nil, nil))
+	case index <= math.MaxUint16:
+		instance := uint16(index)
+		return readWriteModel.NewLogicalSegment(readWriteModel.NewMemberID(1, nil, &pad, &instance, nil))
+	default:
+		return readWriteModel.NewLogicalSegment(readWriteModel.NewMemberID(2, nil, &pad, nil, &index))
+	}
+}
+
 func toAnsi(tag string) ([]byte, error) {
 	ctx := context.TODO()
 
 	segments := make([]readWriteModel.PathSegment, 0)
 	lengthInBytes := uint16(0)
+	// A program-scoped tag starts with the program, "Program:MainProgram", as one symbol: its colon is part of it.
+	if program := programScope.FindString(tag); program != "" {
+		segment := readWriteModel.NewDataSegment(readWriteModel.NewAnsiExtendedSymbolSegment(program, ansiPad(program)))
+		lengthInBytes += uint16(segment.GetLengthInBytes(ctx))
+		segments = append(segments, segment)
+		tag = tag[len(program):]
+	}
 	submatch := resourceAddressPattern.FindAllStringSubmatch(tag, -1)
 	for _, match := range submatch {
 		identifier := match[2]
@@ -369,12 +395,10 @@ func toAnsi(tag string) ([]byte, error) {
 				if err != nil {
 					return nil, fmt.Errorf("error parsing address %s, identifier %s couldn't be parsed to an integer", tag, identifier)
 				}
-				// MemberID.instance is a uint 8 in the mspec, so it holds 0 to 255. Converting
-				// a larger index would wrap it silently and address the wrong element.
-				if numericIdentifier < 0 || numericIdentifier > 255 {
-					return nil, fmt.Errorf("error parsing address %s, index %d is out of range 0 to 255", tag, numericIdentifier)
+				if numericIdentifier < 0 || numericIdentifier > math.MaxUint32 {
+					return nil, fmt.Errorf("error parsing address %s, index %d is out of range 0 to %d", tag, numericIdentifier, uint32(math.MaxUint32))
 				}
-				newSegment = readWriteModel.NewLogicalSegment(readWriteModel.NewMemberID(0, uint8(numericIdentifier)))
+				newSegment = memberSegment(uint32(numericIdentifier))
 			} else {
 				newSegment = readWriteModel.NewDataSegment(readWriteModel.NewAnsiExtendedSymbolSegment(identifier, ansiPad(identifier)))
 			}

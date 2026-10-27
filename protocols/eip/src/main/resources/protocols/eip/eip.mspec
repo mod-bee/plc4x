@@ -381,8 +381,13 @@
             [simple uint    8   instance]
         ]
         ['0x02' MemberID
-            [simple uint    2   format]
-            [simple uint    8   instance]
+            // The member (an array element) in 8 bits (format 0), or after a pad octet in 16 bits (1) or 32 bits
+            // (2), as a padded EPATH carries them (CIP Vol 1 C-1.4.2): 28 nn, 29 00 nn nn, 2A 00 nn nn nn nn.
+            [simple   uint    2   format]
+            [optional uint    8   instance   'format == 0']
+            [optional uint    8   pad        'format != 0']
+            [optional uint   16   instance16 'format == 1']
+            [optional uint   32   instance32 'format == 2']
         ]
         ['0x04' AttributeID
             [simple uint 2 format]
