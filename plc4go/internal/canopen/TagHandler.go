@@ -37,7 +37,7 @@ const (
 
 var (
 	sdoPattern       = regexp.MustCompile(`^SDO:` + nodePattern + `(?:/(?P<answerNodeId>\d+))?:` + addressPattern + `$`)
-	pdoPattern       = regexp.MustCompile(`^(?P<pdo>(?:RECEIVE|TRANSMIT)_PDO_[1-4]):` + nodePattern + `:(?P<canDataType>\w+)(?:\[(?P<numberOfElements>\d)])?$`)
+	pdoPattern       = regexp.MustCompile(`^(?P<pdo>(?:RECEIVE|TRANSMIT)_PDO_[1-4]):` + nodePattern + `(?::(?P<byteOffset>\d+)(?:\.(?P<bitOffset>\d+))?)?:(?P<canDataType>\w+)(?:\[(?P<numberOfElements>\d)])?$`)
 	nmtPattern       = regexp.MustCompile(`^(?:NMT|NMT:` + nodePattern + `)$`)
 	heartbeatPattern = regexp.MustCompile(`^(?:HEARTBEAT|HEARTBEAT:` + nodePattern + `)$`)
 )
@@ -51,7 +51,7 @@ func NewTagHandler() TagHandler {
 // ParseTag reads the four kinds of address plc4j's driver takes:
 //
 //	SDO:<node>[/<answerNode>]:<index>/<subIndex>:<type>[<n>]   index and subIndex decimal or 0x hex
-//	<RECEIVE|TRANSMIT>_PDO_<1-4>:<node>:<type>[<n>]
+//	<RECEIVE|TRANSMIT>_PDO_<1-4>:<node>[:<byte>[.<bit>]]:<type>[<n>]   byte and bit beyond plc4j (see PDOTag)
 //	NMT[:<node>]
 //	HEARTBEAT[:<node>]
 //
@@ -125,7 +125,45 @@ func parsePdoTag(tagAddress string, match []string) (apiModel.PlcTag, error) {
 	if err != nil {
 		return nil, err
 	}
-	return PDOTag{NodeId: nodeId, Service: service, DataType: dataType, Elements: elementsOf(group("numberOfElements"))}, nil
+	tag := PDOTag{NodeId: nodeId, Service: service, DataType: dataType, Elements: elementsOf(group("numberOfElements"))}
+	if text := group("byteOffset"); text != "" {
+		byteOffset, err := strconv.ParseUint(text, 10, 8)
+		if err != nil || byteOffset >= pdoBytes {
+			return nil, errors.Errorf("%q: a PDO carries 8 bytes, 0 to 7", tagAddress)
+		}
+		tag.Positioned, tag.ByteOffset = true, uint8(byteOffset)
+	}
+	if text := group("bitOffset"); text != "" {
+		bitOffset, err := strconv.ParseUint(text, 10, 8)
+		if err != nil || bitOffset > 7 {
+			return nil, errors.Errorf("%q: a byte's bits are 0 to 7", tagAddress)
+		}
+		if dataType != readWriteModel.CANOpenDataType_BOOLEAN {
+			return nil, errors.Errorf("%q: only a BOOLEAN names a bit", tagAddress)
+		}
+		tag.BitOffset = uint8(bitOffset)
+	}
+	if bits, fixed := pdoBits(tag); fixed && int(tag.ByteOffset)*8+int(tag.BitOffset)+bits > pdoBytes*8 {
+		return nil, errors.Errorf("%q: from byte %d the value runs past the PDO's 8 bytes", tagAddress, tag.ByteOffset)
+	}
+	return tag, nil
+}
+
+// pdoBytes is what one PDO carries (a CAN frame's data).
+const pdoBytes = 8
+
+// pdoBits is how many bits a PDO tag's value takes, when its type fixes it (not RECORD or a string: those run to the
+// PDO's end). A BOOLEAN takes one bit, as a PDO maps it (CiA 301 7.4.8.2); elsewhere whole bytes.
+func pdoBits(tag PDOTag) (int, bool) {
+	count := max(int(tag.Elements), 1)
+	switch tag.DataType {
+	case readWriteModel.CANOpenDataType_RECORD, readWriteModel.CANOpenDataType_OCTET_STRING,
+		readWriteModel.CANOpenDataType_VISIBLE_STRING, readWriteModel.CANOpenDataType_UNICODE_STRING:
+		return 0, false
+	case readWriteModel.CANOpenDataType_BOOLEAN:
+		return count, true
+	}
+	return int(tag.DataType.NumBits()) * count, true
 }
 
 func node(tagAddress, text string) (uint8, error) {

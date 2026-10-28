@@ -316,6 +316,85 @@ func TestPdoWritesSendTheValueAsThePdosData(t *testing.T) {
 		"a PDO carries eight bytes")
 }
 
+// A PDO usually maps several objects: a positioned tag reads its own from its byte (and bit) on.
+func TestPositionedPdoTagsReadTheirPartOfThePdo(t *testing.T) {
+	connection := connect(t, "pdo-positioned-read", "")
+	node := newTestNode(t, "pdo-positioned-read", 7, 7)
+	events := subscribe(t, connection, map[string]string{"temperature": "TRANSMIT_PDO_1:7:5:INTEGER24"})
+
+	// 0x1234 (UNSIGNED16), -1234 (INTEGER16), 0xA5 (UNSIGNED8: bits 0, 2, 5, 7), -100000 (INTEGER24), little-endian
+	node.send(0x187, 0x34, 0x12, 0x2E, 0xFB, 0xA5, 0x60, 0x79, 0xFE)
+	event := nextEvent(t, events)
+	require.Equal(t, apiModel.PlcResponseCode_OK, event.GetResponseCode("temperature"))
+	assert.Equal(t, int32(-100000), event.GetValue("temperature").GetInt32())
+
+	tests := []struct {
+		address string
+		check   func(apiValues.PlcValue)
+	}{
+		{"TRANSMIT_PDO_1:7:UNSIGNED16", func(v apiValues.PlcValue) { assert.Equal(t, uint16(0x1234), v.GetUint16()) }},
+		{"TRANSMIT_PDO_1:7:2:INTEGER16", func(v apiValues.PlcValue) { assert.Equal(t, int16(-1234), v.GetInt16()) }},
+		{"TRANSMIT_PDO_1:7:4:UNSIGNED8", func(v apiValues.PlcValue) { assert.Equal(t, uint8(0xA5), v.GetUint8()) }},
+		{"TRANSMIT_PDO_1:7:4.2:BOOLEAN", func(v apiValues.PlcValue) { assert.True(t, v.GetBool()) }},
+		{"TRANSMIT_PDO_1:7:4.1:BOOLEAN", func(v apiValues.PlcValue) { assert.False(t, v.GetBool()) }},
+		{"TRANSMIT_PDO_1:7:4.5:BOOLEAN[3]", func(v apiValues.PlcValue) {
+			assert.Equal(t, []bool{true, false, true}, []bool{v.GetIndex(0).GetBool(), v.GetIndex(1).GetBool(), v.GetIndex(2).GetBool()})
+		}},
+		{"TRANSMIT_PDO_1:7:6:RECORD", func(v apiValues.PlcValue) { assert.Equal(t, []byte{0x79, 0xFE}, v.GetRaw()) }},
+	}
+	for _, test := range tests {
+		code, value := read(t, connection, test.address)
+		require.Equal(t, apiModel.PlcResponseCode_OK, code, test.address)
+		test.check(value)
+	}
+
+	node.send(0x187, 0x01, 0x02) // a shorter PDO: byte 4 is not there
+	assert.Equal(t, apiModel.PlcResponseCode_INVALID_DATA, nextEvent(t, events).GetResponseCode("temperature"))
+	code, _ := read(t, connection, "TRANSMIT_PDO_1:7:4:UNSIGNED8")
+	assert.Equal(t, apiModel.PlcResponseCode_INVALID_DATA, code, "never a made-up value")
+}
+
+// A positioned write changes only its part of the PDO: the rest is as this connection last sent or received it, zeros
+// where it has nothing.
+func TestPositionedPdoWritesKeepTheRestOfThePdo(t *testing.T) {
+	connection := connect(t, "pdo-positioned-write", "")
+	node := newTestNode(t, "pdo-positioned-write", 3, 3)
+
+	steps := []struct {
+		address string
+		value   any
+		want    []byte
+	}{
+		{"RECEIVE_PDO_1:3:2:UNSIGNED8", uint8(7), []byte{0, 0, 7}},                             // nothing sent yet: zeros before it
+		{"RECEIVE_PDO_1:3:0:UNSIGNED16", uint16(0x1234), []byte{0x34, 0x12, 7}},                // byte 2 kept
+		{"RECEIVE_PDO_1:3:3.1:BOOLEAN", true, []byte{0x34, 0x12, 7, 0x02}},                     // one bit, one byte longer
+		{"RECEIVE_PDO_1:3:3.0:BOOLEAN", true, []byte{0x34, 0x12, 7, 0x03}},                     // bit 1 kept
+		{"RECEIVE_PDO_1:3:3.1:BOOLEAN", false, []byte{0x34, 0x12, 7, 0x01}},                    //
+		{"RECEIVE_PDO_1:3:1:RECORD", []byte{9, 9}, []byte{0x34, 9, 9}},                         // a RECORD runs to the end
+		{"RECEIVE_PDO_1:3:INTEGER16", int16(-2), []byte{0xFE, 0xFF}},                           // no position: the whole PDO
+		{"RECEIVE_PDO_1:3:6:INTEGER16", int16(-2), []byte{0xFE, 0xFF, 0, 0, 0, 0, 0xFE, 0xFF}}, // zeros between
+	}
+	for _, step := range steps {
+		require.Equal(t, apiModel.PlcResponseCode_OK, write(t, connection, step.address, step.value), step.address)
+		assert.Equal(t, frame{cobId: 0x203, data: step.want}, node.next(t), step.address)
+	}
+	code, value := read(t, connection, "RECEIVE_PDO_1:3:6:INTEGER16")
+	require.Equal(t, apiModel.PlcResponseCode_OK, code)
+	assert.Equal(t, int16(-2), value.GetInt16(), "a read answers what was last sent")
+
+	// A node's TPDO the connection received is the base a write to it lays its value over.
+	node.send(0x187, 1, 2, 3, 4)
+	require.Eventually(t, func() bool {
+		code, _ := read(t, connection, "TRANSMIT_PDO_1:7:UNSIGNED8")
+		return code == apiModel.PlcResponseCode_OK
+	}, 2*time.Second, 10*time.Millisecond)
+	require.Equal(t, apiModel.PlcResponseCode_OK, write(t, connection, "TRANSMIT_PDO_1:7:2:UNSIGNED8", uint8(9)))
+	assert.Equal(t, frame{cobId: 0x187, data: []byte{1, 2, 9, 4}}, node.next(t))
+
+	assert.Equal(t, apiModel.PlcResponseCode_INVALID_DATA, write(t, connection, "RECEIVE_PDO_1:3:4:RECORD", []byte{1, 2, 3, 4, 5}),
+		"five bytes from byte 4 run past the PDO")
+}
+
 func TestPdoSubscriptionsAndReadsGetTheNodesPdo(t *testing.T) {
 	connection := connect(t, "pdo-subscribe", "")
 	node := newTestNode(t, "pdo-subscribe", 7, 7)

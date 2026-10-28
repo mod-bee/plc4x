@@ -59,18 +59,7 @@ func decodeValue(ctx context.Context, data []byte, dataType readWriteModel.CANOp
 		}
 		return spiValues.NewPlcSTRING(string(utf16.Decode(units))), nil
 	case readWriteModel.CANOpenDataType_BOOLEAN:
-		count := max(int(elements), 1)
-		if len(data)*8 < count {
-			return nil, errors.Errorf("%d x BOOLEAN needs %d bits, %d bytes came", count, count, len(data))
-		}
-		values := make([]apiValues.PlcValue, count)
-		for i := range values {
-			values[i] = spiValues.NewPlcBOOL(data[i/8]>>(i%8)&1 == 1)
-		}
-		if count == 1 {
-			return values[0], nil
-		}
-		return spiValues.NewPlcList(values), nil
+		return decodeBits(data, 0, max(int(elements), 1))
 	}
 	readBuffer := utils.NewReadBufferByteBased(data, utils.WithByteOrderForReadBufferByteBased(binary.LittleEndian))
 	if dataType == readWriteModel.CANOpenDataType_OCTET_STRING || dataType == readWriteModel.CANOpenDataType_VISIBLE_STRING {
@@ -114,22 +103,12 @@ func encodeValue(ctx context.Context, value apiValues.PlcValue, dataType readWri
 		}
 		return data, nil
 	case readWriteModel.CANOpenDataType_BOOLEAN:
-		values := []apiValues.PlcValue{value}
-		if elements > 1 {
-			if !value.IsList() || len(value.GetList()) != int(elements) {
-				return nil, errors.Errorf("%d x BOOLEAN takes a list of %d values", elements, elements)
-			}
-			values = value.GetList()
+		bits, err := boolsOf(value, elements)
+		if err != nil {
+			return nil, err
 		}
-		data := make([]byte, (len(values)+7)/8)
-		for i, element := range values {
-			if !element.IsBool() {
-				return nil, errors.Errorf("a BOOLEAN is not %s", element.GetPlcValueType())
-			}
-			if element.GetBool() {
-				data[i/8] |= 1 << (i % 8)
-			}
-		}
+		data := make([]byte, (len(bits)+7)/8)
+		setBits(data, 0, bits)
 		return data, nil
 	}
 	writeBuffer := utils.NewWriteBufferByteBased(utils.WithByteOrderForByteBasedBuffer(binary.LittleEndian))
@@ -152,4 +131,116 @@ func encodeValue(ctx context.Context, value apiValues.PlcValue, dataType readWri
 		}
 	}
 	return writeBuffer.GetBytes(), nil
+}
+
+// decodeBits reads count BOOLEANs from bit start on (bit 0 the lowest of byte 0), as CiA 301 packs them.
+func decodeBits(data []byte, start, count int) (apiValues.PlcValue, error) {
+	if len(data)*8 < start+count {
+		return nil, errors.Errorf("%d x BOOLEAN from bit %d needs %d bytes, %d came", count, start, (start+count+7)/8, len(data))
+	}
+	values := make([]apiValues.PlcValue, count)
+	for i := range values {
+		bit := start + i
+		values[i] = spiValues.NewPlcBOOL(data[bit/8]>>(bit%8)&1 == 1)
+	}
+	if count == 1 {
+		return values[0], nil
+	}
+	return spiValues.NewPlcList(values), nil
+}
+
+// boolsOf is the BOOLEANs a value gives a tag of elements of them.
+func boolsOf(value apiValues.PlcValue, elements uint8) ([]bool, error) {
+	if value == nil {
+		return nil, errors.New("no value")
+	}
+	values := []apiValues.PlcValue{value}
+	if elements > 1 {
+		if !value.IsList() || len(value.GetList()) != int(elements) {
+			return nil, errors.Errorf("%d x BOOLEAN takes a list of %d values", elements, elements)
+		}
+		values = value.GetList()
+	}
+	bits := make([]bool, len(values))
+	for i, element := range values {
+		if !element.IsBool() {
+			return nil, errors.Errorf("a BOOLEAN is not %s", element.GetPlcValueType())
+		}
+		bits[i] = element.GetBool()
+	}
+	return bits, nil
+}
+
+// setBits sets (or clears) bits from bit start on, leaving every other bit of data as it is.
+func setBits(data []byte, start int, bits []bool) {
+	for i, on := range bits {
+		bit := start + i
+		if on {
+			data[bit/8] |= 1 << (bit % 8)
+		} else {
+			data[bit/8] &^= 1 << (bit % 8)
+		}
+	}
+}
+
+// pdoValue reads a PDO tag's value from a PDO's data: from the tag's byte (and bit) on. A PDO shorter than that is an
+// error, not a made-up value.
+func pdoValue(ctx context.Context, data []byte, tag PDOTag) (apiValues.PlcValue, error) {
+	if int(tag.ByteOffset) >= len(data) && !(len(data) == 0 && tag.ByteOffset == 0) {
+		return nil, errors.Errorf("the PDO carries %d bytes; %s starts at byte %d", len(data), tag, tag.ByteOffset)
+	}
+	if tag.DataType == readWriteModel.CANOpenDataType_BOOLEAN {
+		return decodeBits(data, int(tag.ByteOffset)*8+int(tag.BitOffset), max(int(tag.Elements), 1))
+	}
+	return decodeValue(ctx, data[tag.ByteOffset:], tag.DataType, tag.Elements)
+}
+
+// pdoPayload is the data of the PDO a write to tag sends.
+//
+// A tag that names no position is the whole PDO, as in plc4j: its value is the data. A positioned tag is part of a PDO
+// whose other values it must not change, so its value is laid over base - the data this connection last sent or
+// received with the PDO's COB-ID - with zeros where base has none: a fixed-size value replaces its own bytes (a
+// BOOLEAN its own bits), and the PDO is as long as base or as the value's end, whichever is longer; a RECORD or string
+// runs to the PDO's end, so it replaces everything from its byte on. A value that would run past 8 bytes is refused.
+func pdoPayload(ctx context.Context, base []byte, tag PDOTag, value apiValues.PlcValue) ([]byte, error) {
+	if !tag.Positioned {
+		data, err := encodeValue(ctx, value, tag.DataType, tag.Elements)
+		if err == nil && len(data) > pdoBytes {
+			err = errors.Errorf("%d bytes do not fit a PDO", len(data))
+		}
+		return data, err
+	}
+	start := int(tag.ByteOffset)
+	out := slices.Clone(base)
+	if tag.DataType == readWriteModel.CANOpenDataType_BOOLEAN {
+		bits, err := boolsOf(value, tag.Elements)
+		if err != nil {
+			return nil, err
+		}
+		first := start*8 + int(tag.BitOffset)
+		if end := (first + len(bits) + 7) / 8; len(out) < end {
+			out = append(out, make([]byte, end-len(out))...)
+		}
+		setBits(out, first, bits)
+		return out, nil
+	}
+	data, err := encodeValue(ctx, value, tag.DataType, tag.Elements)
+	if err != nil {
+		return nil, err
+	}
+	if len(out) < start {
+		out = append(out, make([]byte, start-len(out))...)
+	}
+	if _, fixed := pdoBits(tag); fixed {
+		if end := start + len(data); len(out) < end {
+			out = append(out, make([]byte, end-len(out))...)
+		}
+		copy(out[start:], data)
+	} else {
+		out = append(out[:start], data...)
+	}
+	if len(out) > pdoBytes {
+		return nil, errors.Errorf("%d bytes from byte %d run past the PDO's %d", len(data), start, pdoBytes)
+	}
+	return out, nil
 }
