@@ -23,6 +23,7 @@ import (
 	"context"
 	"slices"
 	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -34,6 +35,7 @@ import (
 	driverModel "github.com/apache/plc4x/plc4go/protocols/knxnetip/readwrite/model"
 	"github.com/apache/plc4x/plc4go/spi"
 	"github.com/apache/plc4x/plc4go/spi/errors"
+	"github.com/apache/plc4x/plc4go/spi/options"
 	"github.com/apache/plc4x/plc4go/spi/testutils"
 	spiValues "github.com/apache/plc4x/plc4go/spi/values"
 )
@@ -457,4 +459,42 @@ func Test_SerializeGroupValue(t *testing.T) {
 		assert.Equal(t, int8(0), dataFirstByte)
 		assert.Equal(t, []byte{0x80}, data)
 	})
+}
+
+// Test_Writer_Write_updatesTheValueCacheAndSubscribers: the gateway confirms a write to the
+// client which sent it (LDataCon) but doesn't indicate it back, so the connection's own write
+// is the only news of the group address's new value it gets. A read of a cached group address
+// used to keep answering with the value from before the write, and a subscriber never saw it.
+func Test_Writer_Write_updatesTheValueCacheAndSubscribers(t *testing.T) {
+	connection, codec := newWriterConnection(t, map[string][]string{"group-address-num-levels": {"3"}}, confirmingGateway(false))
+	// 1/2/3 is cached: another device wrote 1 earlier.
+	connection.valueCache[uint16(1<<11|2<<8|3)] = []byte{0x00, 0x00, 0x01}
+
+	subscriber := NewSubscriber(connection, options.WithCustomLogger(testutils.ProduceTestingLogger(t)))
+	handles := subscribe(t, connection, subscriber, apiModel.SubscriptionChangeOfState, map[string]string{
+		"count": "1/2/3:UINT",
+	})
+	var seen atomic.Int64
+	handles["count"].Register(func(event apiModel.PlcSubscriptionEvent) {
+		seen.Store(event.GetValue("count").GetInt64())
+	})
+
+	writeRequestBuilder := connection.WriteRequestBuilder()
+	writeRequestBuilder.AddTagAddress("count", "1/2/3:UINT", uint16(4242))
+	writeRequest, err := writeRequestBuilder.Build()
+	require.NoError(t, err)
+	result := executeWrite(t, t.Context(), writeRequest)
+	require.NoError(t, result.GetErr())
+	require.Equal(t, apiModel.PlcResponseCode_OK, result.GetResponse().GetResponseCode("count"))
+	assert.Equal(t, int64(4242), seen.Load(), "the subscriber heard of the write")
+
+	readRequestBuilder := connection.ReadRequestBuilder()
+	readRequestBuilder.AddTagAddress("count", "1/2/3:UINT")
+	readRequest, err := readRequestBuilder.Build()
+	require.NoError(t, err)
+	readResult := <-readRequest.Execute(t.Context())
+	require.NoError(t, readResult.GetErr())
+	require.Equal(t, apiModel.PlcResponseCode_OK, readResult.GetResponse().GetResponseCode("count"))
+	assert.Equal(t, int64(4242), readResult.GetResponse().GetValue("count").GetInt64())
+	assert.Len(t, codec.getSentRequests(), 1, "the read came from the cache: only the write went to the bus")
 }
