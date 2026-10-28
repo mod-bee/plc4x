@@ -21,6 +21,7 @@ package knxnetip
 
 import (
 	"context"
+	"encoding/hex"
 	"net"
 	"sync/atomic"
 	"testing"
@@ -270,4 +271,23 @@ func Test_ConnectionMetadata_GetConnectionAttributes(t *testing.T) {
 	assert.Equal(t, "224.0.23.12", attributes["DeviceMulticastAddress"])
 	assert.Equal(t, "10:20:30:40:50:60", attributes["DeviceMacAddress"])
 	assert.Equal(t, "core, tunneling", attributes["SupportedServices"])
+}
+
+// Test_supportedServiceFamilies reads the search response knxd 0.14 sends (captured off the
+// wire): core, tunneling and routing, version 1 each. Listing them used to panic on a type
+// assertion the generated service-family types don't satisfy, so no connection to a real
+// gateway could be opened.
+func Test_supportedServiceFamilies(t *testing.T) {
+	frame, err := hex.DecodeString("06100202004c0801ac1100020e57360102001100000065724c739576e000170c327c4c" +
+		"7395766b6e786400000000000000000000000000000000000000000000000000000802020104010501")
+	require.NoError(t, err)
+	message, err := driverModel.KnxNetIpMessageParse[driverModel.KnxNetIpMessage](context.Background(), frame)
+	require.NoError(t, err)
+	searchResponse, ok := message.(driverModel.SearchResponse)
+	require.True(t, ok)
+
+	names, supportsTunneling := supportedServiceFamilies(searchResponse)
+
+	assert.Equal(t, []string{"core", "tunneling", "routing"}, names)
+	assert.True(t, supportsTunneling)
 }
