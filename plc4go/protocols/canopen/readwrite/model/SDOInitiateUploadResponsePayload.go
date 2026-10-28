@@ -92,6 +92,8 @@ type SDOInitiateUploadResponsePayloadBuilder interface {
 	WithMandatoryFields() SDOInitiateUploadResponsePayloadBuilder
 	// AsSDOInitiateExpeditedUploadResponse converts this build to a subType of SDOInitiateUploadResponsePayload. It is always possible to return to current builder using Done()
 	AsSDOInitiateExpeditedUploadResponse() SDOInitiateExpeditedUploadResponseBuilder
+	// AsSDOInitiateExpeditedUnsizedUploadResponse converts this build to a subType of SDOInitiateUploadResponsePayload. It is always possible to return to current builder using Done()
+	AsSDOInitiateExpeditedUnsizedUploadResponse() SDOInitiateExpeditedUnsizedUploadResponseBuilder
 	// AsSDOInitiateSegmentedUploadResponse converts this build to a subType of SDOInitiateUploadResponsePayload. It is always possible to return to current builder using Done()
 	AsSDOInitiateSegmentedUploadResponse() SDOInitiateSegmentedUploadResponseBuilder
 	// AsSDOInitiateSegmentedReservedResponse converts this build to a subType of SDOInitiateUploadResponsePayload. It is always possible to return to current builder using Done()
@@ -151,6 +153,16 @@ func (b *_SDOInitiateUploadResponsePayloadBuilder) AsSDOInitiateExpeditedUploadR
 		return cb
 	}
 	cb := NewSDOInitiateExpeditedUploadResponseBuilder().(*_SDOInitiateExpeditedUploadResponseBuilder)
+	cb.parentBuilder = b
+	b.childBuilder = cb
+	return cb
+}
+
+func (b *_SDOInitiateUploadResponsePayloadBuilder) AsSDOInitiateExpeditedUnsizedUploadResponse() SDOInitiateExpeditedUnsizedUploadResponseBuilder {
+	if cb, ok := b.childBuilder.(SDOInitiateExpeditedUnsizedUploadResponseBuilder); ok {
+		return cb
+	}
+	cb := NewSDOInitiateExpeditedUnsizedUploadResponseBuilder().(*_SDOInitiateExpeditedUnsizedUploadResponseBuilder)
 	cb.parentBuilder = b
 	b.childBuilder = cb
 	return cb
@@ -292,6 +304,10 @@ func (m *_SDOInitiateUploadResponsePayload) parse(ctx context.Context, readBuffe
 	case expedited == bool(true) && indicated == bool(true): // SDOInitiateExpeditedUploadResponse
 		if _child, err = new(_SDOInitiateExpeditedUploadResponse).parse(ctx, readBuffer, m, expedited, indicated, uint8(size)); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type SDOInitiateExpeditedUploadResponse for type-switch of SDOInitiateUploadResponsePayload")
+		}
+	case expedited == bool(true) && indicated == bool(false): // SDOInitiateExpeditedUnsizedUploadResponse
+		if _child, err = new(_SDOInitiateExpeditedUnsizedUploadResponse).parse(ctx, readBuffer, m, expedited, indicated, uint8(size)); err != nil {
+			return nil, errors.Wrap(err, "Error parsing sub-type SDOInitiateExpeditedUnsizedUploadResponse for type-switch of SDOInitiateUploadResponsePayload")
 		}
 	case expedited == bool(false) && indicated == bool(true): // SDOInitiateSegmentedUploadResponse
 		if _child, err = new(_SDOInitiateSegmentedUploadResponse).parse(ctx, readBuffer, m, expedited, indicated, uint8(size)); err != nil {

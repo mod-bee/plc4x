@@ -210,7 +210,8 @@ func (c *Connection) sendHeartbeat(ctx context.Context, state readWriteModel.NMT
 }
 
 // handleFrame dispatches one frame by its COB-ID: SDO responses to the transfer waiting for them, and PDOs, NMT
-// commands and heartbeats to the subscribers (PDOs and heartbeats are also kept for reads). CANopen uses 11-bit
+// commands and heartbeats to the subscribers (PDOs and heartbeats are also kept for reads). SYNC and EMCY are decoded
+// and logged: plc4j's tag syntax has no tag for them, so nothing subscribes to them. CANopen uses 11-bit
 // identifiers (CiA 301 7.3.3); remote requests, error frames and extended frames are passed over, and so is a frame
 // whose data does not parse as its service's.
 //
@@ -232,7 +233,8 @@ func (c *Connection) handleFrame(ctx context.Context, frame socketcanModel.Socke
 		return
 	}
 	switch service {
-	case readWriteModel.CANOpenService_TRANSMIT_SDO, readWriteModel.CANOpenService_HEARTBEAT, readWriteModel.CANOpenService_NMT:
+	case readWriteModel.CANOpenService_TRANSMIT_SDO, readWriteModel.CANOpenService_HEARTBEAT, readWriteModel.CANOpenService_NMT,
+		readWriteModel.CANOpenService_SYNC, readWriteModel.CANOpenService_EMCY:
 	default:
 		return
 	}
@@ -249,6 +251,9 @@ func (c *Connection) handleFrame(ctx context.Context, frame socketcanModel.Socke
 		c.publish(ctx, service, nodeId, data, typed)
 	case readWriteModel.CANOpenNetworkPayload:
 		c.publish(ctx, service, nodeId, data, typed)
+	case readWriteModel.CANOpenEmergencyPayload:
+		c.log.Debug().Uint8("nodeId", nodeId).Str("errorCode", fmt.Sprintf("0x%04X", typed.GetErrorCode())).
+			Str("errorRegister", fmt.Sprintf("0x%02X", typed.GetErrorRegister())).Msg("CANopen emergency")
 	}
 }
 

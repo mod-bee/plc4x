@@ -47,7 +47,7 @@ type ICANOpenService interface {
 const (
 	CANOpenService_NMT            CANOpenService = 0b0000
 	CANOpenService_SYNC           CANOpenService = 0b0001
-	CANOpenService_EMCY           CANOpenService = 0b0001
+	CANOpenService_EMCY           CANOpenService = 0b1101
 	CANOpenService_TIME           CANOpenService = 0b0010
 	CANOpenService_TRANSMIT_PDO_1 CANOpenService = 0b0011
 	CANOpenService_RECEIVE_PDO_1  CANOpenService = 0b0100
@@ -139,6 +139,10 @@ func (e CANOpenService) Min() uint16 {
 		{ /* '0b1100' */
 			return 0x600
 		}
+	case 0b1101:
+		{ /* '0b1101' */
+			return 0x81
+		}
 	case 0b1110:
 		{ /* '0b1110' */
 			return 0x700
@@ -212,6 +216,10 @@ func (e CANOpenService) Max() uint16 {
 	case 0b1100:
 		{ /* '0b1100' */
 			return 0x67F
+		}
+	case 0b1101:
+		{ /* '0b1101' */
+			return 0xFF
 		}
 	case 0b1110:
 		{ /* '0b1110' */
@@ -287,6 +295,10 @@ func (e CANOpenService) Pdo() bool {
 		{ /* '0b1100' */
 			return false
 		}
+	case 0b1101:
+		{ /* '0b1101' */
+			return false
+		}
 	case 0b1110:
 		{ /* '0b1110' */
 			return false
@@ -334,6 +346,8 @@ func CANOpenServiceByValue(value uint8) (enum CANOpenService, ok bool) {
 		return CANOpenService_TRANSMIT_SDO, true
 	case 0b1100:
 		return CANOpenService_RECEIVE_SDO, true
+	case 0b1101:
+		return CANOpenService_EMCY, true
 	case 0b1110:
 		return CANOpenService_HEARTBEAT, true
 	}
@@ -368,6 +382,8 @@ func CANOpenServiceByName(value string) (enum CANOpenService, ok bool) {
 		return CANOpenService_TRANSMIT_SDO, true
 	case "RECEIVE_SDO":
 		return CANOpenService_RECEIVE_SDO, true
+	case "EMCY":
+		return CANOpenService_EMCY, true
 	case "HEARTBEAT":
 		return CANOpenService_HEARTBEAT, true
 	}
@@ -477,6 +493,8 @@ func (e CANOpenService) PLC4XEnumName() string {
 		return "TRANSMIT_SDO"
 	case CANOpenService_RECEIVE_SDO:
 		return "RECEIVE_SDO"
+	case CANOpenService_EMCY:
+		return "EMCY"
 	case CANOpenService_HEARTBEAT:
 		return "HEARTBEAT"
 	}

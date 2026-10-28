@@ -155,8 +155,9 @@ func abortFor(address readWriteModel.IndexAddress, response readWriteModel.SDORe
 }
 
 // sdoUpload reads one object of a node's object dictionary: CiA 301 7.2.4.3.4 (initiate) and 7.2.4.3.5 (segments),
-// as plc4j's SDOUploadConversation. Beyond plc4j, Go also takes a segmented upload whose size the node does not
-// indicate (e=0, s=0). It does not take block upload, as plc4j does not.
+// as plc4j's SDOUploadConversation, including an expedited response without the size indicated (e=1, s=0: the four
+// bytes are the data). Beyond plc4j, Go also takes a segmented upload whose size the node does not indicate (e=0, s=0).
+// It does not take block upload, as plc4j does not.
 func (c *Connection) sdoUpload(ctx context.Context, tag SDOTag) ([]byte, error) {
 	responses, done := c.openSdo(tag.AnswerNodeId)
 	defer done()
@@ -184,6 +185,8 @@ func (c *Connection) sdoUpload(ctx context.Context, tag SDOTag) ([]byte, error) 
 	size, sizeKnown := uint32(0), false
 	switch payload := response.(readWriteModel.SDOInitiateUploadResponse).GetPayload().(type) {
 	case readWriteModel.SDOInitiateExpeditedUploadResponse:
+		return payload.GetData(), nil
+	case readWriteModel.SDOInitiateExpeditedUnsizedUploadResponse:
 		return payload.GetData(), nil
 	case readWriteModel.SDOInitiateSegmentedUploadResponse:
 		size, sizeKnown = payload.GetBytes(), true

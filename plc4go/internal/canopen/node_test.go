@@ -53,6 +53,7 @@ type testNode struct {
 	readOnly   map[objectKey]bool
 	silent     map[objectKey]bool   // objects the node never answers about
 	abortWith  map[objectKey]uint32 // objects the node aborts with this code
+	unsized    map[objectKey]bool   // objects the node uploads expedited without indicating the size
 	badToggle  bool                 // answer upload segments with the wrong toggle bit
 	upload     *transfer
 	download   *transfer
@@ -91,6 +92,7 @@ func newTestNode(t *testing.T, bus string, requestId, answerId uint8) *testNode 
 		readOnly:   map[objectKey]bool{},
 		silent:     map[objectKey]bool{},
 		abortWith:  map[objectKey]uint32{},
+		unsized:    map[objectKey]bool{},
 		others:     make(chan frame, 64),
 	}
 	ctx, cancel := context.WithCancel(context.Background())
@@ -196,7 +198,10 @@ func (n *testNode) serveSdo(request []byte) {
 			return
 		}
 		response := [8]byte{0, request[1], request[2], request[3]}
-		if len(data) <= 4 { // expedited: scs 2, n = unused bytes, e = 1, s = 1
+		if len(data) <= 4 && n.unsized[key] { // expedited, size not indicated: scs 2, e = 1, s = 0 (7.2.4.3.6)
+			response[0] = 0x40 | 0x02
+			copy(response[4:], data)
+		} else if len(data) <= 4 { // expedited: scs 2, n = unused bytes, e = 1, s = 1
 			response[0] = 0x40 | byte(4-len(data))<<2 | 0x02 | 0x01
 			copy(response[4:], data)
 		} else { // segmented, size indicated: scs 2, e = 0, s = 1, the size in bytes 4 to 7

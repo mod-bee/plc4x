@@ -90,6 +90,10 @@ type CANOpenPayloadBuilder interface {
 	WithMandatoryFields() CANOpenPayloadBuilder
 	// AsCANOpenNetworkPayload converts this build to a subType of CANOpenPayload. It is always possible to return to current builder using Done()
 	AsCANOpenNetworkPayload() CANOpenNetworkPayloadBuilder
+	// AsCANOpenSyncPayload converts this build to a subType of CANOpenPayload. It is always possible to return to current builder using Done()
+	AsCANOpenSyncPayload() CANOpenSyncPayloadBuilder
+	// AsCANOpenEmergencyPayload converts this build to a subType of CANOpenPayload. It is always possible to return to current builder using Done()
+	AsCANOpenEmergencyPayload() CANOpenEmergencyPayloadBuilder
 	// AsCANOpenTimeSynchronization converts this build to a subType of CANOpenPayload. It is always possible to return to current builder using Done()
 	AsCANOpenTimeSynchronization() CANOpenTimeSynchronizationBuilder
 	// AsCANOpenPDOPayload converts this build to a subType of CANOpenPayload. It is always possible to return to current builder using Done()
@@ -155,6 +159,26 @@ func (b *_CANOpenPayloadBuilder) AsCANOpenNetworkPayload() CANOpenNetworkPayload
 		return cb
 	}
 	cb := NewCANOpenNetworkPayloadBuilder().(*_CANOpenNetworkPayloadBuilder)
+	cb.parentBuilder = b
+	b.childBuilder = cb
+	return cb
+}
+
+func (b *_CANOpenPayloadBuilder) AsCANOpenSyncPayload() CANOpenSyncPayloadBuilder {
+	if cb, ok := b.childBuilder.(CANOpenSyncPayloadBuilder); ok {
+		return cb
+	}
+	cb := NewCANOpenSyncPayloadBuilder().(*_CANOpenSyncPayloadBuilder)
+	cb.parentBuilder = b
+	b.childBuilder = cb
+	return cb
+}
+
+func (b *_CANOpenPayloadBuilder) AsCANOpenEmergencyPayload() CANOpenEmergencyPayloadBuilder {
+	if cb, ok := b.childBuilder.(CANOpenEmergencyPayloadBuilder); ok {
+		return cb
+	}
+	cb := NewCANOpenEmergencyPayloadBuilder().(*_CANOpenEmergencyPayloadBuilder)
 	cb.parentBuilder = b
 	b.childBuilder = cb
 	return cb
@@ -326,6 +350,14 @@ func (m *_CANOpenPayload) parse(ctx context.Context, readBuffer utils.ReadBuffer
 	case service == CANOpenService_NMT: // CANOpenNetworkPayload
 		if _child, err = new(_CANOpenNetworkPayload).parse(ctx, readBuffer, m, service); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type CANOpenNetworkPayload for type-switch of CANOpenPayload")
+		}
+	case service == CANOpenService_SYNC: // CANOpenSyncPayload
+		if _child, err = new(_CANOpenSyncPayload).parse(ctx, readBuffer, m, service); err != nil {
+			return nil, errors.Wrap(err, "Error parsing sub-type CANOpenSyncPayload for type-switch of CANOpenPayload")
+		}
+	case service == CANOpenService_EMCY: // CANOpenEmergencyPayload
+		if _child, err = new(_CANOpenEmergencyPayload).parse(ctx, readBuffer, m, service); err != nil {
+			return nil, errors.Wrap(err, "Error parsing sub-type CANOpenEmergencyPayload for type-switch of CANOpenPayload")
 		}
 	case service == CANOpenService_TIME: // CANOpenTimeSynchronization
 		if _child, err = new(_CANOpenTimeSynchronization).parse(ctx, readBuffer, m, service); err != nil {

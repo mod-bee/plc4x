@@ -24,11 +24,12 @@ import (
 )
 
 // services are the CiA 301 services of the predefined connection set (7.3.5) the driver speaks, and the COB-IDs each
-// takes: CANOpenService's min to max, the node-ID being the COB-ID less min. plc4j's codec walks every value of the
-// enum instead; Go leaves out SYNC and EMCY, which the driver does not handle, and which the mspec gives one value
-// (0b0001), so a generated enum cannot tell them apart.
+// takes: CANOpenService's min to max, as plc4j's codec walks the enum. SYNC (0x080) and EMCY (0x081 to 0x0FF) share a
+// function code and are told apart by the node-ID.
 var services = []readWriteModel.CANOpenService{
 	readWriteModel.CANOpenService_NMT,
+	readWriteModel.CANOpenService_SYNC,
+	readWriteModel.CANOpenService_EMCY,
 	readWriteModel.CANOpenService_TIME,
 	readWriteModel.CANOpenService_TRANSMIT_PDO_1,
 	readWriteModel.CANOpenService_RECEIVE_PDO_1,
@@ -47,13 +48,20 @@ var services = []readWriteModel.CANOpenService{
 func resolve(cobId uint16) (readWriteModel.CANOpenService, uint8, bool) {
 	for _, service := range services {
 		if cobId >= service.GetMin() && cobId <= service.GetMax() {
-			return service, uint8(cobId - service.GetMin()), true
+			return service, uint8(cobId - functionBase(service)), true
 		}
 	}
 	return 0, 0, false
 }
 
-// cobIdOf is the COB-ID of service for node nodeId, as plc4j's codec computes it.
+// cobIdOf is the COB-ID of service for node nodeId.
 func cobIdOf(service readWriteModel.CANOpenService, nodeId uint8) uint16 {
-	return service.GetMin() + uint16(nodeId)
+	return functionBase(service) + uint16(nodeId)
+}
+
+// functionBase is the COB-ID of service's function code with node-ID 0: a COB-ID is the function code (its top four
+// bits) and the node-ID (its low seven), CiA 301 7.3.3. plc4j's codec takes min as that base, which is the same for
+// every service but EMCY, whose range starts at 0x081 as node-ID 0 would be SYNC; Go masks the node-ID bits off min.
+func functionBase(service readWriteModel.CANOpenService) uint16 {
+	return service.GetMin() &^ 0x7F
 }

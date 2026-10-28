@@ -349,4 +349,78 @@
     </xml>
   </testcase>
 
+  <testcase>
+    <name>SYNC, payload: (none)</name>
+    <raw></raw>
+    <root-type>CANOpenPayload</root-type>
+    <parser-arguments>
+      <arg1>SYNC</arg1>
+    </parser-arguments>
+    <xml>
+      <CANOpenPayload>
+        <CANOpenSyncPayload>
+        </CANOpenSyncPayload>
+      </CANOpenPayload>
+    </xml>
+  </testcase>
+
+  <testcase>
+    <name>Emergency, current at the output (0x2310), current error register bit: 1023020102030405</name>
+    <raw>1023020102030405</raw>
+    <root-type>CANOpenPayload</root-type>
+    <parser-arguments>
+      <arg1>EMCY</arg1>
+    </parser-arguments>
+    <xml>
+      <CANOpenPayload>
+        <CANOpenEmergencyPayload>
+          <errorCode dataType="uint" bitLength="16">8976</errorCode>
+          <errorRegister dataType="uint" bitLength="8">2</errorRegister>
+          <manufacturerSpecificData dataType="byte" bitLength="40">0x0102030405</manufacturerSpecificData>
+        </CANOpenEmergencyPayload>
+      </CANOpenPayload>
+    </xml>
+  </testcase>
+
+  <testcase>
+    <name>SDO upload response, expedited, size not indicated: 42171000E8030000</name>
+    <raw>42171000E8030000</raw>
+    <root-type>CANOpenPayload</root-type>
+    <parser-arguments>
+      <arg1>TRANSMIT_SDO</arg1>
+    </parser-arguments>
+    <xml>
+      <CANOpenPayload>
+        <CANOpenSDOResponse>
+          <command>
+            <SDOResponseCommand dataType="uint" bitLength="3" stringRepresentation="INITIATE_UPLOAD">2</SDOResponseCommand>
+          </command>
+          <response>
+            <SDOResponse>
+              <SDOInitiateUploadResponse>
+                <reserved dataType="uint" bitLength="1">0</reserved>
+                <size dataType="uint" bitLength="2">0</size>
+                <expedited dataType="bit" bitLength="1">true</expedited>
+                <indicated dataType="bit" bitLength="1">false</indicated>
+                <address>
+                  <IndexAddress>
+                    <index dataType="uint" bitLength="16">4119</index>
+                    <subindex dataType="uint" bitLength="8">0</subindex>
+                  </IndexAddress>
+                </address>
+                <payload>
+                  <SDOInitiateUploadResponsePayload>
+                    <SDOInitiateExpeditedUnsizedUploadResponse>
+                      <data dataType="byte" bitLength="32">0xe8030000</data>
+                    </SDOInitiateExpeditedUnsizedUploadResponse>
+                  </SDOInitiateUploadResponsePayload>
+                </payload>
+              </SDOInitiateUploadResponse>
+            </SDOResponse>
+          </response>
+        </CANOpenSDOResponse>
+      </CANOpenPayload>
+    </xml>
+  </testcase>
+
 </test:testsuite>
