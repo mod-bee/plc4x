@@ -54,9 +54,27 @@ func (e sdoAbortError) Error() string {
 
 var errSdoTimeout = errors.New("timed out waiting for the node's SDO response")
 
-// responseCodeOf is the response code an SDO transfer that failed with err answers: REMOTE_ERROR, as plc4j's read
-// answers for any failure.
-func responseCodeOf(_ error) apiModel.PlcResponseCode {
+// responseCodeOf is the response code an SDO transfer that failed with err answers. plc4j answers REMOTE_ERROR for
+// any abort (and for a read that timed out) and INTERNAL_ERROR for a write that did; Go keeps what the abort code says
+// (CiA 301 7.2.4.3.17) where a response code has a name for it, and answers a timeout REQUEST_TIMEOUT.
+func responseCodeOf(err error) apiModel.PlcResponseCode {
+	var abort sdoAbortError
+	switch {
+	case errors.As(err, &abort) && !abort.local:
+		switch abort.code {
+		case 0x06010000, 0x06010001, 0x06010002: // unsupported access, read of a write-only, write of a read-only object
+			return apiModel.PlcResponseCode_ACCESS_DENIED
+		case 0x06020000, 0x06090011: // object, or sub-index, does not exist
+			return apiModel.PlcResponseCode_NOT_FOUND
+		case 0x06070010, 0x06070012, 0x06070013: // data type, or its length, does not match
+			return apiModel.PlcResponseCode_INVALID_DATATYPE
+		case 0x06090030, 0x06090031, 0x06090032: // value out of range, too high, too low
+			return apiModel.PlcResponseCode_OUT_OF_RANGE
+		}
+		return apiModel.PlcResponseCode_REMOTE_ERROR
+	case errors.Is(err, errSdoTimeout), errors.Is(err, context.DeadlineExceeded):
+		return apiModel.PlcResponseCode_REQUEST_TIMEOUT
+	}
 	return apiModel.PlcResponseCode_REMOTE_ERROR
 }
 
