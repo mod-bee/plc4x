@@ -91,6 +91,16 @@ func (m *Connection) handleIncomingTunnelingRequest(ctx context.Context, tunneli
 					payload = append(payload, groupValueWrite.GetData()...)
 
 					m.handleValueCacheUpdate(ctx, destinationAddress, payload)
+				case driverModel.ApduDataGroupValueResponse:
+					// A response carries the group address's value just as a write does: every device
+					// with the address updates from it (KNX 03.03.07, A_GroupValue_Response), and so
+					// does the value cache, whichever client's read it answers.
+					groupValueResponse := container.GetDataApdu().(driverModel.ApduDataGroupValueResponse)
+					if destinationAddress == nil || !dataFrame.GetGroupAddress() {
+						return
+					}
+					payload := append([]byte{byte(groupValueResponse.GetDataFirstByte())}, groupValueResponse.GetData()...)
+					m.handleValueCacheUpdate(ctx, destinationAddress, payload)
 				default:
 					if dataFrame.GetGroupAddress() {
 						return
