@@ -238,13 +238,36 @@ func deliversFor(tagType apiModel.PlcSubscriptionType, changed bool) bool {
 /*
  * Callback for incoming value change events from the KNX bus
  */
+// groupAddressLevels is the notation a group-address tag is written in: 3 (main/middle/sub),
+// 2 (main/sub) or 1 (free).
+func groupAddressLevels(tag GroupAddressTag) uint8 {
+	switch tag.(type) {
+	case GroupAddress2LevelPlcTag:
+		return 2
+	case GroupAddress1LevelPlcTag:
+		return 1
+	default:
+		return 3
+	}
+}
+
 func (s *Subscriber) handleValueChange(ctx context.Context, destinationAddress []byte, payload []byte, changed bool) {
-	// Decode the group-address according to the settings in the driver
-	// Group addresses can be 1, 2 or 3 levels (3 being the default)
+	// A group address is 16 bits however it is written: each tag matches it in the notation
+	// (3, 2 or free level) the tag itself is written in, whatever the connection's
+	// group-address-num-levels says. Matching in the connection's notation only meant a tag
+	// written in another one silently never got an event.
 	ctxForModel := options.GetLoggerContextForModel(ctx, s.log, options.WithPassLoggerToModel(s.passLogToModel))
-	groupAddress, err := driverModel.KnxGroupAddressParse[driverModel.KnxGroupAddress](ctxForModel, destinationAddress, s.connection.getGroupAddressNumLevels())
-	if err != nil {
-		return
+	groupAddresses := map[uint8]driverModel.KnxGroupAddress{}
+	groupAddressIn := func(levels uint8) driverModel.KnxGroupAddress {
+		if groupAddress, ok := groupAddresses[levels]; ok {
+			return groupAddress
+		}
+		groupAddress, err := driverModel.KnxGroupAddressParse[driverModel.KnxGroupAddress](ctxForModel, destinationAddress, levels)
+		if err != nil {
+			groupAddress = nil
+		}
+		groupAddresses[levels] = groupAddress
+		return groupAddress
 	}
 
 	// TODO: aggregate tags and send it to a consumer which want's all of them
@@ -252,7 +275,11 @@ func (s *Subscriber) handleValueChange(ctx context.Context, destinationAddress [
 		consumer := registration.consumer
 		for _, subscriptionHandle := range registration.handles {
 			groupAddressTag, ok := subscriptionHandle.tag.(GroupAddressTag)
-			if !ok || !groupAddressTag.matches(groupAddress) {
+			if !ok {
+				continue
+			}
+			groupAddress := groupAddressIn(groupAddressLevels(groupAddressTag))
+			if groupAddress == nil || !groupAddressTag.matches(groupAddress) {
 				continue
 			}
 			if !deliversFor(subscriptionHandle.tagType, changed) {

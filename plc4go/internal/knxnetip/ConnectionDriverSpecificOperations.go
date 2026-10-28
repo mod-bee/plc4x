@@ -152,6 +152,11 @@ func (m *Connection) WriteGroupAddress(ctx context.Context, groupAddress []byte,
 			return
 		}
 
+		// The value is on the bus now, so it is the group address's value: the gateway confirms
+		// the frame to the client that sent it but doesn't hand it back as an indication, so
+		// without this the cache would go on answering reads with the value from before the
+		// write, and subscribers would never hear of it.
+		m.handleValueCacheUpdate(ctx, groupAddress, append([]byte{byte(dataFirstByte)}, data...))
 		sendResponse(nil)
 	})
 

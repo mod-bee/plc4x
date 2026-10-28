@@ -22,6 +22,7 @@ package knxnetip
 import (
 	"context"
 	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -147,7 +148,7 @@ func Test_Reader_readGroupAddress_fromCache(t *testing.T) {
 		},
 		{
 			name:    "a datapoint-type which needs its own data byte",
-			tagType: driverModel.KnxDatapointType_DPT_Scaling,
+			tagType: driverModel.KnxDatapointType_DPT_DecimalFactor,
 			payload: []byte{0x00, 0x80},
 			assertion: func(t *testing.T, value apiValues.PlcValue) {
 				assert.Equal(t, uint8(0x80), value.GetUint8())
@@ -167,6 +168,40 @@ func Test_Reader_readGroupAddress_fromCache(t *testing.T) {
 			assert.Equal(t, apiModel.PlcResponseCode_OK, responseCode)
 			require.NotNil(t, plcValue)
 			test.assertion(t, plcValue)
+		})
+	}
+}
+
+// Test_Reader_readGroupAddress_readFromCacheFalseAsksTheBus: with read-from-cache=false a read
+// is a GroupValueRead on the bus even when a value for the address was seen, so a client can
+// refresh an object which changes without sending its value.
+func Test_Reader_readGroupAddress_readFromCacheFalseAsksTheBus(t *testing.T) {
+	for option, wantSent := range map[string]bool{"false": true, "true": false, "": false} {
+		t.Run("read-from-cache="+option, func(t *testing.T) {
+			var sent atomic.Bool
+			connection, _ := newStubbedConnection(t, nil, func(spi.Message, spi.HandleMessage, spi.HandleError) error {
+				sent.Store(true)
+				return errors.New("the bus stays silent")
+			})
+			connection.valueCache = map[uint16][]byte{1<<11 | 2<<8 | 3: {0x01}}
+			connection.tagHandler = NewTagHandler()
+			connection.ClientKnxAddress = driverModel.NewKnxAddress(1, 1, 1)
+			if option != "" {
+				connection.options = map[string][]string{"read-from-cache": {option}}
+			}
+			reader := NewReader(connection, options.WithCustomLogger(testutils.ProduceTestingLogger(t)))
+			tagType := driverModel.KnxDatapointType_DPT_Switch
+			tag := NewGroupAddress3LevelPlcTag("1", "2", "3", &tagType)
+
+			responseCode, _ := readGroupAddressAsync(t, reader, t.Context(), tag)
+			connection.wg.Wait()
+
+			assert.Equal(t, wantSent, sent.Load())
+			if wantSent {
+				assert.NotEqual(t, apiModel.PlcResponseCode_OK, responseCode, "the bus never answered")
+			} else {
+				assert.Equal(t, apiModel.PlcResponseCode_OK, responseCode)
+			}
 		})
 	}
 }

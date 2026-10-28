@@ -91,6 +91,16 @@ func (m *Connection) handleIncomingTunnelingRequest(ctx context.Context, tunneli
 					payload = append(payload, groupValueWrite.GetData()...)
 
 					m.handleValueCacheUpdate(ctx, destinationAddress, payload)
+				case driverModel.ApduDataGroupValueResponse:
+					// A response carries the group address's value just as a write does: every device
+					// with the address updates from it (KNX 03.03.07, A_GroupValue_Response), and so
+					// does the value cache, whichever client's read it answers.
+					groupValueResponse := container.GetDataApdu().(driverModel.ApduDataGroupValueResponse)
+					if destinationAddress == nil || !dataFrame.GetGroupAddress() {
+						return
+					}
+					payload := append([]byte{byte(groupValueResponse.GetDataFirstByte())}, groupValueResponse.GetData()...)
+					m.handleValueCacheUpdate(ctx, destinationAddress, payload)
 				default:
 					if dataFrame.GetGroupAddress() {
 						return
@@ -175,6 +185,24 @@ func (m *Connection) getGroupAddressNumLevels() uint8 {
 	}
 	// TODO: document magic number
 	return 3
+}
+
+// readsFromCache evaluates the "read-from-cache" connection option: by default (true) a
+// group address read is answered from the last value seen on the bus when there is one; false
+// sends every read to the bus as a GroupValueRead, for a client that wants the devices' own
+// answer - a refresh of an object which changes without sending its value.
+func (m *Connection) readsFromCache() bool {
+	if val, ok := m.options["read-from-cache"]; ok && len(val) > 0 {
+		switch strings.ToLower(strings.TrimSpace(val[0])) {
+		case "false", "no", "0":
+			return false
+		case "true", "yes", "1":
+			return true
+		default:
+			m.log.Warn().Str("read-from-cache", val[0]).Msg("Invalid value for read-from-cache, reading from the cache")
+		}
+	}
+	return true
 }
 
 // getTunnelConnectionType evaluates the "connection-type" connection option and

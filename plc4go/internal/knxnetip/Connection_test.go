@@ -21,6 +21,7 @@ package knxnetip
 
 import (
 	"context"
+	"encoding/hex"
 	"net"
 	"sync/atomic"
 	"testing"
@@ -270,4 +271,103 @@ func Test_ConnectionMetadata_GetConnectionAttributes(t *testing.T) {
 	assert.Equal(t, "224.0.23.12", attributes["DeviceMulticastAddress"])
 	assert.Equal(t, "10:20:30:40:50:60", attributes["DeviceMacAddress"])
 	assert.Equal(t, "core, tunneling", attributes["SupportedServices"])
+}
+
+// Test_supportedServiceFamilies reads the search response knxd 0.14 sends (captured off the
+// wire): core, tunneling and routing, version 1 each. Listing them used to panic on a type
+// assertion the generated service-family types don't satisfy, so no connection to a real
+// gateway could be opened.
+func Test_supportedServiceFamilies(t *testing.T) {
+	frame, err := hex.DecodeString("06100202004c0801ac1100020e57360102001100000065724c739576e000170c327c4c" +
+		"7395766b6e786400000000000000000000000000000000000000000000000000000802020104010501")
+	require.NoError(t, err)
+	message, err := driverModel.KnxNetIpMessageParse[driverModel.KnxNetIpMessage](context.Background(), frame)
+	require.NoError(t, err)
+	searchResponse, ok := message.(driverModel.SearchResponse)
+	require.True(t, ok)
+
+	names, supportsTunneling := supportedServiceFamilies(searchResponse)
+
+	assert.Equal(t, []string{"core", "tunneling", "routing"}, names)
+	assert.True(t, supportsTunneling)
+}
+
+// knxdUnknownChannel is knxd 0.14's answer to a ConnectionStateRequest for a channel it doesn't
+// know (channel 7, status E_CONNECTION_ID), captured off the wire: what a client gets once the
+// gateway restarted under its tunnel.
+const knxdUnknownChannel = "0610020800080721"
+
+// respondWithKnxdFrame answers every ConnectionStateRequest with the given frame; anything else
+// (the DisconnectRequest of a connection giving up) goes unanswered.
+func respondWithKnxdFrame(t *testing.T, frame string) func(spi.Message, spi.HandleMessage, spi.HandleError) error {
+	return func(message spi.Message, handleMessage spi.HandleMessage, handleError spi.HandleError) error {
+		if _, ok := message.(driverModel.ConnectionStateRequest); !ok {
+			return handleError(errors.New("no answer"))
+		}
+		data, err := hex.DecodeString(frame)
+		require.NoError(t, err)
+		reply, err := driverModel.KnxNetIpMessageParse[driverModel.KnxNetIpMessage](context.Background(), data)
+		require.NoError(t, err)
+		return handleMessage(reply)
+	}
+}
+
+// Test_Connection_Ping_aGatewayWhichNoLongerKnowsTheTunnel: a gateway which restarted answers
+// the heartbeat with E_CONNECTION_ID. That answer used to count as "connected", so a dead tunnel
+// went on serving its cache as good values forever.
+func Test_Connection_Ping_aGatewayWhichNoLongerKnowsTheTunnel(t *testing.T) {
+	connection, _ := newStubbedConnection(t, nil, respondWithKnxdFrame(t, knxdUnknownChannel))
+	connection.CommunicationChannelId = 7
+
+	err := connection.Ping(t.Context())
+	require.Error(t, err)
+	assert.Contains(t, err.Error(), "INVALID_CONNECTION_ID")
+	assert.False(t, connection.IsConnected())
+}
+
+// Test_Connection_sendKeepalive_givesUpALostTunnel: a heartbeat the gateway doesn't confirm is
+// repeated three times, then the connection is invalidated (KNXnet/IP Core 5.4); a heartbeat
+// confirmed on a repeat keeps it.
+func Test_Connection_sendKeepalive_givesUpALostTunnel(t *testing.T) {
+	t.Run("a gateway which no longer knows the tunnel", func(t *testing.T) {
+		connection, codec := newStubbedConnection(t, nil, respondWithKnxdFrame(t, knxdUnknownChannel))
+		connection.CommunicationChannelId = 7
+
+		connection.sendKeepalive()
+
+		assert.True(t, connection.IsInvalidated())
+		assert.False(t, connection.IsConnected())
+		var heartbeats int
+		for _, message := range codec.sentRequests {
+			if _, ok := message.(driverModel.ConnectionStateRequest); ok {
+				heartbeats++
+			}
+		}
+		assert.Equal(t, 1+connectionStateRepeats, heartbeats)
+	})
+	t.Run("a gateway which doesn't answer", func(t *testing.T) {
+		connection, _ := newStubbedConnection(t, nil,
+			func(spi.Message, spi.HandleMessage, spi.HandleError) error {
+				return errors.New("gateway is gone")
+			})
+
+		connection.sendKeepalive()
+
+		assert.True(t, connection.IsInvalidated())
+	})
+	t.Run("a gateway which answers a repeat", func(t *testing.T) {
+		var calls atomic.Int32
+		connection, _ := newStubbedConnection(t, nil,
+			func(message spi.Message, handleMessage spi.HandleMessage, handleError spi.HandleError) error {
+				if calls.Add(1) == 1 {
+					return handleError(errors.New("lost on the way"))
+				}
+				return handleMessage(driverModel.NewConnectionStateResponse(1, driverModel.Status_NO_ERROR))
+			})
+
+		connection.sendKeepalive()
+
+		assert.False(t, connection.IsInvalidated())
+		assert.Equal(t, int32(2), calls.Load())
+	})
 }
