@@ -424,6 +424,17 @@ func (rb *byteReadBuffer) ReadFloat32(logicalName string, bitLength uint8, _ ...
 			uintValue = binary.BigEndian.Uint32(array)
 		}
 		return math.Float32frombits(uintValue), nil
+	} else if bitLength == 16 {
+		_uintValue, err := rb.bits.ReadBits(bitLength)
+		if err != nil {
+			return 0, errors.Wrapf(err, "error reading %d bits at pos [%d]bit ([%d]byte)", bitLength, rb.pos, rb.pos/8)
+		}
+		rb.pos += uint64(bitLength)
+		uintValue := uint16(_uintValue)
+		if rb.byteOrder == binary.LittleEndian {
+			uintValue = uintValue>>8 | uintValue<<8
+		}
+		return decodeKnxFloat16(uintValue), nil
 	} else if bitLength < 32 {
 		// TODO: Note ... this is the format as described in the KNX specification
 		var err error
