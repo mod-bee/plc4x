@@ -29,7 +29,7 @@ public enum CANOpenService {
 
   SYNC((byte) 0b0001, (int) 0x80, (int) 0x80, (boolean) false),
 
-  EMCY((byte) 0b0001, (int) 0x81, (int) 0xFF, (boolean) false),
+  EMCY((byte) 0b1101, (int) 0x81, (int) 0xFF, (boolean) false),
 
   TIME((byte) 0b0010, (int) 0x100, (int) 0x100, (boolean) false),
 

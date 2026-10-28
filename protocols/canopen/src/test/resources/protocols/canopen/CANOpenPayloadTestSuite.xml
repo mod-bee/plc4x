@@ -349,4 +349,37 @@
     </xml>
   </testcase>
 
+  <testcase>
+    <name>SYNC, payload: (none)</name>
+    <raw></raw>
+    <root-type>CANOpenPayload</root-type>
+    <parser-arguments>
+      <arg1>SYNC</arg1>
+    </parser-arguments>
+    <xml>
+      <CANOpenPayload>
+        <CANOpenSyncPayload>
+        </CANOpenSyncPayload>
+      </CANOpenPayload>
+    </xml>
+  </testcase>
+
+  <testcase>
+    <name>Emergency, current at the output (0x2310), current error register bit: 1023020102030405</name>
+    <raw>1023020102030405</raw>
+    <root-type>CANOpenPayload</root-type>
+    <parser-arguments>
+      <arg1>EMCY</arg1>
+    </parser-arguments>
+    <xml>
+      <CANOpenPayload>
+        <CANOpenEmergencyPayload>
+          <errorCode dataType="uint" bitLength="16">8976</errorCode>
+          <errorRegister dataType="uint" bitLength="8">2</errorRegister>
+          <manufacturerSpecificData dataType="byte" bitLength="40">0x0102030405</manufacturerSpecificData>
+        </CANOpenEmergencyPayload>
+      </CANOpenPayload>
+    </xml>
+  </testcase>
+
 </test:testsuite>

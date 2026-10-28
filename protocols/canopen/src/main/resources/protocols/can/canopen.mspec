@@ -17,10 +17,14 @@
  * under the License.
  */
 
+// The value is the CiA 301 function code (7.3.3, the top four bits of a COB-ID), with one exception: SYNC and EMCY
+// share function code 0b0001 and are told apart by the node-ID (0 for SYNC, 1 to 127 for EMCY). An enum needs a value
+// per constant, so EMCY takes 0b1101, which CiA 301 leaves unused. The value is only ever read or written by
+// CANOpenFrame below; a frame on the bus carries the COB-ID, min + node-ID.
 [enum uint 4 CANOpenService(uint 16 min, uint 16 max, bit pdo) byteOrder='"LITTLE_ENDIAN"' unsignedIntegerEncoding='"unsigned-binary"' signedIntegerEncoding='"twos-complement"' floatEncoding='"IEEE754"' stringEncoding='"UTF8"'
     ['0b0000' NMT             ['0',          '0'    ,      'false']]
     ['0b0001' SYNC            ['0x80',       '0x80' ,      'false']]
-    ['0b0001' EMCY            ['0x81',       '0xFF' ,      'false']]
+    ['0b1101' EMCY            ['0x81',       '0xFF' ,      'false']]
     ['0b0010' TIME            ['0x100',      '0x100',      'false']]
     ['0b0011' TRANSMIT_PDO_1  ['0x180',      '0x1FF',      'true' ]]
     ['0b0100' RECEIVE_PDO_1   ['0x200',      '0x27F',      'true' ]]
@@ -56,6 +60,15 @@
             [simple NMTStateRequest request]
             [reserved uint 1 '0x00']
             [simple uint 7 node]
+        ]
+        // CiA 301 7.2.5.3.1. A SYNC may carry a one-byte counter, which this model leaves unread.
+        ['SYNC' CANOpenSyncPayload
+        ]
+        // CiA 301 7.2.7.3.1
+        ['EMCY' CANOpenEmergencyPayload
+            [simple uint 16 errorCode]
+            [simple uint 8 errorRegister]
+            [array byte manufacturerSpecificData count '5']
         ]
         ['TIME' CANOpenTimeSynchronization
             [simple CANOpenTime timeOfDay]
