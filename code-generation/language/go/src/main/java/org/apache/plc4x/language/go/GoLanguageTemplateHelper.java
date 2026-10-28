@@ -1396,7 +1396,9 @@ public class GoLanguageTemplateHelper extends BaseFreemarkerLanguageTemplateHelp
                 }
             } else if (arg instanceof StringLiteral) {
                 tracer = tracer.dive("StringLiteral");
-                sb.append(((StringLiteral) arg).getValue());
+                // A string argument is a Go string: without its quotes it came out as an identifier
+                // (STATIC_CALL("serializeKnxScaledField", writeBuffer, _value, "h", ...) passed the variable h).
+                sb.append("\"").append(((StringLiteral) arg).getValue().replace("\\", "\\\\").replace("\"", "\\\"")).append("\"");
             } else if (arg instanceof BooleanLiteral) {
                 tracer = tracer.dive("BooleanLiteral");
                 sb.append(((BooleanLiteral) arg).getValue());

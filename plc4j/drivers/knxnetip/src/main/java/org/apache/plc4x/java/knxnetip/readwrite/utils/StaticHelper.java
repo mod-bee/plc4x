@@ -66,4 +66,15 @@ public class StaticHelper {
         writeBuffer.writeUnsignedLong(width, raw, WithOption.WithName("value"));
     }
 
+    /**
+     * One field of a composite datapoint type that has a coefficient, written as {@link #serializeKnxScaled}
+     * writes a single one: value is the struct, field the name.
+     */
+    public static void serializeKnxScaledField(WriteBuffer writeBuffer, PlcValue value, String field, int width, boolean signed, double fullScale, double largest) throws BufferException {
+        if (value == null || !value.isStruct() || value.getValue(field) == null) {
+            throw new BufferException("no field " + field + " to write");
+        }
+        serializeKnxScaled(writeBuffer, value.getValue(field), width, signed, fullScale, largest);
+    }
+
 }

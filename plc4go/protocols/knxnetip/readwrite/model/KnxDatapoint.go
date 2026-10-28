@@ -6760,12 +6760,12 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		_map["failure"] = values.NewPlcBOOL(failure)
 		_ = failure // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
-		// Simple Field (actualvalue)
-		actualvalue, _actualvalueErr := /*TODO: migrate me*/ /*TODO: migrate me*/ readBuffer.ReadUint8("actualvalue", 8)
+		// Manual Field (actualvalue)
+		actualvalue, _actualvalueErr := ParseKnxScaled(ctx, readBuffer, 8, false, 100.0, 255.0)
 		if _actualvalueErr != nil {
 			return nil, errors.Wrap(_actualvalueErr, "Error parsing 'actualvalue' field")
 		}
-		_map["actualvalue"] = values.NewPlcUSINT(actualvalue)
+		_map["actualvalue"] = values.NewPlcREAL(actualvalue)
 		_ = actualvalue // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -6988,20 +6988,20 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 			return nil, errors.Wrap(_err, "Error parsing reserved field")
 		}
 
-		// Simple Field (timePeriod)
-		timePeriod, _timePeriodErr := /*TODO: migrate me*/ /*TODO: migrate me*/ readBuffer.ReadUint16("timePeriod", 16)
+		// Manual Field (timePeriod)
+		timePeriod, _timePeriodErr := ParseKnxScaled(ctx, readBuffer, 16, false, 6553500.0, 65535.0)
 		if _timePeriodErr != nil {
 			return nil, errors.Wrap(_timePeriodErr, "Error parsing 'timePeriod' field")
 		}
-		_map["timePeriod"] = values.NewPlcUINT(timePeriod)
+		_map["timePeriod"] = values.NewPlcREAL(timePeriod)
 		_ = timePeriod // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
-		// Simple Field (percent)
-		percent, _percentErr := /*TODO: migrate me*/ /*TODO: migrate me*/ readBuffer.ReadUint8("percent", 8)
+		// Manual Field (percent)
+		percent, _percentErr := ParseKnxScaled(ctx, readBuffer, 8, false, 100.0, 255.0)
 		if _percentErr != nil {
 			return nil, errors.Wrap(_percentErr, "Error parsing 'percent' field")
 		}
-		_map["percent"] = values.NewPlcUSINT(percent)
+		_map["percent"] = values.NewPlcREAL(percent)
 		_ = percent // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7022,12 +7022,12 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		_map["timePeriod"] = values.NewPlcUINT(timePeriod)
 		_ = timePeriod // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
-		// Simple Field (percent)
-		percent, _percentErr := /*TODO: migrate me*/ /*TODO: migrate me*/ readBuffer.ReadUint8("percent", 8)
+		// Manual Field (percent)
+		percent, _percentErr := ParseKnxScaled(ctx, readBuffer, 8, false, 100.0, 255.0)
 		if _percentErr != nil {
 			return nil, errors.Wrap(_percentErr, "Error parsing 'percent' field")
 		}
-		_map["percent"] = values.NewPlcUSINT(percent)
+		_map["percent"] = values.NewPlcREAL(percent)
 		_ = percent // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7187,28 +7187,28 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 			return nil, errors.Wrap(_err, "Error parsing reserved field")
 		}
 
-		// Simple Field (h)
-		h, _hErr := /*TODO: migrate me*/ /*TODO: migrate me*/ readBuffer.ReadUint8("h", 8)
+		// Manual Field (h)
+		h, _hErr := ParseKnxScaled(ctx, readBuffer, 8, false, 360.0, 255.0)
 		if _hErr != nil {
 			return nil, errors.Wrap(_hErr, "Error parsing 'h' field")
 		}
-		_map["h"] = values.NewPlcUSINT(h)
+		_map["h"] = values.NewPlcREAL(h)
 		_ = h // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
-		// Simple Field (s)
-		s, _sErr := /*TODO: migrate me*/ /*TODO: migrate me*/ readBuffer.ReadUint8("s", 8)
+		// Manual Field (s)
+		s, _sErr := ParseKnxScaled(ctx, readBuffer, 8, false, 100.0, 255.0)
 		if _sErr != nil {
 			return nil, errors.Wrap(_sErr, "Error parsing 's' field")
 		}
-		_map["s"] = values.NewPlcUSINT(s)
+		_map["s"] = values.NewPlcREAL(s)
 		_ = s // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
-		// Simple Field (v)
-		v, _vErr := /*TODO: migrate me*/ /*TODO: migrate me*/ readBuffer.ReadUint8("v", 8)
+		// Manual Field (v)
+		v, _vErr := ParseKnxScaled(ctx, readBuffer, 8, false, 100.0, 255.0)
 		if _vErr != nil {
 			return nil, errors.Wrap(_vErr, "Error parsing 'v' field")
 		}
-		_map["v"] = values.NewPlcUSINT(v)
+		_map["v"] = values.NewPlcREAL(v)
 		_ = v // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7413,20 +7413,20 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 			return nil, errors.Wrap(_err, "Error parsing reserved field")
 		}
 
-		// Simple Field (heightPosition)
-		heightPosition, _heightPositionErr := /*TODO: migrate me*/ /*TODO: migrate me*/ readBuffer.ReadUint8("heightPosition", 8)
+		// Manual Field (heightPosition)
+		heightPosition, _heightPositionErr := ParseKnxScaled(ctx, readBuffer, 8, false, 100.0, 255.0)
 		if _heightPositionErr != nil {
 			return nil, errors.Wrap(_heightPositionErr, "Error parsing 'heightPosition' field")
 		}
-		_map["heightPosition"] = values.NewPlcUSINT(heightPosition)
+		_map["heightPosition"] = values.NewPlcREAL(heightPosition)
 		_ = heightPosition // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
-		// Simple Field (slatsPosition)
-		slatsPosition, _slatsPositionErr := /*TODO: migrate me*/ /*TODO: migrate me*/ readBuffer.ReadUint8("slatsPosition", 8)
+		// Manual Field (slatsPosition)
+		slatsPosition, _slatsPositionErr := ParseKnxScaled(ctx, readBuffer, 8, false, 100.0, 255.0)
 		if _slatsPositionErr != nil {
 			return nil, errors.Wrap(_slatsPositionErr, "Error parsing 'slatsPosition' field")
 		}
-		_map["slatsPosition"] = values.NewPlcUSINT(slatsPosition)
+		_map["slatsPosition"] = values.NewPlcREAL(slatsPosition)
 		_ = slatsPosition // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -7460,20 +7460,20 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 			return nil, errors.Wrap(_err, "Error parsing reserved field")
 		}
 
-		// Simple Field (heightPosition)
-		heightPosition, _heightPositionErr := /*TODO: migrate me*/ /*TODO: migrate me*/ readBuffer.ReadUint8("heightPosition", 8)
+		// Manual Field (heightPosition)
+		heightPosition, _heightPositionErr := ParseKnxScaled(ctx, readBuffer, 8, false, 100.0, 255.0)
 		if _heightPositionErr != nil {
 			return nil, errors.Wrap(_heightPositionErr, "Error parsing 'heightPosition' field")
 		}
-		_map["heightPosition"] = values.NewPlcUSINT(heightPosition)
+		_map["heightPosition"] = values.NewPlcREAL(heightPosition)
 		_ = heightPosition // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
-		// Simple Field (slatsPosition)
-		slatsPosition, _slatsPositionErr := /*TODO: migrate me*/ /*TODO: migrate me*/ readBuffer.ReadUint8("slatsPosition", 8)
+		// Manual Field (slatsPosition)
+		slatsPosition, _slatsPositionErr := ParseKnxScaled(ctx, readBuffer, 8, false, 100.0, 255.0)
 		if _slatsPositionErr != nil {
 			return nil, errors.Wrap(_slatsPositionErr, "Error parsing 'slatsPosition' field")
 		}
-		_map["slatsPosition"] = values.NewPlcUSINT(slatsPosition)
+		_map["slatsPosition"] = values.NewPlcREAL(slatsPosition)
 		_ = slatsPosition // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (upperEndPosReached)
@@ -7852,12 +7852,12 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 			return nil, errors.Wrap(_err, "Error parsing reserved field")
 		}
 
-		// Simple Field (ms)
-		ms, _msErr := /*TODO: migrate me*/ /*TODO: migrate me*/ readBuffer.ReadUint16("ms", 16)
+		// Manual Field (ms)
+		ms, _msErr := ParseKnxScaled(ctx, readBuffer, 16, false, 6553500.0, 65535.0)
 		if _msErr != nil {
 			return nil, errors.Wrap(_msErr, "Error parsing 'ms' field")
 		}
-		_map["ms"] = values.NewPlcUINT(ms)
+		_map["ms"] = values.NewPlcREAL(ms)
 		_ = ms // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (temperatureK)
@@ -7868,12 +7868,12 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		_map["temperatureK"] = values.NewPlcUINT(temperatureK)
 		_ = temperatureK // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
-		// Simple Field (percent)
-		percent, _percentErr := /*TODO: migrate me*/ /*TODO: migrate me*/ readBuffer.ReadUint8("percent", 8)
+		// Manual Field (percent)
+		percent, _percentErr := ParseKnxScaled(ctx, readBuffer, 8, false, 100.0, 255.0)
 		if _percentErr != nil {
 			return nil, errors.Wrap(_percentErr, "Error parsing 'percent' field")
 		}
-		_map["percent"] = values.NewPlcUSINT(percent)
+		_map["percent"] = values.NewPlcREAL(percent)
 		_ = percent // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -7988,36 +7988,36 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 			return nil, errors.Wrap(_err, "Error parsing reserved field")
 		}
 
-		// Simple Field (colourLevelRed)
-		colourLevelRed, _colourLevelRedErr := /*TODO: migrate me*/ /*TODO: migrate me*/ readBuffer.ReadUint8("colourLevelRed", 8)
+		// Manual Field (colourLevelRed)
+		colourLevelRed, _colourLevelRedErr := ParseKnxScaled(ctx, readBuffer, 8, false, 100.0, 255.0)
 		if _colourLevelRedErr != nil {
 			return nil, errors.Wrap(_colourLevelRedErr, "Error parsing 'colourLevelRed' field")
 		}
-		_map["colourLevelRed"] = values.NewPlcUSINT(colourLevelRed)
+		_map["colourLevelRed"] = values.NewPlcREAL(colourLevelRed)
 		_ = colourLevelRed // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
-		// Simple Field (colourLevelGreen)
-		colourLevelGreen, _colourLevelGreenErr := /*TODO: migrate me*/ /*TODO: migrate me*/ readBuffer.ReadUint8("colourLevelGreen", 8)
+		// Manual Field (colourLevelGreen)
+		colourLevelGreen, _colourLevelGreenErr := ParseKnxScaled(ctx, readBuffer, 8, false, 100.0, 255.0)
 		if _colourLevelGreenErr != nil {
 			return nil, errors.Wrap(_colourLevelGreenErr, "Error parsing 'colourLevelGreen' field")
 		}
-		_map["colourLevelGreen"] = values.NewPlcUSINT(colourLevelGreen)
+		_map["colourLevelGreen"] = values.NewPlcREAL(colourLevelGreen)
 		_ = colourLevelGreen // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
-		// Simple Field (colourLevelBlue)
-		colourLevelBlue, _colourLevelBlueErr := /*TODO: migrate me*/ /*TODO: migrate me*/ readBuffer.ReadUint8("colourLevelBlue", 8)
+		// Manual Field (colourLevelBlue)
+		colourLevelBlue, _colourLevelBlueErr := ParseKnxScaled(ctx, readBuffer, 8, false, 100.0, 255.0)
 		if _colourLevelBlueErr != nil {
 			return nil, errors.Wrap(_colourLevelBlueErr, "Error parsing 'colourLevelBlue' field")
 		}
-		_map["colourLevelBlue"] = values.NewPlcUSINT(colourLevelBlue)
+		_map["colourLevelBlue"] = values.NewPlcREAL(colourLevelBlue)
 		_ = colourLevelBlue // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
-		// Simple Field (colourLevelWhite)
-		colourLevelWhite, _colourLevelWhiteErr := /*TODO: migrate me*/ /*TODO: migrate me*/ readBuffer.ReadUint8("colourLevelWhite", 8)
+		// Manual Field (colourLevelWhite)
+		colourLevelWhite, _colourLevelWhiteErr := ParseKnxScaled(ctx, readBuffer, 8, false, 100.0, 255.0)
 		if _colourLevelWhiteErr != nil {
 			return nil, errors.Wrap(_colourLevelWhiteErr, "Error parsing 'colourLevelWhite' field")
 		}
-		_map["colourLevelWhite"] = values.NewPlcUSINT(colourLevelWhite)
+		_map["colourLevelWhite"] = values.NewPlcREAL(colourLevelWhite)
 		_ = colourLevelWhite // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -12965,9 +12965,10 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 			return errors.Wrap(_err, "Error serializing 'failure' field")
 		}
 
-		// Simple Field (actualvalue)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("actualvalue", 8, uint8(value.GetValue("actualvalue").GetUint8())); _err != nil {
-			return errors.Wrap(_err, "Error serializing 'actualvalue' field")
+		// Manual Field (actualvalue)
+		_actualvalueErr := SerializeKnxScaledField(ctx, writeBuffer, value, "actualvalue", 8, false, 100.0, 255.0)
+		if _actualvalueErr != nil {
+			return errors.Wrap(_actualvalueErr, "Error serializing 'actualvalue' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Version: // Struct
 		// Reserved Field (Just skip the bytes)
@@ -13105,14 +13106,16 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 			return errors.Wrap(_err, "Error serializing reserved field")
 		}
 
-		// Simple Field (timePeriod)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("timePeriod", 16, uint16(value.GetValue("timePeriod").GetUint16())); _err != nil {
-			return errors.Wrap(_err, "Error serializing 'timePeriod' field")
+		// Manual Field (timePeriod)
+		_timePeriodErr := SerializeKnxScaledField(ctx, writeBuffer, value, "timePeriod", 16, false, 6553500.0, 65535.0)
+		if _timePeriodErr != nil {
+			return errors.Wrap(_timePeriodErr, "Error serializing 'timePeriod' field")
 		}
 
-		// Simple Field (percent)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("percent", 8, uint8(value.GetValue("percent").GetUint8())); _err != nil {
-			return errors.Wrap(_err, "Error serializing 'percent' field")
+		// Manual Field (percent)
+		_percentErr := SerializeKnxScaledField(ctx, writeBuffer, value, "percent", 8, false, 100.0, 255.0)
+		if _percentErr != nil {
+			return errors.Wrap(_percentErr, "Error serializing 'percent' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Scaling_Step_Time: // Struct
 		// Reserved Field (Just skip the bytes)
@@ -13125,9 +13128,10 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 			return errors.Wrap(_err, "Error serializing 'timePeriod' field")
 		}
 
-		// Simple Field (percent)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("percent", 8, uint8(value.GetValue("percent").GetUint8())); _err != nil {
-			return errors.Wrap(_err, "Error serializing 'percent' field")
+		// Manual Field (percent)
+		_percentErr := SerializeKnxScaledField(ctx, writeBuffer, value, "percent", 8, false, 100.0, 255.0)
+		if _percentErr != nil {
+			return errors.Wrap(_percentErr, "Error serializing 'percent' field")
 		}
 	case datapointType == KnxDatapointType_DPT_MeteringValue: // Struct
 		// Reserved Field (Just skip the bytes)
@@ -13225,19 +13229,22 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 			return errors.Wrap(_err, "Error serializing reserved field")
 		}
 
-		// Simple Field (h)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("h", 8, uint8(value.GetValue("h").GetUint8())); _err != nil {
-			return errors.Wrap(_err, "Error serializing 'h' field")
+		// Manual Field (h)
+		_hErr := SerializeKnxScaledField(ctx, writeBuffer, value, "h", 8, false, 360.0, 255.0)
+		if _hErr != nil {
+			return errors.Wrap(_hErr, "Error serializing 'h' field")
 		}
 
-		// Simple Field (s)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("s", 8, uint8(value.GetValue("s").GetUint8())); _err != nil {
-			return errors.Wrap(_err, "Error serializing 's' field")
+		// Manual Field (s)
+		_sErr := SerializeKnxScaledField(ctx, writeBuffer, value, "s", 8, false, 100.0, 255.0)
+		if _sErr != nil {
+			return errors.Wrap(_sErr, "Error serializing 's' field")
 		}
 
-		// Simple Field (v)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("v", 8, uint8(value.GetValue("v").GetUint8())); _err != nil {
-			return errors.Wrap(_err, "Error serializing 'v' field")
+		// Manual Field (v)
+		_vErr := SerializeKnxScaledField(ctx, writeBuffer, value, "v", 8, false, 100.0, 255.0)
+		if _vErr != nil {
+			return errors.Wrap(_vErr, "Error serializing 'v' field")
 		}
 	case datapointType == KnxDatapointType_DPT_LanguageCodeAlpha2_ASCII: // STRING
 		// Reserved Field (Just skip the bytes)
@@ -13365,14 +13372,16 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 			return errors.Wrap(_err, "Error serializing reserved field")
 		}
 
-		// Simple Field (heightPosition)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("heightPosition", 8, uint8(value.GetValue("heightPosition").GetUint8())); _err != nil {
-			return errors.Wrap(_err, "Error serializing 'heightPosition' field")
+		// Manual Field (heightPosition)
+		_heightPositionErr := SerializeKnxScaledField(ctx, writeBuffer, value, "heightPosition", 8, false, 100.0, 255.0)
+		if _heightPositionErr != nil {
+			return errors.Wrap(_heightPositionErr, "Error serializing 'heightPosition' field")
 		}
 
-		// Simple Field (slatsPosition)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("slatsPosition", 8, uint8(value.GetValue("slatsPosition").GetUint8())); _err != nil {
-			return errors.Wrap(_err, "Error serializing 'slatsPosition' field")
+		// Manual Field (slatsPosition)
+		_slatsPositionErr := SerializeKnxScaledField(ctx, writeBuffer, value, "slatsPosition", 8, false, 100.0, 255.0)
+		if _slatsPositionErr != nil {
+			return errors.Wrap(_slatsPositionErr, "Error serializing 'slatsPosition' field")
 		}
 
 		// Reserved Field (Just skip the bytes)
@@ -13395,14 +13404,16 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 			return errors.Wrap(_err, "Error serializing reserved field")
 		}
 
-		// Simple Field (heightPosition)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("heightPosition", 8, uint8(value.GetValue("heightPosition").GetUint8())); _err != nil {
-			return errors.Wrap(_err, "Error serializing 'heightPosition' field")
+		// Manual Field (heightPosition)
+		_heightPositionErr := SerializeKnxScaledField(ctx, writeBuffer, value, "heightPosition", 8, false, 100.0, 255.0)
+		if _heightPositionErr != nil {
+			return errors.Wrap(_heightPositionErr, "Error serializing 'heightPosition' field")
 		}
 
-		// Simple Field (slatsPosition)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("slatsPosition", 8, uint8(value.GetValue("slatsPosition").GetUint8())); _err != nil {
-			return errors.Wrap(_err, "Error serializing 'slatsPosition' field")
+		// Manual Field (slatsPosition)
+		_slatsPositionErr := SerializeKnxScaledField(ctx, writeBuffer, value, "slatsPosition", 8, false, 100.0, 255.0)
+		if _slatsPositionErr != nil {
+			return errors.Wrap(_slatsPositionErr, "Error serializing 'slatsPosition' field")
 		}
 
 		// Simple Field (upperEndPosReached)
@@ -13645,9 +13656,10 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 			return errors.Wrap(_err, "Error serializing reserved field")
 		}
 
-		// Simple Field (ms)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("ms", 16, uint16(value.GetValue("ms").GetUint16())); _err != nil {
-			return errors.Wrap(_err, "Error serializing 'ms' field")
+		// Manual Field (ms)
+		_msErr := SerializeKnxScaledField(ctx, writeBuffer, value, "ms", 16, false, 6553500.0, 65535.0)
+		if _msErr != nil {
+			return errors.Wrap(_msErr, "Error serializing 'ms' field")
 		}
 
 		// Simple Field (temperatureK)
@@ -13655,9 +13667,10 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 			return errors.Wrap(_err, "Error serializing 'temperatureK' field")
 		}
 
-		// Simple Field (percent)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("percent", 8, uint8(value.GetValue("percent").GetUint8())); _err != nil {
-			return errors.Wrap(_err, "Error serializing 'percent' field")
+		// Manual Field (percent)
+		_percentErr := SerializeKnxScaledField(ctx, writeBuffer, value, "percent", 8, false, 100.0, 255.0)
+		if _percentErr != nil {
+			return errors.Wrap(_percentErr, "Error serializing 'percent' field")
 		}
 
 		// Reserved Field (Just skip the bytes)
@@ -13735,24 +13748,28 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 			return errors.Wrap(_err, "Error serializing reserved field")
 		}
 
-		// Simple Field (colourLevelRed)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("colourLevelRed", 8, uint8(value.GetValue("colourLevelRed").GetUint8())); _err != nil {
-			return errors.Wrap(_err, "Error serializing 'colourLevelRed' field")
+		// Manual Field (colourLevelRed)
+		_colourLevelRedErr := SerializeKnxScaledField(ctx, writeBuffer, value, "colourLevelRed", 8, false, 100.0, 255.0)
+		if _colourLevelRedErr != nil {
+			return errors.Wrap(_colourLevelRedErr, "Error serializing 'colourLevelRed' field")
 		}
 
-		// Simple Field (colourLevelGreen)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("colourLevelGreen", 8, uint8(value.GetValue("colourLevelGreen").GetUint8())); _err != nil {
-			return errors.Wrap(_err, "Error serializing 'colourLevelGreen' field")
+		// Manual Field (colourLevelGreen)
+		_colourLevelGreenErr := SerializeKnxScaledField(ctx, writeBuffer, value, "colourLevelGreen", 8, false, 100.0, 255.0)
+		if _colourLevelGreenErr != nil {
+			return errors.Wrap(_colourLevelGreenErr, "Error serializing 'colourLevelGreen' field")
 		}
 
-		// Simple Field (colourLevelBlue)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("colourLevelBlue", 8, uint8(value.GetValue("colourLevelBlue").GetUint8())); _err != nil {
-			return errors.Wrap(_err, "Error serializing 'colourLevelBlue' field")
+		// Manual Field (colourLevelBlue)
+		_colourLevelBlueErr := SerializeKnxScaledField(ctx, writeBuffer, value, "colourLevelBlue", 8, false, 100.0, 255.0)
+		if _colourLevelBlueErr != nil {
+			return errors.Wrap(_colourLevelBlueErr, "Error serializing 'colourLevelBlue' field")
 		}
 
-		// Simple Field (colourLevelWhite)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("colourLevelWhite", 8, uint8(value.GetValue("colourLevelWhite").GetUint8())); _err != nil {
-			return errors.Wrap(_err, "Error serializing 'colourLevelWhite' field")
+		// Manual Field (colourLevelWhite)
+		_colourLevelWhiteErr := SerializeKnxScaledField(ctx, writeBuffer, value, "colourLevelWhite", 8, false, 100.0, 255.0)
+		if _colourLevelWhiteErr != nil {
+			return errors.Wrap(_colourLevelWhiteErr, "Error serializing 'colourLevelWhite' field")
 		}
 
 		// Reserved Field (Just skip the bytes)

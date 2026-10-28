@@ -5047,8 +5047,8 @@ public class KnxDatapoint {
         // Simple Field: failure
         boolean failure = FieldReaderFactory.readSimpleField(DataReaderFactory.readBoolean(readBuffer), WithOption.WithName("failure"));
 
-        // Simple Field: actualvalue
-        short actualvalue = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedShort(readBuffer, 8), WithOption.WithName("actualvalue"));
+        // Manual Field: actualvalue
+        float actualvalue = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 8, false, 100.0, 255.0)), WithOption.WithName("actualvalue"));
 
         Map<String, PlcValue> _map = new HashMap<>();
         _map.put("validactualvalue", new PlcBOOL(validactualvalue));
@@ -5059,7 +5059,7 @@ public class KnxDatapoint {
         _map.put("dimming", new PlcBOOL(dimming));
         _map.put("localoverride", new PlcBOOL(localoverride));
         _map.put("failure", new PlcBOOL(failure));
-        _map.put("actualvalue", new PlcUSINT(actualvalue));
+        _map.put("actualvalue", new PlcREAL(actualvalue));
         return new PlcStruct(_map);
       } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Version)) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -5195,15 +5195,15 @@ public class KnxDatapoint {
         // Reserved Field
         FieldReaderFactory.readReservedField(DataReaderFactory.readUnsignedShort(readBuffer, 8), (short) 0x00, WithOption.WithName("KnxDatapoint.reserved0"));
 
-        // Simple Field: timePeriod
-        int timePeriod = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedInt(readBuffer, 16), WithOption.WithName("timePeriod"));
+        // Manual Field: timePeriod
+        float timePeriod = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 16, false, 6553500.0, 65535.0)), WithOption.WithName("timePeriod"));
 
-        // Simple Field: percent
-        short percent = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedShort(readBuffer, 8), WithOption.WithName("percent"));
+        // Manual Field: percent
+        float percent = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 8, false, 100.0, 255.0)), WithOption.WithName("percent"));
 
         Map<String, PlcValue> _map = new HashMap<>();
-        _map.put("timePeriod", new PlcUINT(timePeriod));
-        _map.put("percent", new PlcUSINT(percent));
+        _map.put("timePeriod", new PlcREAL(timePeriod));
+        _map.put("percent", new PlcREAL(percent));
         return new PlcStruct(_map);
       } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Scaling_Step_Time)) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -5216,12 +5216,12 @@ public class KnxDatapoint {
         // Simple Field: timePeriod
         int timePeriod = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedInt(readBuffer, 16), WithOption.WithName("timePeriod"));
 
-        // Simple Field: percent
-        short percent = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedShort(readBuffer, 8), WithOption.WithName("percent"));
+        // Manual Field: percent
+        float percent = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 8, false, 100.0, 255.0)), WithOption.WithName("percent"));
 
         Map<String, PlcValue> _map = new HashMap<>();
         _map.put("timePeriod", new PlcUINT(timePeriod));
-        _map.put("percent", new PlcUSINT(percent));
+        _map.put("percent", new PlcREAL(percent));
         return new PlcStruct(_map);
       } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_MeteringValue)) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -5320,19 +5320,19 @@ public class KnxDatapoint {
         // Reserved Field
         FieldReaderFactory.readReservedField(DataReaderFactory.readUnsignedShort(readBuffer, 8), (short) 0x00, WithOption.WithName("KnxDatapoint.reserved0"));
 
-        // Simple Field: h
-        short h = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedShort(readBuffer, 8), WithOption.WithName("h"));
+        // Manual Field: h
+        float h = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 8, false, 360.0, 255.0)), WithOption.WithName("h"));
 
-        // Simple Field: s
-        short s = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedShort(readBuffer, 8), WithOption.WithName("s"));
+        // Manual Field: s
+        float s = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 8, false, 100.0, 255.0)), WithOption.WithName("s"));
 
-        // Simple Field: v
-        short v = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedShort(readBuffer, 8), WithOption.WithName("v"));
+        // Manual Field: v
+        float v = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 8, false, 100.0, 255.0)), WithOption.WithName("v"));
 
         Map<String, PlcValue> _map = new HashMap<>();
-        _map.put("h", new PlcUSINT(h));
-        _map.put("s", new PlcUSINT(s));
-        _map.put("v", new PlcUSINT(v));
+        _map.put("h", new PlcREAL(h));
+        _map.put("s", new PlcREAL(s));
+        _map.put("v", new PlcREAL(v));
         return new PlcStruct(_map);
       } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_LanguageCodeAlpha2_ASCII)) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -5464,11 +5464,11 @@ public class KnxDatapoint {
         // Reserved Field
         FieldReaderFactory.readReservedField(DataReaderFactory.readUnsignedShort(readBuffer, 8), (short) 0x00, WithOption.WithName("KnxDatapoint.reserved0"));
 
-        // Simple Field: heightPosition
-        short heightPosition = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedShort(readBuffer, 8), WithOption.WithName("heightPosition"));
+        // Manual Field: heightPosition
+        float heightPosition = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 8, false, 100.0, 255.0)), WithOption.WithName("heightPosition"));
 
-        // Simple Field: slatsPosition
-        short slatsPosition = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedShort(readBuffer, 8), WithOption.WithName("slatsPosition"));
+        // Manual Field: slatsPosition
+        float slatsPosition = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 8, false, 100.0, 255.0)), WithOption.WithName("slatsPosition"));
 
         // Reserved Field
         FieldReaderFactory.readReservedField(DataReaderFactory.readUnsignedByte(readBuffer, 6), (byte) 0x00, WithOption.WithName("KnxDatapoint.reserved3"));
@@ -5480,8 +5480,8 @@ public class KnxDatapoint {
         boolean validityHeightPosition = FieldReaderFactory.readSimpleField(DataReaderFactory.readBoolean(readBuffer), WithOption.WithName("validityHeightPosition"));
 
         Map<String, PlcValue> _map = new HashMap<>();
-        _map.put("heightPosition", new PlcUSINT(heightPosition));
-        _map.put("slatsPosition", new PlcUSINT(slatsPosition));
+        _map.put("heightPosition", new PlcREAL(heightPosition));
+        _map.put("slatsPosition", new PlcREAL(slatsPosition));
         _map.put("validitySlatsPosition", new PlcBOOL(validitySlatsPosition));
         _map.put("validityHeightPosition", new PlcBOOL(validityHeightPosition));
         return new PlcStruct(_map);
@@ -5493,11 +5493,11 @@ public class KnxDatapoint {
         // Reserved Field
         FieldReaderFactory.readReservedField(DataReaderFactory.readUnsignedShort(readBuffer, 8), (short) 0x00, WithOption.WithName("KnxDatapoint.reserved0"));
 
-        // Simple Field: heightPosition
-        short heightPosition = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedShort(readBuffer, 8), WithOption.WithName("heightPosition"));
+        // Manual Field: heightPosition
+        float heightPosition = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 8, false, 100.0, 255.0)), WithOption.WithName("heightPosition"));
 
-        // Simple Field: slatsPosition
-        short slatsPosition = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedShort(readBuffer, 8), WithOption.WithName("slatsPosition"));
+        // Manual Field: slatsPosition
+        float slatsPosition = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 8, false, 100.0, 255.0)), WithOption.WithName("slatsPosition"));
 
         // Simple Field: upperEndPosReached
         boolean upperEndPosReached = FieldReaderFactory.readSimpleField(DataReaderFactory.readBoolean(readBuffer), WithOption.WithName("upperEndPosReached"));
@@ -5542,8 +5542,8 @@ public class KnxDatapoint {
         boolean validitySlatsPos = FieldReaderFactory.readSimpleField(DataReaderFactory.readBoolean(readBuffer), WithOption.WithName("validitySlatsPos"));
 
         Map<String, PlcValue> _map = new HashMap<>();
-        _map.put("heightPosition", new PlcUSINT(heightPosition));
-        _map.put("slatsPosition", new PlcUSINT(slatsPosition));
+        _map.put("heightPosition", new PlcREAL(heightPosition));
+        _map.put("slatsPosition", new PlcREAL(slatsPosition));
         _map.put("upperEndPosReached", new PlcBOOL(upperEndPosReached));
         _map.put("lowerEndPosReached", new PlcBOOL(lowerEndPosReached));
         _map.put("lowerPredefPosReachedTypHeight100PercentSlatsAngle100Percent", new PlcBOOL(lowerPredefPosReachedTypHeight100PercentSlatsAngle100Percent));
@@ -5717,14 +5717,14 @@ public class KnxDatapoint {
         // Reserved Field
         FieldReaderFactory.readReservedField(DataReaderFactory.readUnsignedShort(readBuffer, 8), (short) 0x00, WithOption.WithName("KnxDatapoint.reserved0"));
 
-        // Simple Field: ms
-        int ms = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedInt(readBuffer, 16), WithOption.WithName("ms"));
+        // Manual Field: ms
+        float ms = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 16, false, 6553500.0, 65535.0)), WithOption.WithName("ms"));
 
         // Simple Field: temperatureK
         int temperatureK = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedInt(readBuffer, 16), WithOption.WithName("temperatureK"));
 
-        // Simple Field: percent
-        short percent = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedShort(readBuffer, 8), WithOption.WithName("percent"));
+        // Manual Field: percent
+        float percent = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 8, false, 100.0, 255.0)), WithOption.WithName("percent"));
 
         // Reserved Field
         FieldReaderFactory.readReservedField(DataReaderFactory.readUnsignedByte(readBuffer, 5), (byte) 0x00, WithOption.WithName("KnxDatapoint.reserved4"));
@@ -5739,9 +5739,9 @@ public class KnxDatapoint {
         boolean validityOfTheAbsoluteBrightness = FieldReaderFactory.readSimpleField(DataReaderFactory.readBoolean(readBuffer), WithOption.WithName("validityOfTheAbsoluteBrightness"));
 
         Map<String, PlcValue> _map = new HashMap<>();
-        _map.put("ms", new PlcUINT(ms));
+        _map.put("ms", new PlcREAL(ms));
         _map.put("temperatureK", new PlcUINT(temperatureK));
-        _map.put("percent", new PlcUSINT(percent));
+        _map.put("percent", new PlcREAL(percent));
         _map.put("validityOfTheTimePeriod", new PlcBOOL(validityOfTheTimePeriod));
         _map.put("validityOfTheAbsoluteColourTemperature", new PlcBOOL(validityOfTheAbsoluteColourTemperature));
         _map.put("validityOfTheAbsoluteBrightness", new PlcBOOL(validityOfTheAbsoluteBrightness));
@@ -5797,17 +5797,17 @@ public class KnxDatapoint {
         // Reserved Field
         FieldReaderFactory.readReservedField(DataReaderFactory.readUnsignedShort(readBuffer, 8), (short) 0x00, WithOption.WithName("KnxDatapoint.reserved0"));
 
-        // Simple Field: colourLevelRed
-        short colourLevelRed = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedShort(readBuffer, 8), WithOption.WithName("colourLevelRed"));
+        // Manual Field: colourLevelRed
+        float colourLevelRed = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 8, false, 100.0, 255.0)), WithOption.WithName("colourLevelRed"));
 
-        // Simple Field: colourLevelGreen
-        short colourLevelGreen = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedShort(readBuffer, 8), WithOption.WithName("colourLevelGreen"));
+        // Manual Field: colourLevelGreen
+        float colourLevelGreen = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 8, false, 100.0, 255.0)), WithOption.WithName("colourLevelGreen"));
 
-        // Simple Field: colourLevelBlue
-        short colourLevelBlue = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedShort(readBuffer, 8), WithOption.WithName("colourLevelBlue"));
+        // Manual Field: colourLevelBlue
+        float colourLevelBlue = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 8, false, 100.0, 255.0)), WithOption.WithName("colourLevelBlue"));
 
-        // Simple Field: colourLevelWhite
-        short colourLevelWhite = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedShort(readBuffer, 8), WithOption.WithName("colourLevelWhite"));
+        // Manual Field: colourLevelWhite
+        float colourLevelWhite = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 8, false, 100.0, 255.0)), WithOption.WithName("colourLevelWhite"));
 
         // Reserved Field
         FieldReaderFactory.readReservedField(DataReaderFactory.readUnsignedShort(readBuffer, 8), (short) 0x00, WithOption.WithName("KnxDatapoint.reserved5"));
@@ -5828,10 +5828,10 @@ public class KnxDatapoint {
         boolean mw = FieldReaderFactory.readSimpleField(DataReaderFactory.readBoolean(readBuffer), WithOption.WithName("mw"));
 
         Map<String, PlcValue> _map = new HashMap<>();
-        _map.put("colourLevelRed", new PlcUSINT(colourLevelRed));
-        _map.put("colourLevelGreen", new PlcUSINT(colourLevelGreen));
-        _map.put("colourLevelBlue", new PlcUSINT(colourLevelBlue));
-        _map.put("colourLevelWhite", new PlcUSINT(colourLevelWhite));
+        _map.put("colourLevelRed", new PlcREAL(colourLevelRed));
+        _map.put("colourLevelGreen", new PlcREAL(colourLevelGreen));
+        _map.put("colourLevelBlue", new PlcREAL(colourLevelBlue));
+        _map.put("colourLevelWhite", new PlcREAL(colourLevelWhite));
         _map.put("mr", new PlcBOOL(mr));
         _map.put("mg", new PlcBOOL(mg));
         _map.put("mb", new PlcBOOL(mb));
@@ -9736,8 +9736,8 @@ public class KnxDatapoint {
       // Simple Field: failure
       FieldWriterFactory.writeSimpleField((boolean) _value.getStruct().get("failure").getBoolean(), DataWriterFactory.writeBoolean(writeBuffer), WithOption.WithName("failure"));
 
-      // Simple Field: actualvalue
-      FieldWriterFactory.writeSimpleField((short) _value.getStruct().get("actualvalue").getShort(), DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("actualvalue"));
+      // Manual Field: actualvalue
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaledField(writeBuffer, _value, "actualvalue", 8, false, 100.0, 255.0), writeBuffer, WithOption.WithName("actualvalue"));
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Version)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // Struct
@@ -9835,11 +9835,11 @@ public class KnxDatapoint {
       // Reserved Field
       FieldWriterFactory.writeReservedField((short) 0x00, DataWriterFactory.writeUnsignedShort(writeBuffer, 8));
 
-      // Simple Field: timePeriod
-      FieldWriterFactory.writeSimpleField((int) _value.getStruct().get("timePeriod").getInt(), DataWriterFactory.writeUnsignedInt(writeBuffer, 16), WithOption.WithName("timePeriod"));
+      // Manual Field: timePeriod
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaledField(writeBuffer, _value, "timePeriod", 16, false, 6553500.0, 65535.0), writeBuffer, WithOption.WithName("timePeriod"));
 
-      // Simple Field: percent
-      FieldWriterFactory.writeSimpleField((short) _value.getStruct().get("percent").getShort(), DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("percent"));
+      // Manual Field: percent
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaledField(writeBuffer, _value, "percent", 8, false, 100.0, 255.0), writeBuffer, WithOption.WithName("percent"));
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Scaling_Step_Time)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // Struct
@@ -9850,8 +9850,8 @@ public class KnxDatapoint {
       // Simple Field: timePeriod
       FieldWriterFactory.writeSimpleField((int) _value.getStruct().get("timePeriod").getInt(), DataWriterFactory.writeUnsignedInt(writeBuffer, 16), WithOption.WithName("timePeriod"));
 
-      // Simple Field: percent
-      FieldWriterFactory.writeSimpleField((short) _value.getStruct().get("percent").getShort(), DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("percent"));
+      // Manual Field: percent
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaledField(writeBuffer, _value, "percent", 8, false, 100.0, 255.0), writeBuffer, WithOption.WithName("percent"));
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_MeteringValue)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // Struct
@@ -9922,14 +9922,14 @@ public class KnxDatapoint {
       // Reserved Field
       FieldWriterFactory.writeReservedField((short) 0x00, DataWriterFactory.writeUnsignedShort(writeBuffer, 8));
 
-      // Simple Field: h
-      FieldWriterFactory.writeSimpleField((short) _value.getStruct().get("h").getShort(), DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("h"));
+      // Manual Field: h
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaledField(writeBuffer, _value, "h", 8, false, 360.0, 255.0), writeBuffer, WithOption.WithName("h"));
 
-      // Simple Field: s
-      FieldWriterFactory.writeSimpleField((short) _value.getStruct().get("s").getShort(), DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("s"));
+      // Manual Field: s
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaledField(writeBuffer, _value, "s", 8, false, 100.0, 255.0), writeBuffer, WithOption.WithName("s"));
 
-      // Simple Field: v
-      FieldWriterFactory.writeSimpleField((short) _value.getStruct().get("v").getShort(), DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("v"));
+      // Manual Field: v
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaledField(writeBuffer, _value, "v", 8, false, 100.0, 255.0), writeBuffer, WithOption.WithName("v"));
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_LanguageCodeAlpha2_ASCII)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // STRING
@@ -10024,11 +10024,11 @@ public class KnxDatapoint {
       // Reserved Field
       FieldWriterFactory.writeReservedField((short) 0x00, DataWriterFactory.writeUnsignedShort(writeBuffer, 8));
 
-      // Simple Field: heightPosition
-      FieldWriterFactory.writeSimpleField((short) _value.getStruct().get("heightPosition").getShort(), DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("heightPosition"));
+      // Manual Field: heightPosition
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaledField(writeBuffer, _value, "heightPosition", 8, false, 100.0, 255.0), writeBuffer, WithOption.WithName("heightPosition"));
 
-      // Simple Field: slatsPosition
-      FieldWriterFactory.writeSimpleField((short) _value.getStruct().get("slatsPosition").getShort(), DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("slatsPosition"));
+      // Manual Field: slatsPosition
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaledField(writeBuffer, _value, "slatsPosition", 8, false, 100.0, 255.0), writeBuffer, WithOption.WithName("slatsPosition"));
 
       // Reserved Field
       FieldWriterFactory.writeReservedField((byte) 0x00, DataWriterFactory.writeUnsignedByte(writeBuffer, 6));
@@ -10045,11 +10045,11 @@ public class KnxDatapoint {
       // Reserved Field
       FieldWriterFactory.writeReservedField((short) 0x00, DataWriterFactory.writeUnsignedShort(writeBuffer, 8));
 
-      // Simple Field: heightPosition
-      FieldWriterFactory.writeSimpleField((short) _value.getStruct().get("heightPosition").getShort(), DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("heightPosition"));
+      // Manual Field: heightPosition
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaledField(writeBuffer, _value, "heightPosition", 8, false, 100.0, 255.0), writeBuffer, WithOption.WithName("heightPosition"));
 
-      // Simple Field: slatsPosition
-      FieldWriterFactory.writeSimpleField((short) _value.getStruct().get("slatsPosition").getShort(), DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("slatsPosition"));
+      // Manual Field: slatsPosition
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaledField(writeBuffer, _value, "slatsPosition", 8, false, 100.0, 255.0), writeBuffer, WithOption.WithName("slatsPosition"));
 
       // Simple Field: upperEndPosReached
       FieldWriterFactory.writeSimpleField((boolean) _value.getStruct().get("upperEndPosReached").getBoolean(), DataWriterFactory.writeBoolean(writeBuffer), WithOption.WithName("upperEndPosReached"));
@@ -10210,14 +10210,14 @@ public class KnxDatapoint {
       // Reserved Field
       FieldWriterFactory.writeReservedField((short) 0x00, DataWriterFactory.writeUnsignedShort(writeBuffer, 8));
 
-      // Simple Field: ms
-      FieldWriterFactory.writeSimpleField((int) _value.getStruct().get("ms").getInt(), DataWriterFactory.writeUnsignedInt(writeBuffer, 16), WithOption.WithName("ms"));
+      // Manual Field: ms
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaledField(writeBuffer, _value, "ms", 16, false, 6553500.0, 65535.0), writeBuffer, WithOption.WithName("ms"));
 
       // Simple Field: temperatureK
       FieldWriterFactory.writeSimpleField((int) _value.getStruct().get("temperatureK").getInt(), DataWriterFactory.writeUnsignedInt(writeBuffer, 16), WithOption.WithName("temperatureK"));
 
-      // Simple Field: percent
-      FieldWriterFactory.writeSimpleField((short) _value.getStruct().get("percent").getShort(), DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("percent"));
+      // Manual Field: percent
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaledField(writeBuffer, _value, "percent", 8, false, 100.0, 255.0), writeBuffer, WithOption.WithName("percent"));
 
       // Reserved Field
       FieldWriterFactory.writeReservedField((byte) 0x00, DataWriterFactory.writeUnsignedByte(writeBuffer, 5));
@@ -10270,17 +10270,17 @@ public class KnxDatapoint {
       // Reserved Field
       FieldWriterFactory.writeReservedField((short) 0x00, DataWriterFactory.writeUnsignedShort(writeBuffer, 8));
 
-      // Simple Field: colourLevelRed
-      FieldWriterFactory.writeSimpleField((short) _value.getStruct().get("colourLevelRed").getShort(), DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("colourLevelRed"));
+      // Manual Field: colourLevelRed
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaledField(writeBuffer, _value, "colourLevelRed", 8, false, 100.0, 255.0), writeBuffer, WithOption.WithName("colourLevelRed"));
 
-      // Simple Field: colourLevelGreen
-      FieldWriterFactory.writeSimpleField((short) _value.getStruct().get("colourLevelGreen").getShort(), DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("colourLevelGreen"));
+      // Manual Field: colourLevelGreen
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaledField(writeBuffer, _value, "colourLevelGreen", 8, false, 100.0, 255.0), writeBuffer, WithOption.WithName("colourLevelGreen"));
 
-      // Simple Field: colourLevelBlue
-      FieldWriterFactory.writeSimpleField((short) _value.getStruct().get("colourLevelBlue").getShort(), DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("colourLevelBlue"));
+      // Manual Field: colourLevelBlue
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaledField(writeBuffer, _value, "colourLevelBlue", 8, false, 100.0, 255.0), writeBuffer, WithOption.WithName("colourLevelBlue"));
 
-      // Simple Field: colourLevelWhite
-      FieldWriterFactory.writeSimpleField((short) _value.getStruct().get("colourLevelWhite").getShort(), DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("colourLevelWhite"));
+      // Manual Field: colourLevelWhite
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaledField(writeBuffer, _value, "colourLevelWhite", 8, false, 100.0, 255.0), writeBuffer, WithOption.WithName("colourLevelWhite"));
 
       // Reserved Field
       FieldWriterFactory.writeReservedField((short) 0x00, DataWriterFactory.writeUnsignedShort(writeBuffer, 8));
@@ -14151,7 +14151,7 @@ public class KnxDatapoint {
       // Simple Field: failure
       lengthInBits += 1;
 
-      // Simple Field: actualvalue
+      // Manual Field: actualvalue
       lengthInBits += 8;
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Version)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -14250,10 +14250,10 @@ public class KnxDatapoint {
       // Reserved Field
       lengthInBits += 8;
 
-      // Simple Field: timePeriod
+      // Manual Field: timePeriod
       lengthInBits += 16;
 
-      // Simple Field: percent
+      // Manual Field: percent
       lengthInBits += 8;
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Scaling_Step_Time)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -14265,7 +14265,7 @@ public class KnxDatapoint {
       // Simple Field: timePeriod
       lengthInBits += 16;
 
-      // Simple Field: percent
+      // Manual Field: percent
       lengthInBits += 8;
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_MeteringValue)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -14337,13 +14337,13 @@ public class KnxDatapoint {
       // Reserved Field
       lengthInBits += 8;
 
-      // Simple Field: h
+      // Manual Field: h
       lengthInBits += 8;
 
-      // Simple Field: s
+      // Manual Field: s
       lengthInBits += 8;
 
-      // Simple Field: v
+      // Manual Field: v
       lengthInBits += 8;
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_LanguageCodeAlpha2_ASCII)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -14439,10 +14439,10 @@ public class KnxDatapoint {
       // Reserved Field
       lengthInBits += 8;
 
-      // Simple Field: heightPosition
+      // Manual Field: heightPosition
       lengthInBits += 8;
 
-      // Simple Field: slatsPosition
+      // Manual Field: slatsPosition
       lengthInBits += 8;
 
       // Reserved Field
@@ -14460,10 +14460,10 @@ public class KnxDatapoint {
       // Reserved Field
       lengthInBits += 8;
 
-      // Simple Field: heightPosition
+      // Manual Field: heightPosition
       lengthInBits += 8;
 
-      // Simple Field: slatsPosition
+      // Manual Field: slatsPosition
       lengthInBits += 8;
 
       // Simple Field: upperEndPosReached
@@ -14625,13 +14625,13 @@ public class KnxDatapoint {
       // Reserved Field
       lengthInBits += 8;
 
-      // Simple Field: ms
+      // Manual Field: ms
       lengthInBits += 16;
 
       // Simple Field: temperatureK
       lengthInBits += 16;
 
-      // Simple Field: percent
+      // Manual Field: percent
       lengthInBits += 8;
 
       // Reserved Field
@@ -14685,16 +14685,16 @@ public class KnxDatapoint {
       // Reserved Field
       lengthInBits += 8;
 
-      // Simple Field: colourLevelRed
+      // Manual Field: colourLevelRed
       lengthInBits += 8;
 
-      // Simple Field: colourLevelGreen
+      // Manual Field: colourLevelGreen
       lengthInBits += 8;
 
-      // Simple Field: colourLevelBlue
+      // Manual Field: colourLevelBlue
       lengthInBits += 8;
 
-      // Simple Field: colourLevelWhite
+      // Manual Field: colourLevelWhite
       lengthInBits += 8;
 
       // Reserved Field
