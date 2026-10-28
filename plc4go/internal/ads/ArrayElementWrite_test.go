@@ -85,3 +85,18 @@ func TestArrayElementWrite_aRangeIsWrittenAsTheRange(t *testing.T) {
 	require.NoError(t, c.serializePlcValue(tag.DataType, tag.EncodeArrayInfo(), list, wb))
 	assert.Len(t, wb.GetBytes(), 8)
 }
+
+// A whole array written at once is a list of the element type: each value was converted with the
+// array's own type, which names no value type, and the write was refused ("of type: NULL").
+func TestArrayWrite_aWholeArrayIsAListOfTheElementType(t *testing.T) {
+	c := connectionWithArraySymbol()
+	vh := NewValueHandlerWithDriverContext(c.driverContext, NewTagHandlerWithDriverContext(c.driverContext))
+	values := []int32{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+
+	value, err := vh.NewPlcValue(model.SymbolicPlcTag{SymbolicAddress: "MAIN.arr"}, values)
+
+	require.NoError(t, err)
+	require.True(t, value.IsList())
+	require.Len(t, value.GetList(), 10)
+	assert.Equal(t, int32(4), value.GetList()[3].GetInt32())
+}
