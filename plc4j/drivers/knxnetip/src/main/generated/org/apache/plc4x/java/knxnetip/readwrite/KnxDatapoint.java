@@ -22,6 +22,7 @@ import java.time.temporal.ChronoField;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.plc4x.java.api.value.PlcValue;
+import org.apache.plc4x.java.knxnetip.readwrite.utils.StaticHelper;
 import org.apache.plc4x.java.spi.buffers.api.ReadBuffer;
 import org.apache.plc4x.java.spi.buffers.api.WithOption;
 import org.apache.plc4x.java.spi.buffers.api.WriteBuffer;
@@ -964,28 +965,28 @@ public class KnxDatapoint {
         return new PlcSTRING(value);
       } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Scaling)) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // USINT
+        // REAL
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Reserved Field
         FieldReaderFactory.readReservedField(DataReaderFactory.readUnsignedShort(readBuffer, 8), (short) 0x00, WithOption.WithName("KnxDatapoint.reserved0"));
 
-        // Simple Field: value
-        short value = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedShort(readBuffer, 8), WithOption.WithName("value"));
+        // Manual Field: value
+        float value = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 8, false, 100.0, 255.0)), WithOption.WithName("value"));
 
-        return new PlcUSINT(value);
+        return new PlcREAL(value);
       } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Angle)) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // USINT
+        // REAL
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Reserved Field
         FieldReaderFactory.readReservedField(DataReaderFactory.readUnsignedShort(readBuffer, 8), (short) 0x00, WithOption.WithName("KnxDatapoint.reserved0"));
 
-        // Simple Field: value
-        short value = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedShort(readBuffer, 8), WithOption.WithName("value"));
+        // Manual Field: value
+        float value = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 8, false, 360.0, 255.0)), WithOption.WithName("value"));
 
-        return new PlcUSINT(value);
+        return new PlcREAL(value);
       } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Percent_U8)) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // USINT
@@ -1130,28 +1131,28 @@ public class KnxDatapoint {
         return new PlcUINT(value);
       } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_TimePeriod10Msec)) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // UINT
+        // REAL
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Reserved Field
         FieldReaderFactory.readReservedField(DataReaderFactory.readUnsignedShort(readBuffer, 8), (short) 0x00, WithOption.WithName("KnxDatapoint.reserved0"));
 
-        // Simple Field: value
-        int value = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedInt(readBuffer, 16), WithOption.WithName("value"));
+        // Manual Field: value
+        float value = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 16, false, 655350.0, 65535.0)), WithOption.WithName("value"));
 
-        return new PlcUINT(value);
+        return new PlcREAL(value);
       } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_TimePeriod100Msec)) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // UINT
+        // REAL
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Reserved Field
         FieldReaderFactory.readReservedField(DataReaderFactory.readUnsignedShort(readBuffer, 8), (short) 0x00, WithOption.WithName("KnxDatapoint.reserved0"));
 
-        // Simple Field: value
-        int value = FieldReaderFactory.readSimpleField(DataReaderFactory.readUnsignedInt(readBuffer, 16), WithOption.WithName("value"));
+        // Manual Field: value
+        float value = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 16, false, 6553500.0, 65535.0)), WithOption.WithName("value"));
 
-        return new PlcUINT(value);
+        return new PlcREAL(value);
       } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_TimePeriodSec)) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // UINT
@@ -1274,28 +1275,28 @@ public class KnxDatapoint {
         return new PlcINT(value);
       } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_DeltaTime10Msec)) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // INT
+        // REAL
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Reserved Field
         FieldReaderFactory.readReservedField(DataReaderFactory.readUnsignedShort(readBuffer, 8), (short) 0x00, WithOption.WithName("KnxDatapoint.reserved0"));
 
-        // Simple Field: value
-        short value = FieldReaderFactory.readSimpleField(DataReaderFactory.readSignedShort(readBuffer, 16), WithOption.WithName("value"));
+        // Manual Field: value
+        float value = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 16, true, 327670.0, 32767.0)), WithOption.WithName("value"));
 
-        return new PlcINT(value);
+        return new PlcREAL(value);
       } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_DeltaTime100Msec)) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // INT
+        // REAL
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Reserved Field
         FieldReaderFactory.readReservedField(DataReaderFactory.readUnsignedShort(readBuffer, 8), (short) 0x00, WithOption.WithName("KnxDatapoint.reserved0"));
 
-        // Simple Field: value
-        short value = FieldReaderFactory.readSimpleField(DataReaderFactory.readSignedShort(readBuffer, 16), WithOption.WithName("value"));
+        // Manual Field: value
+        float value = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 16, true, 3276700.0, 32767.0)), WithOption.WithName("value"));
 
-        return new PlcINT(value);
+        return new PlcREAL(value);
       } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_DeltaTimeSec)) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // INT
@@ -1334,16 +1335,16 @@ public class KnxDatapoint {
         return new PlcINT(value);
       } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Percent_V16)) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // INT
+        // REAL
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Reserved Field
         FieldReaderFactory.readReservedField(DataReaderFactory.readUnsignedShort(readBuffer, 8), (short) 0x00, WithOption.WithName("KnxDatapoint.reserved0"));
 
-        // Simple Field: value
-        short value = FieldReaderFactory.readSimpleField(DataReaderFactory.readSignedShort(readBuffer, 16), WithOption.WithName("value"));
+        // Manual Field: value
+        float value = FieldReaderFactory.readManualField(readBuffer, () -> (float) (StaticHelper.parseKnxScaled(readBuffer, 16, true, 327.67, 32767.0)), WithOption.WithName("value"));
 
-        return new PlcINT(value);
+        return new PlcREAL(value);
       } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Rotation_Angle)) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // INT
@@ -6694,22 +6695,22 @@ public class KnxDatapoint {
       FieldWriterFactory.writeSimpleField((String) _value.getString(), DataWriterFactory.writeString(writeBuffer, 8), WithOption.WithName("value"), WithOption.WithFloatEncoding("ISO-8859-1"), WithOption.WithSignedIntegerEncoding("ISO-8859-1"), WithOption.WithUnsignedIntegerEncoding("ISO-8859-1"), WithOption.WithEncoding("ISO-8859-1"), WithOption.WithStringEncoding("ISO-8859-1"));
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Scaling)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      // USINT
+      // REAL
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // Reserved Field
       FieldWriterFactory.writeReservedField((short) 0x00, DataWriterFactory.writeUnsignedShort(writeBuffer, 8));
 
-      // Simple Field: value
-      FieldWriterFactory.writeSimpleField((short) _value.getShort(), DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("value"));
+      // Manual Field: value
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaled(writeBuffer, _value, 8, false, 100.0, 255.0), writeBuffer, WithOption.WithName("value"));
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Angle)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      // USINT
+      // REAL
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // Reserved Field
       FieldWriterFactory.writeReservedField((short) 0x00, DataWriterFactory.writeUnsignedShort(writeBuffer, 8));
 
-      // Simple Field: value
-      FieldWriterFactory.writeSimpleField((short) _value.getShort(), DataWriterFactory.writeUnsignedShort(writeBuffer, 8), WithOption.WithName("value"));
+      // Manual Field: value
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaled(writeBuffer, _value, 8, false, 360.0, 255.0), writeBuffer, WithOption.WithName("value"));
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Percent_U8)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // USINT
@@ -6817,22 +6818,22 @@ public class KnxDatapoint {
       FieldWriterFactory.writeSimpleField((int) _value.getInteger(), DataWriterFactory.writeUnsignedInt(writeBuffer, 16), WithOption.WithName("value"));
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_TimePeriod10Msec)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      // UINT
+      // REAL
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // Reserved Field
       FieldWriterFactory.writeReservedField((short) 0x00, DataWriterFactory.writeUnsignedShort(writeBuffer, 8));
 
-      // Simple Field: value
-      FieldWriterFactory.writeSimpleField((int) _value.getInteger(), DataWriterFactory.writeUnsignedInt(writeBuffer, 16), WithOption.WithName("value"));
+      // Manual Field: value
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaled(writeBuffer, _value, 16, false, 655350.0, 65535.0), writeBuffer, WithOption.WithName("value"));
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_TimePeriod100Msec)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      // UINT
+      // REAL
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // Reserved Field
       FieldWriterFactory.writeReservedField((short) 0x00, DataWriterFactory.writeUnsignedShort(writeBuffer, 8));
 
-      // Simple Field: value
-      FieldWriterFactory.writeSimpleField((int) _value.getInteger(), DataWriterFactory.writeUnsignedInt(writeBuffer, 16), WithOption.WithName("value"));
+      // Manual Field: value
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaled(writeBuffer, _value, 16, false, 6553500.0, 65535.0), writeBuffer, WithOption.WithName("value"));
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_TimePeriodSec)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // UINT
@@ -6925,22 +6926,22 @@ public class KnxDatapoint {
       FieldWriterFactory.writeSimpleField((short) _value.getShort(), DataWriterFactory.writeSignedShort(writeBuffer, 16), WithOption.WithName("value"));
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_DeltaTime10Msec)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      // INT
+      // REAL
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // Reserved Field
       FieldWriterFactory.writeReservedField((short) 0x00, DataWriterFactory.writeUnsignedShort(writeBuffer, 8));
 
-      // Simple Field: value
-      FieldWriterFactory.writeSimpleField((short) _value.getShort(), DataWriterFactory.writeSignedShort(writeBuffer, 16), WithOption.WithName("value"));
+      // Manual Field: value
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaled(writeBuffer, _value, 16, true, 327670.0, 32767.0), writeBuffer, WithOption.WithName("value"));
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_DeltaTime100Msec)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      // INT
+      // REAL
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // Reserved Field
       FieldWriterFactory.writeReservedField((short) 0x00, DataWriterFactory.writeUnsignedShort(writeBuffer, 8));
 
-      // Simple Field: value
-      FieldWriterFactory.writeSimpleField((short) _value.getShort(), DataWriterFactory.writeSignedShort(writeBuffer, 16), WithOption.WithName("value"));
+      // Manual Field: value
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaled(writeBuffer, _value, 16, true, 3276700.0, 32767.0), writeBuffer, WithOption.WithName("value"));
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_DeltaTimeSec)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // INT
@@ -6970,13 +6971,13 @@ public class KnxDatapoint {
       FieldWriterFactory.writeSimpleField((short) _value.getShort(), DataWriterFactory.writeSignedShort(writeBuffer, 16), WithOption.WithName("value"));
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Percent_V16)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      // INT
+      // REAL
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // Reserved Field
       FieldWriterFactory.writeReservedField((short) 0x00, DataWriterFactory.writeUnsignedShort(writeBuffer, 8));
 
-      // Simple Field: value
-      FieldWriterFactory.writeSimpleField((short) _value.getShort(), DataWriterFactory.writeSignedShort(writeBuffer, 16), WithOption.WithName("value"));
+      // Manual Field: value
+      FieldWriterFactory.writeManualField(() -> StaticHelper.serializeKnxScaled(writeBuffer, _value, 16, true, 327.67, 32767.0), writeBuffer, WithOption.WithName("value"));
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Rotation_Angle)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // INT
@@ -11109,21 +11110,21 @@ public class KnxDatapoint {
       lengthInBits += 8;
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Scaling)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      // USINT
+      // REAL
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // Reserved Field
       lengthInBits += 8;
 
-      // Simple Field: value
+      // Manual Field: value
       lengthInBits += 8;
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Angle)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      // USINT
+      // REAL
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // Reserved Field
       lengthInBits += 8;
 
-      // Simple Field: value
+      // Manual Field: value
       lengthInBits += 8;
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Percent_U8)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -11232,21 +11233,21 @@ public class KnxDatapoint {
       lengthInBits += 16;
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_TimePeriod10Msec)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      // UINT
+      // REAL
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // Reserved Field
       lengthInBits += 8;
 
-      // Simple Field: value
+      // Manual Field: value
       lengthInBits += 16;
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_TimePeriod100Msec)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      // UINT
+      // REAL
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // Reserved Field
       lengthInBits += 8;
 
-      // Simple Field: value
+      // Manual Field: value
       lengthInBits += 16;
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_TimePeriodSec)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -11340,21 +11341,21 @@ public class KnxDatapoint {
       lengthInBits += 16;
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_DeltaTime10Msec)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      // INT
+      // REAL
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // Reserved Field
       lengthInBits += 8;
 
-      // Simple Field: value
+      // Manual Field: value
       lengthInBits += 16;
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_DeltaTime100Msec)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      // INT
+      // REAL
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // Reserved Field
       lengthInBits += 8;
 
-      // Simple Field: value
+      // Manual Field: value
       lengthInBits += 16;
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_DeltaTimeSec)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -11385,12 +11386,12 @@ public class KnxDatapoint {
       lengthInBits += 16;
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Percent_V16)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      // INT
+      // REAL
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // Reserved Field
       lengthInBits += 8;
 
-      // Simple Field: value
+      // Manual Field: value
       lengthInBits += 16;
     } else if (EvaluationHelper.equals(datapointType, KnxDatapointType.DPT_Rotation_Angle)) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////

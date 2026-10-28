@@ -160,9 +160,9 @@ public enum KnxDatapointType {
 
   DPT_Char_8859_1((long) 66L, (int) 2, PlcValueType.STRING, "character (ISO 8859-1)", "DPST-4-2", KnxDatapointMainType.DPT_CHARACTER),
 
-  DPT_Scaling((long) 67L, (int) 1, PlcValueType.USINT, "percentage (0..100%)", "DPST-5-1", KnxDatapointMainType.DPT_8_BIT_UNSIGNED_VALUE),
+  DPT_Scaling((long) 67L, (int) 1, PlcValueType.REAL, "percentage (0..100%)", "DPST-5-1", KnxDatapointMainType.DPT_8_BIT_UNSIGNED_VALUE),
 
-  DPT_Angle((long) 68L, (int) 3, PlcValueType.USINT, "angle (degrees)", "DPST-5-3", KnxDatapointMainType.DPT_8_BIT_UNSIGNED_VALUE),
+  DPT_Angle((long) 68L, (int) 3, PlcValueType.REAL, "angle (degrees)", "DPST-5-3", KnxDatapointMainType.DPT_8_BIT_UNSIGNED_VALUE),
 
   DPT_Percent_U8((long) 69L, (int) 4, PlcValueType.USINT, "percentage (0..255%)", "DPST-5-4", KnxDatapointMainType.DPT_8_BIT_UNSIGNED_VALUE),
 
@@ -184,9 +184,9 @@ public enum KnxDatapointType {
 
   DPT_TimePeriodMsec((long) 78L, (int) 2, PlcValueType.UINT, "time (ms)", "DPST-7-2", KnxDatapointMainType.DPT_2_BYTE_UNSIGNED_VALUE),
 
-  DPT_TimePeriod10Msec((long) 79L, (int) 3, PlcValueType.UINT, "time (10 ms)", "DPST-7-3", KnxDatapointMainType.DPT_2_BYTE_UNSIGNED_VALUE),
+  DPT_TimePeriod10Msec((long) 79L, (int) 3, PlcValueType.REAL, "time (10 ms)", "DPST-7-3", KnxDatapointMainType.DPT_2_BYTE_UNSIGNED_VALUE),
 
-  DPT_TimePeriod100Msec((long) 80L, (int) 4, PlcValueType.UINT, "time (100 ms)", "DPST-7-4", KnxDatapointMainType.DPT_2_BYTE_UNSIGNED_VALUE),
+  DPT_TimePeriod100Msec((long) 80L, (int) 4, PlcValueType.REAL, "time (100 ms)", "DPST-7-4", KnxDatapointMainType.DPT_2_BYTE_UNSIGNED_VALUE),
 
   DPT_TimePeriodSec((long) 81L, (int) 5, PlcValueType.UINT, "time (s)", "DPST-7-5", KnxDatapointMainType.DPT_2_BYTE_UNSIGNED_VALUE),
 
@@ -208,9 +208,9 @@ public enum KnxDatapointType {
 
   DPT_DeltaTimeMsec((long) 90L, (int) 2, PlcValueType.INT, "time lag (ms)", "DPST-8-2", KnxDatapointMainType.DPT_2_BYTE_SIGNED_VALUE),
 
-  DPT_DeltaTime10Msec((long) 91L, (int) 3, PlcValueType.INT, "time lag(10 ms)", "DPST-8-3", KnxDatapointMainType.DPT_2_BYTE_SIGNED_VALUE),
+  DPT_DeltaTime10Msec((long) 91L, (int) 3, PlcValueType.REAL, "time lag(10 ms)", "DPST-8-3", KnxDatapointMainType.DPT_2_BYTE_SIGNED_VALUE),
 
-  DPT_DeltaTime100Msec((long) 92L, (int) 4, PlcValueType.INT, "time lag (100 ms)", "DPST-8-4", KnxDatapointMainType.DPT_2_BYTE_SIGNED_VALUE),
+  DPT_DeltaTime100Msec((long) 92L, (int) 4, PlcValueType.REAL, "time lag (100 ms)", "DPST-8-4", KnxDatapointMainType.DPT_2_BYTE_SIGNED_VALUE),
 
   DPT_DeltaTimeSec((long) 93L, (int) 5, PlcValueType.INT, "time lag (s)", "DPST-8-5", KnxDatapointMainType.DPT_2_BYTE_SIGNED_VALUE),
 
@@ -218,7 +218,7 @@ public enum KnxDatapointType {
 
   DPT_DeltaTimeHrs((long) 95L, (int) 7, PlcValueType.INT, "time lag (h)", "DPST-8-7", KnxDatapointMainType.DPT_2_BYTE_SIGNED_VALUE),
 
-  DPT_Percent_V16((long) 96L, (int) 10, PlcValueType.INT, "percentage difference (%)", "DPST-8-10", KnxDatapointMainType.DPT_2_BYTE_SIGNED_VALUE),
+  DPT_Percent_V16((long) 96L, (int) 10, PlcValueType.REAL, "percentage difference (%)", "DPST-8-10", KnxDatapointMainType.DPT_2_BYTE_SIGNED_VALUE),
 
   DPT_Rotation_Angle((long) 97L, (int) 11, PlcValueType.INT, "rotation angle (°)", "DPST-8-11", KnxDatapointMainType.DPT_2_BYTE_SIGNED_VALUE),
 

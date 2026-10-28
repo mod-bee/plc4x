@@ -37,6 +37,7 @@ import (
 	"github.com/apache/plc4x/plc4go/spi/errors"
 	"github.com/apache/plc4x/plc4go/spi/options"
 	"github.com/apache/plc4x/plc4go/spi/testutils"
+	"github.com/apache/plc4x/plc4go/spi/utils"
 	spiValues "github.com/apache/plc4x/plc4go/spi/values"
 )
 
@@ -199,7 +200,7 @@ func Test_Writer_Write_largeDatapointType(t *testing.T) {
 	connection, codec := newWriterConnection(t, nil, confirmingGateway(false))
 
 	writeRequestBuilder := connection.WriteRequestBuilder()
-	writeRequestBuilder.AddTagAddress("brightness", "1/2/4:DPT_Scaling", uint8(0x80))
+	writeRequestBuilder.AddTagAddress("brightness", "1/2/4:DPT_DecimalFactor", uint8(0x80))
 	writeRequest, err := writeRequestBuilder.Build()
 	require.NoError(t, err)
 
@@ -351,7 +352,7 @@ func Test_Writer_Write_roundTripsThroughTheReadPath(t *testing.T) {
 		},
 		{
 			name:       "a datapoint-type which needs its own data byte",
-			tagAddress: "1/2/3:DPT_Scaling",
+			tagAddress: "1/2/3:DPT_DecimalFactor",
 			value:      uint8(0x80),
 			assertion: func(t *testing.T, value apiValues.PlcValue) {
 				assert.Equal(t, uint8(0x80), value.GetUint8())
@@ -432,7 +433,7 @@ func Test_Writer_Write_ignoresForeignConfirmations(t *testing.T) {
 
 func Test_SerializeGroupValue(t *testing.T) {
 	switchType := driverModel.KnxDatapointType_DPT_Switch
-	scalingType := driverModel.KnxDatapointType_DPT_Scaling
+	scalingType := driverModel.KnxDatapointType_DPT_DecimalFactor
 	unknownType := driverModel.KnxDatapointType_DPT_UNKNOWN
 
 	t.Run("no value", func(t *testing.T) {
@@ -497,4 +498,36 @@ func Test_Writer_Write_updatesTheValueCacheAndSubscribers(t *testing.T) {
 	require.Equal(t, apiModel.PlcResponseCode_OK, readResult.GetResponse().GetResponseCode("count"))
 	assert.Equal(t, int64(4242), readResult.GetResponse().GetValue("count").GetInt64())
 	assert.Len(t, codec.getSentRequests(), 1, "the read came from the cache: only the write went to the bus")
+}
+
+// Test_KnxDatapoint_scaledIntegers: an integer with a coefficient in the KNX master data is its
+// scaled value (KNX Standard 3.7.2: 5.001 is 0..255 for 0..100 %, 5.003 0..255 for 0..360
+// degrees, 8.010 hundredths of a percent). They used to be read and written as the raw number.
+func Test_KnxDatapoint_scaledIntegers(t *testing.T) {
+	for _, c := range []struct {
+		dpt     driverModel.KnxDatapointType
+		payload []byte
+		value   float64
+		written float64 // written as this, it is the payload again
+	}{
+		{driverModel.KnxDatapointType_DPT_Scaling, []byte{0x00, 0xFF}, 100, 100},
+		{driverModel.KnxDatapointType_DPT_Scaling, []byte{0x00, 0x00}, 0, 0},
+		{driverModel.KnxDatapointType_DPT_Scaling, []byte{0x00, 0x80}, 50.196, 50},
+		{driverModel.KnxDatapointType_DPT_Angle, []byte{0x00, 0xFF}, 360, 360},
+		{driverModel.KnxDatapointType_DPT_Angle, []byte{0x00, 0x40}, 90.353, 90.353},
+		{driverModel.KnxDatapointType_DPT_Percent_V16, []byte{0x00, 0xFF, 0x38}, -2, -2},
+	} {
+		name := c.dpt.String()
+		value, err := driverModel.KnxDatapointParseWithBuffer(context.Background(), utils.NewReadBufferByteBased(c.payload), c.dpt)
+		require.NoError(t, err, name)
+		assert.InDelta(t, c.value, value.GetFloat64(), 0.001, name)
+
+		serialized, err := driverModel.KnxDatapointSerialize(spiValues.NewPlcLREAL(c.written), c.dpt)
+		require.NoError(t, err, name)
+		assert.Equal(t, c.payload, serialized, name)
+	}
+	_, err := driverModel.KnxDatapointSerialize(spiValues.NewPlcLREAL(101), driverModel.KnxDatapointType_DPT_Scaling)
+	assert.Error(t, err, "101 % is out of range")
+	_, err = driverModel.KnxDatapointSerialize(spiValues.NewPlcLREAL(-1), driverModel.KnxDatapointType_DPT_Angle)
+	assert.Error(t, err, "-1 degree is out of range")
 }

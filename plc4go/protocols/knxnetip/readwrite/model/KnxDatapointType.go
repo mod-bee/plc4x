@@ -3495,11 +3495,11 @@ func (e KnxDatapointType) PlcValueTpe() values.PlcValueType {
 		}
 	case 67:
 		{ /* '67' */
-			return values.USINT
+			return values.REAL
 		}
 	case 68:
 		{ /* '68' */
-			return values.USINT
+			return values.REAL
 		}
 	case 69:
 		{ /* '69' */
@@ -3547,7 +3547,7 @@ func (e KnxDatapointType) PlcValueTpe() values.PlcValueType {
 		}
 	case 79:
 		{ /* '79' */
-			return values.UINT
+			return values.REAL
 		}
 	case 8:
 		{ /* '8' */
@@ -3555,7 +3555,7 @@ func (e KnxDatapointType) PlcValueTpe() values.PlcValueType {
 		}
 	case 80:
 		{ /* '80' */
-			return values.UINT
+			return values.REAL
 		}
 	case 81:
 		{ /* '81' */
@@ -3603,11 +3603,11 @@ func (e KnxDatapointType) PlcValueTpe() values.PlcValueType {
 		}
 	case 91:
 		{ /* '91' */
-			return values.INT
+			return values.REAL
 		}
 	case 92:
 		{ /* '92' */
-			return values.INT
+			return values.REAL
 		}
 	case 93:
 		{ /* '93' */
@@ -3623,7 +3623,7 @@ func (e KnxDatapointType) PlcValueTpe() values.PlcValueType {
 		}
 	case 96:
 		{ /* '96' */
-			return values.INT
+			return values.REAL
 		}
 	case 97:
 		{ /* '97' */
