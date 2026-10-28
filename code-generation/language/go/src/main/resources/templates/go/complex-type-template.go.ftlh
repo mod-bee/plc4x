@@ -97,6 +97,23 @@ import (
 </#function>
 
 <#--
+  The sub types of an abstract type, each named once.
+
+  Several typeSwitch cases may parse into the same sub type, as CANopen's eight PDO services all
+  do into CANOpenPDOPayload. The parser needs one branch per case, but the builder offers one
+  As<SubType>() per sub type: emitting it per case declares the same method more than once.
+-->
+<#function distinctSubTypeNames typeDefinition>
+	<#local names = []>
+	<#list typeDefinition.switchField.orElseThrow().cases as discriminatedCase>
+		<#if !names?seq_contains(discriminatedCase.name)>
+			<#local names = names + [discriminatedCase.name]>
+		</#if>
+	</#list>
+	<#return names>
+</#function>
+
+<#--
   The retained discriminators one particular typeSwitch case leaves open. Assigning only these,
   inside the case that needs them, keeps the parent free of state a sub type never reads: a sub
   type that pins its discriminator compares equal whether it was parsed or constructed.
@@ -362,9 +379,9 @@ type ${type.name}Builder interface {
 	</#if>
 </#list>
 <#if type.isAbstract()>
-	<#list type.switchField.orElseThrow().cases as case>
-	// As${case.name} converts this build to a subType of ${type.name}. It is always possible to return to current builder using Done()
-	As${case.name}() ${case.name}Builder
+	<#list distinctSubTypeNames(type) as subTypeName>
+	// As${subTypeName} converts this build to a subType of ${type.name}. It is always possible to return to current builder using Done()
+	As${subTypeName}() ${subTypeName}Builder
 	</#list>
 	// Build builds the ${type.name} or returns an error if something is wrong
 	PartialBuild() (${type.name}Contract,error)
@@ -481,12 +498,12 @@ func (b *_${type.name}Builder) <#if type.isAbstract()>Partial</#if>MustBuild() $
 }
 
 <#if type.isAbstract()>
-	<#list type.switchField.orElseThrow().cases as case>
-func (b *_${type.name}Builder) As${case.name}() ${case.name}Builder {
-	if cb, ok := b.childBuilder.(${case.name}Builder); ok {
+	<#list distinctSubTypeNames(type) as subTypeName>
+func (b *_${type.name}Builder) As${subTypeName}() ${subTypeName}Builder {
+	if cb, ok := b.childBuilder.(${subTypeName}Builder); ok {
 		return cb
 	}
-	cb := New${case.name}Builder().(*_${case.name}Builder)
+	cb := New${subTypeName}Builder().(*_${subTypeName}Builder)
 	cb.parentBuilder = b
 	b.childBuilder = cb
 	return cb
