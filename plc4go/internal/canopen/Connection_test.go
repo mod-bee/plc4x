@@ -138,7 +138,7 @@ func TestSdoReadsTheAnswerOfTheNodeTheAddressNames(t *testing.T) {
 	assert.Equal(t, uint32(0x66647361), value.GetUint32())
 
 	code, _ = read(t, connection, "SDO:1:1000/22:UNSIGNED32")
-	assert.Equal(t, apiModel.PlcResponseCode_REMOTE_ERROR, code, "node 1 never answers as itself")
+	assert.Equal(t, apiModel.PlcResponseCode_REQUEST_TIMEOUT, code, "node 1 never answers as itself")
 }
 
 func TestSdoReadsEveryTypeAsCiA301LaysItOut(t *testing.T) {
@@ -178,9 +178,9 @@ func TestSdoReadsEveryTypeAsCiA301LaysItOut(t *testing.T) {
 	}
 }
 
-// The last case of plc4j's CANOpenDriverSDOIT aborts with 0x05030000 and expects REMOTE_ERROR, which every abort
-// answers.
-func TestSdoAbortsAnswerRemoteError(t *testing.T) {
+// The last case of plc4j's CANOpenDriverSDOIT aborts with 0x05030000 and expects REMOTE_ERROR; an abort whose code
+// says what went wrong answers the response code that names it.
+func TestSdoAbortsAnswerWhatTheAbortCodeSays(t *testing.T) {
 	connection := connect(t, "sdo-abort", "")
 	node := newTestNode(t, "sdo-abort", 1, 1)
 	node.abortWith[objectKey{1000, 22}] = 0x05030000
@@ -190,13 +190,13 @@ func TestSdoAbortsAnswerRemoteError(t *testing.T) {
 	code, _ := read(t, connection, "SDO:1:1000/22:UNSIGNED32")
 	assert.Equal(t, apiModel.PlcResponseCode_REMOTE_ERROR, code)
 	code, _ = read(t, connection, "SDO:1:0x2000/0:UNSIGNED32")
-	assert.Equal(t, apiModel.PlcResponseCode_REMOTE_ERROR, code, "0x06020000, object does not exist")
-	assert.Equal(t, apiModel.PlcResponseCode_REMOTE_ERROR, write(t, connection, "SDO:1:0x1000/0:UNSIGNED32", uint32(1)),
+	assert.Equal(t, apiModel.PlcResponseCode_NOT_FOUND, code, "0x06020000, object does not exist")
+	assert.Equal(t, apiModel.PlcResponseCode_ACCESS_DENIED, write(t, connection, "SDO:1:0x1000/0:UNSIGNED32", uint32(1)),
 		"0x06010002, attempt to write a read only object")
 }
 
 // A node that does not answer is told so (abort 0x05040000, SDO protocol timed out), and the read answers
-// REMOTE_ERROR; a node that answers a segment with the wrong toggle bit is aborted with 0x05030000.
+// REQUEST_TIMEOUT; a node that answers a segment with the wrong toggle bit is aborted with 0x05030000.
 func TestSdoTransfersAbortWhatGoesWrong(t *testing.T) {
 	connection := connect(t, "sdo-wrong", "?request-timeout-ms=100")
 	node := newTestNode(t, "sdo-wrong", 1, 1)
@@ -204,7 +204,7 @@ func TestSdoTransfersAbortWhatGoesWrong(t *testing.T) {
 	node.set(0x2000, 2, []byte("more than four")...)
 
 	code, _ := read(t, connection, "SDO:1:0x2000/1:UNSIGNED32")
-	assert.Equal(t, apiModel.PlcResponseCode_REMOTE_ERROR, code)
+	assert.Equal(t, apiModel.PlcResponseCode_REQUEST_TIMEOUT, code)
 	require.Eventually(t, func() bool { return len(node.abortCodes()) == 1 }, time.Second, 5*time.Millisecond)
 	assert.Equal(t, uint32(0x05040000), node.abortCodes()[0])
 
