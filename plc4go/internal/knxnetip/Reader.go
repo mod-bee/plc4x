@@ -189,10 +189,14 @@ func (m *Reader) readGroupAddress(ctx context.Context, tag GroupAddressTag) (api
 			m.log.Debug().Err(err).Msg("error mapping addresses")
 			return apiModel.PlcResponseCode_INVALID_ADDRESS, nil
 		}
-		// Try to get a value from the cache
-		m.connection.valueCacheMutex.RLock()
-		int8s, ok := m.connection.valueCache[numericAddress]
-		m.connection.valueCacheMutex.RUnlock()
+		// Try to get a value from the cache, unless the connection asks the bus every time
+		var int8s []byte
+		ok := false
+		if m.connection.readsFromCache() {
+			m.connection.valueCacheMutex.RLock()
+			int8s, ok = m.connection.valueCache[numericAddress]
+			m.connection.valueCacheMutex.RUnlock()
+		}
 
 		// If nothing was found in the cache, try to execute a group address read,
 		// Otherwise respond with values from the cache.
