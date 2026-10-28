@@ -481,6 +481,11 @@
             [reserved uint 8 '0x00']
             [simple   string <xsl:value-of select="$datapointSubtype/knx:Format/knx:String/@Width"/> value encoding='"<xsl:value-of select="$encoding"/>"']
             </xsl:when>
+            <xsl:when test="$datapointSubtype/knx:Format/(knx:UnsignedInteger|knx:SignedInteger)/@Coefficient">
+                <xsl:call-template name="scaledInteger">
+                    <xsl:with-param name="field" select="$datapointSubtype/knx:Format/(knx:UnsignedInteger|knx:SignedInteger)"/>
+                </xsl:call-template>
+            </xsl:when>
             <xsl:when test="$datapointSubtype/knx:Format/knx:UnsignedInteger">
                 <xsl:choose>
                     <xsl:when test="(fn:number($datapointSubtype/knx:Format/knx:UnsignedInteger/@Width) mod 8) &lt;= 6">
@@ -523,12 +528,37 @@
         ]
     </xsl:template>
 
+    <!--
+        An integer with a coefficient (5.001 percentage: 0..255 is 0..100 %, 5.003 angle: 0..360 degrees, 8.010
+        percentage in hundredths, ...) is read and written as its scaled value. The master data gives the
+        coefficient rounded (5.001: 0.3921566), so the scale is written as full scale / largest raw value, the full
+        scale rounded to the whole number it nearly is (100 / 255, 360 / 255): the ends of the range come out exact.
+    -->
+    <xsl:template name="scaledInteger">
+        <xsl:param name="field"/>
+        <xsl:variable name="width" select="fn:number($field/@Width)"/>
+        <xsl:variable name="signed" select="if (name($field) = 'SignedInteger') then 'true' else 'false'"/>
+        <xsl:variable name="largest" select="if ($signed = 'true') then (if ($width = 8) then 127 else if ($width = 16) then 32767 else 2147483647) else (if ($width = 8) then 255 else if ($width = 16) then 65535 else 4294967295)"/>
+        <xsl:variable name="exactScale" select="fn:number($field/@Coefficient) * $largest"/>
+        <xsl:variable name="fullScale" select="if (fn:abs($exactScale - fn:round($exactScale)) &lt; 0.001) then fn:round($exactScale) else $exactScale"/>
+        <xsl:variable name="arguments" select="fn:concat($width, ', ', $signed, ', ', fn:format-number($fullScale, '0.0#########'), ', ', fn:format-number($largest, '0.0'))"/>
+        <xsl:if test="($width mod 8) != 0">
+            [reserved uint <xsl:value-of select="8 - ($width mod 8)"/> '0x00']
+        </xsl:if>
+        <xsl:if test="($width mod 8) = 0">
+            [reserved uint 8 '0x00']
+        </xsl:if>
+            [manual   float 32 value 'STATIC_CALL("parseKnxScaled", readBuffer, <xsl:value-of select="$arguments"/>)' 'STATIC_CALL("serializeKnxScaled", writeBuffer, _value, <xsl:value-of select="$arguments"/>)' '<xsl:value-of select="$width"/>']
+    </xsl:template>
+
     <xsl:template name="getPlcValueType">
         <xsl:param name="datapointSubtype"/>
         <xsl:choose>
             <xsl:when test="count($datapointSubtype/knx:Format/knx:Bit|$datapointSubtype/knx:Format/knx:String|$datapointSubtype/knx:Format/knx:UnsignedInteger|$datapointSubtype/knx:Format/knx:SignedInteger|$datapointSubtype/knx:Format/knx:Float|$datapointSubtype/knx:Format/knx:Enumeration|$datapointSubtype/knx:Format/knx:RefType) &gt; 1">Struct</xsl:when>
             <xsl:when test="$datapointSubtype/knx:Format/knx:Bit">BOOL</xsl:when>
             <xsl:when test="$datapointSubtype/knx:Format/knx:String">STRING</xsl:when>
+            <!-- A number with a coefficient is the scaled value, not the raw one (5.001 is 0..100 %) -->
+            <xsl:when test="$datapointSubtype/knx:Format/(knx:UnsignedInteger|knx:SignedInteger)/@Coefficient">REAL</xsl:when>
             <xsl:when test="$datapointSubtype/knx:Format/knx:UnsignedInteger">
                 <xsl:choose>
                     <xsl:when test="fn:number($datapointSubtype/knx:Format/knx:UnsignedInteger/@Width) &lt;= 8">USINT</xsl:when>
