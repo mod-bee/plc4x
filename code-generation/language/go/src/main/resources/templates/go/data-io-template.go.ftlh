@@ -227,7 +227,7 @@ func ${type.name}ParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 				return nil, errors.Wrap(_${helper.getGoSafeName(simpleField.name)}Err, "Error parsing '${simpleField.name}' field")<@emitImport import="github.com/apache/plc4x/plc4go/spi/errors" />
 			}
 					<#if case.name == "Struct">
-			_map["${case.name}"] = ${helper.getPlcValueTypeForTypeReference(simpleField.type)}(${helper.getGoSafeName(simpleField.name)})
+			_map["${simpleField.name}"] = ${helper.getPlcValueTypeForTypeReference(simpleField.type)}(${helper.getGoSafeName(simpleField.name)})
 					</#if>
 					<#assign valueDefined=true>
 					<#break>
@@ -438,7 +438,7 @@ func ${type.name}SerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 				return errors.Wrap(_err, "Error serializing '${simpleField.name}' field")<@emitImport import="github.com/apache/plc4x/plc4go/spi/errors" />
 			}
 					<#else>
-			if _err := <#if simpleField.type.isSimpleTypeReference()>${helper.getWriteBufferWriteMethodCall(simpleField.name, simpleField.type.asSimpleTypeReference().orElseThrow(), "value.Get" + helper.getLanguageTypeNameForTypeReference(simpleField.type)?cap_first + "()", simpleField)}<#else>${simpleField.type.asComplexTypeReference().orElseThrow().name}Serialize(io, <#if simpleField.type.asComplexTypeReference().orElseThrow().params.isPresent()>, <#list simpleField.type.asComplexTypeReference().orElseThrow().params.orElseThrow() as parserArgument>(${helper.getLanguageTypeNameForTypeReference(helper.getArgumentType(simpleField.type, parserArgument?index))}) (${helper.toParseExpression(simpleField, helper.getArgumentType(simpleField.type, parserArgument?index), parserArgument, parserArguments)})<#sep>, </#sep></#list></#if>)</#if>; _err != nil {
+			if _err := <#if simpleField.type.isSimpleTypeReference()>${helper.getWriteBufferWriteMethodCall(simpleField.name, simpleField.type.asSimpleTypeReference().orElseThrow(), (case.name == "Struct")?then("value.GetValue(\"" + simpleField.name + "\").Get", "value.Get") + helper.getLanguageTypeNameForTypeReference(simpleField.type)?cap_first + "()", simpleField)}<#else>${simpleField.type.asComplexTypeReference().orElseThrow().name}Serialize(io, <#if simpleField.type.asComplexTypeReference().orElseThrow().params.isPresent()>, <#list simpleField.type.asComplexTypeReference().orElseThrow().params.orElseThrow() as parserArgument>(${helper.getLanguageTypeNameForTypeReference(helper.getArgumentType(simpleField.type, parserArgument?index))}) (${helper.toParseExpression(simpleField, helper.getArgumentType(simpleField.type, parserArgument?index), parserArgument, parserArguments)})<#sep>, </#sep></#list></#if>)</#if>; _err != nil {
 				return errors.Wrap(_err, "Error serializing '${simpleField.name}' field")<@emitImport import="github.com/apache/plc4x/plc4go/spi/errors" />
 			}
 					</#if>
