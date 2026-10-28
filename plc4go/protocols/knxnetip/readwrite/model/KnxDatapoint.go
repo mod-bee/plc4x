@@ -823,7 +823,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _controlErr != nil {
 			return nil, errors.Wrap(_controlErr, "Error parsing 'control' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(control)
+		_map["control"] = values.NewPlcBOOL(control)
 		_ = control // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (on)
@@ -831,7 +831,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _onErr != nil {
 			return nil, errors.Wrap(_onErr, "Error parsing 'on' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(on)
+		_map["on"] = values.NewPlcBOOL(on)
 		_ = on // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -849,7 +849,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _controlErr != nil {
 			return nil, errors.Wrap(_controlErr, "Error parsing 'control' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(control)
+		_map["control"] = values.NewPlcBOOL(control)
 		_ = control // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (valueTrue)
@@ -857,7 +857,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _valueTrueErr != nil {
 			return nil, errors.Wrap(_valueTrueErr, "Error parsing 'valueTrue' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(valueTrue)
+		_map["valueTrue"] = values.NewPlcBOOL(valueTrue)
 		_ = valueTrue // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -875,7 +875,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _controlErr != nil {
 			return nil, errors.Wrap(_controlErr, "Error parsing 'control' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(control)
+		_map["control"] = values.NewPlcBOOL(control)
 		_ = control // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (enable)
@@ -883,7 +883,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _enableErr != nil {
 			return nil, errors.Wrap(_enableErr, "Error parsing 'enable' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(enable)
+		_map["enable"] = values.NewPlcBOOL(enable)
 		_ = enable // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -901,7 +901,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _controlErr != nil {
 			return nil, errors.Wrap(_controlErr, "Error parsing 'control' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(control)
+		_map["control"] = values.NewPlcBOOL(control)
 		_ = control // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (ramp)
@@ -909,7 +909,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _rampErr != nil {
 			return nil, errors.Wrap(_rampErr, "Error parsing 'ramp' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(ramp)
+		_map["ramp"] = values.NewPlcBOOL(ramp)
 		_ = ramp // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -927,7 +927,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _controlErr != nil {
 			return nil, errors.Wrap(_controlErr, "Error parsing 'control' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(control)
+		_map["control"] = values.NewPlcBOOL(control)
 		_ = control // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (alarm)
@@ -935,7 +935,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _alarmErr != nil {
 			return nil, errors.Wrap(_alarmErr, "Error parsing 'alarm' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(alarm)
+		_map["alarm"] = values.NewPlcBOOL(alarm)
 		_ = alarm // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -953,7 +953,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _controlErr != nil {
 			return nil, errors.Wrap(_controlErr, "Error parsing 'control' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(control)
+		_map["control"] = values.NewPlcBOOL(control)
 		_ = control // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (high)
@@ -961,7 +961,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _highErr != nil {
 			return nil, errors.Wrap(_highErr, "Error parsing 'high' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(high)
+		_map["high"] = values.NewPlcBOOL(high)
 		_ = high // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -979,7 +979,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _controlErr != nil {
 			return nil, errors.Wrap(_controlErr, "Error parsing 'control' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(control)
+		_map["control"] = values.NewPlcBOOL(control)
 		_ = control // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (increase)
@@ -987,7 +987,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _increaseErr != nil {
 			return nil, errors.Wrap(_increaseErr, "Error parsing 'increase' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(increase)
+		_map["increase"] = values.NewPlcBOOL(increase)
 		_ = increase // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -1005,7 +1005,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _controlErr != nil {
 			return nil, errors.Wrap(_controlErr, "Error parsing 'control' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(control)
+		_map["control"] = values.NewPlcBOOL(control)
 		_ = control // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (down)
@@ -1013,7 +1013,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _downErr != nil {
 			return nil, errors.Wrap(_downErr, "Error parsing 'down' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(down)
+		_map["down"] = values.NewPlcBOOL(down)
 		_ = down // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -1031,7 +1031,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _controlErr != nil {
 			return nil, errors.Wrap(_controlErr, "Error parsing 'control' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(control)
+		_map["control"] = values.NewPlcBOOL(control)
 		_ = control // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (close)
@@ -1039,7 +1039,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _closeErr != nil {
 			return nil, errors.Wrap(_closeErr, "Error parsing 'close' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(close)
+		_map["close"] = values.NewPlcBOOL(close)
 		_ = close // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -1057,7 +1057,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _controlErr != nil {
 			return nil, errors.Wrap(_controlErr, "Error parsing 'control' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(control)
+		_map["control"] = values.NewPlcBOOL(control)
 		_ = control // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (start)
@@ -1065,7 +1065,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _startErr != nil {
 			return nil, errors.Wrap(_startErr, "Error parsing 'start' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(start)
+		_map["start"] = values.NewPlcBOOL(start)
 		_ = start // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -1083,7 +1083,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _controlErr != nil {
 			return nil, errors.Wrap(_controlErr, "Error parsing 'control' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(control)
+		_map["control"] = values.NewPlcBOOL(control)
 		_ = control // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (active)
@@ -1091,7 +1091,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activeErr != nil {
 			return nil, errors.Wrap(_activeErr, "Error parsing 'active' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(active)
+		_map["active"] = values.NewPlcBOOL(active)
 		_ = active // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -1109,7 +1109,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _controlErr != nil {
 			return nil, errors.Wrap(_controlErr, "Error parsing 'control' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(control)
+		_map["control"] = values.NewPlcBOOL(control)
 		_ = control // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (inverted)
@@ -1117,7 +1117,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _invertedErr != nil {
 			return nil, errors.Wrap(_invertedErr, "Error parsing 'inverted' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(inverted)
+		_map["inverted"] = values.NewPlcBOOL(inverted)
 		_ = inverted // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -1135,7 +1135,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _increaseErr != nil {
 			return nil, errors.Wrap(_increaseErr, "Error parsing 'increase' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(increase)
+		_map["increase"] = values.NewPlcBOOL(increase)
 		_ = increase // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (stepcode)
@@ -1143,7 +1143,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _stepcodeErr != nil {
 			return nil, errors.Wrap(_stepcodeErr, "Error parsing 'stepcode' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(stepcode)
+		_map["stepcode"] = values.NewPlcUSINT(stepcode)
 		_ = stepcode // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -1161,7 +1161,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _downErr != nil {
 			return nil, errors.Wrap(_downErr, "Error parsing 'down' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(down)
+		_map["down"] = values.NewPlcBOOL(down)
 		_ = down // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (stepcode)
@@ -1169,7 +1169,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _stepcodeErr != nil {
 			return nil, errors.Wrap(_stepcodeErr, "Error parsing 'stepcode' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(stepcode)
+		_map["stepcode"] = values.NewPlcUSINT(stepcode)
 		_ = stepcode // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -1341,7 +1341,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _statusAErr != nil {
 			return nil, errors.Wrap(_statusAErr, "Error parsing 'statusA' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(statusA)
+		_map["statusA"] = values.NewPlcBOOL(statusA)
 		_ = statusA // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (statusB)
@@ -1349,7 +1349,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _statusBErr != nil {
 			return nil, errors.Wrap(_statusBErr, "Error parsing 'statusB' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(statusB)
+		_map["statusB"] = values.NewPlcBOOL(statusB)
 		_ = statusB // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (statusC)
@@ -1357,7 +1357,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _statusCErr != nil {
 			return nil, errors.Wrap(_statusCErr, "Error parsing 'statusC' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(statusC)
+		_map["statusC"] = values.NewPlcBOOL(statusC)
 		_ = statusC // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (statusD)
@@ -1365,7 +1365,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _statusDErr != nil {
 			return nil, errors.Wrap(_statusDErr, "Error parsing 'statusD' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(statusD)
+		_map["statusD"] = values.NewPlcBOOL(statusD)
 		_ = statusD // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (statusE)
@@ -1373,7 +1373,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _statusEErr != nil {
 			return nil, errors.Wrap(_statusEErr, "Error parsing 'statusE' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(statusE)
+		_map["statusE"] = values.NewPlcBOOL(statusE)
 		_ = statusE // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (mode)
@@ -1381,7 +1381,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _modeErr != nil {
 			return nil, errors.Wrap(_modeErr, "Error parsing 'mode' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(mode)
+		_map["mode"] = values.NewPlcUSINT(mode)
 		_ = mode // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -2029,7 +2029,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _dayErr != nil {
 			return nil, errors.Wrap(_dayErr, "Error parsing 'day' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(day)
+		_map["day"] = values.NewPlcUSINT(day)
 		_ = day // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (hour)
@@ -2037,7 +2037,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _hourErr != nil {
 			return nil, errors.Wrap(_hourErr, "Error parsing 'hour' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(hour)
+		_map["hour"] = values.NewPlcUSINT(hour)
 		_ = hour // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -2050,7 +2050,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _minutesErr != nil {
 			return nil, errors.Wrap(_minutesErr, "Error parsing 'minutes' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(minutes)
+		_map["minutes"] = values.NewPlcUSINT(minutes)
 		_ = minutes // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -2063,7 +2063,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _secondsErr != nil {
 			return nil, errors.Wrap(_secondsErr, "Error parsing 'seconds' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(seconds)
+		_map["seconds"] = values.NewPlcUSINT(seconds)
 		_ = seconds // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -2086,7 +2086,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _dayOfMonthErr != nil {
 			return nil, errors.Wrap(_dayOfMonthErr, "Error parsing 'dayOfMonth' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(dayOfMonth)
+		_map["dayOfMonth"] = values.NewPlcUSINT(dayOfMonth)
 		_ = dayOfMonth // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -2099,7 +2099,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _monthErr != nil {
 			return nil, errors.Wrap(_monthErr, "Error parsing 'month' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(month)
+		_map["month"] = values.NewPlcUSINT(month)
 		_ = month // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -2112,7 +2112,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _yearErr != nil {
 			return nil, errors.Wrap(_yearErr, "Error parsing 'year' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(year)
+		_map["year"] = values.NewPlcUSINT(year)
 		_ = year // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -3544,7 +3544,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _hurzErr != nil {
 			return nil, errors.Wrap(_hurzErr, "Error parsing 'hurz' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(hurz)
+		_map["hurz"] = values.NewPlcUSINT(hurz)
 		_ = hurz // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (value1)
@@ -3552,7 +3552,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _value1Err != nil {
 			return nil, errors.Wrap(_value1Err, "Error parsing 'value1' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(value1)
+		_map["value1"] = values.NewPlcUSINT(value1)
 		_ = value1 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (value2)
@@ -3560,7 +3560,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _value2Err != nil {
 			return nil, errors.Wrap(_value2Err, "Error parsing 'value2' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(value2)
+		_map["value2"] = values.NewPlcUSINT(value2)
 		_ = value2 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (value3)
@@ -3568,7 +3568,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _value3Err != nil {
 			return nil, errors.Wrap(_value3Err, "Error parsing 'value3' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(value3)
+		_map["value3"] = values.NewPlcUSINT(value3)
 		_ = value3 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (value4)
@@ -3576,7 +3576,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _value4Err != nil {
 			return nil, errors.Wrap(_value4Err, "Error parsing 'value4' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(value4)
+		_map["value4"] = values.NewPlcUSINT(value4)
 		_ = value4 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (value5)
@@ -3584,7 +3584,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _value5Err != nil {
 			return nil, errors.Wrap(_value5Err, "Error parsing 'value5' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(value5)
+		_map["value5"] = values.NewPlcUSINT(value5)
 		_ = value5 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (detectionError)
@@ -3592,7 +3592,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _detectionErrorErr != nil {
 			return nil, errors.Wrap(_detectionErrorErr, "Error parsing 'detectionError' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(detectionError)
+		_map["detectionError"] = values.NewPlcBOOL(detectionError)
 		_ = detectionError // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (permission)
@@ -3600,7 +3600,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _permissionErr != nil {
 			return nil, errors.Wrap(_permissionErr, "Error parsing 'permission' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(permission)
+		_map["permission"] = values.NewPlcBOOL(permission)
 		_ = permission // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (readDirection)
@@ -3608,7 +3608,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _readDirectionErr != nil {
 			return nil, errors.Wrap(_readDirectionErr, "Error parsing 'readDirection' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(readDirection)
+		_map["readDirection"] = values.NewPlcBOOL(readDirection)
 		_ = readDirection // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (encryptionOfAccessInformation)
@@ -3616,7 +3616,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _encryptionOfAccessInformationErr != nil {
 			return nil, errors.Wrap(_encryptionOfAccessInformationErr, "Error parsing 'encryptionOfAccessInformation' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(encryptionOfAccessInformation)
+		_map["encryptionOfAccessInformation"] = values.NewPlcBOOL(encryptionOfAccessInformation)
 		_ = encryptionOfAccessInformation // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (indexOfAccessIdentificationCode)
@@ -3624,7 +3624,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _indexOfAccessIdentificationCodeErr != nil {
 			return nil, errors.Wrap(_indexOfAccessIdentificationCodeErr, "Error parsing 'indexOfAccessIdentificationCode' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(indexOfAccessIdentificationCode)
+		_map["indexOfAccessIdentificationCode"] = values.NewPlcUSINT(indexOfAccessIdentificationCode)
 		_ = indexOfAccessIdentificationCode // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -3684,7 +3684,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _learnTheSceneCorrespondingToTheFieldSceneNumberErr != nil {
 			return nil, errors.Wrap(_learnTheSceneCorrespondingToTheFieldSceneNumberErr, "Error parsing 'learnTheSceneCorrespondingToTheFieldSceneNumber' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(learnTheSceneCorrespondingToTheFieldSceneNumber)
+		_map["learnTheSceneCorrespondingToTheFieldSceneNumber"] = values.NewPlcBOOL(learnTheSceneCorrespondingToTheFieldSceneNumber)
 		_ = learnTheSceneCorrespondingToTheFieldSceneNumber // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -3697,7 +3697,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _sceneNumberErr != nil {
 			return nil, errors.Wrap(_sceneNumberErr, "Error parsing 'sceneNumber' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(sceneNumber)
+		_map["sceneNumber"] = values.NewPlcUSINT(sceneNumber)
 		_ = sceneNumber // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -3715,7 +3715,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _yearErr != nil {
 			return nil, errors.Wrap(_yearErr, "Error parsing 'year' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(year)
+		_map["year"] = values.NewPlcUSINT(year)
 		_ = year // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -3728,7 +3728,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _monthErr != nil {
 			return nil, errors.Wrap(_monthErr, "Error parsing 'month' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(month)
+		_map["month"] = values.NewPlcUSINT(month)
 		_ = month // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -3741,7 +3741,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _dayofmonthErr != nil {
 			return nil, errors.Wrap(_dayofmonthErr, "Error parsing 'dayofmonth' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(dayofmonth)
+		_map["dayofmonth"] = values.NewPlcUSINT(dayofmonth)
 		_ = dayofmonth // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (dayofweek)
@@ -3749,7 +3749,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _dayofweekErr != nil {
 			return nil, errors.Wrap(_dayofweekErr, "Error parsing 'dayofweek' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(dayofweek)
+		_map["dayofweek"] = values.NewPlcUSINT(dayofweek)
 		_ = dayofweek // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (hourofday)
@@ -3757,7 +3757,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _hourofdayErr != nil {
 			return nil, errors.Wrap(_hourofdayErr, "Error parsing 'hourofday' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(hourofday)
+		_map["hourofday"] = values.NewPlcUSINT(hourofday)
 		_ = hourofday // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -3770,7 +3770,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _minutesErr != nil {
 			return nil, errors.Wrap(_minutesErr, "Error parsing 'minutes' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(minutes)
+		_map["minutes"] = values.NewPlcUSINT(minutes)
 		_ = minutes // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -3783,7 +3783,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _secondsErr != nil {
 			return nil, errors.Wrap(_secondsErr, "Error parsing 'seconds' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(seconds)
+		_map["seconds"] = values.NewPlcUSINT(seconds)
 		_ = seconds // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (fault)
@@ -3791,7 +3791,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _faultErr != nil {
 			return nil, errors.Wrap(_faultErr, "Error parsing 'fault' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(fault)
+		_map["fault"] = values.NewPlcBOOL(fault)
 		_ = fault // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (workingDay)
@@ -3799,7 +3799,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _workingDayErr != nil {
 			return nil, errors.Wrap(_workingDayErr, "Error parsing 'workingDay' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(workingDay)
+		_map["workingDay"] = values.NewPlcBOOL(workingDay)
 		_ = workingDay // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (noWd)
@@ -3807,7 +3807,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _noWdErr != nil {
 			return nil, errors.Wrap(_noWdErr, "Error parsing 'noWd' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(noWd)
+		_map["noWd"] = values.NewPlcBOOL(noWd)
 		_ = noWd // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (noYear)
@@ -3815,7 +3815,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _noYearErr != nil {
 			return nil, errors.Wrap(_noYearErr, "Error parsing 'noYear' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(noYear)
+		_map["noYear"] = values.NewPlcBOOL(noYear)
 		_ = noYear // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (noDate)
@@ -3823,7 +3823,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _noDateErr != nil {
 			return nil, errors.Wrap(_noDateErr, "Error parsing 'noDate' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(noDate)
+		_map["noDate"] = values.NewPlcBOOL(noDate)
 		_ = noDate // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (noDayOfWeek)
@@ -3831,7 +3831,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _noDayOfWeekErr != nil {
 			return nil, errors.Wrap(_noDayOfWeekErr, "Error parsing 'noDayOfWeek' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(noDayOfWeek)
+		_map["noDayOfWeek"] = values.NewPlcBOOL(noDayOfWeek)
 		_ = noDayOfWeek // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (noTime)
@@ -3839,7 +3839,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _noTimeErr != nil {
 			return nil, errors.Wrap(_noTimeErr, "Error parsing 'noTime' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(noTime)
+		_map["noTime"] = values.NewPlcBOOL(noTime)
 		_ = noTime // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (standardSummerTime)
@@ -3847,7 +3847,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _standardSummerTimeErr != nil {
 			return nil, errors.Wrap(_standardSummerTimeErr, "Error parsing 'standardSummerTime' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(standardSummerTime)
+		_map["standardSummerTime"] = values.NewPlcBOOL(standardSummerTime)
 		_ = standardSummerTime // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (qualityOfClock)
@@ -3855,7 +3855,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _qualityOfClockErr != nil {
 			return nil, errors.Wrap(_qualityOfClockErr, "Error parsing 'qualityOfClock' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(qualityOfClock)
+		_map["qualityOfClock"] = values.NewPlcBOOL(qualityOfClock)
 		_ = qualityOfClock // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -4723,7 +4723,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _alarmStatusOfCorrespondingDatapointIsNotAcknowledgedErr != nil {
 			return nil, errors.Wrap(_alarmStatusOfCorrespondingDatapointIsNotAcknowledgedErr, "Error parsing 'alarmStatusOfCorrespondingDatapointIsNotAcknowledged' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(alarmStatusOfCorrespondingDatapointIsNotAcknowledged)
+		_map["alarmStatusOfCorrespondingDatapointIsNotAcknowledged"] = values.NewPlcBOOL(alarmStatusOfCorrespondingDatapointIsNotAcknowledged)
 		_ = alarmStatusOfCorrespondingDatapointIsNotAcknowledged // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (correspondingDatapointIsInAlarm)
@@ -4731,7 +4731,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _correspondingDatapointIsInAlarmErr != nil {
 			return nil, errors.Wrap(_correspondingDatapointIsInAlarmErr, "Error parsing 'correspondingDatapointIsInAlarm' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(correspondingDatapointIsInAlarm)
+		_map["correspondingDatapointIsInAlarm"] = values.NewPlcBOOL(correspondingDatapointIsInAlarm)
 		_ = correspondingDatapointIsInAlarm // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (correspondingDatapointMainValueIsOverridden)
@@ -4739,7 +4739,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _correspondingDatapointMainValueIsOverriddenErr != nil {
 			return nil, errors.Wrap(_correspondingDatapointMainValueIsOverriddenErr, "Error parsing 'correspondingDatapointMainValueIsOverridden' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(correspondingDatapointMainValueIsOverridden)
+		_map["correspondingDatapointMainValueIsOverridden"] = values.NewPlcBOOL(correspondingDatapointMainValueIsOverridden)
 		_ = correspondingDatapointMainValueIsOverridden // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (correspondingDatapointMainValueIsCorruptedDueToFailure)
@@ -4747,7 +4747,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _correspondingDatapointMainValueIsCorruptedDueToFailureErr != nil {
 			return nil, errors.Wrap(_correspondingDatapointMainValueIsCorruptedDueToFailureErr, "Error parsing 'correspondingDatapointMainValueIsCorruptedDueToFailure' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(correspondingDatapointMainValueIsCorruptedDueToFailure)
+		_map["correspondingDatapointMainValueIsCorruptedDueToFailure"] = values.NewPlcBOOL(correspondingDatapointMainValueIsCorruptedDueToFailure)
 		_ = correspondingDatapointMainValueIsCorruptedDueToFailure // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (correspondingDatapointValueIsOutOfService)
@@ -4755,7 +4755,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _correspondingDatapointValueIsOutOfServiceErr != nil {
 			return nil, errors.Wrap(_correspondingDatapointValueIsOutOfServiceErr, "Error parsing 'correspondingDatapointValueIsOutOfService' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(correspondingDatapointValueIsOutOfService)
+		_map["correspondingDatapointValueIsOutOfService"] = values.NewPlcBOOL(correspondingDatapointValueIsOutOfService)
 		_ = correspondingDatapointValueIsOutOfService // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -4778,7 +4778,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _verifyModeIsOnErr != nil {
 			return nil, errors.Wrap(_verifyModeIsOnErr, "Error parsing 'verifyModeIsOn' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(verifyModeIsOn)
+		_map["verifyModeIsOn"] = values.NewPlcBOOL(verifyModeIsOn)
 		_ = verifyModeIsOn // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (aDatagramWithTheOwnIndividualAddressAsSourceAddressHasBeenReceived)
@@ -4786,7 +4786,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _aDatagramWithTheOwnIndividualAddressAsSourceAddressHasBeenReceivedErr != nil {
 			return nil, errors.Wrap(_aDatagramWithTheOwnIndividualAddressAsSourceAddressHasBeenReceivedErr, "Error parsing 'aDatagramWithTheOwnIndividualAddressAsSourceAddressHasBeenReceived' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(aDatagramWithTheOwnIndividualAddressAsSourceAddressHasBeenReceived)
+		_map["aDatagramWithTheOwnIndividualAddressAsSourceAddressHasBeenReceived"] = values.NewPlcBOOL(aDatagramWithTheOwnIndividualAddressAsSourceAddressHasBeenReceived)
 		_ = aDatagramWithTheOwnIndividualAddressAsSourceAddressHasBeenReceived // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (theUserApplicationIsStopped)
@@ -4794,7 +4794,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _theUserApplicationIsStoppedErr != nil {
 			return nil, errors.Wrap(_theUserApplicationIsStoppedErr, "Error parsing 'theUserApplicationIsStopped' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(theUserApplicationIsStopped)
+		_map["theUserApplicationIsStopped"] = values.NewPlcBOOL(theUserApplicationIsStopped)
 		_ = theUserApplicationIsStopped // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -4812,7 +4812,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _roomhmaxErr != nil {
 			return nil, errors.Wrap(_roomhmaxErr, "Error parsing 'roomhmax' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(roomhmax)
+		_map["roomhmax"] = values.NewPlcBOOL(roomhmax)
 		_ = roomhmax // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (roomhconf)
@@ -4820,7 +4820,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _roomhconfErr != nil {
 			return nil, errors.Wrap(_roomhconfErr, "Error parsing 'roomhconf' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(roomhconf)
+		_map["roomhconf"] = values.NewPlcBOOL(roomhconf)
 		_ = roomhconf // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (dhwlegio)
@@ -4828,7 +4828,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _dhwlegioErr != nil {
 			return nil, errors.Wrap(_dhwlegioErr, "Error parsing 'dhwlegio' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(dhwlegio)
+		_map["dhwlegio"] = values.NewPlcBOOL(dhwlegio)
 		_ = dhwlegio // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (dhwnorm)
@@ -4836,7 +4836,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _dhwnormErr != nil {
 			return nil, errors.Wrap(_dhwnormErr, "Error parsing 'dhwnorm' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(dhwnorm)
+		_map["dhwnorm"] = values.NewPlcBOOL(dhwnorm)
 		_ = dhwnorm // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (overrun)
@@ -4844,7 +4844,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _overrunErr != nil {
 			return nil, errors.Wrap(_overrunErr, "Error parsing 'overrun' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(overrun)
+		_map["overrun"] = values.NewPlcBOOL(overrun)
 		_ = overrun // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (oversupply)
@@ -4852,7 +4852,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _oversupplyErr != nil {
 			return nil, errors.Wrap(_oversupplyErr, "Error parsing 'oversupply' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(oversupply)
+		_map["oversupply"] = values.NewPlcBOOL(oversupply)
 		_ = oversupply // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (protection)
@@ -4860,7 +4860,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _protectionErr != nil {
 			return nil, errors.Wrap(_protectionErr, "Error parsing 'protection' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(protection)
+		_map["protection"] = values.NewPlcBOOL(protection)
 		_ = protection // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (forcerequest)
@@ -4868,7 +4868,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _forcerequestErr != nil {
 			return nil, errors.Wrap(_forcerequestErr, "Error parsing 'forcerequest' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(forcerequest)
+		_map["forcerequest"] = values.NewPlcBOOL(forcerequest)
 		_ = forcerequest // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -4900,7 +4900,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _summermodeErr != nil {
 			return nil, errors.Wrap(_summermodeErr, "Error parsing 'summermode' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(summermode)
+		_map["summermode"] = values.NewPlcBOOL(summermode)
 		_ = summermode // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (statusstopoptim)
@@ -4908,7 +4908,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _statusstopoptimErr != nil {
 			return nil, errors.Wrap(_statusstopoptimErr, "Error parsing 'statusstopoptim' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(statusstopoptim)
+		_map["statusstopoptim"] = values.NewPlcBOOL(statusstopoptim)
 		_ = statusstopoptim // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (statusstartoptim)
@@ -4916,7 +4916,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _statusstartoptimErr != nil {
 			return nil, errors.Wrap(_statusstartoptimErr, "Error parsing 'statusstartoptim' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(statusstartoptim)
+		_map["statusstartoptim"] = values.NewPlcBOOL(statusstartoptim)
 		_ = statusstartoptim // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (statusmorningboost)
@@ -4924,7 +4924,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _statusmorningboostErr != nil {
 			return nil, errors.Wrap(_statusmorningboostErr, "Error parsing 'statusmorningboost' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(statusmorningboost)
+		_map["statusmorningboost"] = values.NewPlcBOOL(statusmorningboost)
 		_ = statusmorningboost // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (tempreturnlimit)
@@ -4932,7 +4932,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _tempreturnlimitErr != nil {
 			return nil, errors.Wrap(_tempreturnlimitErr, "Error parsing 'tempreturnlimit' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(tempreturnlimit)
+		_map["tempreturnlimit"] = values.NewPlcBOOL(tempreturnlimit)
 		_ = tempreturnlimit // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (tempflowlimit)
@@ -4940,7 +4940,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _tempflowlimitErr != nil {
 			return nil, errors.Wrap(_tempflowlimitErr, "Error parsing 'tempflowlimit' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(tempflowlimit)
+		_map["tempflowlimit"] = values.NewPlcBOOL(tempflowlimit)
 		_ = tempflowlimit // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (satuseco)
@@ -4948,7 +4948,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _satusecoErr != nil {
 			return nil, errors.Wrap(_satusecoErr, "Error parsing 'satuseco' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(satuseco)
+		_map["satuseco"] = values.NewPlcBOOL(satuseco)
 		_ = satuseco // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (fault)
@@ -4956,7 +4956,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _faultErr != nil {
 			return nil, errors.Wrap(_faultErr, "Error parsing 'fault' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(fault)
+		_map["fault"] = values.NewPlcBOOL(fault)
 		_ = fault // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -4979,7 +4979,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _solarloadsufficientErr != nil {
 			return nil, errors.Wrap(_solarloadsufficientErr, "Error parsing 'solarloadsufficient' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(solarloadsufficient)
+		_map["solarloadsufficient"] = values.NewPlcBOOL(solarloadsufficient)
 		_ = solarloadsufficient // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (sdhwloadactive)
@@ -4987,7 +4987,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _sdhwloadactiveErr != nil {
 			return nil, errors.Wrap(_sdhwloadactiveErr, "Error parsing 'sdhwloadactive' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(sdhwloadactive)
+		_map["sdhwloadactive"] = values.NewPlcBOOL(sdhwloadactive)
 		_ = sdhwloadactive // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (fault)
@@ -4995,7 +4995,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _faultErr != nil {
 			return nil, errors.Wrap(_faultErr, "Error parsing 'fault' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(fault)
+		_map["fault"] = values.NewPlcBOOL(fault)
 		_ = fault // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -5018,7 +5018,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _solidstateErr != nil {
 			return nil, errors.Wrap(_solidstateErr, "Error parsing 'solidstate' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(solidstate)
+		_map["solidstate"] = values.NewPlcBOOL(solidstate)
 		_ = solidstate // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (gas)
@@ -5026,7 +5026,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _gasErr != nil {
 			return nil, errors.Wrap(_gasErr, "Error parsing 'gas' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(gas)
+		_map["gas"] = values.NewPlcBOOL(gas)
 		_ = gas // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (oil)
@@ -5034,7 +5034,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _oilErr != nil {
 			return nil, errors.Wrap(_oilErr, "Error parsing 'oil' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(oil)
+		_map["oil"] = values.NewPlcBOOL(oil)
 		_ = oil // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -5071,7 +5071,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _coolErr != nil {
 			return nil, errors.Wrap(_coolErr, "Error parsing 'cool' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(cool)
+		_map["cool"] = values.NewPlcBOOL(cool)
 		_ = cool // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (heat)
@@ -5079,7 +5079,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _heatErr != nil {
 			return nil, errors.Wrap(_heatErr, "Error parsing 'heat' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(heat)
+		_map["heat"] = values.NewPlcBOOL(heat)
 		_ = heat // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (fanactive)
@@ -5087,7 +5087,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _fanactiveErr != nil {
 			return nil, errors.Wrap(_fanactiveErr, "Error parsing 'fanactive' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(fanactive)
+		_map["fanactive"] = values.NewPlcBOOL(fanactive)
 		_ = fanactive // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (fault)
@@ -5095,7 +5095,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _faultErr != nil {
 			return nil, errors.Wrap(_faultErr, "Error parsing 'fault' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(fault)
+		_map["fault"] = values.NewPlcBOOL(fault)
 		_ = fault // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -5118,7 +5118,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _statusOfHvacModeUserErr != nil {
 			return nil, errors.Wrap(_statusOfHvacModeUserErr, "Error parsing 'statusOfHvacModeUser' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(statusOfHvacModeUser)
+		_map["statusOfHvacModeUser"] = values.NewPlcBOOL(statusOfHvacModeUser)
 		_ = statusOfHvacModeUser // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (statusOfComfortProlongationUser)
@@ -5126,7 +5126,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _statusOfComfortProlongationUserErr != nil {
 			return nil, errors.Wrap(_statusOfComfortProlongationUserErr, "Error parsing 'statusOfComfortProlongationUser' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(statusOfComfortProlongationUser)
+		_map["statusOfComfortProlongationUser"] = values.NewPlcBOOL(statusOfComfortProlongationUser)
 		_ = statusOfComfortProlongationUser // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (effectiveValueOfTheComfortPushButton)
@@ -5134,7 +5134,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _effectiveValueOfTheComfortPushButtonErr != nil {
 			return nil, errors.Wrap(_effectiveValueOfTheComfortPushButtonErr, "Error parsing 'effectiveValueOfTheComfortPushButton' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(effectiveValueOfTheComfortPushButton)
+		_map["effectiveValueOfTheComfortPushButton"] = values.NewPlcBOOL(effectiveValueOfTheComfortPushButton)
 		_ = effectiveValueOfTheComfortPushButton // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (effectiveValueOfThePresenceStatus)
@@ -5142,7 +5142,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _effectiveValueOfThePresenceStatusErr != nil {
 			return nil, errors.Wrap(_effectiveValueOfThePresenceStatusErr, "Error parsing 'effectiveValueOfThePresenceStatus' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(effectiveValueOfThePresenceStatus)
+		_map["effectiveValueOfThePresenceStatus"] = values.NewPlcBOOL(effectiveValueOfThePresenceStatus)
 		_ = effectiveValueOfThePresenceStatus // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (effectiveValueOfTheWindowStatus)
@@ -5150,7 +5150,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _effectiveValueOfTheWindowStatusErr != nil {
 			return nil, errors.Wrap(_effectiveValueOfTheWindowStatusErr, "Error parsing 'effectiveValueOfTheWindowStatus' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(effectiveValueOfTheWindowStatus)
+		_map["effectiveValueOfTheWindowStatus"] = values.NewPlcBOOL(effectiveValueOfTheWindowStatus)
 		_ = effectiveValueOfTheWindowStatus // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -5173,7 +5173,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _overheatErr != nil {
 			return nil, errors.Wrap(_overheatErr, "Error parsing 'overheat' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(overheat)
+		_map["overheat"] = values.NewPlcBOOL(overheat)
 		_ = overheat // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (lampfailure)
@@ -5181,7 +5181,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _lampfailureErr != nil {
 			return nil, errors.Wrap(_lampfailureErr, "Error parsing 'lampfailure' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(lampfailure)
+		_map["lampfailure"] = values.NewPlcBOOL(lampfailure)
 		_ = lampfailure // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (defectiveload)
@@ -5189,7 +5189,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _defectiveloadErr != nil {
 			return nil, errors.Wrap(_defectiveloadErr, "Error parsing 'defectiveload' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(defectiveload)
+		_map["defectiveload"] = values.NewPlcBOOL(defectiveload)
 		_ = defectiveload // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (underload)
@@ -5197,7 +5197,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _underloadErr != nil {
 			return nil, errors.Wrap(_underloadErr, "Error parsing 'underload' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(underload)
+		_map["underload"] = values.NewPlcBOOL(underload)
 		_ = underload // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (overcurrent)
@@ -5205,7 +5205,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _overcurrentErr != nil {
 			return nil, errors.Wrap(_overcurrentErr, "Error parsing 'overcurrent' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(overcurrent)
+		_map["overcurrent"] = values.NewPlcBOOL(overcurrent)
 		_ = overcurrent // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (undervoltage)
@@ -5213,7 +5213,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _undervoltageErr != nil {
 			return nil, errors.Wrap(_undervoltageErr, "Error parsing 'undervoltage' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(undervoltage)
+		_map["undervoltage"] = values.NewPlcBOOL(undervoltage)
 		_ = undervoltage // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (loaddetectionerror)
@@ -5221,7 +5221,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _loaddetectionerrorErr != nil {
 			return nil, errors.Wrap(_loaddetectionerrorErr, "Error parsing 'loaddetectionerror' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(loaddetectionerror)
+		_map["loaddetectionerror"] = values.NewPlcBOOL(loaddetectionerror)
 		_ = loaddetectionerror // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -5244,7 +5244,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _bibatSlaveErr != nil {
 			return nil, errors.Wrap(_bibatSlaveErr, "Error parsing 'bibatSlave' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(bibatSlave)
+		_map["bibatSlave"] = values.NewPlcBOOL(bibatSlave)
 		_ = bibatSlave // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (bibatMaster)
@@ -5252,7 +5252,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _bibatMasterErr != nil {
 			return nil, errors.Wrap(_bibatMasterErr, "Error parsing 'bibatMaster' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(bibatMaster)
+		_map["bibatMaster"] = values.NewPlcBOOL(bibatMaster)
 		_ = bibatMaster // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (asynchronous)
@@ -5260,7 +5260,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _asynchronousErr != nil {
 			return nil, errors.Wrap(_asynchronousErr, "Error parsing 'asynchronous' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(asynchronous)
+		_map["asynchronous"] = values.NewPlcBOOL(asynchronous)
 		_ = asynchronous // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -5283,7 +5283,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _doaErr != nil {
 			return nil, errors.Wrap(_doaErr, "Error parsing 'doa' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(doa)
+		_map["doa"] = values.NewPlcBOOL(doa)
 		_ = doa // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (knxSn)
@@ -5291,7 +5291,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _knxSnErr != nil {
 			return nil, errors.Wrap(_knxSnErr, "Error parsing 'knxSn' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(knxSn)
+		_map["knxSn"] = values.NewPlcBOOL(knxSn)
 		_ = knxSn // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (doaAndKnxSn)
@@ -5299,7 +5299,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _doaAndKnxSnErr != nil {
 			return nil, errors.Wrap(_doaAndKnxSnErr, "Error parsing 'doaAndKnxSn' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(doaAndKnxSn)
+		_map["doaAndKnxSn"] = values.NewPlcBOOL(doaAndKnxSn)
 		_ = doaAndKnxSn // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -5317,7 +5317,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel1Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel1Err, "Error parsing 'activationStateOfChannel1' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel1)
+		_map["activationStateOfChannel1"] = values.NewPlcBOOL(activationStateOfChannel1)
 		_ = activationStateOfChannel1 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel2)
@@ -5325,7 +5325,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel2Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel2Err, "Error parsing 'activationStateOfChannel2' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel2)
+		_map["activationStateOfChannel2"] = values.NewPlcBOOL(activationStateOfChannel2)
 		_ = activationStateOfChannel2 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel3)
@@ -5333,7 +5333,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel3Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel3Err, "Error parsing 'activationStateOfChannel3' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel3)
+		_map["activationStateOfChannel3"] = values.NewPlcBOOL(activationStateOfChannel3)
 		_ = activationStateOfChannel3 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel4)
@@ -5341,7 +5341,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel4Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel4Err, "Error parsing 'activationStateOfChannel4' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel4)
+		_map["activationStateOfChannel4"] = values.NewPlcBOOL(activationStateOfChannel4)
 		_ = activationStateOfChannel4 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel5)
@@ -5349,7 +5349,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel5Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel5Err, "Error parsing 'activationStateOfChannel5' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel5)
+		_map["activationStateOfChannel5"] = values.NewPlcBOOL(activationStateOfChannel5)
 		_ = activationStateOfChannel5 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel6)
@@ -5357,7 +5357,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel6Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel6Err, "Error parsing 'activationStateOfChannel6' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel6)
+		_map["activationStateOfChannel6"] = values.NewPlcBOOL(activationStateOfChannel6)
 		_ = activationStateOfChannel6 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel7)
@@ -5365,7 +5365,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel7Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel7Err, "Error parsing 'activationStateOfChannel7' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel7)
+		_map["activationStateOfChannel7"] = values.NewPlcBOOL(activationStateOfChannel7)
 		_ = activationStateOfChannel7 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel8)
@@ -5373,7 +5373,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel8Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel8Err, "Error parsing 'activationStateOfChannel8' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel8)
+		_map["activationStateOfChannel8"] = values.NewPlcBOOL(activationStateOfChannel8)
 		_ = activationStateOfChannel8 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -5396,7 +5396,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _tempoptimshiftactiveErr != nil {
 			return nil, errors.Wrap(_tempoptimshiftactiveErr, "Error parsing 'tempoptimshiftactive' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(tempoptimshiftactive)
+		_map["tempoptimshiftactive"] = values.NewPlcBOOL(tempoptimshiftactive)
 		_ = tempoptimshiftactive // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (solarenergysupport)
@@ -5404,7 +5404,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _solarenergysupportErr != nil {
 			return nil, errors.Wrap(_solarenergysupportErr, "Error parsing 'solarenergysupport' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(solarenergysupport)
+		_map["solarenergysupport"] = values.NewPlcBOOL(solarenergysupport)
 		_ = solarenergysupport // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (solarenergyonly)
@@ -5412,7 +5412,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _solarenergyonlyErr != nil {
 			return nil, errors.Wrap(_solarenergyonlyErr, "Error parsing 'solarenergyonly' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(solarenergyonly)
+		_map["solarenergyonly"] = values.NewPlcBOOL(solarenergyonly)
 		_ = solarenergyonly // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (otherenergysourceactive)
@@ -5420,7 +5420,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _otherenergysourceactiveErr != nil {
 			return nil, errors.Wrap(_otherenergysourceactiveErr, "Error parsing 'otherenergysourceactive' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(otherenergysourceactive)
+		_map["otherenergysourceactive"] = values.NewPlcBOOL(otherenergysourceactive)
 		_ = otherenergysourceactive // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (dhwpushactive)
@@ -5428,7 +5428,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _dhwpushactiveErr != nil {
 			return nil, errors.Wrap(_dhwpushactiveErr, "Error parsing 'dhwpushactive' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(dhwpushactive)
+		_map["dhwpushactive"] = values.NewPlcBOOL(dhwpushactive)
 		_ = dhwpushactive // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (legioprotactive)
@@ -5436,7 +5436,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _legioprotactiveErr != nil {
 			return nil, errors.Wrap(_legioprotactiveErr, "Error parsing 'legioprotactive' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(legioprotactive)
+		_map["legioprotactive"] = values.NewPlcBOOL(legioprotactive)
 		_ = legioprotactive // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (dhwloadactive)
@@ -5444,7 +5444,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _dhwloadactiveErr != nil {
 			return nil, errors.Wrap(_dhwloadactiveErr, "Error parsing 'dhwloadactive' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(dhwloadactive)
+		_map["dhwloadactive"] = values.NewPlcBOOL(dhwloadactive)
 		_ = dhwloadactive // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (fault)
@@ -5452,7 +5452,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _faultErr != nil {
 			return nil, errors.Wrap(_faultErr, "Error parsing 'fault' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(fault)
+		_map["fault"] = values.NewPlcBOOL(fault)
 		_ = fault // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -5475,7 +5475,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _overheatalarmErr != nil {
 			return nil, errors.Wrap(_overheatalarmErr, "Error parsing 'overheatalarm' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(overheatalarm)
+		_map["overheatalarm"] = values.NewPlcBOOL(overheatalarm)
 		_ = overheatalarm // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (frostalarm)
@@ -5483,7 +5483,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _frostalarmErr != nil {
 			return nil, errors.Wrap(_frostalarmErr, "Error parsing 'frostalarm' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(frostalarm)
+		_map["frostalarm"] = values.NewPlcBOOL(frostalarm)
 		_ = frostalarm // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (dewpointstatus)
@@ -5491,7 +5491,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _dewpointstatusErr != nil {
 			return nil, errors.Wrap(_dewpointstatusErr, "Error parsing 'dewpointstatus' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(dewpointstatus)
+		_map["dewpointstatus"] = values.NewPlcBOOL(dewpointstatus)
 		_ = dewpointstatus // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (coolingdisabled)
@@ -5499,7 +5499,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _coolingdisabledErr != nil {
 			return nil, errors.Wrap(_coolingdisabledErr, "Error parsing 'coolingdisabled' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(coolingdisabled)
+		_map["coolingdisabled"] = values.NewPlcBOOL(coolingdisabled)
 		_ = coolingdisabled // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (statusprecool)
@@ -5507,7 +5507,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _statusprecoolErr != nil {
 			return nil, errors.Wrap(_statusprecoolErr, "Error parsing 'statusprecool' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(statusprecool)
+		_map["statusprecool"] = values.NewPlcBOOL(statusprecool)
 		_ = statusprecool // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (statusecoc)
@@ -5515,7 +5515,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _statusecocErr != nil {
 			return nil, errors.Wrap(_statusecocErr, "Error parsing 'statusecoc' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(statusecoc)
+		_map["statusecoc"] = values.NewPlcBOOL(statusecoc)
 		_ = statusecoc // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (heatcoolmode)
@@ -5523,7 +5523,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _heatcoolmodeErr != nil {
 			return nil, errors.Wrap(_heatcoolmodeErr, "Error parsing 'heatcoolmode' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(heatcoolmode)
+		_map["heatcoolmode"] = values.NewPlcBOOL(heatcoolmode)
 		_ = heatcoolmode // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (heatingdiabled)
@@ -5531,7 +5531,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _heatingdiabledErr != nil {
 			return nil, errors.Wrap(_heatingdiabledErr, "Error parsing 'heatingdiabled' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(heatingdiabled)
+		_map["heatingdiabled"] = values.NewPlcBOOL(heatingdiabled)
 		_ = heatingdiabled // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (statusstopoptim)
@@ -5539,7 +5539,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _statusstopoptimErr != nil {
 			return nil, errors.Wrap(_statusstopoptimErr, "Error parsing 'statusstopoptim' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(statusstopoptim)
+		_map["statusstopoptim"] = values.NewPlcBOOL(statusstopoptim)
 		_ = statusstopoptim // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (statusstartoptim)
@@ -5547,7 +5547,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _statusstartoptimErr != nil {
 			return nil, errors.Wrap(_statusstartoptimErr, "Error parsing 'statusstartoptim' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(statusstartoptim)
+		_map["statusstartoptim"] = values.NewPlcBOOL(statusstartoptim)
 		_ = statusstartoptim // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (statusmorningboosth)
@@ -5555,7 +5555,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _statusmorningboosthErr != nil {
 			return nil, errors.Wrap(_statusmorningboosthErr, "Error parsing 'statusmorningboosth' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(statusmorningboosth)
+		_map["statusmorningboosth"] = values.NewPlcBOOL(statusmorningboosth)
 		_ = statusmorningboosth // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (tempflowreturnlimit)
@@ -5563,7 +5563,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _tempflowreturnlimitErr != nil {
 			return nil, errors.Wrap(_tempflowreturnlimitErr, "Error parsing 'tempflowreturnlimit' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(tempflowreturnlimit)
+		_map["tempflowreturnlimit"] = values.NewPlcBOOL(tempflowreturnlimit)
 		_ = tempflowreturnlimit // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (tempflowlimit)
@@ -5571,7 +5571,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _tempflowlimitErr != nil {
 			return nil, errors.Wrap(_tempflowlimitErr, "Error parsing 'tempflowlimit' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(tempflowlimit)
+		_map["tempflowlimit"] = values.NewPlcBOOL(tempflowlimit)
 		_ = tempflowlimit // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (statusecoh)
@@ -5579,7 +5579,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _statusecohErr != nil {
 			return nil, errors.Wrap(_statusecohErr, "Error parsing 'statusecoh' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(statusecoh)
+		_map["statusecoh"] = values.NewPlcBOOL(statusecoh)
 		_ = statusecoh // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (fault)
@@ -5587,7 +5587,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _faultErr != nil {
 			return nil, errors.Wrap(_faultErr, "Error parsing 'fault' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(fault)
+		_map["fault"] = values.NewPlcBOOL(fault)
 		_ = fault // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -5610,7 +5610,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _calibrationModeErr != nil {
 			return nil, errors.Wrap(_calibrationModeErr, "Error parsing 'calibrationMode' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(calibrationMode)
+		_map["calibrationMode"] = values.NewPlcBOOL(calibrationMode)
 		_ = calibrationMode // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (lockedPosition)
@@ -5618,7 +5618,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _lockedPositionErr != nil {
 			return nil, errors.Wrap(_lockedPositionErr, "Error parsing 'lockedPosition' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(lockedPosition)
+		_map["lockedPosition"] = values.NewPlcBOOL(lockedPosition)
 		_ = lockedPosition // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (forcedPosition)
@@ -5626,7 +5626,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _forcedPositionErr != nil {
 			return nil, errors.Wrap(_forcedPositionErr, "Error parsing 'forcedPosition' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(forcedPosition)
+		_map["forcedPosition"] = values.NewPlcBOOL(forcedPosition)
 		_ = forcedPosition // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (manuaOperationOverridden)
@@ -5634,7 +5634,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _manuaOperationOverriddenErr != nil {
 			return nil, errors.Wrap(_manuaOperationOverriddenErr, "Error parsing 'manuaOperationOverridden' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(manuaOperationOverridden)
+		_map["manuaOperationOverridden"] = values.NewPlcBOOL(manuaOperationOverridden)
 		_ = manuaOperationOverridden // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (serviceMode)
@@ -5642,7 +5642,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _serviceModeErr != nil {
 			return nil, errors.Wrap(_serviceModeErr, "Error parsing 'serviceMode' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(serviceMode)
+		_map["serviceMode"] = values.NewPlcBOOL(serviceMode)
 		_ = serviceMode // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (valveKick)
@@ -5650,7 +5650,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _valveKickErr != nil {
 			return nil, errors.Wrap(_valveKickErr, "Error parsing 'valveKick' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(valveKick)
+		_map["valveKick"] = values.NewPlcBOOL(valveKick)
 		_ = valveKick // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (overload)
@@ -5658,7 +5658,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _overloadErr != nil {
 			return nil, errors.Wrap(_overloadErr, "Error parsing 'overload' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(overload)
+		_map["overload"] = values.NewPlcBOOL(overload)
 		_ = overload // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (shortCircuit)
@@ -5666,7 +5666,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _shortCircuitErr != nil {
 			return nil, errors.Wrap(_shortCircuitErr, "Error parsing 'shortCircuit' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(shortCircuit)
+		_map["shortCircuit"] = values.NewPlcBOOL(shortCircuit)
 		_ = shortCircuit // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (currentValvePosition)
@@ -5674,7 +5674,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _currentValvePositionErr != nil {
 			return nil, errors.Wrap(_currentValvePositionErr, "Error parsing 'currentValvePosition' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(currentValvePosition)
+		_map["currentValvePosition"] = values.NewPlcBOOL(currentValvePosition)
 		_ = currentValvePosition // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -5697,7 +5697,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _coolingModeEnabledErr != nil {
 			return nil, errors.Wrap(_coolingModeEnabledErr, "Error parsing 'coolingModeEnabled' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(coolingModeEnabled)
+		_map["coolingModeEnabled"] = values.NewPlcBOOL(coolingModeEnabled)
 		_ = coolingModeEnabled // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (heatingModeEnabled)
@@ -5705,7 +5705,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _heatingModeEnabledErr != nil {
 			return nil, errors.Wrap(_heatingModeEnabledErr, "Error parsing 'heatingModeEnabled' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(heatingModeEnabled)
+		_map["heatingModeEnabled"] = values.NewPlcBOOL(heatingModeEnabled)
 		_ = heatingModeEnabled // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (additionalHeatingCoolingStage2Stage)
@@ -5713,7 +5713,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _additionalHeatingCoolingStage2StageErr != nil {
 			return nil, errors.Wrap(_additionalHeatingCoolingStage2StageErr, "Error parsing 'additionalHeatingCoolingStage2Stage' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(additionalHeatingCoolingStage2Stage)
+		_map["additionalHeatingCoolingStage2Stage"] = values.NewPlcBOOL(additionalHeatingCoolingStage2Stage)
 		_ = additionalHeatingCoolingStage2Stage // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (controllerInactive)
@@ -5721,7 +5721,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _controllerInactiveErr != nil {
 			return nil, errors.Wrap(_controllerInactiveErr, "Error parsing 'controllerInactive' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(controllerInactive)
+		_map["controllerInactive"] = values.NewPlcBOOL(controllerInactive)
 		_ = controllerInactive // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (overheatAlarm)
@@ -5729,7 +5729,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _overheatAlarmErr != nil {
 			return nil, errors.Wrap(_overheatAlarmErr, "Error parsing 'overheatAlarm' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(overheatAlarm)
+		_map["overheatAlarm"] = values.NewPlcBOOL(overheatAlarm)
 		_ = overheatAlarm // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (frostAlarm)
@@ -5737,7 +5737,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _frostAlarmErr != nil {
 			return nil, errors.Wrap(_frostAlarmErr, "Error parsing 'frostAlarm' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(frostAlarm)
+		_map["frostAlarm"] = values.NewPlcBOOL(frostAlarm)
 		_ = frostAlarm // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (dewPointStatus)
@@ -5745,7 +5745,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _dewPointStatusErr != nil {
 			return nil, errors.Wrap(_dewPointStatusErr, "Error parsing 'dewPointStatus' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(dewPointStatus)
+		_map["dewPointStatus"] = values.NewPlcBOOL(dewPointStatus)
 		_ = dewPointStatus // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activeMode)
@@ -5753,7 +5753,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activeModeErr != nil {
 			return nil, errors.Wrap(_activeModeErr, "Error parsing 'activeMode' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activeMode)
+		_map["activeMode"] = values.NewPlcBOOL(activeMode)
 		_ = activeMode // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (generalFailureInformation)
@@ -5761,7 +5761,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _generalFailureInformationErr != nil {
 			return nil, errors.Wrap(_generalFailureInformationErr, "Error parsing 'generalFailureInformation' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(generalFailureInformation)
+		_map["generalFailureInformation"] = values.NewPlcBOOL(generalFailureInformation)
 		_ = generalFailureInformation // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -5784,7 +5784,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _knxIpErr != nil {
 			return nil, errors.Wrap(_knxIpErr, "Error parsing 'knxIp' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(knxIp)
+		_map["knxIp"] = values.NewPlcBOOL(knxIp)
 		_ = knxIp // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (rf)
@@ -5792,7 +5792,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _rfErr != nil {
 			return nil, errors.Wrap(_rfErr, "Error parsing 'rf' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(rf)
+		_map["rf"] = values.NewPlcBOOL(rf)
 		_ = rf // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -5805,7 +5805,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _pl110Err != nil {
 			return nil, errors.Wrap(_pl110Err, "Error parsing 'pl110' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(pl110)
+		_map["pl110"] = values.NewPlcBOOL(pl110)
 		_ = pl110 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (tp1)
@@ -5813,7 +5813,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _tp1Err != nil {
 			return nil, errors.Wrap(_tp1Err, "Error parsing 'tp1' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(tp1)
+		_map["tp1"] = values.NewPlcBOOL(tp1)
 		_ = tp1 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -5836,7 +5836,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel1Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel1Err, "Error parsing 'activationStateOfChannel1' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel1)
+		_map["activationStateOfChannel1"] = values.NewPlcBOOL(activationStateOfChannel1)
 		_ = activationStateOfChannel1 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel2)
@@ -5844,7 +5844,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel2Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel2Err, "Error parsing 'activationStateOfChannel2' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel2)
+		_map["activationStateOfChannel2"] = values.NewPlcBOOL(activationStateOfChannel2)
 		_ = activationStateOfChannel2 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel3)
@@ -5852,7 +5852,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel3Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel3Err, "Error parsing 'activationStateOfChannel3' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel3)
+		_map["activationStateOfChannel3"] = values.NewPlcBOOL(activationStateOfChannel3)
 		_ = activationStateOfChannel3 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel4)
@@ -5860,7 +5860,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel4Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel4Err, "Error parsing 'activationStateOfChannel4' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel4)
+		_map["activationStateOfChannel4"] = values.NewPlcBOOL(activationStateOfChannel4)
 		_ = activationStateOfChannel4 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel5)
@@ -5868,7 +5868,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel5Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel5Err, "Error parsing 'activationStateOfChannel5' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel5)
+		_map["activationStateOfChannel5"] = values.NewPlcBOOL(activationStateOfChannel5)
 		_ = activationStateOfChannel5 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel6)
@@ -5876,7 +5876,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel6Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel6Err, "Error parsing 'activationStateOfChannel6' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel6)
+		_map["activationStateOfChannel6"] = values.NewPlcBOOL(activationStateOfChannel6)
 		_ = activationStateOfChannel6 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel7)
@@ -5884,7 +5884,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel7Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel7Err, "Error parsing 'activationStateOfChannel7' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel7)
+		_map["activationStateOfChannel7"] = values.NewPlcBOOL(activationStateOfChannel7)
 		_ = activationStateOfChannel7 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel8)
@@ -5892,7 +5892,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel8Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel8Err, "Error parsing 'activationStateOfChannel8' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel8)
+		_map["activationStateOfChannel8"] = values.NewPlcBOOL(activationStateOfChannel8)
 		_ = activationStateOfChannel8 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel9)
@@ -5900,7 +5900,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel9Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel9Err, "Error parsing 'activationStateOfChannel9' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel9)
+		_map["activationStateOfChannel9"] = values.NewPlcBOOL(activationStateOfChannel9)
 		_ = activationStateOfChannel9 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel10)
@@ -5908,7 +5908,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel10Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel10Err, "Error parsing 'activationStateOfChannel10' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel10)
+		_map["activationStateOfChannel10"] = values.NewPlcBOOL(activationStateOfChannel10)
 		_ = activationStateOfChannel10 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel11)
@@ -5916,7 +5916,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel11Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel11Err, "Error parsing 'activationStateOfChannel11' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel11)
+		_map["activationStateOfChannel11"] = values.NewPlcBOOL(activationStateOfChannel11)
 		_ = activationStateOfChannel11 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel12)
@@ -5924,7 +5924,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel12Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel12Err, "Error parsing 'activationStateOfChannel12' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel12)
+		_map["activationStateOfChannel12"] = values.NewPlcBOOL(activationStateOfChannel12)
 		_ = activationStateOfChannel12 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel13)
@@ -5932,7 +5932,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel13Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel13Err, "Error parsing 'activationStateOfChannel13' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel13)
+		_map["activationStateOfChannel13"] = values.NewPlcBOOL(activationStateOfChannel13)
 		_ = activationStateOfChannel13 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel14)
@@ -5940,7 +5940,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel14Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel14Err, "Error parsing 'activationStateOfChannel14' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel14)
+		_map["activationStateOfChannel14"] = values.NewPlcBOOL(activationStateOfChannel14)
 		_ = activationStateOfChannel14 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel15)
@@ -5948,7 +5948,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel15Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel15Err, "Error parsing 'activationStateOfChannel15' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel15)
+		_map["activationStateOfChannel15"] = values.NewPlcBOOL(activationStateOfChannel15)
 		_ = activationStateOfChannel15 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel16)
@@ -5956,7 +5956,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel16Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel16Err, "Error parsing 'activationStateOfChannel16' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel16)
+		_map["activationStateOfChannel16"] = values.NewPlcBOOL(activationStateOfChannel16)
 		_ = activationStateOfChannel16 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -6030,7 +6030,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _busyErr != nil {
 			return nil, errors.Wrap(_busyErr, "Error parsing 'busy' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(busy)
+		_map["busy"] = values.NewPlcUSINT(busy)
 		_ = busy // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (nak)
@@ -6038,7 +6038,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _nakErr != nil {
 			return nil, errors.Wrap(_nakErr, "Error parsing 'nak' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(nak)
+		_map["nak"] = values.NewPlcUSINT(nak)
 		_ = nak // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -6061,7 +6061,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _sceneIsInactiveErr != nil {
 			return nil, errors.Wrap(_sceneIsInactiveErr, "Error parsing 'sceneIsInactive' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(sceneIsInactive)
+		_map["sceneIsInactive"] = values.NewPlcBOOL(sceneIsInactive)
 		_ = sceneIsInactive // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (scenenumber)
@@ -6069,7 +6069,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _scenenumberErr != nil {
 			return nil, errors.Wrap(_scenenumberErr, "Error parsing 'scenenumber' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(scenenumber)
+		_map["scenenumber"] = values.NewPlcUSINT(scenenumber)
 		_ = scenenumber // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -6087,7 +6087,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskBitInfoOnOffOutput16Err != nil {
 			return nil, errors.Wrap(_maskBitInfoOnOffOutput16Err, "Error parsing 'maskBitInfoOnOffOutput16' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskBitInfoOnOffOutput16)
+		_map["maskBitInfoOnOffOutput16"] = values.NewPlcBOOL(maskBitInfoOnOffOutput16)
 		_ = maskBitInfoOnOffOutput16 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (maskBitInfoOnOffOutput15)
@@ -6095,7 +6095,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskBitInfoOnOffOutput15Err != nil {
 			return nil, errors.Wrap(_maskBitInfoOnOffOutput15Err, "Error parsing 'maskBitInfoOnOffOutput15' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskBitInfoOnOffOutput15)
+		_map["maskBitInfoOnOffOutput15"] = values.NewPlcBOOL(maskBitInfoOnOffOutput15)
 		_ = maskBitInfoOnOffOutput15 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (maskBitInfoOnOffOutput14)
@@ -6103,7 +6103,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskBitInfoOnOffOutput14Err != nil {
 			return nil, errors.Wrap(_maskBitInfoOnOffOutput14Err, "Error parsing 'maskBitInfoOnOffOutput14' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskBitInfoOnOffOutput14)
+		_map["maskBitInfoOnOffOutput14"] = values.NewPlcBOOL(maskBitInfoOnOffOutput14)
 		_ = maskBitInfoOnOffOutput14 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (maskBitInfoOnOffOutput13)
@@ -6111,7 +6111,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskBitInfoOnOffOutput13Err != nil {
 			return nil, errors.Wrap(_maskBitInfoOnOffOutput13Err, "Error parsing 'maskBitInfoOnOffOutput13' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskBitInfoOnOffOutput13)
+		_map["maskBitInfoOnOffOutput13"] = values.NewPlcBOOL(maskBitInfoOnOffOutput13)
 		_ = maskBitInfoOnOffOutput13 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (maskBitInfoOnOffOutput12)
@@ -6119,7 +6119,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskBitInfoOnOffOutput12Err != nil {
 			return nil, errors.Wrap(_maskBitInfoOnOffOutput12Err, "Error parsing 'maskBitInfoOnOffOutput12' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskBitInfoOnOffOutput12)
+		_map["maskBitInfoOnOffOutput12"] = values.NewPlcBOOL(maskBitInfoOnOffOutput12)
 		_ = maskBitInfoOnOffOutput12 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (maskBitInfoOnOffOutput11)
@@ -6127,7 +6127,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskBitInfoOnOffOutput11Err != nil {
 			return nil, errors.Wrap(_maskBitInfoOnOffOutput11Err, "Error parsing 'maskBitInfoOnOffOutput11' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskBitInfoOnOffOutput11)
+		_map["maskBitInfoOnOffOutput11"] = values.NewPlcBOOL(maskBitInfoOnOffOutput11)
 		_ = maskBitInfoOnOffOutput11 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (maskBitInfoOnOffOutput10)
@@ -6135,7 +6135,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskBitInfoOnOffOutput10Err != nil {
 			return nil, errors.Wrap(_maskBitInfoOnOffOutput10Err, "Error parsing 'maskBitInfoOnOffOutput10' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskBitInfoOnOffOutput10)
+		_map["maskBitInfoOnOffOutput10"] = values.NewPlcBOOL(maskBitInfoOnOffOutput10)
 		_ = maskBitInfoOnOffOutput10 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (maskBitInfoOnOffOutput9)
@@ -6143,7 +6143,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskBitInfoOnOffOutput9Err != nil {
 			return nil, errors.Wrap(_maskBitInfoOnOffOutput9Err, "Error parsing 'maskBitInfoOnOffOutput9' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskBitInfoOnOffOutput9)
+		_map["maskBitInfoOnOffOutput9"] = values.NewPlcBOOL(maskBitInfoOnOffOutput9)
 		_ = maskBitInfoOnOffOutput9 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (maskBitInfoOnOffOutput8)
@@ -6151,7 +6151,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskBitInfoOnOffOutput8Err != nil {
 			return nil, errors.Wrap(_maskBitInfoOnOffOutput8Err, "Error parsing 'maskBitInfoOnOffOutput8' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskBitInfoOnOffOutput8)
+		_map["maskBitInfoOnOffOutput8"] = values.NewPlcBOOL(maskBitInfoOnOffOutput8)
 		_ = maskBitInfoOnOffOutput8 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (maskBitInfoOnOffOutput7)
@@ -6159,7 +6159,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskBitInfoOnOffOutput7Err != nil {
 			return nil, errors.Wrap(_maskBitInfoOnOffOutput7Err, "Error parsing 'maskBitInfoOnOffOutput7' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskBitInfoOnOffOutput7)
+		_map["maskBitInfoOnOffOutput7"] = values.NewPlcBOOL(maskBitInfoOnOffOutput7)
 		_ = maskBitInfoOnOffOutput7 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (maskBitInfoOnOffOutput6)
@@ -6167,7 +6167,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskBitInfoOnOffOutput6Err != nil {
 			return nil, errors.Wrap(_maskBitInfoOnOffOutput6Err, "Error parsing 'maskBitInfoOnOffOutput6' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskBitInfoOnOffOutput6)
+		_map["maskBitInfoOnOffOutput6"] = values.NewPlcBOOL(maskBitInfoOnOffOutput6)
 		_ = maskBitInfoOnOffOutput6 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (maskBitInfoOnOffOutput5)
@@ -6175,7 +6175,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskBitInfoOnOffOutput5Err != nil {
 			return nil, errors.Wrap(_maskBitInfoOnOffOutput5Err, "Error parsing 'maskBitInfoOnOffOutput5' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskBitInfoOnOffOutput5)
+		_map["maskBitInfoOnOffOutput5"] = values.NewPlcBOOL(maskBitInfoOnOffOutput5)
 		_ = maskBitInfoOnOffOutput5 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (maskBitInfoOnOffOutput4)
@@ -6183,7 +6183,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskBitInfoOnOffOutput4Err != nil {
 			return nil, errors.Wrap(_maskBitInfoOnOffOutput4Err, "Error parsing 'maskBitInfoOnOffOutput4' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskBitInfoOnOffOutput4)
+		_map["maskBitInfoOnOffOutput4"] = values.NewPlcBOOL(maskBitInfoOnOffOutput4)
 		_ = maskBitInfoOnOffOutput4 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (maskBitInfoOnOffOutput3)
@@ -6191,7 +6191,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskBitInfoOnOffOutput3Err != nil {
 			return nil, errors.Wrap(_maskBitInfoOnOffOutput3Err, "Error parsing 'maskBitInfoOnOffOutput3' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskBitInfoOnOffOutput3)
+		_map["maskBitInfoOnOffOutput3"] = values.NewPlcBOOL(maskBitInfoOnOffOutput3)
 		_ = maskBitInfoOnOffOutput3 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (maskBitInfoOnOffOutput2)
@@ -6199,7 +6199,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskBitInfoOnOffOutput2Err != nil {
 			return nil, errors.Wrap(_maskBitInfoOnOffOutput2Err, "Error parsing 'maskBitInfoOnOffOutput2' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskBitInfoOnOffOutput2)
+		_map["maskBitInfoOnOffOutput2"] = values.NewPlcBOOL(maskBitInfoOnOffOutput2)
 		_ = maskBitInfoOnOffOutput2 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (maskBitInfoOnOffOutput1)
@@ -6207,7 +6207,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskBitInfoOnOffOutput1Err != nil {
 			return nil, errors.Wrap(_maskBitInfoOnOffOutput1Err, "Error parsing 'maskBitInfoOnOffOutput1' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskBitInfoOnOffOutput1)
+		_map["maskBitInfoOnOffOutput1"] = values.NewPlcBOOL(maskBitInfoOnOffOutput1)
 		_ = maskBitInfoOnOffOutput1 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (infoOnOffOutput16)
@@ -6215,7 +6215,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _infoOnOffOutput16Err != nil {
 			return nil, errors.Wrap(_infoOnOffOutput16Err, "Error parsing 'infoOnOffOutput16' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(infoOnOffOutput16)
+		_map["infoOnOffOutput16"] = values.NewPlcBOOL(infoOnOffOutput16)
 		_ = infoOnOffOutput16 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (infoOnOffOutput15)
@@ -6223,7 +6223,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _infoOnOffOutput15Err != nil {
 			return nil, errors.Wrap(_infoOnOffOutput15Err, "Error parsing 'infoOnOffOutput15' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(infoOnOffOutput15)
+		_map["infoOnOffOutput15"] = values.NewPlcBOOL(infoOnOffOutput15)
 		_ = infoOnOffOutput15 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (infoOnOffOutput14)
@@ -6231,7 +6231,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _infoOnOffOutput14Err != nil {
 			return nil, errors.Wrap(_infoOnOffOutput14Err, "Error parsing 'infoOnOffOutput14' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(infoOnOffOutput14)
+		_map["infoOnOffOutput14"] = values.NewPlcBOOL(infoOnOffOutput14)
 		_ = infoOnOffOutput14 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (infoOnOffOutput13)
@@ -6239,7 +6239,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _infoOnOffOutput13Err != nil {
 			return nil, errors.Wrap(_infoOnOffOutput13Err, "Error parsing 'infoOnOffOutput13' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(infoOnOffOutput13)
+		_map["infoOnOffOutput13"] = values.NewPlcBOOL(infoOnOffOutput13)
 		_ = infoOnOffOutput13 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (infoOnOffOutput12)
@@ -6247,7 +6247,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _infoOnOffOutput12Err != nil {
 			return nil, errors.Wrap(_infoOnOffOutput12Err, "Error parsing 'infoOnOffOutput12' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(infoOnOffOutput12)
+		_map["infoOnOffOutput12"] = values.NewPlcBOOL(infoOnOffOutput12)
 		_ = infoOnOffOutput12 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (infoOnOffOutput11)
@@ -6255,7 +6255,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _infoOnOffOutput11Err != nil {
 			return nil, errors.Wrap(_infoOnOffOutput11Err, "Error parsing 'infoOnOffOutput11' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(infoOnOffOutput11)
+		_map["infoOnOffOutput11"] = values.NewPlcBOOL(infoOnOffOutput11)
 		_ = infoOnOffOutput11 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (infoOnOffOutput10)
@@ -6263,7 +6263,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _infoOnOffOutput10Err != nil {
 			return nil, errors.Wrap(_infoOnOffOutput10Err, "Error parsing 'infoOnOffOutput10' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(infoOnOffOutput10)
+		_map["infoOnOffOutput10"] = values.NewPlcBOOL(infoOnOffOutput10)
 		_ = infoOnOffOutput10 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (infoOnOffOutput9)
@@ -6271,7 +6271,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _infoOnOffOutput9Err != nil {
 			return nil, errors.Wrap(_infoOnOffOutput9Err, "Error parsing 'infoOnOffOutput9' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(infoOnOffOutput9)
+		_map["infoOnOffOutput9"] = values.NewPlcBOOL(infoOnOffOutput9)
 		_ = infoOnOffOutput9 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (infoOnOffOutput8)
@@ -6279,7 +6279,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _infoOnOffOutput8Err != nil {
 			return nil, errors.Wrap(_infoOnOffOutput8Err, "Error parsing 'infoOnOffOutput8' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(infoOnOffOutput8)
+		_map["infoOnOffOutput8"] = values.NewPlcBOOL(infoOnOffOutput8)
 		_ = infoOnOffOutput8 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (infoOnOffOutput7)
@@ -6287,7 +6287,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _infoOnOffOutput7Err != nil {
 			return nil, errors.Wrap(_infoOnOffOutput7Err, "Error parsing 'infoOnOffOutput7' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(infoOnOffOutput7)
+		_map["infoOnOffOutput7"] = values.NewPlcBOOL(infoOnOffOutput7)
 		_ = infoOnOffOutput7 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (infoOnOffOutput6)
@@ -6295,7 +6295,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _infoOnOffOutput6Err != nil {
 			return nil, errors.Wrap(_infoOnOffOutput6Err, "Error parsing 'infoOnOffOutput6' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(infoOnOffOutput6)
+		_map["infoOnOffOutput6"] = values.NewPlcBOOL(infoOnOffOutput6)
 		_ = infoOnOffOutput6 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (infoOnOffOutput5)
@@ -6303,7 +6303,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _infoOnOffOutput5Err != nil {
 			return nil, errors.Wrap(_infoOnOffOutput5Err, "Error parsing 'infoOnOffOutput5' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(infoOnOffOutput5)
+		_map["infoOnOffOutput5"] = values.NewPlcBOOL(infoOnOffOutput5)
 		_ = infoOnOffOutput5 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (infoOnOffOutput4)
@@ -6311,7 +6311,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _infoOnOffOutput4Err != nil {
 			return nil, errors.Wrap(_infoOnOffOutput4Err, "Error parsing 'infoOnOffOutput4' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(infoOnOffOutput4)
+		_map["infoOnOffOutput4"] = values.NewPlcBOOL(infoOnOffOutput4)
 		_ = infoOnOffOutput4 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (infoOnOffOutput3)
@@ -6319,7 +6319,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _infoOnOffOutput3Err != nil {
 			return nil, errors.Wrap(_infoOnOffOutput3Err, "Error parsing 'infoOnOffOutput3' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(infoOnOffOutput3)
+		_map["infoOnOffOutput3"] = values.NewPlcBOOL(infoOnOffOutput3)
 		_ = infoOnOffOutput3 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (infoOnOffOutput2)
@@ -6327,7 +6327,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _infoOnOffOutput2Err != nil {
 			return nil, errors.Wrap(_infoOnOffOutput2Err, "Error parsing 'infoOnOffOutput2' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(infoOnOffOutput2)
+		_map["infoOnOffOutput2"] = values.NewPlcBOOL(infoOnOffOutput2)
 		_ = infoOnOffOutput2 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (infoOnOffOutput1)
@@ -6335,7 +6335,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _infoOnOffOutput1Err != nil {
 			return nil, errors.Wrap(_infoOnOffOutput1Err, "Error parsing 'infoOnOffOutput1' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(infoOnOffOutput1)
+		_map["infoOnOffOutput1"] = values.NewPlcBOOL(infoOnOffOutput1)
 		_ = infoOnOffOutput1 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -6395,7 +6395,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel1Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel1Err, "Error parsing 'activationStateOfChannel1' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel1)
+		_map["activationStateOfChannel1"] = values.NewPlcBOOL(activationStateOfChannel1)
 		_ = activationStateOfChannel1 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel2)
@@ -6403,7 +6403,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel2Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel2Err, "Error parsing 'activationStateOfChannel2' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel2)
+		_map["activationStateOfChannel2"] = values.NewPlcBOOL(activationStateOfChannel2)
 		_ = activationStateOfChannel2 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel3)
@@ -6411,7 +6411,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel3Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel3Err, "Error parsing 'activationStateOfChannel3' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel3)
+		_map["activationStateOfChannel3"] = values.NewPlcBOOL(activationStateOfChannel3)
 		_ = activationStateOfChannel3 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel4)
@@ -6419,7 +6419,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel4Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel4Err, "Error parsing 'activationStateOfChannel4' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel4)
+		_map["activationStateOfChannel4"] = values.NewPlcBOOL(activationStateOfChannel4)
 		_ = activationStateOfChannel4 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel5)
@@ -6427,7 +6427,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel5Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel5Err, "Error parsing 'activationStateOfChannel5' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel5)
+		_map["activationStateOfChannel5"] = values.NewPlcBOOL(activationStateOfChannel5)
 		_ = activationStateOfChannel5 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel6)
@@ -6435,7 +6435,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel6Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel6Err, "Error parsing 'activationStateOfChannel6' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel6)
+		_map["activationStateOfChannel6"] = values.NewPlcBOOL(activationStateOfChannel6)
 		_ = activationStateOfChannel6 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel7)
@@ -6443,7 +6443,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel7Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel7Err, "Error parsing 'activationStateOfChannel7' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel7)
+		_map["activationStateOfChannel7"] = values.NewPlcBOOL(activationStateOfChannel7)
 		_ = activationStateOfChannel7 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel8)
@@ -6451,7 +6451,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel8Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel8Err, "Error parsing 'activationStateOfChannel8' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel8)
+		_map["activationStateOfChannel8"] = values.NewPlcBOOL(activationStateOfChannel8)
 		_ = activationStateOfChannel8 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel9)
@@ -6459,7 +6459,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel9Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel9Err, "Error parsing 'activationStateOfChannel9' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel9)
+		_map["activationStateOfChannel9"] = values.NewPlcBOOL(activationStateOfChannel9)
 		_ = activationStateOfChannel9 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel10)
@@ -6467,7 +6467,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel10Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel10Err, "Error parsing 'activationStateOfChannel10' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel10)
+		_map["activationStateOfChannel10"] = values.NewPlcBOOL(activationStateOfChannel10)
 		_ = activationStateOfChannel10 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel11)
@@ -6475,7 +6475,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel11Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel11Err, "Error parsing 'activationStateOfChannel11' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel11)
+		_map["activationStateOfChannel11"] = values.NewPlcBOOL(activationStateOfChannel11)
 		_ = activationStateOfChannel11 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel12)
@@ -6483,7 +6483,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel12Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel12Err, "Error parsing 'activationStateOfChannel12' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel12)
+		_map["activationStateOfChannel12"] = values.NewPlcBOOL(activationStateOfChannel12)
 		_ = activationStateOfChannel12 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel13)
@@ -6491,7 +6491,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel13Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel13Err, "Error parsing 'activationStateOfChannel13' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel13)
+		_map["activationStateOfChannel13"] = values.NewPlcBOOL(activationStateOfChannel13)
 		_ = activationStateOfChannel13 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel14)
@@ -6499,7 +6499,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel14Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel14Err, "Error parsing 'activationStateOfChannel14' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel14)
+		_map["activationStateOfChannel14"] = values.NewPlcBOOL(activationStateOfChannel14)
 		_ = activationStateOfChannel14 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel15)
@@ -6507,7 +6507,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel15Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel15Err, "Error parsing 'activationStateOfChannel15' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel15)
+		_map["activationStateOfChannel15"] = values.NewPlcBOOL(activationStateOfChannel15)
 		_ = activationStateOfChannel15 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel16)
@@ -6515,7 +6515,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel16Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel16Err, "Error parsing 'activationStateOfChannel16' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel16)
+		_map["activationStateOfChannel16"] = values.NewPlcBOOL(activationStateOfChannel16)
 		_ = activationStateOfChannel16 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel17)
@@ -6523,7 +6523,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel17Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel17Err, "Error parsing 'activationStateOfChannel17' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel17)
+		_map["activationStateOfChannel17"] = values.NewPlcBOOL(activationStateOfChannel17)
 		_ = activationStateOfChannel17 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel18)
@@ -6531,7 +6531,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel18Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel18Err, "Error parsing 'activationStateOfChannel18' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel18)
+		_map["activationStateOfChannel18"] = values.NewPlcBOOL(activationStateOfChannel18)
 		_ = activationStateOfChannel18 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel19)
@@ -6539,7 +6539,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel19Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel19Err, "Error parsing 'activationStateOfChannel19' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel19)
+		_map["activationStateOfChannel19"] = values.NewPlcBOOL(activationStateOfChannel19)
 		_ = activationStateOfChannel19 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel20)
@@ -6547,7 +6547,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel20Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel20Err, "Error parsing 'activationStateOfChannel20' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel20)
+		_map["activationStateOfChannel20"] = values.NewPlcBOOL(activationStateOfChannel20)
 		_ = activationStateOfChannel20 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel21)
@@ -6555,7 +6555,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel21Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel21Err, "Error parsing 'activationStateOfChannel21' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel21)
+		_map["activationStateOfChannel21"] = values.NewPlcBOOL(activationStateOfChannel21)
 		_ = activationStateOfChannel21 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel22)
@@ -6563,7 +6563,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel22Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel22Err, "Error parsing 'activationStateOfChannel22' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel22)
+		_map["activationStateOfChannel22"] = values.NewPlcBOOL(activationStateOfChannel22)
 		_ = activationStateOfChannel22 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel23)
@@ -6571,7 +6571,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel23Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel23Err, "Error parsing 'activationStateOfChannel23' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel23)
+		_map["activationStateOfChannel23"] = values.NewPlcBOOL(activationStateOfChannel23)
 		_ = activationStateOfChannel23 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (activationStateOfChannel24)
@@ -6579,7 +6579,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activationStateOfChannel24Err != nil {
 			return nil, errors.Wrap(_activationStateOfChannel24Err, "Error parsing 'activationStateOfChannel24' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(activationStateOfChannel24)
+		_map["activationStateOfChannel24"] = values.NewPlcBOOL(activationStateOfChannel24)
 		_ = activationStateOfChannel24 // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -6597,7 +6597,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _delayTimeMinErr != nil {
 			return nil, errors.Wrap(_delayTimeMinErr, "Error parsing 'delayTimeMin' field")
 		}
-		_map["Struct"] = values.NewPlcUINT(delayTimeMin)
+		_map["delayTimeMin"] = values.NewPlcUINT(delayTimeMin)
 		_ = delayTimeMin // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (hvacMode)
@@ -6605,7 +6605,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _hvacModeErr != nil {
 			return nil, errors.Wrap(_hvacModeErr, "Error parsing 'hvacMode' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(hvacMode)
+		_map["hvacMode"] = values.NewPlcUSINT(hvacMode)
 		_ = hvacMode // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -6623,7 +6623,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _delayTimeMinErr != nil {
 			return nil, errors.Wrap(_delayTimeMinErr, "Error parsing 'delayTimeMin' field")
 		}
-		_map["Struct"] = values.NewPlcUINT(delayTimeMin)
+		_map["delayTimeMin"] = values.NewPlcUINT(delayTimeMin)
 		_ = delayTimeMin // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (dhwMode)
@@ -6631,7 +6631,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _dhwModeErr != nil {
 			return nil, errors.Wrap(_dhwModeErr, "Error parsing 'dhwMode' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(dhwMode)
+		_map["dhwMode"] = values.NewPlcUSINT(dhwMode)
 		_ = dhwMode // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -6649,7 +6649,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _delayTimeMinErr != nil {
 			return nil, errors.Wrap(_delayTimeMinErr, "Error parsing 'delayTimeMin' field")
 		}
-		_map["Struct"] = values.NewPlcUINT(delayTimeMin)
+		_map["delayTimeMin"] = values.NewPlcUINT(delayTimeMin)
 		_ = delayTimeMin // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (occupancyMode)
@@ -6657,7 +6657,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _occupancyModeErr != nil {
 			return nil, errors.Wrap(_occupancyModeErr, "Error parsing 'occupancyMode' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(occupancyMode)
+		_map["occupancyMode"] = values.NewPlcUSINT(occupancyMode)
 		_ = occupancyMode // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -6675,7 +6675,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _delayTimeMinErr != nil {
 			return nil, errors.Wrap(_delayTimeMinErr, "Error parsing 'delayTimeMin' field")
 		}
-		_map["Struct"] = values.NewPlcUINT(delayTimeMin)
+		_map["delayTimeMin"] = values.NewPlcUINT(delayTimeMin)
 		_ = delayTimeMin // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (buildingMode)
@@ -6683,7 +6683,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _buildingModeErr != nil {
 			return nil, errors.Wrap(_buildingModeErr, "Error parsing 'buildingMode' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(buildingMode)
+		_map["buildingMode"] = values.NewPlcUSINT(buildingMode)
 		_ = buildingMode // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -6701,7 +6701,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _validactualvalueErr != nil {
 			return nil, errors.Wrap(_validactualvalueErr, "Error parsing 'validactualvalue' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(validactualvalue)
+		_map["validactualvalue"] = values.NewPlcBOOL(validactualvalue)
 		_ = validactualvalue // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (locked)
@@ -6709,7 +6709,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _lockedErr != nil {
 			return nil, errors.Wrap(_lockedErr, "Error parsing 'locked' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(locked)
+		_map["locked"] = values.NewPlcBOOL(locked)
 		_ = locked // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (forced)
@@ -6717,7 +6717,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _forcedErr != nil {
 			return nil, errors.Wrap(_forcedErr, "Error parsing 'forced' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(forced)
+		_map["forced"] = values.NewPlcBOOL(forced)
 		_ = forced // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (nightmodeactive)
@@ -6725,7 +6725,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _nightmodeactiveErr != nil {
 			return nil, errors.Wrap(_nightmodeactiveErr, "Error parsing 'nightmodeactive' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(nightmodeactive)
+		_map["nightmodeactive"] = values.NewPlcBOOL(nightmodeactive)
 		_ = nightmodeactive // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (staircaselightingFunction)
@@ -6733,7 +6733,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _staircaselightingFunctionErr != nil {
 			return nil, errors.Wrap(_staircaselightingFunctionErr, "Error parsing 'staircaselightingFunction' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(staircaselightingFunction)
+		_map["staircaselightingFunction"] = values.NewPlcBOOL(staircaselightingFunction)
 		_ = staircaselightingFunction // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (dimming)
@@ -6741,7 +6741,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _dimmingErr != nil {
 			return nil, errors.Wrap(_dimmingErr, "Error parsing 'dimming' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(dimming)
+		_map["dimming"] = values.NewPlcBOOL(dimming)
 		_ = dimming // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (localoverride)
@@ -6749,7 +6749,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _localoverrideErr != nil {
 			return nil, errors.Wrap(_localoverrideErr, "Error parsing 'localoverride' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(localoverride)
+		_map["localoverride"] = values.NewPlcBOOL(localoverride)
 		_ = localoverride // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (failure)
@@ -6757,7 +6757,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _failureErr != nil {
 			return nil, errors.Wrap(_failureErr, "Error parsing 'failure' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(failure)
+		_map["failure"] = values.NewPlcBOOL(failure)
 		_ = failure // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (actualvalue)
@@ -6765,7 +6765,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _actualvalueErr != nil {
 			return nil, errors.Wrap(_actualvalueErr, "Error parsing 'actualvalue' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(actualvalue)
+		_map["actualvalue"] = values.NewPlcUSINT(actualvalue)
 		_ = actualvalue // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -6783,7 +6783,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _magicNumberErr != nil {
 			return nil, errors.Wrap(_magicNumberErr, "Error parsing 'magicNumber' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(magicNumber)
+		_map["magicNumber"] = values.NewPlcUSINT(magicNumber)
 		_ = magicNumber // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (versionNumber)
@@ -6791,7 +6791,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _versionNumberErr != nil {
 			return nil, errors.Wrap(_versionNumberErr, "Error parsing 'versionNumber' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(versionNumber)
+		_map["versionNumber"] = values.NewPlcUSINT(versionNumber)
 		_ = versionNumber // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (revisionNumber)
@@ -6799,7 +6799,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _revisionNumberErr != nil {
 			return nil, errors.Wrap(_revisionNumberErr, "Error parsing 'revisionNumber' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(revisionNumber)
+		_map["revisionNumber"] = values.NewPlcUSINT(revisionNumber)
 		_ = revisionNumber // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -6817,7 +6817,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _logNumberErr != nil {
 			return nil, errors.Wrap(_logNumberErr, "Error parsing 'logNumber' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(logNumber)
+		_map["logNumber"] = values.NewPlcUSINT(logNumber)
 		_ = logNumber // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (alarmPriority)
@@ -6825,7 +6825,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _alarmPriorityErr != nil {
 			return nil, errors.Wrap(_alarmPriorityErr, "Error parsing 'alarmPriority' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(alarmPriority)
+		_map["alarmPriority"] = values.NewPlcUSINT(alarmPriority)
 		_ = alarmPriority // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (applicationArea)
@@ -6833,7 +6833,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _applicationAreaErr != nil {
 			return nil, errors.Wrap(_applicationAreaErr, "Error parsing 'applicationArea' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(applicationArea)
+		_map["applicationArea"] = values.NewPlcUSINT(applicationArea)
 		_ = applicationArea // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (errorClass)
@@ -6841,7 +6841,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _errorClassErr != nil {
 			return nil, errors.Wrap(_errorClassErr, "Error parsing 'errorClass' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(errorClass)
+		_map["errorClass"] = values.NewPlcUSINT(errorClass)
 		_ = errorClass // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -6854,7 +6854,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _errorcodeSupErr != nil {
 			return nil, errors.Wrap(_errorcodeSupErr, "Error parsing 'errorcodeSup' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(errorcodeSup)
+		_map["errorcodeSup"] = values.NewPlcBOOL(errorcodeSup)
 		_ = errorcodeSup // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (alarmtextSup)
@@ -6862,7 +6862,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _alarmtextSupErr != nil {
 			return nil, errors.Wrap(_alarmtextSupErr, "Error parsing 'alarmtextSup' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(alarmtextSup)
+		_map["alarmtextSup"] = values.NewPlcBOOL(alarmtextSup)
 		_ = alarmtextSup // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (timestampSup)
@@ -6870,7 +6870,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _timestampSupErr != nil {
 			return nil, errors.Wrap(_timestampSupErr, "Error parsing 'timestampSup' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(timestampSup)
+		_map["timestampSup"] = values.NewPlcBOOL(timestampSup)
 		_ = timestampSup // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (ackSup)
@@ -6878,7 +6878,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _ackSupErr != nil {
 			return nil, errors.Wrap(_ackSupErr, "Error parsing 'ackSup' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(ackSup)
+		_map["ackSup"] = values.NewPlcBOOL(ackSup)
 		_ = ackSup // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -6891,7 +6891,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _lockedErr != nil {
 			return nil, errors.Wrap(_lockedErr, "Error parsing 'locked' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(locked)
+		_map["locked"] = values.NewPlcBOOL(locked)
 		_ = locked // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (alarmunack)
@@ -6899,7 +6899,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _alarmunackErr != nil {
 			return nil, errors.Wrap(_alarmunackErr, "Error parsing 'alarmunack' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(alarmunack)
+		_map["alarmunack"] = values.NewPlcBOOL(alarmunack)
 		_ = alarmunack // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (inalarm)
@@ -6907,7 +6907,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _inalarmErr != nil {
 			return nil, errors.Wrap(_inalarmErr, "Error parsing 'inalarm' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(inalarm)
+		_map["inalarm"] = values.NewPlcBOOL(inalarm)
 		_ = inalarm // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -6925,7 +6925,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _tempsetpcomfErr != nil {
 			return nil, errors.Wrap(_tempsetpcomfErr, "Error parsing 'tempsetpcomf' field")
 		}
-		_map["Struct"] = values.NewPlcREAL(tempsetpcomf)
+		_map["tempsetpcomf"] = values.NewPlcREAL(tempsetpcomf)
 		_ = tempsetpcomf // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (tempsetpstdby)
@@ -6933,7 +6933,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _tempsetpstdbyErr != nil {
 			return nil, errors.Wrap(_tempsetpstdbyErr, "Error parsing 'tempsetpstdby' field")
 		}
-		_map["Struct"] = values.NewPlcREAL(tempsetpstdby)
+		_map["tempsetpstdby"] = values.NewPlcREAL(tempsetpstdby)
 		_ = tempsetpstdby // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (tempsetpeco)
@@ -6941,7 +6941,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _tempsetpecoErr != nil {
 			return nil, errors.Wrap(_tempsetpecoErr, "Error parsing 'tempsetpeco' field")
 		}
-		_map["Struct"] = values.NewPlcREAL(tempsetpeco)
+		_map["tempsetpeco"] = values.NewPlcREAL(tempsetpeco)
 		_ = tempsetpeco // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -6959,7 +6959,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _tempsetpshiftcomfErr != nil {
 			return nil, errors.Wrap(_tempsetpshiftcomfErr, "Error parsing 'tempsetpshiftcomf' field")
 		}
-		_map["Struct"] = values.NewPlcREAL(tempsetpshiftcomf)
+		_map["tempsetpshiftcomf"] = values.NewPlcREAL(tempsetpshiftcomf)
 		_ = tempsetpshiftcomf // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (tempsetpshiftstdby)
@@ -6967,7 +6967,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _tempsetpshiftstdbyErr != nil {
 			return nil, errors.Wrap(_tempsetpshiftstdbyErr, "Error parsing 'tempsetpshiftstdby' field")
 		}
-		_map["Struct"] = values.NewPlcREAL(tempsetpshiftstdby)
+		_map["tempsetpshiftstdby"] = values.NewPlcREAL(tempsetpshiftstdby)
 		_ = tempsetpshiftstdby // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (tempsetpshifteco)
@@ -6975,7 +6975,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _tempsetpshiftecoErr != nil {
 			return nil, errors.Wrap(_tempsetpshiftecoErr, "Error parsing 'tempsetpshifteco' field")
 		}
-		_map["Struct"] = values.NewPlcREAL(tempsetpshifteco)
+		_map["tempsetpshifteco"] = values.NewPlcREAL(tempsetpshifteco)
 		_ = tempsetpshifteco // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -6993,7 +6993,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _timePeriodErr != nil {
 			return nil, errors.Wrap(_timePeriodErr, "Error parsing 'timePeriod' field")
 		}
-		_map["Struct"] = values.NewPlcUINT(timePeriod)
+		_map["timePeriod"] = values.NewPlcUINT(timePeriod)
 		_ = timePeriod // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (percent)
@@ -7001,7 +7001,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _percentErr != nil {
 			return nil, errors.Wrap(_percentErr, "Error parsing 'percent' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(percent)
+		_map["percent"] = values.NewPlcUSINT(percent)
 		_ = percent // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7019,7 +7019,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _timePeriodErr != nil {
 			return nil, errors.Wrap(_timePeriodErr, "Error parsing 'timePeriod' field")
 		}
-		_map["Struct"] = values.NewPlcUINT(timePeriod)
+		_map["timePeriod"] = values.NewPlcUINT(timePeriod)
 		_ = timePeriod // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (percent)
@@ -7027,7 +7027,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _percentErr != nil {
 			return nil, errors.Wrap(_percentErr, "Error parsing 'percent' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(percent)
+		_map["percent"] = values.NewPlcUSINT(percent)
 		_ = percent // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7045,7 +7045,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _countvalErr != nil {
 			return nil, errors.Wrap(_countvalErr, "Error parsing 'countval' field")
 		}
-		_map["Struct"] = values.NewPlcDINT(countval)
+		_map["countval"] = values.NewPlcDINT(countval)
 		_ = countval // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (valinffield)
@@ -7053,7 +7053,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _valinffieldErr != nil {
 			return nil, errors.Wrap(_valinffieldErr, "Error parsing 'valinffield' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(valinffield)
+		_map["valinffield"] = values.NewPlcUSINT(valinffield)
 		_ = valinffield // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -7066,7 +7066,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _alarmunackErr != nil {
 			return nil, errors.Wrap(_alarmunackErr, "Error parsing 'alarmunack' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(alarmunack)
+		_map["alarmunack"] = values.NewPlcBOOL(alarmunack)
 		_ = alarmunack // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (inalarm)
@@ -7074,7 +7074,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _inalarmErr != nil {
 			return nil, errors.Wrap(_inalarmErr, "Error parsing 'inalarm' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(inalarm)
+		_map["inalarm"] = values.NewPlcBOOL(inalarm)
 		_ = inalarm // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (overridden)
@@ -7082,7 +7082,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _overriddenErr != nil {
 			return nil, errors.Wrap(_overriddenErr, "Error parsing 'overridden' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(overridden)
+		_map["overridden"] = values.NewPlcBOOL(overridden)
 		_ = overridden // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (fault)
@@ -7090,7 +7090,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _faultErr != nil {
 			return nil, errors.Wrap(_faultErr, "Error parsing 'fault' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(fault)
+		_map["fault"] = values.NewPlcBOOL(fault)
 		_ = fault // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (outofservice)
@@ -7098,7 +7098,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _outofserviceErr != nil {
 			return nil, errors.Wrap(_outofserviceErr, "Error parsing 'outofservice' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(outofservice)
+		_map["outofservice"] = values.NewPlcBOOL(outofservice)
 		_ = outofservice // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7116,7 +7116,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _manufactidErr != nil {
 			return nil, errors.Wrap(_manufactidErr, "Error parsing 'manufactid' field")
 		}
-		_map["Struct"] = values.NewPlcUINT(manufactid)
+		_map["manufactid"] = values.NewPlcUINT(manufactid)
 		_ = manufactid // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (identnumber)
@@ -7124,7 +7124,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _identnumberErr != nil {
 			return nil, errors.Wrap(_identnumberErr, "Error parsing 'identnumber' field")
 		}
-		_map["Struct"] = values.NewPlcUDINT(identnumber)
+		_map["identnumber"] = values.NewPlcUDINT(identnumber)
 		_ = identnumber // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (version)
@@ -7132,7 +7132,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _versionErr != nil {
 			return nil, errors.Wrap(_versionErr, "Error parsing 'version' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(version)
+		_map["version"] = values.NewPlcUSINT(version)
 		_ = version // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (medium)
@@ -7140,7 +7140,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _mediumErr != nil {
 			return nil, errors.Wrap(_mediumErr, "Error parsing 'medium' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(medium)
+		_map["medium"] = values.NewPlcUSINT(medium)
 		_ = medium // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7158,7 +7158,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _rErr != nil {
 			return nil, errors.Wrap(_rErr, "Error parsing 'r' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(r)
+		_map["r"] = values.NewPlcUSINT(r)
 		_ = r // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (g)
@@ -7166,7 +7166,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _gErr != nil {
 			return nil, errors.Wrap(_gErr, "Error parsing 'g' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(g)
+		_map["g"] = values.NewPlcUSINT(g)
 		_ = g // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (b)
@@ -7174,7 +7174,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _bErr != nil {
 			return nil, errors.Wrap(_bErr, "Error parsing 'b' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(b)
+		_map["b"] = values.NewPlcUSINT(b)
 		_ = b // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7192,7 +7192,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _hErr != nil {
 			return nil, errors.Wrap(_hErr, "Error parsing 'h' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(h)
+		_map["h"] = values.NewPlcUSINT(h)
 		_ = h // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (s)
@@ -7200,7 +7200,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _sErr != nil {
 			return nil, errors.Wrap(_sErr, "Error parsing 's' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(s)
+		_map["s"] = values.NewPlcUSINT(s)
 		_ = s // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (v)
@@ -7208,7 +7208,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _vErr != nil {
 			return nil, errors.Wrap(_vErr, "Error parsing 'v' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(v)
+		_map["v"] = values.NewPlcUSINT(v)
 		_ = v // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7240,7 +7240,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _activeelectricalenergyErr != nil {
 			return nil, errors.Wrap(_activeelectricalenergyErr, "Error parsing 'activeelectricalenergy' field")
 		}
-		_map["Struct"] = values.NewPlcDINT(activeelectricalenergy)
+		_map["activeelectricalenergy"] = values.NewPlcDINT(activeelectricalenergy)
 		_ = activeelectricalenergy // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (tariff)
@@ -7248,7 +7248,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _tariffErr != nil {
 			return nil, errors.Wrap(_tariffErr, "Error parsing 'tariff' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(tariff)
+		_map["tariff"] = values.NewPlcUSINT(tariff)
 		_ = tariff // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -7261,7 +7261,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _electricalengergyvalidityErr != nil {
 			return nil, errors.Wrap(_electricalengergyvalidityErr, "Error parsing 'electricalengergyvalidity' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(electricalengergyvalidity)
+		_map["electricalengergyvalidity"] = values.NewPlcBOOL(electricalengergyvalidity)
 		_ = electricalengergyvalidity // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (tariffvalidity)
@@ -7269,7 +7269,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _tariffvalidityErr != nil {
 			return nil, errors.Wrap(_tariffvalidityErr, "Error parsing 'tariffvalidity' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(tariffvalidity)
+		_map["tariffvalidity"] = values.NewPlcBOOL(tariffvalidity)
 		_ = tariffvalidity // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7287,7 +7287,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _deactivationOfPriorityErr != nil {
 			return nil, errors.Wrap(_deactivationOfPriorityErr, "Error parsing 'deactivationOfPriority' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(deactivationOfPriority)
+		_map["deactivationOfPriority"] = values.NewPlcBOOL(deactivationOfPriority)
 		_ = deactivationOfPriority // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (priorityLevel)
@@ -7295,7 +7295,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _priorityLevelErr != nil {
 			return nil, errors.Wrap(_priorityLevelErr, "Error parsing 'priorityLevel' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(priorityLevel)
+		_map["priorityLevel"] = values.NewPlcUSINT(priorityLevel)
 		_ = priorityLevel // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (modeLevel)
@@ -7303,7 +7303,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _modeLevelErr != nil {
 			return nil, errors.Wrap(_modeLevelErr, "Error parsing 'modeLevel' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(modeLevel)
+		_map["modeLevel"] = values.NewPlcUSINT(modeLevel)
 		_ = modeLevel // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7326,7 +7326,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _convertorErrorErr != nil {
 			return nil, errors.Wrap(_convertorErrorErr, "Error parsing 'convertorError' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(convertorError)
+		_map["convertorError"] = values.NewPlcBOOL(convertorError)
 		_ = convertorError // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (ballastFailure)
@@ -7334,7 +7334,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _ballastFailureErr != nil {
 			return nil, errors.Wrap(_ballastFailureErr, "Error parsing 'ballastFailure' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(ballastFailure)
+		_map["ballastFailure"] = values.NewPlcBOOL(ballastFailure)
 		_ = ballastFailure // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (lampFailure)
@@ -7342,7 +7342,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _lampFailureErr != nil {
 			return nil, errors.Wrap(_lampFailureErr, "Error parsing 'lampFailure' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(lampFailure)
+		_map["lampFailure"] = values.NewPlcBOOL(lampFailure)
 		_ = lampFailure // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (readOrResponse)
@@ -7350,7 +7350,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _readOrResponseErr != nil {
 			return nil, errors.Wrap(_readOrResponseErr, "Error parsing 'readOrResponse' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(readOrResponse)
+		_map["readOrResponse"] = values.NewPlcBOOL(readOrResponse)
 		_ = readOrResponse // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (addressIndicator)
@@ -7358,7 +7358,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _addressIndicatorErr != nil {
 			return nil, errors.Wrap(_addressIndicatorErr, "Error parsing 'addressIndicator' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(addressIndicator)
+		_map["addressIndicator"] = values.NewPlcBOOL(addressIndicator)
 		_ = addressIndicator // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (daliDeviceAddressOrDaliGroupAddress)
@@ -7366,7 +7366,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _daliDeviceAddressOrDaliGroupAddressErr != nil {
 			return nil, errors.Wrap(_daliDeviceAddressOrDaliGroupAddressErr, "Error parsing 'daliDeviceAddressOrDaliGroupAddress' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(daliDeviceAddressOrDaliGroupAddress)
+		_map["daliDeviceAddressOrDaliGroupAddress"] = values.NewPlcUSINT(daliDeviceAddressOrDaliGroupAddress)
 		_ = daliDeviceAddressOrDaliGroupAddress // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7384,7 +7384,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _ballastFailureErr != nil {
 			return nil, errors.Wrap(_ballastFailureErr, "Error parsing 'ballastFailure' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(ballastFailure)
+		_map["ballastFailure"] = values.NewPlcBOOL(ballastFailure)
 		_ = ballastFailure // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (lampFailure)
@@ -7392,7 +7392,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _lampFailureErr != nil {
 			return nil, errors.Wrap(_lampFailureErr, "Error parsing 'lampFailure' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(lampFailure)
+		_map["lampFailure"] = values.NewPlcBOOL(lampFailure)
 		_ = lampFailure // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (deviceAddress)
@@ -7400,7 +7400,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _deviceAddressErr != nil {
 			return nil, errors.Wrap(_deviceAddressErr, "Error parsing 'deviceAddress' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(deviceAddress)
+		_map["deviceAddress"] = values.NewPlcUSINT(deviceAddress)
 		_ = deviceAddress // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7418,7 +7418,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _heightPositionErr != nil {
 			return nil, errors.Wrap(_heightPositionErr, "Error parsing 'heightPosition' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(heightPosition)
+		_map["heightPosition"] = values.NewPlcUSINT(heightPosition)
 		_ = heightPosition // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (slatsPosition)
@@ -7426,7 +7426,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _slatsPositionErr != nil {
 			return nil, errors.Wrap(_slatsPositionErr, "Error parsing 'slatsPosition' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(slatsPosition)
+		_map["slatsPosition"] = values.NewPlcUSINT(slatsPosition)
 		_ = slatsPosition // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -7439,7 +7439,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _validitySlatsPositionErr != nil {
 			return nil, errors.Wrap(_validitySlatsPositionErr, "Error parsing 'validitySlatsPosition' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(validitySlatsPosition)
+		_map["validitySlatsPosition"] = values.NewPlcBOOL(validitySlatsPosition)
 		_ = validitySlatsPosition // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (validityHeightPosition)
@@ -7447,7 +7447,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _validityHeightPositionErr != nil {
 			return nil, errors.Wrap(_validityHeightPositionErr, "Error parsing 'validityHeightPosition' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(validityHeightPosition)
+		_map["validityHeightPosition"] = values.NewPlcBOOL(validityHeightPosition)
 		_ = validityHeightPosition // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7465,7 +7465,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _heightPositionErr != nil {
 			return nil, errors.Wrap(_heightPositionErr, "Error parsing 'heightPosition' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(heightPosition)
+		_map["heightPosition"] = values.NewPlcUSINT(heightPosition)
 		_ = heightPosition // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (slatsPosition)
@@ -7473,7 +7473,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _slatsPositionErr != nil {
 			return nil, errors.Wrap(_slatsPositionErr, "Error parsing 'slatsPosition' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(slatsPosition)
+		_map["slatsPosition"] = values.NewPlcUSINT(slatsPosition)
 		_ = slatsPosition // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (upperEndPosReached)
@@ -7481,7 +7481,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _upperEndPosReachedErr != nil {
 			return nil, errors.Wrap(_upperEndPosReachedErr, "Error parsing 'upperEndPosReached' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(upperEndPosReached)
+		_map["upperEndPosReached"] = values.NewPlcBOOL(upperEndPosReached)
 		_ = upperEndPosReached // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (lowerEndPosReached)
@@ -7489,7 +7489,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _lowerEndPosReachedErr != nil {
 			return nil, errors.Wrap(_lowerEndPosReachedErr, "Error parsing 'lowerEndPosReached' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(lowerEndPosReached)
+		_map["lowerEndPosReached"] = values.NewPlcBOOL(lowerEndPosReached)
 		_ = lowerEndPosReached // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (lowerPredefPosReachedTypHeight100PercentSlatsAngle100Percent)
@@ -7497,7 +7497,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _lowerPredefPosReachedTypHeight100PercentSlatsAngle100PercentErr != nil {
 			return nil, errors.Wrap(_lowerPredefPosReachedTypHeight100PercentSlatsAngle100PercentErr, "Error parsing 'lowerPredefPosReachedTypHeight100PercentSlatsAngle100Percent' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(lowerPredefPosReachedTypHeight100PercentSlatsAngle100Percent)
+		_map["lowerPredefPosReachedTypHeight100PercentSlatsAngle100Percent"] = values.NewPlcBOOL(lowerPredefPosReachedTypHeight100PercentSlatsAngle100Percent)
 		_ = lowerPredefPosReachedTypHeight100PercentSlatsAngle100Percent // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (targetPosDrive)
@@ -7505,7 +7505,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _targetPosDriveErr != nil {
 			return nil, errors.Wrap(_targetPosDriveErr, "Error parsing 'targetPosDrive' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(targetPosDrive)
+		_map["targetPosDrive"] = values.NewPlcBOOL(targetPosDrive)
 		_ = targetPosDrive // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (restrictionOfTargetHeightPosPosCanNotBeReached)
@@ -7513,7 +7513,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _restrictionOfTargetHeightPosPosCanNotBeReachedErr != nil {
 			return nil, errors.Wrap(_restrictionOfTargetHeightPosPosCanNotBeReachedErr, "Error parsing 'restrictionOfTargetHeightPosPosCanNotBeReached' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(restrictionOfTargetHeightPosPosCanNotBeReached)
+		_map["restrictionOfTargetHeightPosPosCanNotBeReached"] = values.NewPlcBOOL(restrictionOfTargetHeightPosPosCanNotBeReached)
 		_ = restrictionOfTargetHeightPosPosCanNotBeReached // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (restrictionOfSlatsHeightPosPosCanNotBeReached)
@@ -7521,7 +7521,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _restrictionOfSlatsHeightPosPosCanNotBeReachedErr != nil {
 			return nil, errors.Wrap(_restrictionOfSlatsHeightPosPosCanNotBeReachedErr, "Error parsing 'restrictionOfSlatsHeightPosPosCanNotBeReached' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(restrictionOfSlatsHeightPosPosCanNotBeReached)
+		_map["restrictionOfSlatsHeightPosPosCanNotBeReached"] = values.NewPlcBOOL(restrictionOfSlatsHeightPosPosCanNotBeReached)
 		_ = restrictionOfSlatsHeightPosPosCanNotBeReached // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (atLeastOneOfTheInputsWindRainFrostAlarmIsInAlarm)
@@ -7529,7 +7529,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _atLeastOneOfTheInputsWindRainFrostAlarmIsInAlarmErr != nil {
 			return nil, errors.Wrap(_atLeastOneOfTheInputsWindRainFrostAlarmIsInAlarmErr, "Error parsing 'atLeastOneOfTheInputsWindRainFrostAlarmIsInAlarm' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(atLeastOneOfTheInputsWindRainFrostAlarmIsInAlarm)
+		_map["atLeastOneOfTheInputsWindRainFrostAlarmIsInAlarm"] = values.NewPlcBOOL(atLeastOneOfTheInputsWindRainFrostAlarmIsInAlarm)
 		_ = atLeastOneOfTheInputsWindRainFrostAlarmIsInAlarm // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (upDownPositionIsForcedByMoveupdownforcedInput)
@@ -7537,7 +7537,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _upDownPositionIsForcedByMoveupdownforcedInputErr != nil {
 			return nil, errors.Wrap(_upDownPositionIsForcedByMoveupdownforcedInputErr, "Error parsing 'upDownPositionIsForcedByMoveupdownforcedInput' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(upDownPositionIsForcedByMoveupdownforcedInput)
+		_map["upDownPositionIsForcedByMoveupdownforcedInput"] = values.NewPlcBOOL(upDownPositionIsForcedByMoveupdownforcedInput)
 		_ = upDownPositionIsForcedByMoveupdownforcedInput // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (movementIsLockedEGByDevicelockedInput)
@@ -7545,7 +7545,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _movementIsLockedEGByDevicelockedInputErr != nil {
 			return nil, errors.Wrap(_movementIsLockedEGByDevicelockedInputErr, "Error parsing 'movementIsLockedEGByDevicelockedInput' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(movementIsLockedEGByDevicelockedInput)
+		_map["movementIsLockedEGByDevicelockedInput"] = values.NewPlcBOOL(movementIsLockedEGByDevicelockedInput)
 		_ = movementIsLockedEGByDevicelockedInput // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (actuatorSetvalueIsLocallyOverriddenEGViaALocalUserInterface)
@@ -7553,7 +7553,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _actuatorSetvalueIsLocallyOverriddenEGViaALocalUserInterfaceErr != nil {
 			return nil, errors.Wrap(_actuatorSetvalueIsLocallyOverriddenEGViaALocalUserInterfaceErr, "Error parsing 'actuatorSetvalueIsLocallyOverriddenEGViaALocalUserInterface' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(actuatorSetvalueIsLocallyOverriddenEGViaALocalUserInterface)
+		_map["actuatorSetvalueIsLocallyOverriddenEGViaALocalUserInterface"] = values.NewPlcBOOL(actuatorSetvalueIsLocallyOverriddenEGViaALocalUserInterface)
 		_ = actuatorSetvalueIsLocallyOverriddenEGViaALocalUserInterface // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (generalFailureOfTheActuatorOrTheDrive)
@@ -7561,7 +7561,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _generalFailureOfTheActuatorOrTheDriveErr != nil {
 			return nil, errors.Wrap(_generalFailureOfTheActuatorOrTheDriveErr, "Error parsing 'generalFailureOfTheActuatorOrTheDrive' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(generalFailureOfTheActuatorOrTheDrive)
+		_map["generalFailureOfTheActuatorOrTheDrive"] = values.NewPlcBOOL(generalFailureOfTheActuatorOrTheDrive)
 		_ = generalFailureOfTheActuatorOrTheDrive // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -7574,7 +7574,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _validityHeightPosErr != nil {
 			return nil, errors.Wrap(_validityHeightPosErr, "Error parsing 'validityHeightPos' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(validityHeightPos)
+		_map["validityHeightPos"] = values.NewPlcBOOL(validityHeightPos)
 		_ = validityHeightPos // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (validitySlatsPos)
@@ -7582,7 +7582,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _validitySlatsPosErr != nil {
 			return nil, errors.Wrap(_validitySlatsPosErr, "Error parsing 'validitySlatsPos' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(validitySlatsPos)
+		_map["validitySlatsPos"] = values.NewPlcBOOL(validitySlatsPos)
 		_ = validitySlatsPos // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7600,7 +7600,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _xAxisErr != nil {
 			return nil, errors.Wrap(_xAxisErr, "Error parsing 'xAxis' field")
 		}
-		_map["Struct"] = values.NewPlcUINT(xAxis)
+		_map["xAxis"] = values.NewPlcUINT(xAxis)
 		_ = xAxis // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (yAxis)
@@ -7608,7 +7608,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _yAxisErr != nil {
 			return nil, errors.Wrap(_yAxisErr, "Error parsing 'yAxis' field")
 		}
-		_map["Struct"] = values.NewPlcUINT(yAxis)
+		_map["yAxis"] = values.NewPlcUINT(yAxis)
 		_ = yAxis // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (brightness)
@@ -7616,7 +7616,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _brightnessErr != nil {
 			return nil, errors.Wrap(_brightnessErr, "Error parsing 'brightness' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(brightness)
+		_map["brightness"] = values.NewPlcUSINT(brightness)
 		_ = brightness // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -7629,7 +7629,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _validityXyErr != nil {
 			return nil, errors.Wrap(_validityXyErr, "Error parsing 'validityXy' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(validityXy)
+		_map["validityXy"] = values.NewPlcBOOL(validityXy)
 		_ = validityXy // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (validityBrightness)
@@ -7637,7 +7637,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _validityBrightnessErr != nil {
 			return nil, errors.Wrap(_validityBrightnessErr, "Error parsing 'validityBrightness' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(validityBrightness)
+		_map["validityBrightness"] = values.NewPlcBOOL(validityBrightness)
 		_ = validityBrightness // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7655,7 +7655,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _converterModeAccordingToTheDaliConverterStateMachineErr != nil {
 			return nil, errors.Wrap(_converterModeAccordingToTheDaliConverterStateMachineErr, "Error parsing 'converterModeAccordingToTheDaliConverterStateMachine' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(converterModeAccordingToTheDaliConverterStateMachine)
+		_map["converterModeAccordingToTheDaliConverterStateMachine"] = values.NewPlcUSINT(converterModeAccordingToTheDaliConverterStateMachine)
 		_ = converterModeAccordingToTheDaliConverterStateMachine // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -7668,7 +7668,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _hardwiredSwitchIsActiveErr != nil {
 			return nil, errors.Wrap(_hardwiredSwitchIsActiveErr, "Error parsing 'hardwiredSwitchIsActive' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(hardwiredSwitchIsActive)
+		_map["hardwiredSwitchIsActive"] = values.NewPlcBOOL(hardwiredSwitchIsActive)
 		_ = hardwiredSwitchIsActive // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (hardwiredInhibitIsActive)
@@ -7676,7 +7676,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _hardwiredInhibitIsActiveErr != nil {
 			return nil, errors.Wrap(_hardwiredInhibitIsActiveErr, "Error parsing 'hardwiredInhibitIsActive' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(hardwiredInhibitIsActive)
+		_map["hardwiredInhibitIsActive"] = values.NewPlcBOOL(hardwiredInhibitIsActive)
 		_ = hardwiredInhibitIsActive // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (functionTestPending)
@@ -7684,7 +7684,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _functionTestPendingErr != nil {
 			return nil, errors.Wrap(_functionTestPendingErr, "Error parsing 'functionTestPending' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(functionTestPending)
+		_map["functionTestPending"] = values.NewPlcUSINT(functionTestPending)
 		_ = functionTestPending // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (durationTestPending)
@@ -7692,7 +7692,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _durationTestPendingErr != nil {
 			return nil, errors.Wrap(_durationTestPendingErr, "Error parsing 'durationTestPending' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(durationTestPending)
+		_map["durationTestPending"] = values.NewPlcUSINT(durationTestPending)
 		_ = durationTestPending // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (partialDurationTestPending)
@@ -7700,7 +7700,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _partialDurationTestPendingErr != nil {
 			return nil, errors.Wrap(_partialDurationTestPendingErr, "Error parsing 'partialDurationTestPending' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(partialDurationTestPending)
+		_map["partialDurationTestPending"] = values.NewPlcUSINT(partialDurationTestPending)
 		_ = partialDurationTestPending // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (converterFailure)
@@ -7708,7 +7708,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _converterFailureErr != nil {
 			return nil, errors.Wrap(_converterFailureErr, "Error parsing 'converterFailure' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(converterFailure)
+		_map["converterFailure"] = values.NewPlcUSINT(converterFailure)
 		_ = converterFailure // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7726,7 +7726,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _ltrfErr != nil {
 			return nil, errors.Wrap(_ltrfErr, "Error parsing 'ltrf' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(ltrf)
+		_map["ltrf"] = values.NewPlcUSINT(ltrf)
 		_ = ltrf // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (ltrd)
@@ -7734,7 +7734,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _ltrdErr != nil {
 			return nil, errors.Wrap(_ltrdErr, "Error parsing 'ltrd' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(ltrd)
+		_map["ltrd"] = values.NewPlcUSINT(ltrd)
 		_ = ltrd // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (ltrp)
@@ -7742,7 +7742,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _ltrpErr != nil {
 			return nil, errors.Wrap(_ltrpErr, "Error parsing 'ltrp' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(ltrp)
+		_map["ltrp"] = values.NewPlcUSINT(ltrp)
 		_ = ltrp // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -7755,7 +7755,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _sfErr != nil {
 			return nil, errors.Wrap(_sfErr, "Error parsing 'sf' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(sf)
+		_map["sf"] = values.NewPlcUSINT(sf)
 		_ = sf // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (sd)
@@ -7763,7 +7763,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _sdErr != nil {
 			return nil, errors.Wrap(_sdErr, "Error parsing 'sd' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(sd)
+		_map["sd"] = values.NewPlcUSINT(sd)
 		_ = sd // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (sp)
@@ -7771,7 +7771,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _spErr != nil {
 			return nil, errors.Wrap(_spErr, "Error parsing 'sp' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(sp)
+		_map["sp"] = values.NewPlcUSINT(sp)
 		_ = sp // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -7784,7 +7784,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _ldtrErr != nil {
 			return nil, errors.Wrap(_ldtrErr, "Error parsing 'ldtr' field")
 		}
-		_map["Struct"] = values.NewPlcUINT(ldtr)
+		_map["ldtr"] = values.NewPlcUINT(ldtr)
 		_ = ldtr // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (lpdtr)
@@ -7792,7 +7792,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _lpdtrErr != nil {
 			return nil, errors.Wrap(_lpdtrErr, "Error parsing 'lpdtr' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(lpdtr)
+		_map["lpdtr"] = values.NewPlcUSINT(lpdtr)
 		_ = lpdtr // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7815,7 +7815,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _batteryFailureErr != nil {
 			return nil, errors.Wrap(_batteryFailureErr, "Error parsing 'batteryFailure' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(batteryFailure)
+		_map["batteryFailure"] = values.NewPlcBOOL(batteryFailure)
 		_ = batteryFailure // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (batteryDurationFailure)
@@ -7823,7 +7823,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _batteryDurationFailureErr != nil {
 			return nil, errors.Wrap(_batteryDurationFailureErr, "Error parsing 'batteryDurationFailure' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(batteryDurationFailure)
+		_map["batteryDurationFailure"] = values.NewPlcBOOL(batteryDurationFailure)
 		_ = batteryDurationFailure // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (batteryFullyCharged)
@@ -7831,7 +7831,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _batteryFullyChargedErr != nil {
 			return nil, errors.Wrap(_batteryFullyChargedErr, "Error parsing 'batteryFullyCharged' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(batteryFullyCharged)
+		_map["batteryFullyCharged"] = values.NewPlcBOOL(batteryFullyCharged)
 		_ = batteryFullyCharged // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (batteryChargeLevel)
@@ -7839,7 +7839,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _batteryChargeLevelErr != nil {
 			return nil, errors.Wrap(_batteryChargeLevelErr, "Error parsing 'batteryChargeLevel' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(batteryChargeLevel)
+		_map["batteryChargeLevel"] = values.NewPlcUSINT(batteryChargeLevel)
 		_ = batteryChargeLevel // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7857,7 +7857,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _msErr != nil {
 			return nil, errors.Wrap(_msErr, "Error parsing 'ms' field")
 		}
-		_map["Struct"] = values.NewPlcUINT(ms)
+		_map["ms"] = values.NewPlcUINT(ms)
 		_ = ms // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (temperatureK)
@@ -7865,7 +7865,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _temperatureKErr != nil {
 			return nil, errors.Wrap(_temperatureKErr, "Error parsing 'temperatureK' field")
 		}
-		_map["Struct"] = values.NewPlcUINT(temperatureK)
+		_map["temperatureK"] = values.NewPlcUINT(temperatureK)
 		_ = temperatureK // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (percent)
@@ -7873,7 +7873,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _percentErr != nil {
 			return nil, errors.Wrap(_percentErr, "Error parsing 'percent' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(percent)
+		_map["percent"] = values.NewPlcUSINT(percent)
 		_ = percent // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -7886,7 +7886,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _validityOfTheTimePeriodErr != nil {
 			return nil, errors.Wrap(_validityOfTheTimePeriodErr, "Error parsing 'validityOfTheTimePeriod' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(validityOfTheTimePeriod)
+		_map["validityOfTheTimePeriod"] = values.NewPlcBOOL(validityOfTheTimePeriod)
 		_ = validityOfTheTimePeriod // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (validityOfTheAbsoluteColourTemperature)
@@ -7894,7 +7894,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _validityOfTheAbsoluteColourTemperatureErr != nil {
 			return nil, errors.Wrap(_validityOfTheAbsoluteColourTemperatureErr, "Error parsing 'validityOfTheAbsoluteColourTemperature' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(validityOfTheAbsoluteColourTemperature)
+		_map["validityOfTheAbsoluteColourTemperature"] = values.NewPlcBOOL(validityOfTheAbsoluteColourTemperature)
 		_ = validityOfTheAbsoluteColourTemperature // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (validityOfTheAbsoluteBrightness)
@@ -7902,7 +7902,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _validityOfTheAbsoluteBrightnessErr != nil {
 			return nil, errors.Wrap(_validityOfTheAbsoluteBrightnessErr, "Error parsing 'validityOfTheAbsoluteBrightness' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(validityOfTheAbsoluteBrightness)
+		_map["validityOfTheAbsoluteBrightness"] = values.NewPlcBOOL(validityOfTheAbsoluteBrightness)
 		_ = validityOfTheAbsoluteBrightness // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7925,7 +7925,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _cctErr != nil {
 			return nil, errors.Wrap(_cctErr, "Error parsing 'cct' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(cct)
+		_map["cct"] = values.NewPlcBOOL(cct)
 		_ = cct // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (stepCodeColourTemperature)
@@ -7933,7 +7933,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _stepCodeColourTemperatureErr != nil {
 			return nil, errors.Wrap(_stepCodeColourTemperatureErr, "Error parsing 'stepCodeColourTemperature' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(stepCodeColourTemperature)
+		_map["stepCodeColourTemperature"] = values.NewPlcUSINT(stepCodeColourTemperature)
 		_ = stepCodeColourTemperature // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -7946,7 +7946,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _cbErr != nil {
 			return nil, errors.Wrap(_cbErr, "Error parsing 'cb' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(cb)
+		_map["cb"] = values.NewPlcBOOL(cb)
 		_ = cb // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (stepCodeBrightness)
@@ -7954,7 +7954,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _stepCodeBrightnessErr != nil {
 			return nil, errors.Wrap(_stepCodeBrightnessErr, "Error parsing 'stepCodeBrightness' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(stepCodeBrightness)
+		_map["stepCodeBrightness"] = values.NewPlcUSINT(stepCodeBrightness)
 		_ = stepCodeBrightness // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -7967,7 +7967,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _cctAndStepCodeColourValidityErr != nil {
 			return nil, errors.Wrap(_cctAndStepCodeColourValidityErr, "Error parsing 'cctAndStepCodeColourValidity' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(cctAndStepCodeColourValidity)
+		_map["cctAndStepCodeColourValidity"] = values.NewPlcBOOL(cctAndStepCodeColourValidity)
 		_ = cctAndStepCodeColourValidity // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (cbAndStepCodeBrightnessValidity)
@@ -7975,7 +7975,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _cbAndStepCodeBrightnessValidityErr != nil {
 			return nil, errors.Wrap(_cbAndStepCodeBrightnessValidityErr, "Error parsing 'cbAndStepCodeBrightnessValidity' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(cbAndStepCodeBrightnessValidity)
+		_map["cbAndStepCodeBrightnessValidity"] = values.NewPlcBOOL(cbAndStepCodeBrightnessValidity)
 		_ = cbAndStepCodeBrightnessValidity // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -7993,7 +7993,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _colourLevelRedErr != nil {
 			return nil, errors.Wrap(_colourLevelRedErr, "Error parsing 'colourLevelRed' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(colourLevelRed)
+		_map["colourLevelRed"] = values.NewPlcUSINT(colourLevelRed)
 		_ = colourLevelRed // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (colourLevelGreen)
@@ -8001,7 +8001,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _colourLevelGreenErr != nil {
 			return nil, errors.Wrap(_colourLevelGreenErr, "Error parsing 'colourLevelGreen' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(colourLevelGreen)
+		_map["colourLevelGreen"] = values.NewPlcUSINT(colourLevelGreen)
 		_ = colourLevelGreen // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (colourLevelBlue)
@@ -8009,7 +8009,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _colourLevelBlueErr != nil {
 			return nil, errors.Wrap(_colourLevelBlueErr, "Error parsing 'colourLevelBlue' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(colourLevelBlue)
+		_map["colourLevelBlue"] = values.NewPlcUSINT(colourLevelBlue)
 		_ = colourLevelBlue // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (colourLevelWhite)
@@ -8017,7 +8017,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _colourLevelWhiteErr != nil {
 			return nil, errors.Wrap(_colourLevelWhiteErr, "Error parsing 'colourLevelWhite' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(colourLevelWhite)
+		_map["colourLevelWhite"] = values.NewPlcUSINT(colourLevelWhite)
 		_ = colourLevelWhite // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -8035,7 +8035,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _mrErr != nil {
 			return nil, errors.Wrap(_mrErr, "Error parsing 'mr' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(mr)
+		_map["mr"] = values.NewPlcBOOL(mr)
 		_ = mr // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (mg)
@@ -8043,7 +8043,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _mgErr != nil {
 			return nil, errors.Wrap(_mgErr, "Error parsing 'mg' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(mg)
+		_map["mg"] = values.NewPlcBOOL(mg)
 		_ = mg // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (mb)
@@ -8051,7 +8051,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _mbErr != nil {
 			return nil, errors.Wrap(_mbErr, "Error parsing 'mb' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(mb)
+		_map["mb"] = values.NewPlcBOOL(mb)
 		_ = mb // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (mw)
@@ -8059,7 +8059,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _mwErr != nil {
 			return nil, errors.Wrap(_mwErr, "Error parsing 'mw' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(mw)
+		_map["mw"] = values.NewPlcBOOL(mw)
 		_ = mw // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -8082,7 +8082,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskcwErr != nil {
 			return nil, errors.Wrap(_maskcwErr, "Error parsing 'maskcw' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskcw)
+		_map["maskcw"] = values.NewPlcBOOL(maskcw)
 		_ = maskcw // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (maskcb)
@@ -8090,7 +8090,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskcbErr != nil {
 			return nil, errors.Wrap(_maskcbErr, "Error parsing 'maskcb' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskcb)
+		_map["maskcb"] = values.NewPlcBOOL(maskcb)
 		_ = maskcb // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (maskcg)
@@ -8098,7 +8098,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskcgErr != nil {
 			return nil, errors.Wrap(_maskcgErr, "Error parsing 'maskcg' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskcg)
+		_map["maskcg"] = values.NewPlcBOOL(maskcg)
 		_ = maskcg // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (maskcr)
@@ -8106,7 +8106,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _maskcrErr != nil {
 			return nil, errors.Wrap(_maskcrErr, "Error parsing 'maskcr' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(maskcr)
+		_map["maskcr"] = values.NewPlcBOOL(maskcr)
 		_ = maskcr // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -8119,7 +8119,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _cwErr != nil {
 			return nil, errors.Wrap(_cwErr, "Error parsing 'cw' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(cw)
+		_map["cw"] = values.NewPlcBOOL(cw)
 		_ = cw // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (stepCodeColourWhite)
@@ -8127,7 +8127,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _stepCodeColourWhiteErr != nil {
 			return nil, errors.Wrap(_stepCodeColourWhiteErr, "Error parsing 'stepCodeColourWhite' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(stepCodeColourWhite)
+		_map["stepCodeColourWhite"] = values.NewPlcUSINT(stepCodeColourWhite)
 		_ = stepCodeColourWhite // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -8140,7 +8140,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _cbErr != nil {
 			return nil, errors.Wrap(_cbErr, "Error parsing 'cb' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(cb)
+		_map["cb"] = values.NewPlcBOOL(cb)
 		_ = cb // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (stepCodeColourBlue)
@@ -8148,7 +8148,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _stepCodeColourBlueErr != nil {
 			return nil, errors.Wrap(_stepCodeColourBlueErr, "Error parsing 'stepCodeColourBlue' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(stepCodeColourBlue)
+		_map["stepCodeColourBlue"] = values.NewPlcUSINT(stepCodeColourBlue)
 		_ = stepCodeColourBlue // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -8161,7 +8161,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _cgErr != nil {
 			return nil, errors.Wrap(_cgErr, "Error parsing 'cg' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(cg)
+		_map["cg"] = values.NewPlcBOOL(cg)
 		_ = cg // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (stepCodeColourGreen)
@@ -8169,7 +8169,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _stepCodeColourGreenErr != nil {
 			return nil, errors.Wrap(_stepCodeColourGreenErr, "Error parsing 'stepCodeColourGreen' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(stepCodeColourGreen)
+		_map["stepCodeColourGreen"] = values.NewPlcUSINT(stepCodeColourGreen)
 		_ = stepCodeColourGreen // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -8182,7 +8182,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _crErr != nil {
 			return nil, errors.Wrap(_crErr, "Error parsing 'cr' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(cr)
+		_map["cr"] = values.NewPlcBOOL(cr)
 		_ = cr // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (stepCodeColourRed)
@@ -8190,7 +8190,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _stepCodeColourRedErr != nil {
 			return nil, errors.Wrap(_stepCodeColourRedErr, "Error parsing 'stepCodeColourRed' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(stepCodeColourRed)
+		_map["stepCodeColourRed"] = values.NewPlcUSINT(stepCodeColourRed)
 		_ = stepCodeColourRed // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -8213,7 +8213,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _cbErr != nil {
 			return nil, errors.Wrap(_cbErr, "Error parsing 'cb' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(cb)
+		_map["cb"] = values.NewPlcBOOL(cb)
 		_ = cb // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (stepCodeColourBlue)
@@ -8221,7 +8221,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _stepCodeColourBlueErr != nil {
 			return nil, errors.Wrap(_stepCodeColourBlueErr, "Error parsing 'stepCodeColourBlue' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(stepCodeColourBlue)
+		_map["stepCodeColourBlue"] = values.NewPlcUSINT(stepCodeColourBlue)
 		_ = stepCodeColourBlue // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -8234,7 +8234,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _cgErr != nil {
 			return nil, errors.Wrap(_cgErr, "Error parsing 'cg' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(cg)
+		_map["cg"] = values.NewPlcBOOL(cg)
 		_ = cg // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (stepCodeColourGreen)
@@ -8242,7 +8242,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _stepCodeColourGreenErr != nil {
 			return nil, errors.Wrap(_stepCodeColourGreenErr, "Error parsing 'stepCodeColourGreen' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(stepCodeColourGreen)
+		_map["stepCodeColourGreen"] = values.NewPlcUSINT(stepCodeColourGreen)
 		_ = stepCodeColourGreen // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Reserved Field (Just skip the bytes)
@@ -8255,7 +8255,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _crErr != nil {
 			return nil, errors.Wrap(_crErr, "Error parsing 'cr' field")
 		}
-		_map["Struct"] = values.NewPlcBOOL(cr)
+		_map["cr"] = values.NewPlcBOOL(cr)
 		_ = cr // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (stepCodeColourRed)
@@ -8263,7 +8263,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _stepCodeColourRedErr != nil {
 			return nil, errors.Wrap(_stepCodeColourRedErr, "Error parsing 'stepCodeColourRed' field")
 		}
-		_map["Struct"] = values.NewPlcUSINT(stepCodeColourRed)
+		_map["stepCodeColourRed"] = values.NewPlcUSINT(stepCodeColourRed)
 		_ = stepCodeColourRed // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -8281,7 +8281,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _longitudeErr != nil {
 			return nil, errors.Wrap(_longitudeErr, "Error parsing 'longitude' field")
 		}
-		_map["Struct"] = values.NewPlcREAL(longitude)
+		_map["longitude"] = values.NewPlcREAL(longitude)
 		_ = longitude // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (latitude)
@@ -8289,7 +8289,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _latitudeErr != nil {
 			return nil, errors.Wrap(_latitudeErr, "Error parsing 'latitude' field")
 		}
-		_map["Struct"] = values.NewPlcREAL(latitude)
+		_map["latitude"] = values.NewPlcREAL(latitude)
 		_ = latitude // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -8307,7 +8307,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _roomTemperatureSetpointComfortErr != nil {
 			return nil, errors.Wrap(_roomTemperatureSetpointComfortErr, "Error parsing 'roomTemperatureSetpointComfort' field")
 		}
-		_map["Struct"] = values.NewPlcREAL(roomTemperatureSetpointComfort)
+		_map["roomTemperatureSetpointComfort"] = values.NewPlcREAL(roomTemperatureSetpointComfort)
 		_ = roomTemperatureSetpointComfort // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (roomTemperatureSetpointStandby)
@@ -8315,7 +8315,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _roomTemperatureSetpointStandbyErr != nil {
 			return nil, errors.Wrap(_roomTemperatureSetpointStandbyErr, "Error parsing 'roomTemperatureSetpointStandby' field")
 		}
-		_map["Struct"] = values.NewPlcREAL(roomTemperatureSetpointStandby)
+		_map["roomTemperatureSetpointStandby"] = values.NewPlcREAL(roomTemperatureSetpointStandby)
 		_ = roomTemperatureSetpointStandby // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (roomTemperatureSetpointEconomy)
@@ -8323,7 +8323,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _roomTemperatureSetpointEconomyErr != nil {
 			return nil, errors.Wrap(_roomTemperatureSetpointEconomyErr, "Error parsing 'roomTemperatureSetpointEconomy' field")
 		}
-		_map["Struct"] = values.NewPlcREAL(roomTemperatureSetpointEconomy)
+		_map["roomTemperatureSetpointEconomy"] = values.NewPlcREAL(roomTemperatureSetpointEconomy)
 		_ = roomTemperatureSetpointEconomy // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (roomTemperatureSetpointBuildingProtection)
@@ -8331,7 +8331,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _roomTemperatureSetpointBuildingProtectionErr != nil {
 			return nil, errors.Wrap(_roomTemperatureSetpointBuildingProtectionErr, "Error parsing 'roomTemperatureSetpointBuildingProtection' field")
 		}
-		_map["Struct"] = values.NewPlcREAL(roomTemperatureSetpointBuildingProtection)
+		_map["roomTemperatureSetpointBuildingProtection"] = values.NewPlcREAL(roomTemperatureSetpointBuildingProtection)
 		_ = roomTemperatureSetpointBuildingProtection // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -8349,7 +8349,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _roomTemperatureSetpointShiftComfortErr != nil {
 			return nil, errors.Wrap(_roomTemperatureSetpointShiftComfortErr, "Error parsing 'roomTemperatureSetpointShiftComfort' field")
 		}
-		_map["Struct"] = values.NewPlcREAL(roomTemperatureSetpointShiftComfort)
+		_map["roomTemperatureSetpointShiftComfort"] = values.NewPlcREAL(roomTemperatureSetpointShiftComfort)
 		_ = roomTemperatureSetpointShiftComfort // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (roomTemperatureSetpointShiftStandby)
@@ -8357,7 +8357,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _roomTemperatureSetpointShiftStandbyErr != nil {
 			return nil, errors.Wrap(_roomTemperatureSetpointShiftStandbyErr, "Error parsing 'roomTemperatureSetpointShiftStandby' field")
 		}
-		_map["Struct"] = values.NewPlcREAL(roomTemperatureSetpointShiftStandby)
+		_map["roomTemperatureSetpointShiftStandby"] = values.NewPlcREAL(roomTemperatureSetpointShiftStandby)
 		_ = roomTemperatureSetpointShiftStandby // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (roomTemperatureSetpointShiftEconomy)
@@ -8365,7 +8365,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _roomTemperatureSetpointShiftEconomyErr != nil {
 			return nil, errors.Wrap(_roomTemperatureSetpointShiftEconomyErr, "Error parsing 'roomTemperatureSetpointShiftEconomy' field")
 		}
-		_map["Struct"] = values.NewPlcREAL(roomTemperatureSetpointShiftEconomy)
+		_map["roomTemperatureSetpointShiftEconomy"] = values.NewPlcREAL(roomTemperatureSetpointShiftEconomy)
 		_ = roomTemperatureSetpointShiftEconomy // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 
 		// Simple Field (roomTemperatureSetpointShiftBuildingProtection)
@@ -8373,7 +8373,7 @@ func KnxDatapointParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 		if _roomTemperatureSetpointShiftBuildingProtectionErr != nil {
 			return nil, errors.Wrap(_roomTemperatureSetpointShiftBuildingProtectionErr, "Error parsing 'roomTemperatureSetpointShiftBuildingProtection' field")
 		}
-		_map["Struct"] = values.NewPlcREAL(roomTemperatureSetpointShiftBuildingProtection)
+		_map["roomTemperatureSetpointShiftBuildingProtection"] = values.NewPlcREAL(roomTemperatureSetpointShiftBuildingProtection)
 		_ = roomTemperatureSetpointShiftBuildingProtection // TODO: temporary till we fix TIME stuff in golang (see above in the template)
 		readBuffer.CloseContext("KnxDatapoint")
 		return values.NewPlcStruct(_map), nil
@@ -8964,12 +8964,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (control)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetValue("control").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'control' field")
 		}
 
 		// Simple Field (on)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("on", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("on", value.GetValue("on").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'on' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Bool_Control: // Struct
@@ -8979,12 +8979,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (control)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetValue("control").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'control' field")
 		}
 
 		// Simple Field (valueTrue)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("valueTrue", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("valueTrue", value.GetValue("valueTrue").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'valueTrue' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Enable_Control: // Struct
@@ -8994,12 +8994,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (control)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetValue("control").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'control' field")
 		}
 
 		// Simple Field (enable)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("enable", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("enable", value.GetValue("enable").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'enable' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Ramp_Control: // Struct
@@ -9009,12 +9009,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (control)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetValue("control").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'control' field")
 		}
 
 		// Simple Field (ramp)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("ramp", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("ramp", value.GetValue("ramp").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'ramp' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Alarm_Control: // Struct
@@ -9024,12 +9024,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (control)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetValue("control").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'control' field")
 		}
 
 		// Simple Field (alarm)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("alarm", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("alarm", value.GetValue("alarm").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'alarm' field")
 		}
 	case datapointType == KnxDatapointType_DPT_BinaryValue_Control: // Struct
@@ -9039,12 +9039,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (control)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetValue("control").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'control' field")
 		}
 
 		// Simple Field (high)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("high", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("high", value.GetValue("high").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'high' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Step_Control: // Struct
@@ -9054,12 +9054,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (control)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetValue("control").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'control' field")
 		}
 
 		// Simple Field (increase)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("increase", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("increase", value.GetValue("increase").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'increase' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Direction1_Control: // Struct
@@ -9069,12 +9069,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (control)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetValue("control").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'control' field")
 		}
 
 		// Simple Field (down)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("down", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("down", value.GetValue("down").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'down' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Direction2_Control: // Struct
@@ -9084,12 +9084,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (control)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetValue("control").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'control' field")
 		}
 
 		// Simple Field (close)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("close", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("close", value.GetValue("close").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'close' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Start_Control: // Struct
@@ -9099,12 +9099,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (control)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetValue("control").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'control' field")
 		}
 
 		// Simple Field (start)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("start", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("start", value.GetValue("start").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'start' field")
 		}
 	case datapointType == KnxDatapointType_DPT_State_Control: // Struct
@@ -9114,12 +9114,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (control)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetValue("control").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'control' field")
 		}
 
 		// Simple Field (active)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("active", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("active", value.GetValue("active").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'active' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Invert_Control: // Struct
@@ -9129,12 +9129,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (control)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("control", value.GetValue("control").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'control' field")
 		}
 
 		// Simple Field (inverted)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("inverted", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("inverted", value.GetValue("inverted").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'inverted' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Control_Dimming: // Struct
@@ -9144,12 +9144,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (increase)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("increase", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("increase", value.GetValue("increase").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'increase' field")
 		}
 
 		// Simple Field (stepcode)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepcode", 3, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepcode", 3, uint8(value.GetValue("stepcode").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'stepcode' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Control_Blinds: // Struct
@@ -9159,12 +9159,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (down)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("down", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("down", value.GetValue("down").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'down' field")
 		}
 
 		// Simple Field (stepcode)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepcode", 3, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepcode", 3, uint8(value.GetValue("stepcode").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'stepcode' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Char_ASCII: // STRING
@@ -9284,32 +9284,32 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (statusA)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusA", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusA", value.GetValue("statusA").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'statusA' field")
 		}
 
 		// Simple Field (statusB)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusB", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusB", value.GetValue("statusB").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'statusB' field")
 		}
 
 		// Simple Field (statusC)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusC", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusC", value.GetValue("statusC").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'statusC' field")
 		}
 
 		// Simple Field (statusD)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusD", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusD", value.GetValue("statusD").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'statusD' field")
 		}
 
 		// Simple Field (statusE)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusE", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusE", value.GetValue("statusE").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'statusE' field")
 		}
 
 		// Simple Field (mode)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("mode", 3, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("mode", 3, uint8(value.GetValue("mode").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'mode' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Value_2_Ucount: // UINT
@@ -9769,12 +9769,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (day)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("day", 3, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("day", 3, uint8(value.GetValue("day").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'day' field")
 		}
 
 		// Simple Field (hour)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("hour", 5, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("hour", 5, uint8(value.GetValue("hour").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'hour' field")
 		}
 
@@ -9784,7 +9784,7 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (minutes)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("minutes", 6, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("minutes", 6, uint8(value.GetValue("minutes").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'minutes' field")
 		}
 
@@ -9794,7 +9794,7 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (seconds)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("seconds", 6, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("seconds", 6, uint8(value.GetValue("seconds").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'seconds' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Date: // Struct
@@ -9809,7 +9809,7 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (dayOfMonth)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("dayOfMonth", 5, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("dayOfMonth", 5, uint8(value.GetValue("dayOfMonth").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'dayOfMonth' field")
 		}
 
@@ -9819,7 +9819,7 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (month)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("month", 4, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("month", 4, uint8(value.GetValue("month").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'month' field")
 		}
 
@@ -9829,7 +9829,7 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (year)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("year", 7, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("year", 7, uint8(value.GetValue("year").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'year' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Value_4_Ucount: // UDINT
@@ -10849,57 +10849,57 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (hurz)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("hurz", 4, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("hurz", 4, uint8(value.GetValue("hurz").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'hurz' field")
 		}
 
 		// Simple Field (value1)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("value1", 4, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("value1", 4, uint8(value.GetValue("value1").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'value1' field")
 		}
 
 		// Simple Field (value2)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("value2", 4, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("value2", 4, uint8(value.GetValue("value2").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'value2' field")
 		}
 
 		// Simple Field (value3)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("value3", 4, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("value3", 4, uint8(value.GetValue("value3").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'value3' field")
 		}
 
 		// Simple Field (value4)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("value4", 4, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("value4", 4, uint8(value.GetValue("value4").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'value4' field")
 		}
 
 		// Simple Field (value5)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("value5", 4, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("value5", 4, uint8(value.GetValue("value5").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'value5' field")
 		}
 
 		// Simple Field (detectionError)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("detectionError", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("detectionError", value.GetValue("detectionError").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'detectionError' field")
 		}
 
 		// Simple Field (permission)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("permission", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("permission", value.GetValue("permission").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'permission' field")
 		}
 
 		// Simple Field (readDirection)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("readDirection", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("readDirection", value.GetValue("readDirection").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'readDirection' field")
 		}
 
 		// Simple Field (encryptionOfAccessInformation)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("encryptionOfAccessInformation", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("encryptionOfAccessInformation", value.GetValue("encryptionOfAccessInformation").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'encryptionOfAccessInformation' field")
 		}
 
 		// Simple Field (indexOfAccessIdentificationCode)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("indexOfAccessIdentificationCode", 4, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("indexOfAccessIdentificationCode", 4, uint8(value.GetValue("indexOfAccessIdentificationCode").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'indexOfAccessIdentificationCode' field")
 		}
 	case datapointType == KnxDatapointType_DPT_String_ASCII: // STRING
@@ -10939,7 +10939,7 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (learnTheSceneCorrespondingToTheFieldSceneNumber)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("learnTheSceneCorrespondingToTheFieldSceneNumber", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("learnTheSceneCorrespondingToTheFieldSceneNumber", value.GetValue("learnTheSceneCorrespondingToTheFieldSceneNumber").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'learnTheSceneCorrespondingToTheFieldSceneNumber' field")
 		}
 
@@ -10949,7 +10949,7 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (sceneNumber)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("sceneNumber", 6, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("sceneNumber", 6, uint8(value.GetValue("sceneNumber").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'sceneNumber' field")
 		}
 	case datapointType == KnxDatapointType_DPT_DateTime: // Struct
@@ -10959,7 +10959,7 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (year)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("year", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("year", 8, uint8(value.GetValue("year").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'year' field")
 		}
 
@@ -10969,7 +10969,7 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (month)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("month", 4, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("month", 4, uint8(value.GetValue("month").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'month' field")
 		}
 
@@ -10979,17 +10979,17 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (dayofmonth)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("dayofmonth", 5, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("dayofmonth", 5, uint8(value.GetValue("dayofmonth").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'dayofmonth' field")
 		}
 
 		// Simple Field (dayofweek)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("dayofweek", 3, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("dayofweek", 3, uint8(value.GetValue("dayofweek").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'dayofweek' field")
 		}
 
 		// Simple Field (hourofday)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("hourofday", 5, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("hourofday", 5, uint8(value.GetValue("hourofday").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'hourofday' field")
 		}
 
@@ -10999,7 +10999,7 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (minutes)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("minutes", 6, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("minutes", 6, uint8(value.GetValue("minutes").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'minutes' field")
 		}
 
@@ -11009,52 +11009,52 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (seconds)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("seconds", 6, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("seconds", 6, uint8(value.GetValue("seconds").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'seconds' field")
 		}
 
 		// Simple Field (fault)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("fault", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("fault", value.GetValue("fault").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'fault' field")
 		}
 
 		// Simple Field (workingDay)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("workingDay", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("workingDay", value.GetValue("workingDay").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'workingDay' field")
 		}
 
 		// Simple Field (noWd)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("noWd", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("noWd", value.GetValue("noWd").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'noWd' field")
 		}
 
 		// Simple Field (noYear)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("noYear", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("noYear", value.GetValue("noYear").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'noYear' field")
 		}
 
 		// Simple Field (noDate)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("noDate", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("noDate", value.GetValue("noDate").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'noDate' field")
 		}
 
 		// Simple Field (noDayOfWeek)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("noDayOfWeek", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("noDayOfWeek", value.GetValue("noDayOfWeek").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'noDayOfWeek' field")
 		}
 
 		// Simple Field (noTime)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("noTime", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("noTime", value.GetValue("noTime").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'noTime' field")
 		}
 
 		// Simple Field (standardSummerTime)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("standardSummerTime", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("standardSummerTime", value.GetValue("standardSummerTime").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'standardSummerTime' field")
 		}
 
 		// Simple Field (qualityOfClock)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("qualityOfClock", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("qualityOfClock", value.GetValue("qualityOfClock").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'qualityOfClock' field")
 		}
 
@@ -11674,27 +11674,27 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (alarmStatusOfCorrespondingDatapointIsNotAcknowledged)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("alarmStatusOfCorrespondingDatapointIsNotAcknowledged", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("alarmStatusOfCorrespondingDatapointIsNotAcknowledged", value.GetValue("alarmStatusOfCorrespondingDatapointIsNotAcknowledged").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'alarmStatusOfCorrespondingDatapointIsNotAcknowledged' field")
 		}
 
 		// Simple Field (correspondingDatapointIsInAlarm)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("correspondingDatapointIsInAlarm", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("correspondingDatapointIsInAlarm", value.GetValue("correspondingDatapointIsInAlarm").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'correspondingDatapointIsInAlarm' field")
 		}
 
 		// Simple Field (correspondingDatapointMainValueIsOverridden)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("correspondingDatapointMainValueIsOverridden", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("correspondingDatapointMainValueIsOverridden", value.GetValue("correspondingDatapointMainValueIsOverridden").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'correspondingDatapointMainValueIsOverridden' field")
 		}
 
 		// Simple Field (correspondingDatapointMainValueIsCorruptedDueToFailure)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("correspondingDatapointMainValueIsCorruptedDueToFailure", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("correspondingDatapointMainValueIsCorruptedDueToFailure", value.GetValue("correspondingDatapointMainValueIsCorruptedDueToFailure").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'correspondingDatapointMainValueIsCorruptedDueToFailure' field")
 		}
 
 		// Simple Field (correspondingDatapointValueIsOutOfService)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("correspondingDatapointValueIsOutOfService", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("correspondingDatapointValueIsOutOfService", value.GetValue("correspondingDatapointValueIsOutOfService").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'correspondingDatapointValueIsOutOfService' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Device_Control: // Struct
@@ -11709,17 +11709,17 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (verifyModeIsOn)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("verifyModeIsOn", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("verifyModeIsOn", value.GetValue("verifyModeIsOn").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'verifyModeIsOn' field")
 		}
 
 		// Simple Field (aDatagramWithTheOwnIndividualAddressAsSourceAddressHasBeenReceived)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("aDatagramWithTheOwnIndividualAddressAsSourceAddressHasBeenReceived", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("aDatagramWithTheOwnIndividualAddressAsSourceAddressHasBeenReceived", value.GetValue("aDatagramWithTheOwnIndividualAddressAsSourceAddressHasBeenReceived").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'aDatagramWithTheOwnIndividualAddressAsSourceAddressHasBeenReceived' field")
 		}
 
 		// Simple Field (theUserApplicationIsStopped)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("theUserApplicationIsStopped", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("theUserApplicationIsStopped", value.GetValue("theUserApplicationIsStopped").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'theUserApplicationIsStopped' field")
 		}
 	case datapointType == KnxDatapointType_DPT_ForceSign: // Struct
@@ -11729,42 +11729,42 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (roomhmax)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("roomhmax", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("roomhmax", value.GetValue("roomhmax").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'roomhmax' field")
 		}
 
 		// Simple Field (roomhconf)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("roomhconf", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("roomhconf", value.GetValue("roomhconf").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'roomhconf' field")
 		}
 
 		// Simple Field (dhwlegio)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("dhwlegio", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("dhwlegio", value.GetValue("dhwlegio").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'dhwlegio' field")
 		}
 
 		// Simple Field (dhwnorm)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("dhwnorm", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("dhwnorm", value.GetValue("dhwnorm").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'dhwnorm' field")
 		}
 
 		// Simple Field (overrun)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("overrun", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("overrun", value.GetValue("overrun").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'overrun' field")
 		}
 
 		// Simple Field (oversupply)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("oversupply", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("oversupply", value.GetValue("oversupply").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'oversupply' field")
 		}
 
 		// Simple Field (protection)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("protection", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("protection", value.GetValue("protection").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'protection' field")
 		}
 
 		// Simple Field (forcerequest)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("forcerequest", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("forcerequest", value.GetValue("forcerequest").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'forcerequest' field")
 		}
 	case datapointType == KnxDatapointType_DPT_ForceSignCool: // BOOL
@@ -11784,42 +11784,42 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (summermode)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("summermode", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("summermode", value.GetValue("summermode").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'summermode' field")
 		}
 
 		// Simple Field (statusstopoptim)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusstopoptim", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusstopoptim", value.GetValue("statusstopoptim").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'statusstopoptim' field")
 		}
 
 		// Simple Field (statusstartoptim)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusstartoptim", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusstartoptim", value.GetValue("statusstartoptim").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'statusstartoptim' field")
 		}
 
 		// Simple Field (statusmorningboost)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusmorningboost", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusmorningboost", value.GetValue("statusmorningboost").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'statusmorningboost' field")
 		}
 
 		// Simple Field (tempreturnlimit)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("tempreturnlimit", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("tempreturnlimit", value.GetValue("tempreturnlimit").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'tempreturnlimit' field")
 		}
 
 		// Simple Field (tempflowlimit)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("tempflowlimit", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("tempflowlimit", value.GetValue("tempflowlimit").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'tempflowlimit' field")
 		}
 
 		// Simple Field (satuseco)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("satuseco", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("satuseco", value.GetValue("satuseco").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'satuseco' field")
 		}
 
 		// Simple Field (fault)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("fault", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("fault", value.GetValue("fault").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'fault' field")
 		}
 	case datapointType == KnxDatapointType_DPT_StatusSDHWC: // Struct
@@ -11834,17 +11834,17 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (solarloadsufficient)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("solarloadsufficient", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("solarloadsufficient", value.GetValue("solarloadsufficient").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'solarloadsufficient' field")
 		}
 
 		// Simple Field (sdhwloadactive)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("sdhwloadactive", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("sdhwloadactive", value.GetValue("sdhwloadactive").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'sdhwloadactive' field")
 		}
 
 		// Simple Field (fault)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("fault", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("fault", value.GetValue("fault").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'fault' field")
 		}
 	case datapointType == KnxDatapointType_DPT_FuelTypeSet: // Struct
@@ -11859,17 +11859,17 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (solidstate)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("solidstate", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("solidstate", value.GetValue("solidstate").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'solidstate' field")
 		}
 
 		// Simple Field (gas)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("gas", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("gas", value.GetValue("gas").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'gas' field")
 		}
 
 		// Simple Field (oil)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("oil", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("oil", value.GetValue("oil").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'oil' field")
 		}
 	case datapointType == KnxDatapointType_DPT_StatusRCC: // BOOL
@@ -11894,22 +11894,22 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (cool)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cool", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cool", value.GetValue("cool").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'cool' field")
 		}
 
 		// Simple Field (heat)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("heat", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("heat", value.GetValue("heat").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'heat' field")
 		}
 
 		// Simple Field (fanactive)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("fanactive", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("fanactive", value.GetValue("fanactive").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'fanactive' field")
 		}
 
 		// Simple Field (fault)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("fault", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("fault", value.GetValue("fault").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'fault' field")
 		}
 	case datapointType == KnxDatapointType_DPT_CombinedStatus_RTSM: // Struct
@@ -11924,27 +11924,27 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (statusOfHvacModeUser)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusOfHvacModeUser", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusOfHvacModeUser", value.GetValue("statusOfHvacModeUser").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'statusOfHvacModeUser' field")
 		}
 
 		// Simple Field (statusOfComfortProlongationUser)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusOfComfortProlongationUser", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusOfComfortProlongationUser", value.GetValue("statusOfComfortProlongationUser").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'statusOfComfortProlongationUser' field")
 		}
 
 		// Simple Field (effectiveValueOfTheComfortPushButton)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("effectiveValueOfTheComfortPushButton", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("effectiveValueOfTheComfortPushButton", value.GetValue("effectiveValueOfTheComfortPushButton").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'effectiveValueOfTheComfortPushButton' field")
 		}
 
 		// Simple Field (effectiveValueOfThePresenceStatus)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("effectiveValueOfThePresenceStatus", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("effectiveValueOfThePresenceStatus", value.GetValue("effectiveValueOfThePresenceStatus").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'effectiveValueOfThePresenceStatus' field")
 		}
 
 		// Simple Field (effectiveValueOfTheWindowStatus)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("effectiveValueOfTheWindowStatus", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("effectiveValueOfTheWindowStatus", value.GetValue("effectiveValueOfTheWindowStatus").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'effectiveValueOfTheWindowStatus' field")
 		}
 	case datapointType == KnxDatapointType_DPT_LightActuatorErrorInfo: // Struct
@@ -11959,37 +11959,37 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (overheat)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("overheat", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("overheat", value.GetValue("overheat").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'overheat' field")
 		}
 
 		// Simple Field (lampfailure)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("lampfailure", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("lampfailure", value.GetValue("lampfailure").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'lampfailure' field")
 		}
 
 		// Simple Field (defectiveload)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("defectiveload", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("defectiveload", value.GetValue("defectiveload").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'defectiveload' field")
 		}
 
 		// Simple Field (underload)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("underload", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("underload", value.GetValue("underload").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'underload' field")
 		}
 
 		// Simple Field (overcurrent)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("overcurrent", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("overcurrent", value.GetValue("overcurrent").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'overcurrent' field")
 		}
 
 		// Simple Field (undervoltage)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("undervoltage", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("undervoltage", value.GetValue("undervoltage").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'undervoltage' field")
 		}
 
 		// Simple Field (loaddetectionerror)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("loaddetectionerror", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("loaddetectionerror", value.GetValue("loaddetectionerror").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'loaddetectionerror' field")
 		}
 	case datapointType == KnxDatapointType_DPT_RF_ModeInfo: // Struct
@@ -12004,17 +12004,17 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (bibatSlave)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("bibatSlave", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("bibatSlave", value.GetValue("bibatSlave").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'bibatSlave' field")
 		}
 
 		// Simple Field (bibatMaster)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("bibatMaster", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("bibatMaster", value.GetValue("bibatMaster").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'bibatMaster' field")
 		}
 
 		// Simple Field (asynchronous)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("asynchronous", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("asynchronous", value.GetValue("asynchronous").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'asynchronous' field")
 		}
 	case datapointType == KnxDatapointType_DPT_RF_FilterInfo: // Struct
@@ -12029,17 +12029,17 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (doa)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("doa", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("doa", value.GetValue("doa").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'doa' field")
 		}
 
 		// Simple Field (knxSn)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("knxSn", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("knxSn", value.GetValue("knxSn").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'knxSn' field")
 		}
 
 		// Simple Field (doaAndKnxSn)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("doaAndKnxSn", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("doaAndKnxSn", value.GetValue("doaAndKnxSn").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'doaAndKnxSn' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Channel_Activation_8: // Struct
@@ -12049,42 +12049,42 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (activationStateOfChannel1)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel1", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel1", value.GetValue("activationStateOfChannel1").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel1' field")
 		}
 
 		// Simple Field (activationStateOfChannel2)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel2", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel2", value.GetValue("activationStateOfChannel2").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel2' field")
 		}
 
 		// Simple Field (activationStateOfChannel3)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel3", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel3", value.GetValue("activationStateOfChannel3").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel3' field")
 		}
 
 		// Simple Field (activationStateOfChannel4)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel4", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel4", value.GetValue("activationStateOfChannel4").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel4' field")
 		}
 
 		// Simple Field (activationStateOfChannel5)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel5", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel5", value.GetValue("activationStateOfChannel5").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel5' field")
 		}
 
 		// Simple Field (activationStateOfChannel6)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel6", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel6", value.GetValue("activationStateOfChannel6").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel6' field")
 		}
 
 		// Simple Field (activationStateOfChannel7)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel7", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel7", value.GetValue("activationStateOfChannel7").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel7' field")
 		}
 
 		// Simple Field (activationStateOfChannel8)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel8", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel8", value.GetValue("activationStateOfChannel8").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel8' field")
 		}
 	case datapointType == KnxDatapointType_DPT_StatusDHWC: // Struct
@@ -12099,42 +12099,42 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (tempoptimshiftactive)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("tempoptimshiftactive", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("tempoptimshiftactive", value.GetValue("tempoptimshiftactive").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'tempoptimshiftactive' field")
 		}
 
 		// Simple Field (solarenergysupport)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("solarenergysupport", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("solarenergysupport", value.GetValue("solarenergysupport").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'solarenergysupport' field")
 		}
 
 		// Simple Field (solarenergyonly)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("solarenergyonly", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("solarenergyonly", value.GetValue("solarenergyonly").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'solarenergyonly' field")
 		}
 
 		// Simple Field (otherenergysourceactive)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("otherenergysourceactive", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("otherenergysourceactive", value.GetValue("otherenergysourceactive").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'otherenergysourceactive' field")
 		}
 
 		// Simple Field (dhwpushactive)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("dhwpushactive", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("dhwpushactive", value.GetValue("dhwpushactive").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'dhwpushactive' field")
 		}
 
 		// Simple Field (legioprotactive)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("legioprotactive", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("legioprotactive", value.GetValue("legioprotactive").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'legioprotactive' field")
 		}
 
 		// Simple Field (dhwloadactive)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("dhwloadactive", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("dhwloadactive", value.GetValue("dhwloadactive").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'dhwloadactive' field")
 		}
 
 		// Simple Field (fault)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("fault", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("fault", value.GetValue("fault").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'fault' field")
 		}
 	case datapointType == KnxDatapointType_DPT_StatusRHCC: // Struct
@@ -12149,77 +12149,77 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (overheatalarm)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("overheatalarm", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("overheatalarm", value.GetValue("overheatalarm").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'overheatalarm' field")
 		}
 
 		// Simple Field (frostalarm)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("frostalarm", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("frostalarm", value.GetValue("frostalarm").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'frostalarm' field")
 		}
 
 		// Simple Field (dewpointstatus)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("dewpointstatus", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("dewpointstatus", value.GetValue("dewpointstatus").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'dewpointstatus' field")
 		}
 
 		// Simple Field (coolingdisabled)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("coolingdisabled", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("coolingdisabled", value.GetValue("coolingdisabled").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'coolingdisabled' field")
 		}
 
 		// Simple Field (statusprecool)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusprecool", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusprecool", value.GetValue("statusprecool").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'statusprecool' field")
 		}
 
 		// Simple Field (statusecoc)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusecoc", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusecoc", value.GetValue("statusecoc").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'statusecoc' field")
 		}
 
 		// Simple Field (heatcoolmode)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("heatcoolmode", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("heatcoolmode", value.GetValue("heatcoolmode").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'heatcoolmode' field")
 		}
 
 		// Simple Field (heatingdiabled)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("heatingdiabled", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("heatingdiabled", value.GetValue("heatingdiabled").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'heatingdiabled' field")
 		}
 
 		// Simple Field (statusstopoptim)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusstopoptim", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusstopoptim", value.GetValue("statusstopoptim").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'statusstopoptim' field")
 		}
 
 		// Simple Field (statusstartoptim)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusstartoptim", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusstartoptim", value.GetValue("statusstartoptim").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'statusstartoptim' field")
 		}
 
 		// Simple Field (statusmorningboosth)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusmorningboosth", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusmorningboosth", value.GetValue("statusmorningboosth").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'statusmorningboosth' field")
 		}
 
 		// Simple Field (tempflowreturnlimit)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("tempflowreturnlimit", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("tempflowreturnlimit", value.GetValue("tempflowreturnlimit").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'tempflowreturnlimit' field")
 		}
 
 		// Simple Field (tempflowlimit)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("tempflowlimit", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("tempflowlimit", value.GetValue("tempflowlimit").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'tempflowlimit' field")
 		}
 
 		// Simple Field (statusecoh)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusecoh", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("statusecoh", value.GetValue("statusecoh").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'statusecoh' field")
 		}
 
 		// Simple Field (fault)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("fault", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("fault", value.GetValue("fault").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'fault' field")
 		}
 	case datapointType == KnxDatapointType_DPT_CombinedStatus_HVA: // Struct
@@ -12234,47 +12234,47 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (calibrationMode)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("calibrationMode", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("calibrationMode", value.GetValue("calibrationMode").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'calibrationMode' field")
 		}
 
 		// Simple Field (lockedPosition)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("lockedPosition", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("lockedPosition", value.GetValue("lockedPosition").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'lockedPosition' field")
 		}
 
 		// Simple Field (forcedPosition)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("forcedPosition", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("forcedPosition", value.GetValue("forcedPosition").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'forcedPosition' field")
 		}
 
 		// Simple Field (manuaOperationOverridden)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("manuaOperationOverridden", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("manuaOperationOverridden", value.GetValue("manuaOperationOverridden").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'manuaOperationOverridden' field")
 		}
 
 		// Simple Field (serviceMode)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("serviceMode", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("serviceMode", value.GetValue("serviceMode").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'serviceMode' field")
 		}
 
 		// Simple Field (valveKick)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("valveKick", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("valveKick", value.GetValue("valveKick").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'valveKick' field")
 		}
 
 		// Simple Field (overload)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("overload", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("overload", value.GetValue("overload").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'overload' field")
 		}
 
 		// Simple Field (shortCircuit)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("shortCircuit", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("shortCircuit", value.GetValue("shortCircuit").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'shortCircuit' field")
 		}
 
 		// Simple Field (currentValvePosition)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("currentValvePosition", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("currentValvePosition", value.GetValue("currentValvePosition").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'currentValvePosition' field")
 		}
 	case datapointType == KnxDatapointType_DPT_CombinedStatus_RTC: // Struct
@@ -12289,47 +12289,47 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (coolingModeEnabled)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("coolingModeEnabled", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("coolingModeEnabled", value.GetValue("coolingModeEnabled").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'coolingModeEnabled' field")
 		}
 
 		// Simple Field (heatingModeEnabled)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("heatingModeEnabled", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("heatingModeEnabled", value.GetValue("heatingModeEnabled").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'heatingModeEnabled' field")
 		}
 
 		// Simple Field (additionalHeatingCoolingStage2Stage)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("additionalHeatingCoolingStage2Stage", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("additionalHeatingCoolingStage2Stage", value.GetValue("additionalHeatingCoolingStage2Stage").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'additionalHeatingCoolingStage2Stage' field")
 		}
 
 		// Simple Field (controllerInactive)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("controllerInactive", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("controllerInactive", value.GetValue("controllerInactive").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'controllerInactive' field")
 		}
 
 		// Simple Field (overheatAlarm)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("overheatAlarm", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("overheatAlarm", value.GetValue("overheatAlarm").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'overheatAlarm' field")
 		}
 
 		// Simple Field (frostAlarm)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("frostAlarm", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("frostAlarm", value.GetValue("frostAlarm").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'frostAlarm' field")
 		}
 
 		// Simple Field (dewPointStatus)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("dewPointStatus", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("dewPointStatus", value.GetValue("dewPointStatus").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'dewPointStatus' field")
 		}
 
 		// Simple Field (activeMode)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activeMode", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activeMode", value.GetValue("activeMode").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activeMode' field")
 		}
 
 		// Simple Field (generalFailureInformation)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("generalFailureInformation", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("generalFailureInformation", value.GetValue("generalFailureInformation").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'generalFailureInformation' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Media: // Struct
@@ -12344,12 +12344,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (knxIp)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("knxIp", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("knxIp", value.GetValue("knxIp").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'knxIp' field")
 		}
 
 		// Simple Field (rf)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("rf", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("rf", value.GetValue("rf").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'rf' field")
 		}
 
@@ -12359,12 +12359,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (pl110)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("pl110", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("pl110", value.GetValue("pl110").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'pl110' field")
 		}
 
 		// Simple Field (tp1)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("tp1", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("tp1", value.GetValue("tp1").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'tp1' field")
 		}
 
@@ -12379,82 +12379,82 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (activationStateOfChannel1)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel1", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel1", value.GetValue("activationStateOfChannel1").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel1' field")
 		}
 
 		// Simple Field (activationStateOfChannel2)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel2", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel2", value.GetValue("activationStateOfChannel2").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel2' field")
 		}
 
 		// Simple Field (activationStateOfChannel3)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel3", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel3", value.GetValue("activationStateOfChannel3").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel3' field")
 		}
 
 		// Simple Field (activationStateOfChannel4)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel4", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel4", value.GetValue("activationStateOfChannel4").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel4' field")
 		}
 
 		// Simple Field (activationStateOfChannel5)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel5", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel5", value.GetValue("activationStateOfChannel5").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel5' field")
 		}
 
 		// Simple Field (activationStateOfChannel6)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel6", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel6", value.GetValue("activationStateOfChannel6").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel6' field")
 		}
 
 		// Simple Field (activationStateOfChannel7)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel7", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel7", value.GetValue("activationStateOfChannel7").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel7' field")
 		}
 
 		// Simple Field (activationStateOfChannel8)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel8", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel8", value.GetValue("activationStateOfChannel8").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel8' field")
 		}
 
 		// Simple Field (activationStateOfChannel9)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel9", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel9", value.GetValue("activationStateOfChannel9").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel9' field")
 		}
 
 		// Simple Field (activationStateOfChannel10)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel10", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel10", value.GetValue("activationStateOfChannel10").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel10' field")
 		}
 
 		// Simple Field (activationStateOfChannel11)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel11", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel11", value.GetValue("activationStateOfChannel11").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel11' field")
 		}
 
 		// Simple Field (activationStateOfChannel12)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel12", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel12", value.GetValue("activationStateOfChannel12").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel12' field")
 		}
 
 		// Simple Field (activationStateOfChannel13)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel13", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel13", value.GetValue("activationStateOfChannel13").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel13' field")
 		}
 
 		// Simple Field (activationStateOfChannel14)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel14", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel14", value.GetValue("activationStateOfChannel14").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel14' field")
 		}
 
 		// Simple Field (activationStateOfChannel15)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel15", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel15", value.GetValue("activationStateOfChannel15").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel15' field")
 		}
 
 		// Simple Field (activationStateOfChannel16)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel16", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel16", value.GetValue("activationStateOfChannel16").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel16' field")
 		}
 	case datapointType == KnxDatapointType_DPT_OnOffAction: // USINT
@@ -12504,12 +12504,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (busy)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("busy", 4, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("busy", 4, uint8(value.GetValue("busy").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'busy' field")
 		}
 
 		// Simple Field (nak)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("nak", 4, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("nak", 4, uint8(value.GetValue("nak").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'nak' field")
 		}
 	case datapointType == KnxDatapointType_DPT_SceneInfo: // Struct
@@ -12524,12 +12524,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (sceneIsInactive)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("sceneIsInactive", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("sceneIsInactive", value.GetValue("sceneIsInactive").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'sceneIsInactive' field")
 		}
 
 		// Simple Field (scenenumber)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("scenenumber", 6, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("scenenumber", 6, uint8(value.GetValue("scenenumber").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'scenenumber' field")
 		}
 	case datapointType == KnxDatapointType_DPT_CombinedInfoOnOff: // Struct
@@ -12539,162 +12539,162 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (maskBitInfoOnOffOutput16)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput16", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput16", value.GetValue("maskBitInfoOnOffOutput16").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskBitInfoOnOffOutput16' field")
 		}
 
 		// Simple Field (maskBitInfoOnOffOutput15)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput15", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput15", value.GetValue("maskBitInfoOnOffOutput15").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskBitInfoOnOffOutput15' field")
 		}
 
 		// Simple Field (maskBitInfoOnOffOutput14)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput14", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput14", value.GetValue("maskBitInfoOnOffOutput14").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskBitInfoOnOffOutput14' field")
 		}
 
 		// Simple Field (maskBitInfoOnOffOutput13)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput13", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput13", value.GetValue("maskBitInfoOnOffOutput13").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskBitInfoOnOffOutput13' field")
 		}
 
 		// Simple Field (maskBitInfoOnOffOutput12)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput12", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput12", value.GetValue("maskBitInfoOnOffOutput12").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskBitInfoOnOffOutput12' field")
 		}
 
 		// Simple Field (maskBitInfoOnOffOutput11)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput11", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput11", value.GetValue("maskBitInfoOnOffOutput11").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskBitInfoOnOffOutput11' field")
 		}
 
 		// Simple Field (maskBitInfoOnOffOutput10)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput10", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput10", value.GetValue("maskBitInfoOnOffOutput10").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskBitInfoOnOffOutput10' field")
 		}
 
 		// Simple Field (maskBitInfoOnOffOutput9)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput9", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput9", value.GetValue("maskBitInfoOnOffOutput9").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskBitInfoOnOffOutput9' field")
 		}
 
 		// Simple Field (maskBitInfoOnOffOutput8)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput8", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput8", value.GetValue("maskBitInfoOnOffOutput8").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskBitInfoOnOffOutput8' field")
 		}
 
 		// Simple Field (maskBitInfoOnOffOutput7)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput7", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput7", value.GetValue("maskBitInfoOnOffOutput7").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskBitInfoOnOffOutput7' field")
 		}
 
 		// Simple Field (maskBitInfoOnOffOutput6)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput6", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput6", value.GetValue("maskBitInfoOnOffOutput6").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskBitInfoOnOffOutput6' field")
 		}
 
 		// Simple Field (maskBitInfoOnOffOutput5)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput5", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput5", value.GetValue("maskBitInfoOnOffOutput5").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskBitInfoOnOffOutput5' field")
 		}
 
 		// Simple Field (maskBitInfoOnOffOutput4)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput4", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput4", value.GetValue("maskBitInfoOnOffOutput4").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskBitInfoOnOffOutput4' field")
 		}
 
 		// Simple Field (maskBitInfoOnOffOutput3)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput3", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput3", value.GetValue("maskBitInfoOnOffOutput3").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskBitInfoOnOffOutput3' field")
 		}
 
 		// Simple Field (maskBitInfoOnOffOutput2)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput2", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput2", value.GetValue("maskBitInfoOnOffOutput2").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskBitInfoOnOffOutput2' field")
 		}
 
 		// Simple Field (maskBitInfoOnOffOutput1)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput1", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskBitInfoOnOffOutput1", value.GetValue("maskBitInfoOnOffOutput1").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskBitInfoOnOffOutput1' field")
 		}
 
 		// Simple Field (infoOnOffOutput16)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput16", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput16", value.GetValue("infoOnOffOutput16").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'infoOnOffOutput16' field")
 		}
 
 		// Simple Field (infoOnOffOutput15)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput15", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput15", value.GetValue("infoOnOffOutput15").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'infoOnOffOutput15' field")
 		}
 
 		// Simple Field (infoOnOffOutput14)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput14", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput14", value.GetValue("infoOnOffOutput14").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'infoOnOffOutput14' field")
 		}
 
 		// Simple Field (infoOnOffOutput13)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput13", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput13", value.GetValue("infoOnOffOutput13").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'infoOnOffOutput13' field")
 		}
 
 		// Simple Field (infoOnOffOutput12)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput12", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput12", value.GetValue("infoOnOffOutput12").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'infoOnOffOutput12' field")
 		}
 
 		// Simple Field (infoOnOffOutput11)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput11", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput11", value.GetValue("infoOnOffOutput11").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'infoOnOffOutput11' field")
 		}
 
 		// Simple Field (infoOnOffOutput10)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput10", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput10", value.GetValue("infoOnOffOutput10").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'infoOnOffOutput10' field")
 		}
 
 		// Simple Field (infoOnOffOutput9)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput9", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput9", value.GetValue("infoOnOffOutput9").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'infoOnOffOutput9' field")
 		}
 
 		// Simple Field (infoOnOffOutput8)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput8", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput8", value.GetValue("infoOnOffOutput8").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'infoOnOffOutput8' field")
 		}
 
 		// Simple Field (infoOnOffOutput7)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput7", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput7", value.GetValue("infoOnOffOutput7").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'infoOnOffOutput7' field")
 		}
 
 		// Simple Field (infoOnOffOutput6)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput6", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput6", value.GetValue("infoOnOffOutput6").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'infoOnOffOutput6' field")
 		}
 
 		// Simple Field (infoOnOffOutput5)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput5", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput5", value.GetValue("infoOnOffOutput5").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'infoOnOffOutput5' field")
 		}
 
 		// Simple Field (infoOnOffOutput4)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput4", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput4", value.GetValue("infoOnOffOutput4").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'infoOnOffOutput4' field")
 		}
 
 		// Simple Field (infoOnOffOutput3)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput3", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput3", value.GetValue("infoOnOffOutput3").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'infoOnOffOutput3' field")
 		}
 
 		// Simple Field (infoOnOffOutput2)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput2", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput2", value.GetValue("infoOnOffOutput2").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'infoOnOffOutput2' field")
 		}
 
 		// Simple Field (infoOnOffOutput1)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput1", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("infoOnOffOutput1", value.GetValue("infoOnOffOutput1").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'infoOnOffOutput1' field")
 		}
 	case datapointType == KnxDatapointType_DPT_ActiveEnergy_V64: // LINT
@@ -12734,122 +12734,122 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (activationStateOfChannel1)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel1", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel1", value.GetValue("activationStateOfChannel1").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel1' field")
 		}
 
 		// Simple Field (activationStateOfChannel2)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel2", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel2", value.GetValue("activationStateOfChannel2").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel2' field")
 		}
 
 		// Simple Field (activationStateOfChannel3)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel3", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel3", value.GetValue("activationStateOfChannel3").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel3' field")
 		}
 
 		// Simple Field (activationStateOfChannel4)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel4", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel4", value.GetValue("activationStateOfChannel4").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel4' field")
 		}
 
 		// Simple Field (activationStateOfChannel5)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel5", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel5", value.GetValue("activationStateOfChannel5").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel5' field")
 		}
 
 		// Simple Field (activationStateOfChannel6)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel6", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel6", value.GetValue("activationStateOfChannel6").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel6' field")
 		}
 
 		// Simple Field (activationStateOfChannel7)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel7", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel7", value.GetValue("activationStateOfChannel7").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel7' field")
 		}
 
 		// Simple Field (activationStateOfChannel8)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel8", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel8", value.GetValue("activationStateOfChannel8").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel8' field")
 		}
 
 		// Simple Field (activationStateOfChannel9)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel9", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel9", value.GetValue("activationStateOfChannel9").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel9' field")
 		}
 
 		// Simple Field (activationStateOfChannel10)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel10", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel10", value.GetValue("activationStateOfChannel10").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel10' field")
 		}
 
 		// Simple Field (activationStateOfChannel11)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel11", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel11", value.GetValue("activationStateOfChannel11").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel11' field")
 		}
 
 		// Simple Field (activationStateOfChannel12)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel12", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel12", value.GetValue("activationStateOfChannel12").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel12' field")
 		}
 
 		// Simple Field (activationStateOfChannel13)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel13", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel13", value.GetValue("activationStateOfChannel13").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel13' field")
 		}
 
 		// Simple Field (activationStateOfChannel14)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel14", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel14", value.GetValue("activationStateOfChannel14").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel14' field")
 		}
 
 		// Simple Field (activationStateOfChannel15)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel15", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel15", value.GetValue("activationStateOfChannel15").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel15' field")
 		}
 
 		// Simple Field (activationStateOfChannel16)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel16", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel16", value.GetValue("activationStateOfChannel16").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel16' field")
 		}
 
 		// Simple Field (activationStateOfChannel17)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel17", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel17", value.GetValue("activationStateOfChannel17").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel17' field")
 		}
 
 		// Simple Field (activationStateOfChannel18)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel18", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel18", value.GetValue("activationStateOfChannel18").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel18' field")
 		}
 
 		// Simple Field (activationStateOfChannel19)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel19", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel19", value.GetValue("activationStateOfChannel19").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel19' field")
 		}
 
 		// Simple Field (activationStateOfChannel20)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel20", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel20", value.GetValue("activationStateOfChannel20").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel20' field")
 		}
 
 		// Simple Field (activationStateOfChannel21)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel21", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel21", value.GetValue("activationStateOfChannel21").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel21' field")
 		}
 
 		// Simple Field (activationStateOfChannel22)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel22", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel22", value.GetValue("activationStateOfChannel22").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel22' field")
 		}
 
 		// Simple Field (activationStateOfChannel23)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel23", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel23", value.GetValue("activationStateOfChannel23").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel23' field")
 		}
 
 		// Simple Field (activationStateOfChannel24)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel24", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("activationStateOfChannel24", value.GetValue("activationStateOfChannel24").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activationStateOfChannel24' field")
 		}
 	case datapointType == KnxDatapointType_DPT_HVACModeNext: // Struct
@@ -12859,12 +12859,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (delayTimeMin)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("delayTimeMin", 16, uint16(value.GetUint16())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("delayTimeMin", 16, uint16(value.GetValue("delayTimeMin").GetUint16())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'delayTimeMin' field")
 		}
 
 		// Simple Field (hvacMode)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("hvacMode", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("hvacMode", 8, uint8(value.GetValue("hvacMode").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'hvacMode' field")
 		}
 	case datapointType == KnxDatapointType_DPT_DHWModeNext: // Struct
@@ -12874,12 +12874,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (delayTimeMin)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("delayTimeMin", 16, uint16(value.GetUint16())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("delayTimeMin", 16, uint16(value.GetValue("delayTimeMin").GetUint16())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'delayTimeMin' field")
 		}
 
 		// Simple Field (dhwMode)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("dhwMode", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("dhwMode", 8, uint8(value.GetValue("dhwMode").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'dhwMode' field")
 		}
 	case datapointType == KnxDatapointType_DPT_OccModeNext: // Struct
@@ -12889,12 +12889,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (delayTimeMin)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("delayTimeMin", 16, uint16(value.GetUint16())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("delayTimeMin", 16, uint16(value.GetValue("delayTimeMin").GetUint16())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'delayTimeMin' field")
 		}
 
 		// Simple Field (occupancyMode)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("occupancyMode", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("occupancyMode", 8, uint8(value.GetValue("occupancyMode").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'occupancyMode' field")
 		}
 	case datapointType == KnxDatapointType_DPT_BuildingModeNext: // Struct
@@ -12904,12 +12904,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (delayTimeMin)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("delayTimeMin", 16, uint16(value.GetUint16())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("delayTimeMin", 16, uint16(value.GetValue("delayTimeMin").GetUint16())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'delayTimeMin' field")
 		}
 
 		// Simple Field (buildingMode)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("buildingMode", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("buildingMode", 8, uint8(value.GetValue("buildingMode").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'buildingMode' field")
 		}
 	case datapointType == KnxDatapointType_DPT_StatusLightingActuator: // Struct
@@ -12919,47 +12919,47 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (validactualvalue)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validactualvalue", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validactualvalue", value.GetValue("validactualvalue").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'validactualvalue' field")
 		}
 
 		// Simple Field (locked)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("locked", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("locked", value.GetValue("locked").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'locked' field")
 		}
 
 		// Simple Field (forced)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("forced", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("forced", value.GetValue("forced").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'forced' field")
 		}
 
 		// Simple Field (nightmodeactive)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("nightmodeactive", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("nightmodeactive", value.GetValue("nightmodeactive").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'nightmodeactive' field")
 		}
 
 		// Simple Field (staircaselightingFunction)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("staircaselightingFunction", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("staircaselightingFunction", value.GetValue("staircaselightingFunction").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'staircaselightingFunction' field")
 		}
 
 		// Simple Field (dimming)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("dimming", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("dimming", value.GetValue("dimming").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'dimming' field")
 		}
 
 		// Simple Field (localoverride)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("localoverride", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("localoverride", value.GetValue("localoverride").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'localoverride' field")
 		}
 
 		// Simple Field (failure)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("failure", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("failure", value.GetValue("failure").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'failure' field")
 		}
 
 		// Simple Field (actualvalue)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("actualvalue", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("actualvalue", 8, uint8(value.GetValue("actualvalue").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'actualvalue' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Version: // Struct
@@ -12969,17 +12969,17 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (magicNumber)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("magicNumber", 5, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("magicNumber", 5, uint8(value.GetValue("magicNumber").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'magicNumber' field")
 		}
 
 		// Simple Field (versionNumber)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("versionNumber", 5, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("versionNumber", 5, uint8(value.GetValue("versionNumber").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'versionNumber' field")
 		}
 
 		// Simple Field (revisionNumber)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("revisionNumber", 6, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("revisionNumber", 6, uint8(value.GetValue("revisionNumber").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'revisionNumber' field")
 		}
 	case datapointType == KnxDatapointType_DPT_AlarmInfo: // Struct
@@ -12989,22 +12989,22 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (logNumber)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("logNumber", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("logNumber", 8, uint8(value.GetValue("logNumber").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'logNumber' field")
 		}
 
 		// Simple Field (alarmPriority)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("alarmPriority", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("alarmPriority", 8, uint8(value.GetValue("alarmPriority").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'alarmPriority' field")
 		}
 
 		// Simple Field (applicationArea)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("applicationArea", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("applicationArea", 8, uint8(value.GetValue("applicationArea").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'applicationArea' field")
 		}
 
 		// Simple Field (errorClass)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("errorClass", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("errorClass", 8, uint8(value.GetValue("errorClass").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'errorClass' field")
 		}
 
@@ -13014,22 +13014,22 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (errorcodeSup)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("errorcodeSup", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("errorcodeSup", value.GetValue("errorcodeSup").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'errorcodeSup' field")
 		}
 
 		// Simple Field (alarmtextSup)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("alarmtextSup", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("alarmtextSup", value.GetValue("alarmtextSup").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'alarmtextSup' field")
 		}
 
 		// Simple Field (timestampSup)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("timestampSup", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("timestampSup", value.GetValue("timestampSup").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'timestampSup' field")
 		}
 
 		// Simple Field (ackSup)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("ackSup", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("ackSup", value.GetValue("ackSup").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'ackSup' field")
 		}
 
@@ -13039,17 +13039,17 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (locked)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("locked", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("locked", value.GetValue("locked").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'locked' field")
 		}
 
 		// Simple Field (alarmunack)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("alarmunack", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("alarmunack", value.GetValue("alarmunack").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'alarmunack' field")
 		}
 
 		// Simple Field (inalarm)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("inalarm", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("inalarm", value.GetValue("inalarm").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'inalarm' field")
 		}
 	case datapointType == KnxDatapointType_DPT_TempRoomSetpSetF16_3: // Struct
@@ -13059,17 +13059,17 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (tempsetpcomf)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("tempsetpcomf", 16, value.GetFloat32()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("tempsetpcomf", 16, value.GetValue("tempsetpcomf").GetFloat32()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'tempsetpcomf' field")
 		}
 
 		// Simple Field (tempsetpstdby)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("tempsetpstdby", 16, value.GetFloat32()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("tempsetpstdby", 16, value.GetValue("tempsetpstdby").GetFloat32()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'tempsetpstdby' field")
 		}
 
 		// Simple Field (tempsetpeco)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("tempsetpeco", 16, value.GetFloat32()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("tempsetpeco", 16, value.GetValue("tempsetpeco").GetFloat32()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'tempsetpeco' field")
 		}
 	case datapointType == KnxDatapointType_DPT_TempRoomSetpSetShiftF16_3: // Struct
@@ -13079,17 +13079,17 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (tempsetpshiftcomf)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("tempsetpshiftcomf", 16, value.GetFloat32()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("tempsetpshiftcomf", 16, value.GetValue("tempsetpshiftcomf").GetFloat32()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'tempsetpshiftcomf' field")
 		}
 
 		// Simple Field (tempsetpshiftstdby)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("tempsetpshiftstdby", 16, value.GetFloat32()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("tempsetpshiftstdby", 16, value.GetValue("tempsetpshiftstdby").GetFloat32()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'tempsetpshiftstdby' field")
 		}
 
 		// Simple Field (tempsetpshifteco)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("tempsetpshifteco", 16, value.GetFloat32()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("tempsetpshifteco", 16, value.GetValue("tempsetpshifteco").GetFloat32()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'tempsetpshifteco' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Scaling_Speed: // Struct
@@ -13099,12 +13099,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (timePeriod)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("timePeriod", 16, uint16(value.GetUint16())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("timePeriod", 16, uint16(value.GetValue("timePeriod").GetUint16())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'timePeriod' field")
 		}
 
 		// Simple Field (percent)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("percent", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("percent", 8, uint8(value.GetValue("percent").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'percent' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Scaling_Step_Time: // Struct
@@ -13114,12 +13114,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (timePeriod)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("timePeriod", 16, uint16(value.GetUint16())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("timePeriod", 16, uint16(value.GetValue("timePeriod").GetUint16())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'timePeriod' field")
 		}
 
 		// Simple Field (percent)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("percent", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("percent", 8, uint8(value.GetValue("percent").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'percent' field")
 		}
 	case datapointType == KnxDatapointType_DPT_MeteringValue: // Struct
@@ -13129,12 +13129,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (countval)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteInt32("countval", 32, int32(value.GetInt32())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteInt32("countval", 32, int32(value.GetValue("countval").GetInt32())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'countval' field")
 		}
 
 		// Simple Field (valinffield)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("valinffield", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("valinffield", 8, uint8(value.GetValue("valinffield").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'valinffield' field")
 		}
 
@@ -13144,27 +13144,27 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (alarmunack)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("alarmunack", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("alarmunack", value.GetValue("alarmunack").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'alarmunack' field")
 		}
 
 		// Simple Field (inalarm)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("inalarm", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("inalarm", value.GetValue("inalarm").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'inalarm' field")
 		}
 
 		// Simple Field (overridden)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("overridden", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("overridden", value.GetValue("overridden").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'overridden' field")
 		}
 
 		// Simple Field (fault)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("fault", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("fault", value.GetValue("fault").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'fault' field")
 		}
 
 		// Simple Field (outofservice)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("outofservice", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("outofservice", value.GetValue("outofservice").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'outofservice' field")
 		}
 	case datapointType == KnxDatapointType_DPT_MBus_Address: // Struct
@@ -13174,22 +13174,22 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (manufactid)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("manufactid", 16, uint16(value.GetUint16())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("manufactid", 16, uint16(value.GetValue("manufactid").GetUint16())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'manufactid' field")
 		}
 
 		// Simple Field (identnumber)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint32("identnumber", 32, uint32(value.GetUint32())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint32("identnumber", 32, uint32(value.GetValue("identnumber").GetUint32())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'identnumber' field")
 		}
 
 		// Simple Field (version)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("version", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("version", 8, uint8(value.GetValue("version").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'version' field")
 		}
 
 		// Simple Field (medium)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("medium", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("medium", 8, uint8(value.GetValue("medium").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'medium' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Colour_RGB: // Struct
@@ -13199,17 +13199,17 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (r)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("r", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("r", 8, uint8(value.GetValue("r").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'r' field")
 		}
 
 		// Simple Field (g)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("g", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("g", 8, uint8(value.GetValue("g").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'g' field")
 		}
 
 		// Simple Field (b)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("b", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("b", 8, uint8(value.GetValue("b").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'b' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Colour_HSV: // Struct
@@ -13219,17 +13219,17 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (h)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("h", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("h", 8, uint8(value.GetValue("h").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'h' field")
 		}
 
 		// Simple Field (s)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("s", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("s", 8, uint8(value.GetValue("s").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 's' field")
 		}
 
 		// Simple Field (v)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("v", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("v", 8, uint8(value.GetValue("v").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'v' field")
 		}
 	case datapointType == KnxDatapointType_DPT_LanguageCodeAlpha2_ASCII: // STRING
@@ -13249,12 +13249,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (activeelectricalenergy)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteInt32("activeelectricalenergy", 32, int32(value.GetInt32())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteInt32("activeelectricalenergy", 32, int32(value.GetValue("activeelectricalenergy").GetInt32())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'activeelectricalenergy' field")
 		}
 
 		// Simple Field (tariff)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("tariff", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("tariff", 8, uint8(value.GetValue("tariff").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'tariff' field")
 		}
 
@@ -13264,12 +13264,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (electricalengergyvalidity)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("electricalengergyvalidity", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("electricalengergyvalidity", value.GetValue("electricalengergyvalidity").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'electricalengergyvalidity' field")
 		}
 
 		// Simple Field (tariffvalidity)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("tariffvalidity", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("tariffvalidity", value.GetValue("tariffvalidity").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'tariffvalidity' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Prioritised_Mode_Control: // Struct
@@ -13279,17 +13279,17 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (deactivationOfPriority)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("deactivationOfPriority", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("deactivationOfPriority", value.GetValue("deactivationOfPriority").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'deactivationOfPriority' field")
 		}
 
 		// Simple Field (priorityLevel)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("priorityLevel", 3, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("priorityLevel", 3, uint8(value.GetValue("priorityLevel").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'priorityLevel' field")
 		}
 
 		// Simple Field (modeLevel)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("modeLevel", 4, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("modeLevel", 4, uint8(value.GetValue("modeLevel").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'modeLevel' field")
 		}
 	case datapointType == KnxDatapointType_DPT_DALI_Control_Gear_Diagnostic: // Struct
@@ -13304,32 +13304,32 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (convertorError)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("convertorError", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("convertorError", value.GetValue("convertorError").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'convertorError' field")
 		}
 
 		// Simple Field (ballastFailure)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("ballastFailure", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("ballastFailure", value.GetValue("ballastFailure").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'ballastFailure' field")
 		}
 
 		// Simple Field (lampFailure)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("lampFailure", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("lampFailure", value.GetValue("lampFailure").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'lampFailure' field")
 		}
 
 		// Simple Field (readOrResponse)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("readOrResponse", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("readOrResponse", value.GetValue("readOrResponse").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'readOrResponse' field")
 		}
 
 		// Simple Field (addressIndicator)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("addressIndicator", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("addressIndicator", value.GetValue("addressIndicator").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'addressIndicator' field")
 		}
 
 		// Simple Field (daliDeviceAddressOrDaliGroupAddress)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("daliDeviceAddressOrDaliGroupAddress", 6, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("daliDeviceAddressOrDaliGroupAddress", 6, uint8(value.GetValue("daliDeviceAddressOrDaliGroupAddress").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'daliDeviceAddressOrDaliGroupAddress' field")
 		}
 	case datapointType == KnxDatapointType_DPT_DALI_Diagnostics: // Struct
@@ -13339,17 +13339,17 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (ballastFailure)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("ballastFailure", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("ballastFailure", value.GetValue("ballastFailure").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'ballastFailure' field")
 		}
 
 		// Simple Field (lampFailure)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("lampFailure", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("lampFailure", value.GetValue("lampFailure").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'lampFailure' field")
 		}
 
 		// Simple Field (deviceAddress)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("deviceAddress", 6, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("deviceAddress", 6, uint8(value.GetValue("deviceAddress").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'deviceAddress' field")
 		}
 	case datapointType == KnxDatapointType_DPT_CombinedPosition: // Struct
@@ -13359,12 +13359,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (heightPosition)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("heightPosition", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("heightPosition", 8, uint8(value.GetValue("heightPosition").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'heightPosition' field")
 		}
 
 		// Simple Field (slatsPosition)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("slatsPosition", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("slatsPosition", 8, uint8(value.GetValue("slatsPosition").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'slatsPosition' field")
 		}
 
@@ -13374,12 +13374,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (validitySlatsPosition)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validitySlatsPosition", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validitySlatsPosition", value.GetValue("validitySlatsPosition").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'validitySlatsPosition' field")
 		}
 
 		// Simple Field (validityHeightPosition)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validityHeightPosition", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validityHeightPosition", value.GetValue("validityHeightPosition").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'validityHeightPosition' field")
 		}
 	case datapointType == KnxDatapointType_DPT_StatusSAB: // Struct
@@ -13389,67 +13389,67 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (heightPosition)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("heightPosition", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("heightPosition", 8, uint8(value.GetValue("heightPosition").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'heightPosition' field")
 		}
 
 		// Simple Field (slatsPosition)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("slatsPosition", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("slatsPosition", 8, uint8(value.GetValue("slatsPosition").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'slatsPosition' field")
 		}
 
 		// Simple Field (upperEndPosReached)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("upperEndPosReached", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("upperEndPosReached", value.GetValue("upperEndPosReached").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'upperEndPosReached' field")
 		}
 
 		// Simple Field (lowerEndPosReached)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("lowerEndPosReached", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("lowerEndPosReached", value.GetValue("lowerEndPosReached").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'lowerEndPosReached' field")
 		}
 
 		// Simple Field (lowerPredefPosReachedTypHeight100PercentSlatsAngle100Percent)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("lowerPredefPosReachedTypHeight100PercentSlatsAngle100Percent", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("lowerPredefPosReachedTypHeight100PercentSlatsAngle100Percent", value.GetValue("lowerPredefPosReachedTypHeight100PercentSlatsAngle100Percent").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'lowerPredefPosReachedTypHeight100PercentSlatsAngle100Percent' field")
 		}
 
 		// Simple Field (targetPosDrive)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("targetPosDrive", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("targetPosDrive", value.GetValue("targetPosDrive").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'targetPosDrive' field")
 		}
 
 		// Simple Field (restrictionOfTargetHeightPosPosCanNotBeReached)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("restrictionOfTargetHeightPosPosCanNotBeReached", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("restrictionOfTargetHeightPosPosCanNotBeReached", value.GetValue("restrictionOfTargetHeightPosPosCanNotBeReached").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'restrictionOfTargetHeightPosPosCanNotBeReached' field")
 		}
 
 		// Simple Field (restrictionOfSlatsHeightPosPosCanNotBeReached)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("restrictionOfSlatsHeightPosPosCanNotBeReached", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("restrictionOfSlatsHeightPosPosCanNotBeReached", value.GetValue("restrictionOfSlatsHeightPosPosCanNotBeReached").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'restrictionOfSlatsHeightPosPosCanNotBeReached' field")
 		}
 
 		// Simple Field (atLeastOneOfTheInputsWindRainFrostAlarmIsInAlarm)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("atLeastOneOfTheInputsWindRainFrostAlarmIsInAlarm", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("atLeastOneOfTheInputsWindRainFrostAlarmIsInAlarm", value.GetValue("atLeastOneOfTheInputsWindRainFrostAlarmIsInAlarm").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'atLeastOneOfTheInputsWindRainFrostAlarmIsInAlarm' field")
 		}
 
 		// Simple Field (upDownPositionIsForcedByMoveupdownforcedInput)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("upDownPositionIsForcedByMoveupdownforcedInput", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("upDownPositionIsForcedByMoveupdownforcedInput", value.GetValue("upDownPositionIsForcedByMoveupdownforcedInput").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'upDownPositionIsForcedByMoveupdownforcedInput' field")
 		}
 
 		// Simple Field (movementIsLockedEGByDevicelockedInput)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("movementIsLockedEGByDevicelockedInput", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("movementIsLockedEGByDevicelockedInput", value.GetValue("movementIsLockedEGByDevicelockedInput").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'movementIsLockedEGByDevicelockedInput' field")
 		}
 
 		// Simple Field (actuatorSetvalueIsLocallyOverriddenEGViaALocalUserInterface)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("actuatorSetvalueIsLocallyOverriddenEGViaALocalUserInterface", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("actuatorSetvalueIsLocallyOverriddenEGViaALocalUserInterface", value.GetValue("actuatorSetvalueIsLocallyOverriddenEGViaALocalUserInterface").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'actuatorSetvalueIsLocallyOverriddenEGViaALocalUserInterface' field")
 		}
 
 		// Simple Field (generalFailureOfTheActuatorOrTheDrive)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("generalFailureOfTheActuatorOrTheDrive", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("generalFailureOfTheActuatorOrTheDrive", value.GetValue("generalFailureOfTheActuatorOrTheDrive").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'generalFailureOfTheActuatorOrTheDrive' field")
 		}
 
@@ -13459,12 +13459,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (validityHeightPos)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validityHeightPos", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validityHeightPos", value.GetValue("validityHeightPos").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'validityHeightPos' field")
 		}
 
 		// Simple Field (validitySlatsPos)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validitySlatsPos", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validitySlatsPos", value.GetValue("validitySlatsPos").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'validitySlatsPos' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Colour_xyY: // Struct
@@ -13474,17 +13474,17 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (xAxis)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("xAxis", 16, uint16(value.GetUint16())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("xAxis", 16, uint16(value.GetValue("xAxis").GetUint16())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'xAxis' field")
 		}
 
 		// Simple Field (yAxis)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("yAxis", 16, uint16(value.GetUint16())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("yAxis", 16, uint16(value.GetValue("yAxis").GetUint16())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'yAxis' field")
 		}
 
 		// Simple Field (brightness)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("brightness", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("brightness", 8, uint8(value.GetValue("brightness").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'brightness' field")
 		}
 
@@ -13494,12 +13494,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (validityXy)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validityXy", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validityXy", value.GetValue("validityXy").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'validityXy' field")
 		}
 
 		// Simple Field (validityBrightness)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validityBrightness", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validityBrightness", value.GetValue("validityBrightness").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'validityBrightness' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Converter_Status: // Struct
@@ -13509,7 +13509,7 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (converterModeAccordingToTheDaliConverterStateMachine)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("converterModeAccordingToTheDaliConverterStateMachine", 4, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("converterModeAccordingToTheDaliConverterStateMachine", 4, uint8(value.GetValue("converterModeAccordingToTheDaliConverterStateMachine").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'converterModeAccordingToTheDaliConverterStateMachine' field")
 		}
 
@@ -13519,32 +13519,32 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (hardwiredSwitchIsActive)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("hardwiredSwitchIsActive", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("hardwiredSwitchIsActive", value.GetValue("hardwiredSwitchIsActive").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'hardwiredSwitchIsActive' field")
 		}
 
 		// Simple Field (hardwiredInhibitIsActive)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("hardwiredInhibitIsActive", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("hardwiredInhibitIsActive", value.GetValue("hardwiredInhibitIsActive").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'hardwiredInhibitIsActive' field")
 		}
 
 		// Simple Field (functionTestPending)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("functionTestPending", 2, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("functionTestPending", 2, uint8(value.GetValue("functionTestPending").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'functionTestPending' field")
 		}
 
 		// Simple Field (durationTestPending)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("durationTestPending", 2, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("durationTestPending", 2, uint8(value.GetValue("durationTestPending").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'durationTestPending' field")
 		}
 
 		// Simple Field (partialDurationTestPending)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("partialDurationTestPending", 2, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("partialDurationTestPending", 2, uint8(value.GetValue("partialDurationTestPending").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'partialDurationTestPending' field")
 		}
 
 		// Simple Field (converterFailure)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("converterFailure", 2, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("converterFailure", 2, uint8(value.GetValue("converterFailure").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'converterFailure' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Converter_Test_Result: // Struct
@@ -13554,17 +13554,17 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (ltrf)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("ltrf", 4, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("ltrf", 4, uint8(value.GetValue("ltrf").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'ltrf' field")
 		}
 
 		// Simple Field (ltrd)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("ltrd", 4, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("ltrd", 4, uint8(value.GetValue("ltrd").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'ltrd' field")
 		}
 
 		// Simple Field (ltrp)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("ltrp", 4, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("ltrp", 4, uint8(value.GetValue("ltrp").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'ltrp' field")
 		}
 
@@ -13574,17 +13574,17 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (sf)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("sf", 2, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("sf", 2, uint8(value.GetValue("sf").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'sf' field")
 		}
 
 		// Simple Field (sd)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("sd", 2, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("sd", 2, uint8(value.GetValue("sd").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'sd' field")
 		}
 
 		// Simple Field (sp)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("sp", 2, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("sp", 2, uint8(value.GetValue("sp").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'sp' field")
 		}
 
@@ -13594,12 +13594,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (ldtr)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("ldtr", 16, uint16(value.GetUint16())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("ldtr", 16, uint16(value.GetValue("ldtr").GetUint16())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'ldtr' field")
 		}
 
 		// Simple Field (lpdtr)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("lpdtr", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("lpdtr", 8, uint8(value.GetValue("lpdtr").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'lpdtr' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Battery_Info: // Struct
@@ -13614,22 +13614,22 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (batteryFailure)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("batteryFailure", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("batteryFailure", value.GetValue("batteryFailure").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'batteryFailure' field")
 		}
 
 		// Simple Field (batteryDurationFailure)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("batteryDurationFailure", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("batteryDurationFailure", value.GetValue("batteryDurationFailure").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'batteryDurationFailure' field")
 		}
 
 		// Simple Field (batteryFullyCharged)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("batteryFullyCharged", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("batteryFullyCharged", value.GetValue("batteryFullyCharged").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'batteryFullyCharged' field")
 		}
 
 		// Simple Field (batteryChargeLevel)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("batteryChargeLevel", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("batteryChargeLevel", 8, uint8(value.GetValue("batteryChargeLevel").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'batteryChargeLevel' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Brightness_Colour_Temperature_Transition: // Struct
@@ -13639,17 +13639,17 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (ms)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("ms", 16, uint16(value.GetUint16())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("ms", 16, uint16(value.GetValue("ms").GetUint16())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'ms' field")
 		}
 
 		// Simple Field (temperatureK)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("temperatureK", 16, uint16(value.GetUint16())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint16("temperatureK", 16, uint16(value.GetValue("temperatureK").GetUint16())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'temperatureK' field")
 		}
 
 		// Simple Field (percent)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("percent", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("percent", 8, uint8(value.GetValue("percent").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'percent' field")
 		}
 
@@ -13659,17 +13659,17 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (validityOfTheTimePeriod)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validityOfTheTimePeriod", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validityOfTheTimePeriod", value.GetValue("validityOfTheTimePeriod").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'validityOfTheTimePeriod' field")
 		}
 
 		// Simple Field (validityOfTheAbsoluteColourTemperature)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validityOfTheAbsoluteColourTemperature", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validityOfTheAbsoluteColourTemperature", value.GetValue("validityOfTheAbsoluteColourTemperature").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'validityOfTheAbsoluteColourTemperature' field")
 		}
 
 		// Simple Field (validityOfTheAbsoluteBrightness)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validityOfTheAbsoluteBrightness", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("validityOfTheAbsoluteBrightness", value.GetValue("validityOfTheAbsoluteBrightness").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'validityOfTheAbsoluteBrightness' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Brightness_Colour_Temperature_Control: // Struct
@@ -13684,12 +13684,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (cct)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cct", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cct", value.GetValue("cct").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'cct' field")
 		}
 
 		// Simple Field (stepCodeColourTemperature)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepCodeColourTemperature", 3, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepCodeColourTemperature", 3, uint8(value.GetValue("stepCodeColourTemperature").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'stepCodeColourTemperature' field")
 		}
 
@@ -13699,12 +13699,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (cb)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cb", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cb", value.GetValue("cb").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'cb' field")
 		}
 
 		// Simple Field (stepCodeBrightness)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepCodeBrightness", 3, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepCodeBrightness", 3, uint8(value.GetValue("stepCodeBrightness").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'stepCodeBrightness' field")
 		}
 
@@ -13714,12 +13714,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (cctAndStepCodeColourValidity)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cctAndStepCodeColourValidity", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cctAndStepCodeColourValidity", value.GetValue("cctAndStepCodeColourValidity").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'cctAndStepCodeColourValidity' field")
 		}
 
 		// Simple Field (cbAndStepCodeBrightnessValidity)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cbAndStepCodeBrightnessValidity", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cbAndStepCodeBrightnessValidity", value.GetValue("cbAndStepCodeBrightnessValidity").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'cbAndStepCodeBrightnessValidity' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Colour_RGBW: // Struct
@@ -13729,22 +13729,22 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (colourLevelRed)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("colourLevelRed", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("colourLevelRed", 8, uint8(value.GetValue("colourLevelRed").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'colourLevelRed' field")
 		}
 
 		// Simple Field (colourLevelGreen)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("colourLevelGreen", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("colourLevelGreen", 8, uint8(value.GetValue("colourLevelGreen").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'colourLevelGreen' field")
 		}
 
 		// Simple Field (colourLevelBlue)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("colourLevelBlue", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("colourLevelBlue", 8, uint8(value.GetValue("colourLevelBlue").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'colourLevelBlue' field")
 		}
 
 		// Simple Field (colourLevelWhite)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("colourLevelWhite", 8, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("colourLevelWhite", 8, uint8(value.GetValue("colourLevelWhite").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'colourLevelWhite' field")
 		}
 
@@ -13759,22 +13759,22 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (mr)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("mr", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("mr", value.GetValue("mr").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'mr' field")
 		}
 
 		// Simple Field (mg)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("mg", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("mg", value.GetValue("mg").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'mg' field")
 		}
 
 		// Simple Field (mb)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("mb", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("mb", value.GetValue("mb").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'mb' field")
 		}
 
 		// Simple Field (mw)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("mw", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("mw", value.GetValue("mw").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'mw' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Relative_Control_RGBW: // Struct
@@ -13789,22 +13789,22 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (maskcw)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskcw", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskcw", value.GetValue("maskcw").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskcw' field")
 		}
 
 		// Simple Field (maskcb)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskcb", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskcb", value.GetValue("maskcb").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskcb' field")
 		}
 
 		// Simple Field (maskcg)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskcg", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskcg", value.GetValue("maskcg").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskcg' field")
 		}
 
 		// Simple Field (maskcr)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskcr", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("maskcr", value.GetValue("maskcr").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'maskcr' field")
 		}
 
@@ -13814,12 +13814,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (cw)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cw", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cw", value.GetValue("cw").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'cw' field")
 		}
 
 		// Simple Field (stepCodeColourWhite)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepCodeColourWhite", 3, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepCodeColourWhite", 3, uint8(value.GetValue("stepCodeColourWhite").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'stepCodeColourWhite' field")
 		}
 
@@ -13829,12 +13829,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (cb)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cb", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cb", value.GetValue("cb").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'cb' field")
 		}
 
 		// Simple Field (stepCodeColourBlue)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepCodeColourBlue", 3, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepCodeColourBlue", 3, uint8(value.GetValue("stepCodeColourBlue").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'stepCodeColourBlue' field")
 		}
 
@@ -13844,12 +13844,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (cg)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cg", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cg", value.GetValue("cg").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'cg' field")
 		}
 
 		// Simple Field (stepCodeColourGreen)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepCodeColourGreen", 3, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepCodeColourGreen", 3, uint8(value.GetValue("stepCodeColourGreen").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'stepCodeColourGreen' field")
 		}
 
@@ -13859,12 +13859,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (cr)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cr", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cr", value.GetValue("cr").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'cr' field")
 		}
 
 		// Simple Field (stepCodeColourRed)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepCodeColourRed", 3, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepCodeColourRed", 3, uint8(value.GetValue("stepCodeColourRed").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'stepCodeColourRed' field")
 		}
 	case datapointType == KnxDatapointType_DPT_Relative_Control_RGB: // Struct
@@ -13879,12 +13879,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (cb)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cb", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cb", value.GetValue("cb").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'cb' field")
 		}
 
 		// Simple Field (stepCodeColourBlue)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepCodeColourBlue", 3, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepCodeColourBlue", 3, uint8(value.GetValue("stepCodeColourBlue").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'stepCodeColourBlue' field")
 		}
 
@@ -13894,12 +13894,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (cg)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cg", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cg", value.GetValue("cg").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'cg' field")
 		}
 
 		// Simple Field (stepCodeColourGreen)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepCodeColourGreen", 3, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepCodeColourGreen", 3, uint8(value.GetValue("stepCodeColourGreen").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'stepCodeColourGreen' field")
 		}
 
@@ -13909,12 +13909,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (cr)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cr", value.GetBool()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteBit("cr", value.GetValue("cr").GetBool()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'cr' field")
 		}
 
 		// Simple Field (stepCodeColourRed)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepCodeColourRed", 3, uint8(value.GetUint8())); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteUint8("stepCodeColourRed", 3, uint8(value.GetValue("stepCodeColourRed").GetUint8())); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'stepCodeColourRed' field")
 		}
 	case datapointType == KnxDatapointType_DPT_GeographicalLocation: // Struct
@@ -13924,12 +13924,12 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (longitude)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("longitude", 32, value.GetFloat32()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("longitude", 32, value.GetValue("longitude").GetFloat32()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'longitude' field")
 		}
 
 		// Simple Field (latitude)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("latitude", 32, value.GetFloat32()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("latitude", 32, value.GetValue("latitude").GetFloat32()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'latitude' field")
 		}
 	case datapointType == KnxDatapointType_DPT_TempRoomSetpSetF16_4: // Struct
@@ -13939,22 +13939,22 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (roomTemperatureSetpointComfort)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("roomTemperatureSetpointComfort", 16, value.GetFloat32()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("roomTemperatureSetpointComfort", 16, value.GetValue("roomTemperatureSetpointComfort").GetFloat32()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'roomTemperatureSetpointComfort' field")
 		}
 
 		// Simple Field (roomTemperatureSetpointStandby)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("roomTemperatureSetpointStandby", 16, value.GetFloat32()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("roomTemperatureSetpointStandby", 16, value.GetValue("roomTemperatureSetpointStandby").GetFloat32()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'roomTemperatureSetpointStandby' field")
 		}
 
 		// Simple Field (roomTemperatureSetpointEconomy)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("roomTemperatureSetpointEconomy", 16, value.GetFloat32()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("roomTemperatureSetpointEconomy", 16, value.GetValue("roomTemperatureSetpointEconomy").GetFloat32()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'roomTemperatureSetpointEconomy' field")
 		}
 
 		// Simple Field (roomTemperatureSetpointBuildingProtection)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("roomTemperatureSetpointBuildingProtection", 16, value.GetFloat32()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("roomTemperatureSetpointBuildingProtection", 16, value.GetValue("roomTemperatureSetpointBuildingProtection").GetFloat32()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'roomTemperatureSetpointBuildingProtection' field")
 		}
 	case datapointType == KnxDatapointType_DPT_TempRoomSetpSetShiftF16_4: // Struct
@@ -13964,22 +13964,22 @@ func KnxDatapointSerializeWithWriteBuffer(ctx context.Context, writeBuffer utils
 		}
 
 		// Simple Field (roomTemperatureSetpointShiftComfort)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("roomTemperatureSetpointShiftComfort", 16, value.GetFloat32()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("roomTemperatureSetpointShiftComfort", 16, value.GetValue("roomTemperatureSetpointShiftComfort").GetFloat32()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'roomTemperatureSetpointShiftComfort' field")
 		}
 
 		// Simple Field (roomTemperatureSetpointShiftStandby)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("roomTemperatureSetpointShiftStandby", 16, value.GetFloat32()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("roomTemperatureSetpointShiftStandby", 16, value.GetValue("roomTemperatureSetpointShiftStandby").GetFloat32()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'roomTemperatureSetpointShiftStandby' field")
 		}
 
 		// Simple Field (roomTemperatureSetpointShiftEconomy)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("roomTemperatureSetpointShiftEconomy", 16, value.GetFloat32()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("roomTemperatureSetpointShiftEconomy", 16, value.GetValue("roomTemperatureSetpointShiftEconomy").GetFloat32()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'roomTemperatureSetpointShiftEconomy' field")
 		}
 
 		// Simple Field (roomTemperatureSetpointShiftBuildingProtection)
-		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("roomTemperatureSetpointShiftBuildingProtection", 16, value.GetFloat32()); _err != nil {
+		if _err := /*TODO: migrate me*/ writeBuffer.WriteFloat32("roomTemperatureSetpointShiftBuildingProtection", 16, value.GetValue("roomTemperatureSetpointShiftBuildingProtection").GetFloat32()); _err != nil {
 			return errors.Wrap(_err, "Error serializing 'roomTemperatureSetpointShiftBuildingProtection' field")
 		}
 	default:
