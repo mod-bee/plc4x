@@ -33,6 +33,7 @@ import (
 	"github.com/apache/plc4x/plc4go/internal/genericcan"
 	plc4go "github.com/apache/plc4x/plc4go/pkg/api"
 	apiModel "github.com/apache/plc4x/plc4go/pkg/api/model"
+	apiValues "github.com/apache/plc4x/plc4go/pkg/api/values"
 	readWriteModel "github.com/apache/plc4x/plc4go/protocols/canopen/readwrite/model"
 	socketcanModel "github.com/apache/plc4x/plc4go/protocols/socketcan/readwrite/model"
 	"github.com/apache/plc4x/plc4go/spi"
@@ -61,6 +62,9 @@ type Connection struct {
 
 	// latest is the last data received with each COB-ID the driver reads (PDOs and heartbeats); latestChanged is
 	// closed, and replaced, each time one arrives, to wake the reads waiting for one.
+	// pdoWriteMutex lets one PDO write at a time read, change and send its PDO (see sendPdo).
+	pdoWriteMutex sync.Mutex
+
 	latestMutex   sync.Mutex
 	latest        map[uint16][]byte
 	latestChanged chan struct{}
@@ -296,6 +300,30 @@ func (c *Connection) sendPayload(ctx context.Context, service readWriteModel.CAN
 		return errors.Wrapf(err, "error serializing the %s payload", service)
 	}
 	return c.sendData(ctx, cobIdOf(service, nodeId), data)
+}
+
+// errPdoValue is a PDO write whose value does not encode into the PDO.
+var errPdoValue = errors.New("the value does not encode into the PDO")
+
+// sendPdo sends the PDO a write to tag makes (pdoPayload), and keeps it as the PDO's last data: what a read of the tag
+// answers, and what the next positioned write to the PDO lays its value over. Writes to one connection's PDOs take
+// turns, so two positioned writes to one PDO both land.
+func (c *Connection) sendPdo(ctx context.Context, tag PDOTag, value apiValues.PlcValue) error {
+	c.pdoWriteMutex.Lock()
+	defer c.pdoWriteMutex.Unlock()
+	cobId := cobIdOf(tag.Service, tag.NodeId)
+	c.latestMutex.Lock()
+	base := slices.Clone(c.latest[cobId])
+	c.latestMutex.Unlock()
+	data, err := pdoPayload(ctx, base, tag, value)
+	if err != nil {
+		return errors.Wrap(errPdoValue, err.Error())
+	}
+	if err := c.sendData(ctx, cobId, data); err != nil {
+		return err
+	}
+	c.keepLatest(cobId, data)
+	return nil
 }
 
 // sendData puts one 11-bit frame on the bus. plc4j's codec sends the payload's first eight bytes; Go refuses more.

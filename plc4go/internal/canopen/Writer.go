@@ -32,7 +32,6 @@ import (
 	"github.com/apache/plc4x/plc4go/spi/errors"
 	spiModel "github.com/apache/plc4x/plc4go/spi/model"
 	"github.com/apache/plc4x/plc4go/spi/options"
-	"github.com/apache/plc4x/plc4go/spi/transports/can"
 	"github.com/apache/plc4x/plc4go/spi/utils"
 )
 
@@ -86,12 +85,7 @@ func (m *Writer) write(ctx context.Context, tag apiModel.PlcTag, value apiValues
 		}
 		return apiModel.PlcResponseCode_OK
 	case PDOTag:
-		data, err := encodeValue(ctx, value, tag.DataType, tag.Elements)
-		if err != nil || len(data) > can.MaxDataLength {
-			m.log.Debug().Err(err).Stringer("tag", tag).Int("bytes", len(data)).Msg("the value does not encode into a PDO")
-			return apiModel.PlcResponseCode_INVALID_DATA
-		}
-		return m.sent(m.connection.sendData(ctx, cobIdOf(tag.Service, tag.NodeId), data))
+		return m.sent(m.connection.sendPdo(ctx, tag, value))
 	case NMTTag:
 		if value == nil || !value.IsUint8() {
 			return apiModel.PlcResponseCode_INVALID_DATA
@@ -107,6 +101,10 @@ func (m *Writer) write(ctx context.Context, tag apiModel.PlcTag, value apiValues
 }
 
 func (m *Writer) sent(err error) apiModel.PlcResponseCode {
+	if errors.Is(err, errPdoValue) {
+		m.log.Debug().Err(err).Msg("the value does not encode into the PDO")
+		return apiModel.PlcResponseCode_INVALID_DATA
+	}
 	if err != nil {
 		m.log.Error().Err(err).Msg("Failed to send CANopen frame")
 		return apiModel.PlcResponseCode_REMOTE_ERROR

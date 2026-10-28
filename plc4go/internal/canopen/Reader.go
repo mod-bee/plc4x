@@ -89,7 +89,12 @@ func (m *Reader) read(ctx context.Context, tag apiModel.PlcTag) (apiModel.PlcRes
 		if !ok {
 			return apiModel.PlcResponseCode_REQUEST_TIMEOUT, nil
 		}
-		return m.decoded(ctx, tag, data, tag.DataType, tag.Elements)
+		value, err := pdoValue(ctx, data, tag)
+		if err != nil {
+			m.log.Debug().Err(err).Stringer("tag", tag).Msg("could not read the value")
+			return apiModel.PlcResponseCode_INVALID_DATA, nil
+		}
+		return apiModel.PlcResponseCode_OK, value
 	case HeartbeatTag:
 		if tag.NodeId == 0 {
 			return apiModel.PlcResponseCode_INVALID_ADDRESS, nil

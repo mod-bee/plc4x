@@ -243,7 +243,7 @@ func (s *Subscriber) event(ctx context.Context, handle *SubscriptionHandle, node
 	code, value := apiModel.PlcResponseCode_OK, apiValues.PlcValue(nil)
 	switch tag := handle.tag.(type) {
 	case PDOTag:
-		decoded, err := decodeValue(ctx, data, tag.DataType, tag.Elements)
+		decoded, err := pdoValue(ctx, data, tag)
 		if err != nil {
 			s.log.Debug().Err(err).Stringer("tag", tag).Msg("could not read the PDO")
 			code = apiModel.PlcResponseCode_INVALID_DATA

@@ -60,6 +60,45 @@ func TestTagsParseAsPlc4jParsesThem(t *testing.T) {
 	}
 }
 
+// Beyond plc4j, a PDO tag may name the byte (and a BOOLEAN the bit) its value starts at, before the type, as an S7 tag
+// names its byte and bit (%DB1:4.2:BOOL).
+func TestPdoTagsNameTheirByteAndBit(t *testing.T) {
+	tpdo1 := readWriteModel.CANOpenService_TRANSMIT_PDO_1
+	tests := []struct {
+		address string
+		want    PDOTag
+	}{
+		{"TRANSMIT_PDO_1:5:2:INTEGER16", PDOTag{NodeId: 5, Service: tpdo1, DataType: readWriteModel.CANOpenDataType_INTEGER16, Positioned: true, ByteOffset: 2}},
+		{"TRANSMIT_PDO_1:5:0:UNSIGNED8", PDOTag{NodeId: 5, Service: tpdo1, DataType: readWriteModel.CANOpenDataType_UNSIGNED8, Positioned: true}},
+		{"TRANSMIT_PDO_1:5:4.3:BOOLEAN", PDOTag{NodeId: 5, Service: tpdo1, DataType: readWriteModel.CANOpenDataType_BOOLEAN, Positioned: true, ByteOffset: 4, BitOffset: 3}},
+		{"TRANSMIT_PDO_1:5:7.7:BOOLEAN", PDOTag{NodeId: 5, Service: tpdo1, DataType: readWriteModel.CANOpenDataType_BOOLEAN, Positioned: true, ByteOffset: 7, BitOffset: 7}},
+		{"TRANSMIT_PDO_1:5:6:UNSIGNED16", PDOTag{NodeId: 5, Service: tpdo1, DataType: readWriteModel.CANOpenDataType_UNSIGNED16, Positioned: true, ByteOffset: 6}},
+		{"TRANSMIT_PDO_1:5:4:INTEGER16[2]", PDOTag{NodeId: 5, Service: tpdo1, DataType: readWriteModel.CANOpenDataType_INTEGER16, Elements: 2, Positioned: true, ByteOffset: 4}},
+		{"TRANSMIT_PDO_1:5:7:VISIBLE_STRING", PDOTag{NodeId: 5, Service: tpdo1, DataType: readWriteModel.CANOpenDataType_VISIBLE_STRING, Positioned: true, ByteOffset: 7}},
+	}
+	for _, test := range tests {
+		tag, err := NewTagHandler().ParseTag(test.address)
+		require.NoError(t, err, test.address)
+		assert.Equal(t, test.want, tag, test.address)
+		assert.Equal(t, test.address, tag.GetAddressString())
+	}
+	for _, address := range []string{
+		"TRANSMIT_PDO_1:5:8:UNSIGNED8",    // a PDO carries 8 bytes
+		"TRANSMIT_PDO_1:5:7:UNSIGNED16",   // which an UNSIGNED16 at byte 7 runs past
+		"TRANSMIT_PDO_1:5:1:UNSIGNED64",   //
+		"TRANSMIT_PDO_1:5:6:INTEGER16[2]", //
+		"TRANSMIT_PDO_1:5:7.1:BOOLEAN[8]", // bits 57 to 64
+		"TRANSMIT_PDO_1:5:2.3:UNSIGNED8",  // only a BOOLEAN names a bit
+		"TRANSMIT_PDO_1:5:2.8:BOOLEAN",    // a byte has bits 0 to 7
+		"TRANSMIT_PDO_1:5:2:3:UNSIGNED8",  //
+		"TRANSMIT_PDO_1:5::UNSIGNED8",     //
+		"SDO:5:2:0x1018/1:UNSIGNED32",     // an SDO tag names an object, not a byte
+	} {
+		_, err := NewTagHandler().ParseTag(address)
+		assert.Error(t, err, address)
+	}
+}
+
 func TestTagsPlc4jRefusesAreRefused(t *testing.T) {
 	for _, address := range []string{"SDO:", "PDO:", "NMT:", "HEARTBEAT:", "SDO:1:1000/22", "TRANSMIT_PDO_5:1:UNSIGNED8", "SDO:1:1000/22:NOT_A_TYPE"} {
 		_, err := NewTagHandler().ParseTag(address)

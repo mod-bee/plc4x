@@ -42,12 +42,19 @@ type SDOTag struct {
 	Elements uint8
 }
 
-// PDOTag is plc4j's CANOpenPDOTag: the data of one PDO of a node, read as DataType from its first byte.
+// PDOTag is plc4j's CANOpenPDOTag: the data of one PDO of a node, read as DataType from its first byte - or, beyond
+// plc4j, from the byte (and for BOOLEAN the bit) the address names before the type, as S7 names a byte and bit before
+// its type (%DB1:4.2:BOOL): RECEIVE_PDO_1:5:2:INTEGER16, TRANSMIT_PDO_1:5:4.3:BOOLEAN.
 type PDOTag struct {
 	NodeId   uint8
 	Service  readWriteModel.CANOpenService
 	DataType readWriteModel.CANOpenDataType
 	Elements uint8
+	// Positioned: the address names the byte (0 to 7) the value starts at, and for BOOLEAN optionally its bit (0 to 7,
+	// 0 the lowest). A write to a positioned tag changes only its bytes (or bits) of the PDO; see pdoPayload.
+	Positioned bool
+	ByteOffset uint8
+	BitOffset  uint8
 }
 
 // NMTTag is plc4j's CANOpenNMTTag: the NMT commands addressed to a node, or to any (NodeId 0, the address "NMT").
@@ -79,7 +86,14 @@ func (t SDOTag) GetAddressString() string {
 }
 
 func (t PDOTag) GetAddressString() string {
-	return fmt.Sprintf("%s:%d:%s", t.Service.String(), t.NodeId, t.DataType.String()) + elementsSuffix(t.Elements)
+	position := ""
+	if t.Positioned {
+		position = fmt.Sprintf(":%d", t.ByteOffset)
+		if t.BitOffset > 0 {
+			position += fmt.Sprintf(".%d", t.BitOffset)
+		}
+	}
+	return fmt.Sprintf("%s:%d%s:%s", t.Service.String(), t.NodeId, position, t.DataType.String()) + elementsSuffix(t.Elements)
 }
 
 func (t NMTTag) GetAddressString() string {
