@@ -303,10 +303,13 @@ func TestPdoWritesSendTheValueAsThePdosData(t *testing.T) {
 		"a PDO carries eight bytes")
 }
 
-func TestPdoSubscriptionsGetTheNodesPdo(t *testing.T) {
+func TestPdoSubscriptionsAndReadsGetTheNodesPdo(t *testing.T) {
 	connection := connect(t, "pdo-subscribe", "")
 	node := newTestNode(t, "pdo-subscribe", 7, 7)
 	events := subscribe(t, connection, map[string]string{"speed": "TRANSMIT_PDO_1:7:UNSIGNED16"})
+
+	code, _ := read(t, connection, "TRANSMIT_PDO_1:7:UNSIGNED16")
+	assert.Equal(t, apiModel.PlcResponseCode_REQUEST_TIMEOUT, code, "no PDO came yet")
 
 	node.send(0x187, 0x34, 0x12, 0xFF)
 	event := nextEvent(t, events)
@@ -317,11 +320,15 @@ func TestPdoSubscriptionsGetTheNodesPdo(t *testing.T) {
 	node.send(0x287, 0x00, 0x00) // node 7's TPDO2
 	noEvent(t, events)
 
+	code, value := read(t, connection, "TRANSMIT_PDO_1:7:UNSIGNED16")
+	require.Equal(t, apiModel.PlcResponseCode_OK, code)
+	assert.Equal(t, uint16(0x1234), value.GetUint16(), "the last PDO")
+
 	node.send(0x187, 0x01)
 	assert.Equal(t, apiModel.PlcResponseCode_INVALID_DATA, nextEvent(t, events).GetResponseCode("speed"), "one byte is no UNSIGNED16")
 }
 
-func TestHeartbeatSubscriptionsGetTheNodesState(t *testing.T) {
+func TestHeartbeatSubscriptionsAndReadsGetTheNodesState(t *testing.T) {
 	connection := connect(t, "heartbeat", "")
 	node := newTestNode(t, "heartbeat", 9, 9)
 	events := subscribe(t, connection, map[string]string{"node9": "HEARTBEAT:9", "any": "HEARTBEAT"})
@@ -340,6 +347,10 @@ func TestHeartbeatSubscriptionsGetTheNodesState(t *testing.T) {
 	}
 	assert.Equal(t, []string{"0@9", "5@9"}, got["node9"])
 	assert.Equal(t, []string{"0@9", "5@9", "127@10"}, got["any"])
+
+	code, value := read(t, connection, "HEARTBEAT:9")
+	require.Equal(t, apiModel.PlcResponseCode_OK, code)
+	assert.Equal(t, uint8(5), value.GetStruct()["state"].GetUint8())
 }
 
 // An NMT command's COB-ID carries no node: the node it addresses is its second byte, and 0 addresses every node.

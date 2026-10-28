@@ -59,6 +59,12 @@ type Connection struct {
 	sdoMutex   sync.Mutex
 	sdoChannel atomic.Pointer[sdoChannel]
 
+	// latest is the last data received with each COB-ID the driver reads (PDOs and heartbeats); latestChanged is
+	// closed, and replaced, each time one arrives, to wake the reads waiting for one.
+	latestMutex   sync.Mutex
+	latest        map[uint16][]byte
+	latestChanged chan struct{}
+
 	subscribersMutex sync.RWMutex
 	subscribers      []*Subscriber
 
@@ -78,6 +84,8 @@ func NewConnection(configuration Configuration, messageCodec *genericcan.Message
 		messageCodec:  messageCodec,
 		options:       connectionOptions,
 		connectionId:  utils.GenerateId(4),
+		latest:        map[uint16][]byte{},
+		latestChanged: make(chan struct{}),
 		log:           customLogger,
 		_options:      _options,
 	}
@@ -202,7 +210,7 @@ func (c *Connection) sendHeartbeat(ctx context.Context, state readWriteModel.NMT
 }
 
 // handleFrame dispatches one frame by its COB-ID: SDO responses to the transfer waiting for them, and PDOs, NMT
-// commands and heartbeats to the subscribers. CANopen uses 11-bit
+// commands and heartbeats to the subscribers (PDOs and heartbeats are also kept for reads). CANopen uses 11-bit
 // identifiers (CiA 301 7.3.3); remote requests, error frames and extended frames are passed over, and so is a frame
 // whose data does not parse as its service's.
 //
@@ -219,6 +227,7 @@ func (c *Connection) handleFrame(ctx context.Context, frame socketcanModel.Socke
 	}
 	data := slices.Clone(frame.GetData())
 	if service.GetPdo() {
+		c.keepLatest(cobId, data)
 		c.publish(ctx, service, nodeId, data, nil)
 		return
 	}
@@ -236,9 +245,36 @@ func (c *Connection) handleFrame(ctx context.Context, frame socketcanModel.Socke
 	case readWriteModel.CANOpenSDOResponse:
 		c.deliverSdo(nodeId, typed.GetResponse())
 	case readWriteModel.CANOpenHeartbeatPayload:
+		c.keepLatest(cobId, data)
 		c.publish(ctx, service, nodeId, data, typed)
 	case readWriteModel.CANOpenNetworkPayload:
 		c.publish(ctx, service, nodeId, data, typed)
+	}
+}
+
+func (c *Connection) keepLatest(cobId uint16, data []byte) {
+	c.latestMutex.Lock()
+	defer c.latestMutex.Unlock()
+	c.latest[cobId] = data
+	close(c.latestChanged)
+	c.latestChanged = make(chan struct{})
+}
+
+// latestData is the last data received with cobId, waiting for some until ctx ends when none has come yet.
+func (c *Connection) latestData(ctx context.Context, cobId uint16) ([]byte, bool) {
+	for {
+		c.latestMutex.Lock()
+		data, ok := c.latest[cobId]
+		changed := c.latestChanged
+		c.latestMutex.Unlock()
+		if ok {
+			return data, true
+		}
+		select {
+		case <-changed:
+		case <-ctx.Done():
+			return nil, false
+		}
 	}
 }
 
