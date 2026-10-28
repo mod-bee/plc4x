@@ -68,12 +68,27 @@ func (t ValueHandler) parseType(tag apiModel.PlcTag, value any) (apiValues.PlcVa
 		if err != nil {
 			return nil, fmt.Errorf("couldn't resolve address %s to a valid tag on the PLC", symbolicTag.SymbolicAddress)
 		}
-		directTag = *directTagPointer
+		// The value has the shape the address selected, as the read and the write narrow it: one
+		// element of an array (MAIN.arr[3]) is one value of the element's type, not the whole array.
+		if directTagPointer, err = t.driverContext.applySymbolicSelection(directTagPointer, symbolicTag.ArrayInfo, symbolicTag.SymbolicAddress); err != nil {
+			return nil, err
+		}
+		return t.AdsParseType(directTagPointer.DataType, directTagPointer.DecodeArrayInfo(), value)
 	case model.DirectPlcTag:
 		directTag = tag.(model.DirectPlcTag)
+	case *model.DirectPlcTag:
+		directTag = *tag.(*model.DirectPlcTag)
+	default:
+		return nil, fmt.Errorf("invalid tag type %T", tag)
 	}
 
-	return t.AdsParseType(directTag.DataType, directTag.DataType.GetArrayInfo(), value)
+	// A direct address leaves its data type to the device's table, as the read and the write
+	// complete it; without that the data type was nil here and every direct write panicked.
+	completed, err := t.driverContext.completeDirectTag(directTag)
+	if err != nil {
+		return nil, err
+	}
+	return t.AdsParseType(completed.DataType, completed.DecodeArrayInfo(), value)
 }
 
 func (t ValueHandler) AdsParseType(datatype readWriteModel.AdsDataTypeTableEntry, arrayInfo []readWriteModel.AdsDataTypeArrayInfo, value any) (apiValues.PlcValue, error) {
@@ -110,11 +125,23 @@ func (t ValueHandler) AdsParseListType(dataType readWriteModel.AdsDataTypeTableE
 			" doesn't match tag size " + strconv.Itoa(int(curArrayInfo.GetNumElements())))
 	}
 
+	// The innermost level holds the elements: values of the array's element type, not of the array's
+	// own type, which converted every element of a whole-array write to NULL. An outer level keeps the
+	// array's type for the levels inside it.
+	next := dataType
+	if len(restArrayInfo) == 0 && t.driverContext != nil {
+		itemType, err := t.driverContext.arrayItemTypeFor(dataType)
+		if err != nil {
+			return nil, err
+		}
+		next = itemType
+	}
+
 	// Actually convert the current array info level.
 	var plcValues []apiValues.PlcValue
 	for i := uint32(0); i < curArrayInfo.GetNumElements(); i++ {
 		curValue := curValues[i]
-		plcValue, err := t.AdsParseListType(dataType, restArrayInfo, curValue)
+		plcValue, err := t.AdsParseListType(next, restArrayInfo, curValue)
 		if err != nil {
 			return nil, errors.New("error parsing PlcValue: " + err.Error())
 		}

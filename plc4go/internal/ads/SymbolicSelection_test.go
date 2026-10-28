@@ -44,7 +44,8 @@ func connectionWithArraySymbol() *Connection {
 	array := driverModel.NewAdsDataTypeTableEntryBuilder().
 		WithSize(40).
 		WithMainName("ARRAY [0..9] OF DINT").
-		WithSecondaryName("ARRAY [0..9] OF DINT").
+		// As TwinCAT uploads it (and the Java driver reads it): an array's secondary name is its element type.
+		WithSecondaryName("DINT").
 		WithArrayDimensions(1).
 		WithArrayInfo(driverModel.NewAdsDataTypeArrayInfo(0, 10)).
 		MustBuild()
@@ -170,7 +171,8 @@ func connectionWithGridSymbol() *Connection {
 	grid := driverModel.NewAdsDataTypeTableEntryBuilder().
 		WithSize(200).
 		WithMainName("ARRAY [0..9,0..4] OF DINT").
-		WithSecondaryName("ARRAY [0..9,0..4] OF DINT").
+		// As TwinCAT uploads it (and the Java driver reads it): an array's secondary name is its element type.
+		WithSecondaryName("DINT").
 		WithArrayDimensions(2).
 		WithArrayInfo(
 			driverModel.NewAdsDataTypeArrayInfo(0, 10),

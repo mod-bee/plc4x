@@ -76,7 +76,7 @@ func (m *Connection) singleWrite(ctx context.Context, writeRequest apiModel.PlcW
 	// Get the value from the request and serialize it to a byte array
 	value := writeRequest.GetValue(tagName)
 	io := utils.NewWriteBufferByteBased(utils.WithByteOrderForByteBasedBuffer(binary.LittleEndian))
-	err = m.serializePlcValue(directAdsTag.DataType, directAdsTag.GetArrayInfo(), value, io)
+	err = m.serializePlcValue(directAdsTag.DataType, directAdsTag.EncodeArrayInfo(), value, io)
 	if err != nil {
 		utils.DeliverResult(m.log, result, spiModel.NewDefaultPlcWriteRequestResult(writeRequest, nil, errors.Wrap(err, "error serializing plc value")))
 		return
@@ -130,7 +130,7 @@ func (m *Connection) multiWrite(ctx context.Context, writeRequest apiModel.PlcWr
 		directAdsTags[tagName] = directAdsTag
 
 		// Serialize the plc value
-		err = m.serializePlcValue(directAdsTag.DataType, directAdsTag.GetArrayInfo(), writeRequest.GetValue(tagName), io)
+		err = m.serializePlcValue(directAdsTag.DataType, directAdsTag.EncodeArrayInfo(), writeRequest.GetValue(tagName), io)
 		if err != nil {
 			utils.DeliverResult(m.log, result, spiModel.NewDefaultPlcWriteRequestResult(writeRequest, nil, errors.Wrap(err, "error serializing plc value")))
 			return
@@ -196,7 +196,7 @@ func (m *Connection) serializePlcValue(dataType driverModel.AdsDataTypeTableEntr
 			return fmt.Errorf("expecting exactly %d items in the list", len(plcValues))
 		}
 
-		arrayItemType, err := m.arrayItemTypeFor(dataType)
+		arrayItemType, err := m.driverContext.arrayItemTypeFor(dataType)
 		if err != nil {
 			return err
 		}
@@ -251,7 +251,7 @@ func (m *Connection) serializePlcValue(dataType driverModel.AdsDataTypeTableEntr
 		return nil
 	} else {
 		// This is a primitive type.
-		valueType, stringLength := m.getPlcValueForAdsDataTypeTableEntry(dataType)
+		valueType, stringLength := m.driverContext.getPlcValueForAdsDataTypeTableEntry(dataType)
 		if valueType == apiValues.NULL {
 			return errors.New(fmt.Sprintf("error converting %s into plc4x plc-value type", dataType.GetSecondaryName()))
 		}

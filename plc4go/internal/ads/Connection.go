@@ -377,8 +377,16 @@ func (m *Connection) directTagFor(ctx context.Context, tag apiModel.PlcTag) (*mo
 	default:
 		return nil, errors.Errorf("invalid tag type %T", tag)
 	}
+	return m.driverContext.completeDirectTag(directTag)
+}
+
+// completeDirectTag gives a direct tag what its address leaves to the device: its data type entry,
+// by the type the address names, and the shape of what it selects. The reader, the writer and the
+// value handler all complete a direct tag this way; the value handler did not, and dereferenced the
+// missing data type on every direct write.
+func (m *DriverContext) completeDirectTag(directTag model.DirectPlcTag) (*model.DirectPlcTag, error) {
 	if directTag.DataType == nil {
-		dataType, ok := m.driverContext.dataTypeTable[directTag.ValueType.String()]
+		dataType, ok := m.dataTypeTable[directTag.ValueType.String()]
 		if !ok {
 			return nil, errors.Errorf("no entry for data type %s in the data type table", directTag.ValueType)
 		}
@@ -433,14 +441,14 @@ func (m *Connection) resolveSymbolicTag(ctx context.Context, symbolicTag model.S
 	// resolved location to read. Applying it here is what makes MAIN.arr[1..4] read those four
 	// elements; without it the resolved location was the whole array at its original offset, and
 	// the selection was parsed, rendered and silently discarded.
-	return m.applySymbolicSelection(resolved, symbolicTag.ArrayInfo, symbolicAddress)
+	return m.driverContext.applySymbolicSelection(resolved, symbolicTag.ArrayInfo, symbolicAddress)
 }
 
 // applySymbolicSelection narrows a resolved location to the elements the address selected.
 //
 // A selection is refused rather than approximated when it cannot be applied exactly: reading the
 // wrong elements is indistinguishable from reading the right ones once the values come back.
-func (m *Connection) applySymbolicSelection(tag *model.DirectPlcTag, selection []apiModel.ArrayInfo, address string) (*model.DirectPlcTag, error) {
+func (m *DriverContext) applySymbolicSelection(tag *model.DirectPlcTag, selection []apiModel.ArrayInfo, address string) (*model.DirectPlcTag, error) {
 	if len(selection) == 0 {
 		return tag, nil
 	}
@@ -547,7 +555,7 @@ func (m *Connection) resolveSymbolicAddress(ctx context.Context, addressParts []
 				Range:      true,
 			})
 		}
-		plcValueType, stringLength := m.getPlcValueForAdsDataTypeTableEntry(curDataType)
+		plcValueType, stringLength := m.driverContext.getPlcValueForAdsDataTypeTableEntry(curDataType)
 		return &model.DirectPlcTag{
 			ArrayInfo:    arrayInfo,
 			IndexGroup:   indexGroup,
@@ -576,7 +584,7 @@ func (m *Connection) resolveSymbolicAddress(ctx context.Context, addressParts []
 		curAddressPart, curDataType.GetSecondaryName())
 }
 
-func (m *Connection) getPlcValueForAdsDataTypeTableEntry(entry readWriteModel.AdsDataTypeTableEntry) (apiValues.PlcValueType, int32) {
+func (m *DriverContext) getPlcValueForAdsDataTypeTableEntry(entry readWriteModel.AdsDataTypeTableEntry) (apiValues.PlcValueType, int32) {
 	stringLength := -1
 	// The main name carries the type's name ("BYTE", "STRING(80)", ...); the secondary
 	// name is only set for aliased types (matching the Java driver's use of getMainName()).
