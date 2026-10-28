@@ -31,6 +31,7 @@ import (
 	plc4go "github.com/apache/plc4x/plc4go/pkg/api"
 	apiModel "github.com/apache/plc4x/plc4go/pkg/api/model"
 	apiValues "github.com/apache/plc4x/plc4go/pkg/api/values"
+	readWriteModel "github.com/apache/plc4x/plc4go/protocols/canopen/readwrite/model"
 	"github.com/apache/plc4x/plc4go/spi"
 	"github.com/apache/plc4x/plc4go/spi/transports/socketcan"
 	"github.com/apache/plc4x/plc4go/spi/transports/virtualcan"
@@ -126,6 +127,18 @@ func TestSdoReadsAsPlc4jsDriverTestDescribes(t *testing.T) {
 	code, value = read(t, connection, "SDO:1:2000/44:RECORD")
 	require.Equal(t, apiModel.PlcResponseCode_OK, code)
 	assert.Equal(t, []byte("asdfasdf"), value.GetRaw(), "segmented")
+}
+
+// CiA 301 7.2.4.3.6: an expedited response may leave the size unindicated (e=1, s=0); the four bytes are the data.
+func TestSdoReadsAnExpeditedAnswerWithoutTheSize(t *testing.T) {
+	connection := connect(t, "sdo-unsized", "")
+	node := newTestNode(t, "sdo-unsized", 4, 4)
+	node.set(0x1017, 0, 0xE8, 0x03)
+	node.unsized[objectKey{0x1017, 0}] = true
+
+	code, value := read(t, connection, "SDO:4:0x1017/0:UNSIGNED16")
+	require.Equal(t, apiModel.PlcResponseCode_OK, code)
+	assert.Equal(t, uint16(1000), value.GetUint16())
 }
 
 func TestSdoReadsTheAnswerOfTheNodeTheAddressNames(t *testing.T) {
@@ -369,6 +382,23 @@ func TestNmtSubscriptionsGetTheCommandsForTheirNode(t *testing.T) {
 
 	master.send(0x000, 0x81, 0x00) // reset every node
 	assert.Equal(t, uint8(0x81), nextEvent(t, events).GetValue("node5").GetStruct()["state"].GetUint8())
+}
+
+// CiA 301 7.3.5: the EMCY of node n goes out at 0x080 + n and SYNC at 0x080. CANOpenService's value for EMCY (0b1101,
+// which would be 0x680 + n) never reaches the bus.
+func TestSyncAndEmergencyGoOutAtTheirCobIds(t *testing.T) {
+	connection := connect(t, "sync-emcy", "")
+	node := newTestNode(t, "sync-emcy", 1, 1)
+	driver, ok := connection.(*Connection)
+	require.True(t, ok)
+
+	require.NoError(t, driver.sendPayload(context.Background(), readWriteModel.CANOpenService_EMCY, 5,
+		readWriteModel.NewCANOpenEmergencyPayload(0x2310, 0x02, []byte{1, 2, 3, 4, 5})))
+	assert.Equal(t, frame{cobId: 0x085, data: []byte{0x10, 0x23, 0x02, 1, 2, 3, 4, 5}}, node.next(t))
+
+	require.NoError(t, driver.sendPayload(context.Background(), readWriteModel.CANOpenService_SYNC, 0,
+		readWriteModel.NewCANOpenSyncPayload()))
+	assert.Equal(t, frame{cobId: 0x080, data: []byte{}}, node.next(t))
 }
 
 func TestTheHeartbeatProducerAnnouncesTheConnection(t *testing.T) {
