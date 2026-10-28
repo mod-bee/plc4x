@@ -32,6 +32,7 @@ import org.apache.plc4x.java.canopen.readwrite.IndexAddress;
 import org.apache.plc4x.java.canopen.readwrite.SDOAbort;
 import org.apache.plc4x.java.canopen.readwrite.SDOAbortRequest;
 import org.apache.plc4x.java.canopen.readwrite.SDOAbortResponse;
+import org.apache.plc4x.java.canopen.readwrite.SDOInitiateExpeditedUnsizedUploadResponse;
 import org.apache.plc4x.java.canopen.readwrite.SDOInitiateExpeditedUploadResponse;
 import org.apache.plc4x.java.canopen.readwrite.SDOInitiateSegmentedUploadResponse;
 import org.apache.plc4x.java.canopen.readwrite.SDOInitiateUploadRequest;
@@ -124,6 +125,10 @@ public class SDOUploadConversation {
         if (answer.getExpedited() && answer.getIndicated()
             && answer.getPayload() instanceof SDOInitiateExpeditedUploadResponse) {
             SDOInitiateExpeditedUploadResponse payload = (SDOInitiateExpeditedUploadResponse) answer.getPayload();
+            completeWithValue(receiver, payload.getData(), payload.getData().length);
+        } else if (answer.getExpedited() && answer.getPayload() instanceof SDOInitiateExpeditedUnsizedUploadResponse) {
+            // e=1, s=0: the size is not indicated, so the four bytes are the data, and the type takes what it needs.
+            SDOInitiateExpeditedUnsizedUploadResponse payload = (SDOInitiateExpeditedUnsizedUploadResponse) answer.getPayload();
             completeWithValue(receiver, payload.getData(), payload.getData().length);
         } else if (answer.getPayload() instanceof SDOInitiateSegmentedUploadResponse) {
             SDOInitiateSegmentedUploadResponse segment = (SDOInitiateSegmentedUploadResponse) answer.getPayload();
