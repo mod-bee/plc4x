@@ -177,6 +177,24 @@ func (m *Connection) getGroupAddressNumLevels() uint8 {
 	return 3
 }
 
+// readsFromCache evaluates the "read-from-cache" connection option: by default (true) a
+// group address read is answered from the last value seen on the bus when there is one; false
+// sends every read to the bus as a GroupValueRead, for a client that wants the devices' own
+// answer - a refresh of an object which changes without sending its value.
+func (m *Connection) readsFromCache() bool {
+	if val, ok := m.options["read-from-cache"]; ok && len(val) > 0 {
+		switch strings.ToLower(strings.TrimSpace(val[0])) {
+		case "false", "no", "0":
+			return false
+		case "true", "yes", "1":
+			return true
+		default:
+			m.log.Warn().Str("read-from-cache", val[0]).Msg("Invalid value for read-from-cache, reading from the cache")
+		}
+	}
+	return true
+}
+
 // getTunnelConnectionType evaluates the "connection-type" connection option and
 // maps it to the KnxLayer used in the ConnectionRequest.
 // (Java: KnxNetIpConfiguration#connectionType)
