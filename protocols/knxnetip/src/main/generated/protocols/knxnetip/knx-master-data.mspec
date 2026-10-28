@@ -4374,7 +4374,7 @@
                 
                     [simple bit failure]
                 
-                    [simple uint 8 actualvalue]
+                    [manual   float 32 actualvalue 'STATIC_CALL("parseKnxScaled", readBuffer, 8, false, 100.0, 255.0)' 'STATIC_CALL("serializeKnxScaledField", writeBuffer, _value, "actualvalue", 8, false, 100.0, 255.0)' '8']
                 
         ]
     
@@ -4455,9 +4455,9 @@
            [reserved uint 8 '0x00']
 
                     
-                    [simple uint 16 timePeriod]
+                    [manual   float 32 timePeriod 'STATIC_CALL("parseKnxScaled", readBuffer, 16, false, 6553500.0, 65535.0)' 'STATIC_CALL("serializeKnxScaledField", writeBuffer, _value, "timePeriod", 16, false, 6553500.0, 65535.0)' '16']
                 
-                    [simple uint 8 percent]
+                    [manual   float 32 percent 'STATIC_CALL("parseKnxScaled", readBuffer, 8, false, 100.0, 255.0)' 'STATIC_CALL("serializeKnxScaledField", writeBuffer, _value, "percent", 8, false, 100.0, 255.0)' '8']
                 
         ]
     
@@ -4468,7 +4468,7 @@
                     
                     [simple uint 16 timePeriod]
                 
-                    [simple uint 8 percent]
+                    [manual   float 32 percent 'STATIC_CALL("parseKnxScaled", readBuffer, 8, false, 100.0, 255.0)' 'STATIC_CALL("serializeKnxScaledField", writeBuffer, _value, "percent", 8, false, 100.0, 255.0)' '8']
                 
         ]
     
@@ -4528,11 +4528,11 @@
            [reserved uint 8 '0x00']
 
                     
-                    [simple uint 8 h]
+                    [manual   float 32 h 'STATIC_CALL("parseKnxScaled", readBuffer, 8, false, 360.0, 255.0)' 'STATIC_CALL("serializeKnxScaledField", writeBuffer, _value, "h", 8, false, 360.0, 255.0)' '8']
                 
-                    [simple uint 8 s]
+                    [manual   float 32 s 'STATIC_CALL("parseKnxScaled", readBuffer, 8, false, 100.0, 255.0)' 'STATIC_CALL("serializeKnxScaledField", writeBuffer, _value, "s", 8, false, 100.0, 255.0)' '8']
                 
-                    [simple uint 8 v]
+                    [manual   float 32 v 'STATIC_CALL("parseKnxScaled", readBuffer, 8, false, 100.0, 255.0)' 'STATIC_CALL("serializeKnxScaledField", writeBuffer, _value, "v", 8, false, 100.0, 255.0)' '8']
                 
         ]
     
@@ -4611,9 +4611,9 @@
            [reserved uint 8 '0x00']
 
                     
-                    [simple uint 8 heightPosition]
+                    [manual   float 32 heightPosition 'STATIC_CALL("parseKnxScaled", readBuffer, 8, false, 100.0, 255.0)' 'STATIC_CALL("serializeKnxScaledField", writeBuffer, _value, "heightPosition", 8, false, 100.0, 255.0)' '8']
                 
-                    [simple uint 8 slatsPosition]
+                    [manual   float 32 slatsPosition 'STATIC_CALL("parseKnxScaled", readBuffer, 8, false, 100.0, 255.0)' 'STATIC_CALL("serializeKnxScaledField", writeBuffer, _value, "slatsPosition", 8, false, 100.0, 255.0)' '8']
                 
                     [reserved uint 6 '0x00']
                 
@@ -4628,9 +4628,9 @@
            [reserved uint 8 '0x00']
 
                     
-                    [simple uint 8 heightPosition]
+                    [manual   float 32 heightPosition 'STATIC_CALL("parseKnxScaled", readBuffer, 8, false, 100.0, 255.0)' 'STATIC_CALL("serializeKnxScaledField", writeBuffer, _value, "heightPosition", 8, false, 100.0, 255.0)' '8']
                 
-                    [simple uint 8 slatsPosition]
+                    [manual   float 32 slatsPosition 'STATIC_CALL("parseKnxScaled", readBuffer, 8, false, 100.0, 255.0)' 'STATIC_CALL("serializeKnxScaledField", writeBuffer, _value, "slatsPosition", 8, false, 100.0, 255.0)' '8']
                 
                     [simple bit upperEndPosReached]
                 
@@ -4753,11 +4753,11 @@
            [reserved uint 8 '0x00']
 
                     
-                    [simple uint 16 ms]
+                    [manual   float 32 ms 'STATIC_CALL("parseKnxScaled", readBuffer, 16, false, 6553500.0, 65535.0)' 'STATIC_CALL("serializeKnxScaledField", writeBuffer, _value, "ms", 16, false, 6553500.0, 65535.0)' '16']
                 
                     [simple uint 16 temperatureK]
                 
-                    [simple uint 8 percent]
+                    [manual   float 32 percent 'STATIC_CALL("parseKnxScaled", readBuffer, 8, false, 100.0, 255.0)' 'STATIC_CALL("serializeKnxScaledField", writeBuffer, _value, "percent", 8, false, 100.0, 255.0)' '8']
                 
                     [reserved uint 5 '0x00']
                 
@@ -4799,13 +4799,13 @@
            [reserved uint 8 '0x00']
 
                     
-                    [simple uint 8 colourLevelRed]
+                    [manual   float 32 colourLevelRed 'STATIC_CALL("parseKnxScaled", readBuffer, 8, false, 100.0, 255.0)' 'STATIC_CALL("serializeKnxScaledField", writeBuffer, _value, "colourLevelRed", 8, false, 100.0, 255.0)' '8']
                 
-                    [simple uint 8 colourLevelGreen]
+                    [manual   float 32 colourLevelGreen 'STATIC_CALL("parseKnxScaled", readBuffer, 8, false, 100.0, 255.0)' 'STATIC_CALL("serializeKnxScaledField", writeBuffer, _value, "colourLevelGreen", 8, false, 100.0, 255.0)' '8']
                 
-                    [simple uint 8 colourLevelBlue]
+                    [manual   float 32 colourLevelBlue 'STATIC_CALL("parseKnxScaled", readBuffer, 8, false, 100.0, 255.0)' 'STATIC_CALL("serializeKnxScaledField", writeBuffer, _value, "colourLevelBlue", 8, false, 100.0, 255.0)' '8']
                 
-                    [simple uint 8 colourLevelWhite]
+                    [manual   float 32 colourLevelWhite 'STATIC_CALL("parseKnxScaled", readBuffer, 8, false, 100.0, 255.0)' 'STATIC_CALL("serializeKnxScaledField", writeBuffer, _value, "colourLevelWhite", 8, false, 100.0, 255.0)' '8']
                 
                     [reserved uint 8 '0x00']
                 

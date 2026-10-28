@@ -86,3 +86,52 @@ func TestKnxDatapoint_structsKeepEveryField(t *testing.T) {
 		})
 	}
 }
+
+// TestKnxDatapoint_structFieldsWithACoefficientAreScaled: a field of a composite type with a
+// coefficient in the KNX master data is its scaled value, as a single one is (KNX Standard 3.7.2:
+// 232.601 HSV is hue 0..360 degrees and saturation and value 0..100 %, 251.600 RGBW four levels
+// 0..100 % and a validity bit each). They used to be the raw byte.
+func TestKnxDatapoint_structFieldsWithACoefficientAreScaled(t *testing.T) {
+	for _, c := range []struct {
+		name    string
+		dpt     driverModel.KnxDatapointType
+		payload []byte
+		scaled  map[string]float64
+		bits    map[string]bool
+	}{
+		{
+			name: "DPT_Colour_HSV", dpt: driverModel.KnxDatapointType_DPT_Colour_HSV,
+			payload: []byte{0x00, 0x33, 0x33, 0xFF},
+			scaled:  map[string]float64{"h": 72, "s": 20, "v": 100},
+		},
+		{
+			name: "DPT_Colour_RGBW", dpt: driverModel.KnxDatapointType_DPT_Colour_RGBW,
+			payload: []byte{0x00, 0xFF, 0x33, 0x00, 0x66, 0x00, 0x0B},
+			scaled:  map[string]float64{"colourLevelRed": 100, "colourLevelGreen": 20, "colourLevelBlue": 0, "colourLevelWhite": 40},
+			bits:    map[string]bool{"mr": true, "mg": false, "mb": true, "mw": true},
+		},
+	} {
+		t.Run(c.name, func(t *testing.T) {
+			value, err := driverModel.KnxDatapointParseWithBuffer(context.Background(), utils.NewReadBufferByteBased(c.payload), c.dpt)
+			require.NoError(t, err)
+			fields := map[string]apiValues.PlcValue{}
+			for name, want := range c.scaled {
+				field := value.GetValue(name)
+				require.NotNil(t, field, name)
+				assert.InDelta(t, want, field.GetFloat64(), 0.001, name)
+				fields[name] = spiValues.NewPlcLREAL(want)
+			}
+			for name, want := range c.bits {
+				assert.Equal(t, want, value.GetValue(name).GetBool(), name)
+				fields[name] = spiValues.NewPlcBOOL(want)
+			}
+			serialized, err := driverModel.KnxDatapointSerialize(spiValues.NewPlcStruct(fields), c.dpt)
+			require.NoError(t, err)
+			assert.Equal(t, c.payload, serialized)
+		})
+	}
+	_, err := driverModel.KnxDatapointSerialize(spiValues.NewPlcStruct(map[string]apiValues.PlcValue{
+		"h": spiValues.NewPlcLREAL(361), "s": spiValues.NewPlcLREAL(0), "v": spiValues.NewPlcLREAL(0),
+	}), driverModel.KnxDatapointType_DPT_Colour_HSV)
+	assert.Error(t, err, "a hue of 361 degrees is out of range")
+}

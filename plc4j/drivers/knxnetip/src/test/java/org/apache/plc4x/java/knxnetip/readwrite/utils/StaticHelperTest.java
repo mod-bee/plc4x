@@ -76,4 +76,31 @@ class StaticHelperTest {
         assertEquals(-2.0, parse(KnxDatapointType.DPT_Percent_V16, (byte) 0x00, (byte) 0xFF, (byte) 0x38).getDouble(), 0.001);
         assertArrayEquals(new byte[]{0x00, (byte) 0xFF, (byte) 0x38}, serialize(KnxDatapointType.DPT_Percent_V16, -2));
     }
+
+    /**
+     * A field of a composite type with a coefficient is scaled as a single value is: 232.601 HSV is hue
+     * 0..360 degrees, saturation and value 0..100 %; 251.600 RGBW four levels 0..100 % and a validity bit each.
+     */
+    @Test
+    void structFieldsAreScaled() throws Exception {
+        PlcValue hsv = parse(KnxDatapointType.DPT_Colour_HSV, (byte) 0x00, (byte) 0x33, (byte) 0x33, (byte) 0xFF);
+        assertEquals(72.0, hsv.getValue("h").getDouble(), 0.001);
+        assertEquals(20.0, hsv.getValue("s").getDouble(), 0.001);
+        assertEquals(100.0, hsv.getValue("v").getDouble(), 0.001);
+        assertArrayEquals(new byte[]{0x00, 0x33, 0x33, (byte) 0xFF}, serializeStruct(KnxDatapointType.DPT_Colour_HSV, hsv));
+
+        byte[] rgbw = {0x00, (byte) 0xFF, 0x33, 0x00, 0x66, 0x00, 0x0B};
+        PlcValue value = parse(KnxDatapointType.DPT_Colour_RGBW, rgbw);
+        assertEquals(100.0, value.getValue("colourLevelRed").getDouble(), 0.001);
+        assertEquals(40.0, value.getValue("colourLevelWhite").getDouble(), 0.001);
+        assertTrue(value.getValue("mr").getBoolean());
+        assertFalse(value.getValue("mg").getBoolean());
+        assertArrayEquals(rgbw, serializeStruct(KnxDatapointType.DPT_Colour_RGBW, value));
+    }
+
+    private static byte[] serializeStruct(KnxDatapointType type, PlcValue value) throws BufferException {
+        WriteBufferByteBased wb = new WriteBufferByteBased(new byte[16], OPTIONS);
+        KnxDatapoint.staticSerialize(wb, value, type);
+        return Arrays.copyOf(wb.getBytes(), (wb.getPositionInBits() + 7) / 8);
+    }
 }
