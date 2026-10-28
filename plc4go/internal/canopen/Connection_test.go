@@ -274,6 +274,21 @@ func TestSdoTransfersAtOnceEachGetTheirAnswer(t *testing.T) {
 	wg.Wait()
 }
 
+// plc4j's CANOpenDriverNMTIT: writing PRE_OPERATIONAL (128) to NMT:1 sends the NMT command 0x80 for node 1 on COB-ID
+// 0 (CiA 301 7.2.8.3.1).
+func TestNmtWritesSendTheCommandAsPlc4jsDriverTestDescribes(t *testing.T) {
+	connection := connect(t, "nmt-write", "?node-id=15")
+	node := newTestNode(t, "nmt-write", 1, 1)
+
+	assert.Equal(t, apiModel.PlcResponseCode_OK, write(t, connection, "NMT:1", uint8(128)))
+	assert.Equal(t, frame{cobId: 0x000, data: []byte{0x80, 0x01}}, node.next(t))
+
+	assert.Equal(t, apiModel.PlcResponseCode_OK, write(t, connection, "NMT", "START"))
+	assert.Equal(t, frame{cobId: 0x000, data: []byte{0x01, 0x00}}, node.next(t), "node 0 is every node")
+
+	assert.Equal(t, apiModel.PlcResponseCode_INVALID_DATA, write(t, connection, "NMT:1", uint8(3)), "3 is no NMT command")
+}
+
 func TestPdoWritesSendTheValueAsThePdosData(t *testing.T) {
 	connection := connect(t, "pdo-write", "")
 	node := newTestNode(t, "pdo-write", 3, 3)

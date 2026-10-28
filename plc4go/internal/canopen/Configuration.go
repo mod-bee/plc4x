@@ -20,7 +20,8 @@
 // Package canopen is the CANopen driver, as plc4j's canopen (drivers/canopen): CiA 301 over the CAN transports.
 //
 //   - read: an SDO upload (expedited or segmented) from a node's object dictionary, as plc4j does;
-//   - write: an SDO download (expedited or segmented) or a PDO, as plc4j does;
+//   - write: an SDO download (expedited or segmented) or a PDO, as plc4j does; and an NMT command (the node control
+//     plc4j's NMT driver test describes);
 //   - subscribe: PDOs, NMT commands and heartbeats, as plc4j does.
 //
 // Connection strings: canopen:can-socketcan://can0 (Linux) and canopen:can-virtualcan://test (in process).
