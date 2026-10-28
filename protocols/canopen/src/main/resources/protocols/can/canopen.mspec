@@ -194,6 +194,11 @@
             [array byte data count '4 - size']
             [padding uint 8 alignment '0x00' '4 - COUNT(data)']
         ]
+        // CiA 301 7.2.4.3.3 and 7.2.4.3.6: expedited without the size indicated; the four bytes are the data, as many of
+        // them as the object takes.
+        ['true', 'false' SDOInitiateExpeditedUnsizedUploadResponse
+            [array byte data count '4']
+        ]
         ['false', 'true' SDOInitiateSegmentedUploadResponse
             [simple uint 32 bytes]
         ]

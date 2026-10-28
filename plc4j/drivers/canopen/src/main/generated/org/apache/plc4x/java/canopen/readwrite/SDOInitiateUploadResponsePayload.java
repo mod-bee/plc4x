@@ -54,6 +54,8 @@ public abstract class SDOInitiateUploadResponsePayload implements Message {
     SDOInitiateUploadResponsePayloadBuilder builder = null;
     if (EvaluationHelper.equals(expedited, (boolean) (true)) && EvaluationHelper.equals(indicated, (boolean) (true))) {
       builder = SDOInitiateExpeditedUploadResponse.staticParseSDOInitiateUploadResponsePayloadBuilder(readBuffer, expedited, indicated, size);
+    } else if (EvaluationHelper.equals(expedited, (boolean) (true)) && EvaluationHelper.equals(indicated, (boolean) (false))) {
+      builder = SDOInitiateExpeditedUnsizedUploadResponse.staticParseSDOInitiateUploadResponsePayloadBuilder(readBuffer, expedited, indicated, size);
     } else if (EvaluationHelper.equals(expedited, (boolean) (false)) && EvaluationHelper.equals(indicated, (boolean) (true))) {
       builder = SDOInitiateSegmentedUploadResponse.staticParseSDOInitiateUploadResponsePayloadBuilder(readBuffer, expedited, indicated, size);
     } else if (EvaluationHelper.equals(expedited, (boolean) (false)) && EvaluationHelper.equals(indicated, (boolean) (false))) {
