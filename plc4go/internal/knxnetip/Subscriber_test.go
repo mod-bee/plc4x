@@ -325,3 +325,33 @@ func Test_Subscriber_consumerMapRace(t *testing.T) {
 	})
 	wg.Wait()
 }
+
+// Test_Subscriber_handleValueChange_matchesInTheTagsOwnNotation: 1/2/3 (three levels), 1/515 (two
+// levels) and 2563 (free) are one group address. Each tag used to be matched in the connection's
+// notation (three levels by default), so a two-level or free tag never got an event.
+func Test_Subscriber_handleValueChange_matchesInTheTagsOwnNotation(t *testing.T) {
+	connection := newSubscriberTestConnection(t)
+	subscriber := NewSubscriber(connection, options.WithCustomLogger(testutils.ProduceTestingLogger(t)))
+	handles := subscribe(t, connection, subscriber, apiModel.SubscriptionEvent, map[string]string{
+		"three": "1/2/3:DPT_Switch",
+		"two":   "1/515:DPT_Switch",
+		"free":  "2563:DPT_Switch",
+		"other": "1/516:DPT_Switch",
+	})
+
+	var events sync.Map
+	for name, handle := range handles {
+		handle.Register(func(event apiModel.PlcSubscriptionEvent) {
+			assert.True(t, event.GetValue(name).GetBool(), name)
+			events.Store(name, true)
+		})
+	}
+
+	subscriber.handleValueChange(t.Context(), groupAddress123, switchPayload, true)
+	for _, name := range []string{"three", "two", "free"} {
+		_, ok := events.Load(name)
+		assert.True(t, ok, "%s got the event", name)
+	}
+	_, ok := events.Load("other")
+	assert.False(t, ok, "1/516 is another group address")
+}
