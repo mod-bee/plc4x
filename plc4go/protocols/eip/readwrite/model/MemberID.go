@@ -42,9 +42,17 @@ type MemberID interface {
 	utils.Copyable
 	LogicalSegmentType
 	// GetFormat returns Format (property field)
+	// The member (an array element) in 8 bits (format 0), or after a pad octet in 16 bits (1) or 32 bits
+	// (2), as a padded EPATH carries them (CIP Vol 1 C-1.4.2): 28 nn, 29 00 nn nn, 2A 00 nn nn nn nn.
 	GetFormat() uint8
 	// GetInstance returns Instance (property field)
-	GetInstance() uint8
+	GetInstance() *uint8
+	// GetPad returns Pad (property field)
+	GetPad() *uint8
+	// GetInstance16 returns Instance16 (property field)
+	GetInstance16() *uint16
+	// GetInstance32 returns Instance32 (property field)
+	GetInstance32() *uint32
 	// IsMemberID is a marker method to prevent unintentional type checks (interfaces of same signature)
 	IsMemberID()
 	// CreateBuilder creates a MemberIDBuilder
@@ -54,19 +62,25 @@ type MemberID interface {
 // _MemberID is the data-structure of this message
 type _MemberID struct {
 	LogicalSegmentTypeContract
-	Format   uint8
-	Instance uint8
+	Format     uint8
+	Instance   *uint8
+	Pad        *uint8
+	Instance16 *uint16
+	Instance32 *uint32
 }
 
 var _ MemberID = (*_MemberID)(nil)
 var _ LogicalSegmentTypeRequirements = (*_MemberID)(nil)
 
 // NewMemberID factory function for _MemberID
-func NewMemberID(format uint8, instance uint8) *_MemberID {
+func NewMemberID(format uint8, instance *uint8, pad *uint8, instance16 *uint16, instance32 *uint32) *_MemberID {
 	_result := &_MemberID{
 		LogicalSegmentTypeContract: NewLogicalSegmentType(),
 		Format:                     format,
 		Instance:                   instance,
+		Pad:                        pad,
+		Instance16:                 instance16,
+		Instance32:                 instance32,
 	}
 	_result.LogicalSegmentTypeContract.(*_LogicalSegmentType)._SubType = _result
 	return _result
@@ -81,11 +95,17 @@ func NewMemberID(format uint8, instance uint8) *_MemberID {
 type MemberIDBuilder interface {
 	utils.Copyable
 	// WithMandatoryFields adds all mandatory fields (convenience for using multiple builder calls)
-	WithMandatoryFields(format uint8, instance uint8) MemberIDBuilder
+	WithMandatoryFields(format uint8) MemberIDBuilder
 	// WithFormat adds Format (property field)
 	WithFormat(uint8) MemberIDBuilder
 	// WithInstance adds Instance (property field)
-	WithInstance(uint8) MemberIDBuilder
+	WithOptionalInstance(uint8) MemberIDBuilder
+	// WithPad adds Pad (property field)
+	WithOptionalPad(uint8) MemberIDBuilder
+	// WithInstance16 adds Instance16 (property field)
+	WithOptionalInstance16(uint16) MemberIDBuilder
+	// WithInstance32 adds Instance32 (property field)
+	WithOptionalInstance32(uint32) MemberIDBuilder
 	// Done is used to finish work on this child and return (or create one if none) to the parent builder
 	Done() LogicalSegmentTypeBuilder
 	// Build builds the MemberID or returns an error if something is wrong
@@ -114,8 +134,8 @@ func (b *_MemberIDBuilder) setParent(contract LogicalSegmentTypeContract) {
 	contract.(*_LogicalSegmentType)._SubType = b._MemberID
 }
 
-func (b *_MemberIDBuilder) WithMandatoryFields(format uint8, instance uint8) MemberIDBuilder {
-	return b.WithFormat(format).WithInstance(instance)
+func (b *_MemberIDBuilder) WithMandatoryFields(format uint8) MemberIDBuilder {
+	return b.WithFormat(format)
 }
 
 func (b *_MemberIDBuilder) WithFormat(format uint8) MemberIDBuilder {
@@ -123,8 +143,23 @@ func (b *_MemberIDBuilder) WithFormat(format uint8) MemberIDBuilder {
 	return b
 }
 
-func (b *_MemberIDBuilder) WithInstance(instance uint8) MemberIDBuilder {
-	b.Instance = instance
+func (b *_MemberIDBuilder) WithOptionalInstance(instance uint8) MemberIDBuilder {
+	b.Instance = &instance
+	return b
+}
+
+func (b *_MemberIDBuilder) WithOptionalPad(pad uint8) MemberIDBuilder {
+	b.Pad = &pad
+	return b
+}
+
+func (b *_MemberIDBuilder) WithOptionalInstance16(instance16 uint16) MemberIDBuilder {
+	b.Instance16 = &instance16
+	return b
+}
+
+func (b *_MemberIDBuilder) WithOptionalInstance32(instance32 uint32) MemberIDBuilder {
+	b.Instance32 = &instance32
 	return b
 }
 
@@ -202,8 +237,20 @@ func (m *_MemberID) GetFormat() uint8 {
 	return m.Format
 }
 
-func (m *_MemberID) GetInstance() uint8 {
+func (m *_MemberID) GetInstance() *uint8 {
 	return m.Instance
+}
+
+func (m *_MemberID) GetPad() *uint8 {
+	return m.Pad
+}
+
+func (m *_MemberID) GetInstance16() *uint16 {
+	return m.Instance16
+}
+
+func (m *_MemberID) GetInstance32() *uint32 {
+	return m.Instance32
 }
 
 ///////////////////////
@@ -232,8 +279,25 @@ func (m *_MemberID) GetLengthInBits(ctx context.Context) uint64 {
 	// Simple field (format)
 	lengthInBits += 2
 
-	// Simple field (instance)
-	lengthInBits += 8
+	// Optional Field (instance)
+	if m.Instance != nil {
+		lengthInBits += 8
+	}
+
+	// Optional Field (pad)
+	if m.Pad != nil {
+		lengthInBits += 8
+	}
+
+	// Optional Field (instance16)
+	if m.Instance16 != nil {
+		lengthInBits += 16
+	}
+
+	// Optional Field (instance32)
+	if m.Instance32 != nil {
+		lengthInBits += 32
+	}
 
 	return lengthInBits
 }
@@ -259,11 +323,33 @@ func (m *_MemberID) parse(ctx context.Context, readBuffer utils.ReadBuffer, pare
 	}
 	m.Format = format
 
-	instance, err := ReadSimpleField(ctx, "instance", ReadUnsignedByte(readBuffer, uint8(8)))
+	var instance *uint8
+	instance, err = ReadOptionalField[uint8](ctx, "instance", ReadUnsignedByte(readBuffer, uint8(8)), bool((format) == (0)))
 	if err != nil {
 		return nil, errors.Wrap(err, fmt.Sprintf("Error parsing 'instance' field"))
 	}
 	m.Instance = instance
+
+	var pad *uint8
+	pad, err = ReadOptionalField[uint8](ctx, "pad", ReadUnsignedByte(readBuffer, uint8(8)), bool((format) != (0)))
+	if err != nil {
+		return nil, errors.Wrap(err, fmt.Sprintf("Error parsing 'pad' field"))
+	}
+	m.Pad = pad
+
+	var instance16 *uint16
+	instance16, err = ReadOptionalField[uint16](ctx, "instance16", ReadUnsignedShort(readBuffer, uint8(16)), bool((format) == (1)))
+	if err != nil {
+		return nil, errors.Wrap(err, fmt.Sprintf("Error parsing 'instance16' field"))
+	}
+	m.Instance16 = instance16
+
+	var instance32 *uint32
+	instance32, err = ReadOptionalField[uint32](ctx, "instance32", ReadUnsignedInt(readBuffer, uint8(32)), bool((format) == (2)))
+	if err != nil {
+		return nil, errors.Wrap(err, fmt.Sprintf("Error parsing 'instance32' field"))
+	}
+	m.Instance32 = instance32
 
 	if closeErr := readBuffer.CloseContext("MemberID"); closeErr != nil {
 		return nil, errors.Wrap(closeErr, "Error closing for MemberID")
@@ -294,8 +380,20 @@ func (m *_MemberID) SerializeWithWriteBuffer(ctx context.Context, writeBuffer ut
 			return errors.Wrap(err, "Error serializing 'format' field")
 		}
 
-		if err := WriteSimpleField[uint8](ctx, "instance", m.GetInstance(), WriteUnsignedByte(writeBuffer, 8)); err != nil {
+		if err := WriteOptionalField[uint8](ctx, "instance", m.GetInstance(), WriteUnsignedByte(writeBuffer, 8), true); err != nil {
 			return errors.Wrap(err, "Error serializing 'instance' field")
+		}
+
+		if err := WriteOptionalField[uint8](ctx, "pad", m.GetPad(), WriteUnsignedByte(writeBuffer, 8), true); err != nil {
+			return errors.Wrap(err, "Error serializing 'pad' field")
+		}
+
+		if err := WriteOptionalField[uint16](ctx, "instance16", m.GetInstance16(), WriteUnsignedShort(writeBuffer, 16), true); err != nil {
+			return errors.Wrap(err, "Error serializing 'instance16' field")
+		}
+
+		if err := WriteOptionalField[uint32](ctx, "instance32", m.GetInstance32(), WriteUnsignedInt(writeBuffer, 32), true); err != nil {
+			return errors.Wrap(err, "Error serializing 'instance32' field")
 		}
 
 		if popErr := writeBuffer.PopContext("MemberID"); popErr != nil {
@@ -319,7 +417,10 @@ func (m *_MemberID) deepCopy() *_MemberID {
 	_MemberIDCopy := &_MemberID{
 		m.LogicalSegmentTypeContract.(*_LogicalSegmentType).deepCopy(),
 		m.Format,
-		m.Instance,
+		utils.CopyPtr[uint8](m.Instance),
+		utils.CopyPtr[uint8](m.Pad),
+		utils.CopyPtr[uint16](m.Instance16),
+		utils.CopyPtr[uint32](m.Instance32),
 	}
 	_MemberIDCopy.LogicalSegmentTypeContract.(*_LogicalSegmentType)._SubType = m
 	return _MemberIDCopy

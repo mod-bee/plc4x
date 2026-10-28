@@ -81,3 +81,39 @@ func TestNextSequenceCount(t *testing.T) {
 	assert.Equal(t, uint16(1), state.nextSequenceCount())
 	assert.Equal(t, uint16(2), state.nextSequenceCount())
 }
+
+// The default route takes the configured backplane port, not a fixed 1.
+func TestBuildRoutingAddressDefaultUsesTheBackplanePort(t *testing.T) {
+	segments, _ := buildRoutingAddress(zerolog.Nop(), Configuration{backplane: 3, slot: 2})
+	normal := segments[0].(readWriteModel.PortSegment).GetSegmentType().(readWriteModel.PortSegmentNormal)
+	assert.Equal(t, uint8(3), normal.GetPort())
+	assert.Equal(t, uint8(2), normal.GetLinkAddress())
+}
+
+// A numeric link on a network port is a node number (ControlNet, DH+, or a CPU on port 2), carried as a normal
+// port segment; only an IP address is an extended one.
+func TestBuildRoutingAddressANumericLinkIsANode(t *testing.T) {
+	segments, pathSize := buildRoutingAddress(zerolog.Nop(), Configuration{communicationPath: "2,5"})
+	require.Len(t, segments, 3)
+	normal, ok := segments[0].(readWriteModel.PortSegment).GetSegmentType().(readWriteModel.PortSegmentNormal)
+	require.True(t, ok, "2,5 is node 5 on port 2, not an address \"5\"")
+	assert.Equal(t, uint8(2), normal.GetPort())
+	assert.Equal(t, uint8(5), normal.GetLinkAddress())
+	assert.Equal(t, uint8(3), pathSize, "02 05 | 20 02 | 24 01")
+}
+
+// "none" is no route: the connection path is the Message Router alone (a Micro800, reached on its own port).
+func TestBuildRoutingAddressNone(t *testing.T) {
+	segments, pathSize := buildRoutingAddress(zerolog.Nop(), Configuration{communicationPath: "none"})
+	require.Len(t, segments, 2, "ClassID 2 and InstanceID 1 only")
+	assert.Equal(t, uint8(2), pathSize, "20 02 | 24 01")
+}
+
+// A port past the backplane and the first network port is a port all the same.
+func TestBuildRoutingAddressAnyPort(t *testing.T) {
+	segments, _ := buildRoutingAddress(zerolog.Nop(), Configuration{communicationPath: "1,2,3,10.0.0.5,1,0"})
+	require.Len(t, segments, 5)
+	extended := segments[1].(readWriteModel.PortSegment).GetSegmentType().(readWriteModel.PortSegmentExtended)
+	assert.Equal(t, uint8(3), extended.GetPort())
+	assert.Equal(t, "10.0.0.5", extended.GetAddress())
+}

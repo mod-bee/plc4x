@@ -30,6 +30,8 @@ import org.apache.plc4x.java.eip.base.configuration.EIPConfiguration;
 import org.apache.plc4x.java.eip.base.tag.EipTag;
 import org.apache.plc4x.java.eip.base.tag.EipTagHandler;
 import org.apache.plc4x.java.eip.readwrite.*;
+import org.apache.plc4x.java.spi.buffers.bytebased.WithByteBasedOption;
+import org.apache.plc4x.java.spi.buffers.api.WithOption;
 import org.apache.plc4x.java.spi.buffers.api.exceptions.BufferException;
 import org.apache.plc4x.java.spi.buffers.bytebased.ReadBufferByteBased;
 import org.apache.plc4x.java.spi.buffers.bytebased.WriteBufferByteBased;
@@ -110,33 +112,8 @@ public class EipTcpConnection extends PollingSubscriptionConnectionBase<EIPConfi
     }
 
     private void initRoutingAddress() {
-        if (configuration.getCommunicationPath() != null) {
-            String[] splitConnectionPath = configuration.getCommunicationPath().split(",");
-            if (splitConnectionPath.length % 2 == 0) {
-                for (int i = 0; (i + 1) < splitConnectionPath.length; i += 2) {
-                    switch (splitConnectionPath[i]) {
-                        case "1":
-                            int backplanePortId = Integer.parseInt(splitConnectionPath[i]);
-                            int slot = Integer.parseInt(splitConnectionPath[i + 1]);
-                            routingAddress.add(new PortSegment(new PortSegmentNormal((byte) backplanePortId, (short) slot)));
-                            break;
-                        case "2":
-                            int ethernetPortId = Integer.parseInt(splitConnectionPath[i]);
-                            String ipAddress = splitConnectionPath[i + 1];
-                            int lengthString = ipAddress.length();
-                            if ((ipAddress.length() % 2) != 0) {
-                                ipAddress += "\0";
-                            }
-                            routingAddress.add(new PortSegment(new PortSegmentExtended((byte) ethernetPortId, (short) lengthString, ipAddress)));
-                            break;
-                        default:
-                            LOGGER.error("Only backplane or Ethernet module routing is supported");
-                    }
-                }
-            }
-        } else {
-            routingAddress.add(new PortSegment(new PortSegmentNormal((byte) 1, (short) configuration.getSlot())));
-        }
+        routingAddress.addAll(CommunicationPath.portSegments(
+            configuration.getCommunicationPath(), configuration.getBackplane(), configuration.getSlot()));
         routingAddress.add(new LogicalSegment(new ClassID((byte) 0, (short) 2)));
         routingAddress.add(new LogicalSegment(new InstanceID((byte) 0, (short) 1)));
 
@@ -908,14 +885,36 @@ public class EipTcpConnection extends PollingSubscriptionConnectionBase<EIPConfi
      * Serializes the CIP path of a tag: one segment per member, in the order the address names
      * them. The address was decomposed when the tag was built, so this does no parsing.
      */
+    /**
+     * The member segment of an array element: 8 bits up to 255 (28 nn), 16 bits up to 65535 (29 00 nn nn), 32 bits
+     * past that (2A 00 nn nn nn nn), as a padded EPATH carries them.
+     */
+    static MemberID memberId(long index) {
+        if (index <= 0xFF) {
+            return new MemberID((byte) 0, (short) index, null, null, null);
+        }
+        if (index <= 0xFFFF) {
+            return new MemberID((byte) 1, null, (short) 0, (int) index, null);
+        }
+        return new MemberID((byte) 2, null, (short) 0, null, index);
+    }
+
     private byte[] toAnsi(EipTag tag) throws BufferException {
-        List<EipTag.PathElement> elements = tag.getPathElements();
+        return cipPath(tag.getPathElements());
+    }
+
+    /**
+     * The CIP path of a tag's members. A CIP path is little-endian on the wire, whatever byte order the connection's
+     * buffers are set to: a member segment past 255 carries 16 or 32 bits, and in a big-endian buffer element 256
+     * would go out as 29 00 01 00 - element 1.
+     */
+    static byte[] cipPath(List<EipTag.PathElement> elements) throws BufferException {
         List<PathSegment> segments = new ArrayList<>(elements.size());
         int lengthBytes = 0;
         for (EipTag.PathElement element : elements) {
             PathSegment segment;
-            if (element instanceof EipTag.MemberElement(short index)) {
-                segment = new LogicalSegment(new MemberID((byte) 0x00, index));
+            if (element instanceof EipTag.MemberElement(long index)) {
+                segment = new LogicalSegment(memberId(index));
             } else {
                 String name = ((EipTag.SymbolElement) element).name();
                 segment = new DataSegment(new AnsiExtendedSymbolSegment(name,
@@ -924,7 +923,11 @@ public class EipTcpConnection extends PollingSubscriptionConnectionBase<EIPConfi
             segments.add(segment);
             lengthBytes += segment.getLengthInBytes();
         }
-        WriteBufferByteBased buffer = messageCodec.createWriteBuffer(lengthBytes);
+        WriteBufferByteBased buffer = new WriteBufferByteBased(new byte[lengthBytes],
+            WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"),
+            WithOption.WithUnsignedIntegerEncoding("unsigned-binary"),
+            WithOption.WithSignedIntegerEncoding("twos-complement"),
+            WithOption.WithStringEncoding("UTF8"));
         for (PathSegment segment : segments) {
             segment.serialize(buffer);
         }

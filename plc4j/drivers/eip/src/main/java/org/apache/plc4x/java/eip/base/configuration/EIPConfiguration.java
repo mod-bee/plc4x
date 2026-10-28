@@ -64,10 +64,11 @@ public class EIPConfiguration implements Configuration {
     @ConfigurationParameter("communication-path")
     @Description("The communication path allows for connection routing across multiple backplanes. " +
         "It uses a common format found in Logix controllers.\n" +
-        "It consists of pairs of values, each pair begins with either 1 (Backplane) or 2 (Ethernet), " +
-        "followed by a slot in the case of a backplane address, or if using Ethernet an ip address. " +
+        "It consists of pairs of values: a port (1-14: 1 the backplane, 2 or 3 a module's network port), " +
+        "followed by its link - a slot or node number (0-255), or an IPv4 address. " +
         "e.g. [1,4,2,192.168.0.1,1,1] - Routes to the 4th slot in the first rack, which is an Ethernet " +
-        "module, it then connects to the address 192.168.0.1, then finds the module in slot 1.")
+        "module, it then connects to the address 192.168.0.1, then finds the module in slot 1. " +
+        "'none' is no route, for a controller reached on its own port (a Micro800).")
     private String communicationPath;
 
     public int getBackplane() {
