@@ -68,9 +68,11 @@ import (
 
 	"github.com/apache/plc4x/plc4go/internal/abeth"
 	"github.com/apache/plc4x/plc4go/internal/bacnetip"
+	"github.com/apache/plc4x/plc4go/internal/canopen"
 	"github.com/apache/plc4x/plc4go/internal/cbus"
 	"github.com/apache/plc4x/plc4go/internal/eip"
 	"github.com/apache/plc4x/plc4go/internal/firmata"
+	"github.com/apache/plc4x/plc4go/internal/genericcan"
 	"github.com/apache/plc4x/plc4go/internal/iec608705104"
 	"github.com/apache/plc4x/plc4go/internal/modbus"
 	"github.com/apache/plc4x/plc4go/internal/opcua"
@@ -159,6 +161,14 @@ var comparedDrivers = map[string]comparedDriver{
 		parse:       wrap(firmata.ParseFromOptions),
 		notReadHere: map[string]string{},
 	},
+	"can": {
+		parse:       wrap(genericcan.ParseFromOptions),
+		notReadHere: map[string]string{},
+	},
+	"canopen": {
+		parse:       wrap(canopen.ParseFromOptions),
+		notReadHere: map[string]string{},
+	},
 	"iec-60870": {
 		parse:       wrap(iec608705104.ParseFromOptions),
 		notReadHere: map[string]string{},
@@ -236,8 +246,6 @@ var comparedDrivers = map[string]comparedDriver{
 var notCompared = map[string]string{
 	"ads":           "plc4go's ads driver parses its options without an OptionReader, so it reports nothing as unknown and the probe below could not tell a read option from an ignored one",
 	"knxnetip":      "plc4go's knxnetip driver has no connection-option parsing at all, so it reads none of the five options plc4j declares",
-	"can":           "no plc4go driver",
-	"canopen":       "no plc4go driver",
 	"ctrlx":         "no plc4go driver",
 	"open-protocol": "no plc4go driver",
 	"plc4x":         "no plc4go driver",

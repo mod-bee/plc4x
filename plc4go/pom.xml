@@ -141,6 +141,15 @@
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.apache.plc4x</groupId>
+                  <artifactId>plc4x-protocols-canopen</artifactId>
+                  <classifier>tests</classifier>
+                  <type>test-jar</type>
+                  <outputDirectory>${project.basedir}/assets/testing</outputDirectory>
+                  <includes>**/*.xml</includes>
+                  <excludes>META-INF/**</excludes>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.apache.plc4x</groupId>
                   <artifactId>plc4x-protocols-ab-eth</artifactId>
                   <classifier>tests</classifier>
                   <type>test-jar</type>
@@ -536,6 +545,14 @@
     </dependency>
     <dependency>
       <groupId>org.apache.plc4x</groupId>
+      <artifactId>plc4x-protocols-canopen</artifactId>
+      <version>1.1.0-SNAPSHOT</version>
+      <type>test-jar</type>
+      <!-- Scope is 'provided' as this way it's not shipped with the driver -->
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.plc4x</groupId>
       <artifactId>plc4x-protocols-simulated</artifactId>
       <version>1.1.0-SNAPSHOT</version>
       <type>test-jar</type>
@@ -624,6 +641,45 @@
                 </goals>
                 <configuration>
                   <protocolName>iec-60870-5-104</protocolName>
+                  <languageName>go</languageName>
+                  <outputFlavor>read-write</outputFlavor>
+                  <outputDir>${project.basedir}/protocols</outputDir>
+                </configuration>
+              </execution>
+              <execution>
+                <id>generate-driver-socketcan</id>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>generate-driver</goal>
+                </goals>
+                <configuration>
+                  <protocolName>socketcan</protocolName>
+                  <languageName>go</languageName>
+                  <outputFlavor>read-write</outputFlavor>
+                  <outputDir>${project.basedir}/protocols</outputDir>
+                </configuration>
+              </execution>
+              <execution>
+                <id>generate-driver-genericcan</id>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>generate-driver</goal>
+                </goals>
+                <configuration>
+                  <protocolName>genericcan</protocolName>
+                  <languageName>go</languageName>
+                  <outputFlavor>read-write</outputFlavor>
+                  <outputDir>${project.basedir}/protocols</outputDir>
+                </configuration>
+              </execution>
+              <execution>
+                <id>generate-driver-canopen</id>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>generate-driver</goal>
+                </goals>
+                <configuration>
+                  <protocolName>canopen</protocolName>
                   <languageName>go</languageName>
                   <outputFlavor>read-write</outputFlavor>
                   <outputDir>${project.basedir}/protocols</outputDir>
@@ -839,6 +895,27 @@
         <dependency>
           <groupId>org.apache.plc4x</groupId>
           <artifactId>plc4x-protocols-iec-60870</artifactId>
+          <version>1.1.0-SNAPSHOT</version>
+          <!-- Scope is 'provided' as this way it's not shipped with the driver -->
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.plc4x</groupId>
+          <artifactId>plc4x-protocols-socketcan</artifactId>
+          <version>1.1.0-SNAPSHOT</version>
+          <!-- Scope is 'provided' as this way it's not shipped with the driver -->
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.plc4x</groupId>
+          <artifactId>plc4x-protocols-genericcan</artifactId>
+          <version>1.1.0-SNAPSHOT</version>
+          <!-- Scope is 'provided' as this way it's not shipped with the driver -->
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.plc4x</groupId>
+          <artifactId>plc4x-protocols-canopen</artifactId>
           <version>1.1.0-SNAPSHOT</version>
           <!-- Scope is 'provided' as this way it's not shipped with the driver -->
           <scope>provided</scope>

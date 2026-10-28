@@ -23,9 +23,11 @@ import (
 	"github.com/apache/plc4x/plc4go/internal/abeth"
 	"github.com/apache/plc4x/plc4go/internal/ads"
 	"github.com/apache/plc4x/plc4go/internal/bacnetip"
+	"github.com/apache/plc4x/plc4go/internal/canopen"
 	"github.com/apache/plc4x/plc4go/internal/cbus"
 	"github.com/apache/plc4x/plc4go/internal/eip"
 	"github.com/apache/plc4x/plc4go/internal/firmata"
+	"github.com/apache/plc4x/plc4go/internal/genericcan"
 	"github.com/apache/plc4x/plc4go/internal/iec608705104"
 	"github.com/apache/plc4x/plc4go/internal/knxnetip"
 	modbus2 "github.com/apache/plc4x/plc4go/internal/modbus"
@@ -89,6 +91,26 @@ func RegisterFirmataDriver(driverManager plc4go.PlcDriverManager, _options ...co
 	// Firmata-over-WiFi/Ethernet sketches, so both transports are registered.
 	transports.RegisterSerialTransport(driverManager)
 	transports.RegisterTcpTransport(driverManager)
+	return driver
+}
+
+// RegisterCanopenDriver registers the CANopen driver (CiA 301: SDO, PDO, NMT, heartbeat) with both CAN transports:
+// can-socketcan (Linux) and can-virtualcan (in process).
+func RegisterCanopenDriver(driverManager plc4go.PlcDriverManager, _options ...config.WithOption) plc4go.PlcDriver {
+	driver := canopen.NewDriver(converter.WithOptionToInternal(_options...)...)
+	driverManager.RegisterDriver(driver)
+	transports.RegisterSocketCanTransport(driverManager)
+	transports.RegisterVirtualCanTransport(driverManager)
+	return driver
+}
+
+// RegisterGenericCanDriver registers the Generic CAN driver (raw CAN frames) with both CAN transports: can-socketcan
+// (Linux) and can-virtualcan (in process).
+func RegisterGenericCanDriver(driverManager plc4go.PlcDriverManager, _options ...config.WithOption) plc4go.PlcDriver {
+	driver := genericcan.NewDriver(converter.WithOptionToInternal(_options...)...)
+	driverManager.RegisterDriver(driver)
+	transports.RegisterSocketCanTransport(driverManager)
+	transports.RegisterVirtualCanTransport(driverManager)
 	return driver
 }
 

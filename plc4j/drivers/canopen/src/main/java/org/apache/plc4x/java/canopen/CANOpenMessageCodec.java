@@ -82,7 +82,7 @@ public class CANOpenMessageCodec extends MessageCodecBase<CANOpenFrame> {
         if (service == null) {
             return null;
         }
-        int nodeId = canId - service.getMin();
+        int nodeId = canId - functionBase(service);
         byte[] data = new byte[dlc];
         System.arraycopy(frame, 8, data, 0, dlc);
         // Parse just the payload portion. The frame's nodeId / service come
@@ -95,7 +95,7 @@ public class CANOpenMessageCodec extends MessageCodecBase<CANOpenFrame> {
 
     public void sendFrame(CANOpenFrame frame) throws MessageCodecException {
         byte[] bytes = new byte[FRAME_SIZE];
-        int canId = frame.getService().getMin() + frame.getNodeId();
+        int canId = functionBase(frame.getService()) + frame.getNodeId();
         bytes[0] = (byte) ((canId >> 24) & 0xFF);
         bytes[1] = (byte) ((canId >> 16) & 0xFF);
         bytes[2] = (byte) ((canId >> 8) & 0xFF);
@@ -113,6 +113,15 @@ public class CANOpenMessageCodec extends MessageCodecBase<CANOpenFrame> {
         } catch (BufferException | TransportException e) {
             throw new MessageCodecException("Failed to send CANopen frame", e);
         }
+    }
+
+    /**
+     * The COB-ID of the service's function code with node-ID 0: a COB-ID is the function code (its top four bits) and
+     * the node-ID (its low seven), CiA 301 7.3.3. That is the service's min for every service but EMCY, whose range
+     * starts at 0x081 as node-ID 0 would be SYNC.
+     */
+    static int functionBase(CANOpenService service) {
+        return service.getMin() & ~0x7F;
     }
 
     private static CANOpenService resolveService(int canId) {
