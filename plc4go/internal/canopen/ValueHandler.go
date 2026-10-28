@@ -28,8 +28,10 @@ import (
 	spiValues "github.com/apache/plc4x/plc4go/spi/values"
 )
 
-// ValueHandler is plc4j's DefaultPlcValueHandler, which the default handler is, plus what it cannot build: a
-// RECORD's value is its bytes ([]byte, or a list of numbers each a byte), kept as a RAW_BYTE_ARRAY.
+// ValueHandler is plc4j's DefaultPlcValueHandler, which the default handler is, plus two things it cannot build:
+//   - a RECORD's value is its bytes ([]byte, or a list of numbers each a byte), kept as a RAW_BYTE_ARRAY;
+//   - an NMT command is its command specifier, given as a number (1, 2, 128, 129, 130) or by its NMTStateRequest name
+//     (START, STOP, PRE_OPERATIONAL, RESET_NODE, RESET_COMMUNICATION).
 type ValueHandler struct {
 	spiValues.DefaultValueHandler
 }
@@ -40,6 +42,14 @@ func NewValueHandler(_options ...options.WithOption) ValueHandler {
 
 func (m ValueHandler) NewPlcValue(tag apiModel.PlcTag, value any) (apiValues.PlcValue, error) {
 	switch typed := tag.(type) {
+	case NMTTag:
+		if name, ok := value.(string); ok {
+			request, known := readWriteModel.NMTStateRequestByName(name)
+			if !known {
+				return nil, errors.Errorf("%s is no NMT command (START, STOP, PRE_OPERATIONAL, RESET_NODE, RESET_COMMUNICATION)", name)
+			}
+			return spiValues.NewPlcUSINT(uint8(request)), nil
+		}
 	case SDOTag:
 		if typed.DataType == readWriteModel.CANOpenDataType_RECORD {
 			return rawValue(value)

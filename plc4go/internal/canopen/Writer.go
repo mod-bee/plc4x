@@ -28,6 +28,7 @@ import (
 
 	apiModel "github.com/apache/plc4x/plc4go/pkg/api/model"
 	apiValues "github.com/apache/plc4x/plc4go/pkg/api/values"
+	readWriteModel "github.com/apache/plc4x/plc4go/protocols/canopen/readwrite/model"
 	"github.com/apache/plc4x/plc4go/spi/errors"
 	spiModel "github.com/apache/plc4x/plc4go/spi/model"
 	"github.com/apache/plc4x/plc4go/spi/options"
@@ -37,10 +38,12 @@ import (
 
 // Writer writes each tag of a request in turn:
 //   - an SDO tag by an SDO download, as plc4j's writeSdo;
-//   - a PDO tag by sending the PDO with the value as its data, as plc4j's writePdo.
+//   - a PDO tag by sending the PDO with the value as its data, as plc4j's writePdo;
+//   - an NMT tag by sending the NMT command its value names (CiA 301 7.2.8.3.1) to its node, or to every node for
+//     "NMT". plc4j's driver does not write NMT tags; its NMT driver test describes this write.
 //
 // plc4j takes one tag per request; Go takes any number. A value that does not encode answers INVALID_DATA, a frame the
-// transport fails to send REMOTE_ERROR, and an NMT or heartbeat tag UNSUPPORTED, as plc4j writes neither.
+// transport fails to send REMOTE_ERROR, and a heartbeat tag (nothing to write) UNSUPPORTED.
 type Writer struct {
 	connection *Connection
 
@@ -89,6 +92,16 @@ func (m *Writer) write(ctx context.Context, tag apiModel.PlcTag, value apiValues
 			return apiModel.PlcResponseCode_INVALID_DATA
 		}
 		return m.sent(m.connection.sendData(ctx, cobIdOf(tag.Service, tag.NodeId), data))
+	case NMTTag:
+		if value == nil || !value.IsUint8() {
+			return apiModel.PlcResponseCode_INVALID_DATA
+		}
+		request, ok := readWriteModel.NMTStateRequestByValue(value.GetUint8())
+		if !ok {
+			return apiModel.PlcResponseCode_INVALID_DATA
+		}
+		return m.sent(m.connection.sendPayload(ctx, readWriteModel.CANOpenService_NMT, 0,
+			readWriteModel.NewCANOpenNetworkPayload(request, tag.NodeId)))
 	}
 	return apiModel.PlcResponseCode_UNSUPPORTED
 }
