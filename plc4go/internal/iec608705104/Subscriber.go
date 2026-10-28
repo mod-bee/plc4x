@@ -323,11 +323,14 @@ func (s *Subscriber) publish(asdu readWriteModel.ASDU) {
 		return
 	}
 	asduAddress := asdu.GetAsduAddressField()
-	for _, informationObject := range asdu.GetInformationObjects() {
+	for i, informationObject := range asdu.GetInformationObjects() {
 		if informationObject == nil {
 			continue
 		}
-		informationObjectAddress := informationObject.GetAddress()
+		informationObjectAddress, ok := objectAddress(asdu, i)
+		if !ok {
+			continue
+		}
 
 		// Decoding is only worth doing once something is actually listening for this point.
 		var value apiValues.PlcValue
@@ -340,7 +343,7 @@ func (s *Subscriber) publish(asdu readWriteModel.ASDU) {
 				continue
 			}
 			if !decoded {
-				value, fingerprint, code = decodePoint(asdu, informationObject)
+				value, fingerprint, code = decodePoint(asdu, informationObject, informationObjectAddress)
 				decoded = true
 			}
 			if !delivery.handle.shouldPublish(asduAddress, informationObjectAddress, fingerprint) {

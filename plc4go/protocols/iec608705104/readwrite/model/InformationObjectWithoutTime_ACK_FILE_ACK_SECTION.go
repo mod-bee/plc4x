@@ -67,7 +67,7 @@ var _ InformationObjectWithoutTime_ACK_FILE_ACK_SECTION = (*_InformationObjectWi
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_ACK_FILE_ACK_SECTION)(nil)
 
 // NewInformationObjectWithoutTime_ACK_FILE_ACK_SECTION factory function for _InformationObjectWithoutTime_ACK_FILE_ACK_SECTION
-func NewInformationObjectWithoutTime_ACK_FILE_ACK_SECTION(address uint32, nof NameOfFile, nos NameOfSection, afq AcknowledgeFileOrSectionQualifier) *_InformationObjectWithoutTime_ACK_FILE_ACK_SECTION {
+func NewInformationObjectWithoutTime_ACK_FILE_ACK_SECTION(address *uint32, nof NameOfFile, nos NameOfSection, afq AcknowledgeFileOrSectionQualifier) *_InformationObjectWithoutTime_ACK_FILE_ACK_SECTION {
 	if nof == nil {
 		panic("nof of type NameOfFile for InformationObjectWithoutTime_ACK_FILE_ACK_SECTION must not be nil")
 	}
@@ -316,7 +316,7 @@ func (m *_InformationObjectWithoutTime_ACK_FILE_ACK_SECTION) GetLengthInBytes(ct
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_ACK_FILE_ACK_SECTION) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_ACK_FILE_ACK_SECTION InformationObjectWithoutTime_ACK_FILE_ACK_SECTION, err error) {
+func (m *_InformationObjectWithoutTime_ACK_FILE_ACK_SECTION) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_ACK_FILE_ACK_SECTION InformationObjectWithoutTime_ACK_FILE_ACK_SECTION, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

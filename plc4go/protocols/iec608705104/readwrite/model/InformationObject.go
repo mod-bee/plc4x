@@ -53,7 +53,8 @@ type InformationObject interface {
 // InformationObjectContract provides a set of functions which can be overwritten by a sub struct
 type InformationObjectContract interface {
 	// GetAddress returns Address (property field)
-	GetAddress() uint32
+	// Absent on the objects of a sequence (see ASDU.sequenceStartAddress).
+	GetAddress() *uint32
 	// IsInformationObject is a marker method to prevent unintentional type checks (interfaces of same signature)
 	IsInformationObject()
 	// CreateBuilder creates a InformationObjectBuilder
@@ -74,13 +75,13 @@ type _InformationObject struct {
 		InformationObjectContract
 		InformationObjectRequirements
 	}
-	Address uint32
+	Address *uint32
 }
 
 var _ InformationObjectContract = (*_InformationObject)(nil)
 
 // NewInformationObject factory function for _InformationObject
-func NewInformationObject(address uint32) *_InformationObject {
+func NewInformationObject(address *uint32) *_InformationObject {
 	return &_InformationObject{Address: address}
 }
 
@@ -93,9 +94,9 @@ func NewInformationObject(address uint32) *_InformationObject {
 type InformationObjectBuilder interface {
 	utils.Copyable
 	// WithMandatoryFields adds all mandatory fields (convenience for using multiple builder calls)
-	WithMandatoryFields(address uint32) InformationObjectBuilder
+	WithMandatoryFields() InformationObjectBuilder
 	// WithAddress adds Address (property field)
-	WithAddress(uint32) InformationObjectBuilder
+	WithOptionalAddress(uint32) InformationObjectBuilder
 	// AsInformationObjectWithoutTime converts this build to a subType of InformationObject. It is always possible to return to current builder using Done()
 	AsInformationObjectWithoutTime() InformationObjectWithoutTimeBuilder
 	// AsInformationObjectWithTreeByteTime converts this build to a subType of InformationObject. It is always possible to return to current builder using Done()
@@ -133,12 +134,12 @@ type _InformationObjectBuilder struct {
 
 var _ (InformationObjectBuilder) = (*_InformationObjectBuilder)(nil)
 
-func (b *_InformationObjectBuilder) WithMandatoryFields(address uint32) InformationObjectBuilder {
-	return b.WithAddress(address)
+func (b *_InformationObjectBuilder) WithMandatoryFields() InformationObjectBuilder {
+	return b
 }
 
-func (b *_InformationObjectBuilder) WithAddress(address uint32) InformationObjectBuilder {
-	b.Address = address
+func (b *_InformationObjectBuilder) WithOptionalAddress(address uint32) InformationObjectBuilder {
+	b.Address = &address
 	return b
 }
 
@@ -235,7 +236,7 @@ func (b *_InformationObject) CreateInformationObjectBuilder() InformationObjectB
 /////////////////////// Accessors for property fields.
 ///////////////////////
 
-func (m *_InformationObject) GetAddress() uint32 {
+func (m *_InformationObject) GetAddress() *uint32 {
 	return m.Address
 }
 
@@ -262,8 +263,10 @@ func (m *_InformationObject) GetPlx4xTypeName() string {
 func (m *_InformationObject) getLengthInBits(ctx context.Context) uint64 {
 	lengthInBits := uint64(0)
 
-	// Simple field (address)
-	lengthInBits += 24
+	// Optional Field (address)
+	if m.Address != nil {
+		lengthInBits += 24
+	}
 
 	return lengthInBits
 }
@@ -276,13 +279,13 @@ func (m *_InformationObject) GetLengthInBytes(ctx context.Context) uint64 {
 	return m._SubType.GetLengthInBits(ctx) / 8
 }
 
-func InformationObjectParse[T InformationObject](ctx context.Context, theBytes []byte, typeIdentification TypeIdentification, numTimeByte uint8) (T, error) {
-	return InformationObjectParseWithBuffer[T](ctx, utils.NewReadBufferByteBased(theBytes, utils.WithByteOrderForReadBufferByteBased(binary.LittleEndian)), typeIdentification, numTimeByte)
+func InformationObjectParse[T InformationObject](ctx context.Context, theBytes []byte, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (T, error) {
+	return InformationObjectParseWithBuffer[T](ctx, utils.NewReadBufferByteBased(theBytes, utils.WithByteOrderForReadBufferByteBased(binary.LittleEndian)), typeIdentification, numTimeByte, addressed)
 }
 
-func InformationObjectParseWithBufferProducer[T InformationObject](typeIdentification TypeIdentification, numTimeByte uint8) func(ctx context.Context, readBuffer utils.ReadBuffer) (T, error) {
+func InformationObjectParseWithBufferProducer[T InformationObject](typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) func(ctx context.Context, readBuffer utils.ReadBuffer) (T, error) {
 	return func(ctx context.Context, readBuffer utils.ReadBuffer) (T, error) {
-		v, err := InformationObjectParseWithBuffer[T](ctx, readBuffer, typeIdentification, numTimeByte)
+		v, err := InformationObjectParseWithBuffer[T](ctx, readBuffer, typeIdentification, numTimeByte, addressed)
 		if err != nil {
 			var zero T
 			return zero, err
@@ -291,8 +294,8 @@ func InformationObjectParseWithBufferProducer[T InformationObject](typeIdentific
 	}
 }
 
-func InformationObjectParseWithBuffer[T InformationObject](ctx context.Context, readBuffer utils.ReadBuffer, typeIdentification TypeIdentification, numTimeByte uint8) (T, error) {
-	v, err := (new(_InformationObject)).parse(ctx, readBuffer, typeIdentification, numTimeByte)
+func InformationObjectParseWithBuffer[T InformationObject](ctx context.Context, readBuffer utils.ReadBuffer, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (T, error) {
+	v, err := (new(_InformationObject)).parse(ctx, readBuffer, typeIdentification, numTimeByte, addressed)
 	if err != nil {
 		var zero T
 		return zero, err
@@ -305,7 +308,7 @@ func InformationObjectParseWithBuffer[T InformationObject](ctx context.Context, 
 	return vc, nil
 }
 
-func (m *_InformationObject) parse(ctx context.Context, readBuffer utils.ReadBuffer, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObject InformationObject, err error) {
+func (m *_InformationObject) parse(ctx context.Context, readBuffer utils.ReadBuffer, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObject InformationObject, err error) {
 	positionAware := readBuffer
 	_ = positionAware
 	if pullErr := readBuffer.PullContext("InformationObject"); pullErr != nil {
@@ -314,7 +317,8 @@ func (m *_InformationObject) parse(ctx context.Context, readBuffer utils.ReadBuf
 	currentPos := positionAware.GetPos()
 	_ = currentPos
 
-	address, err := ReadSimpleField(ctx, "address", ReadUnsignedInt(readBuffer, uint8(24)), codegen.WithEncoding("UTF8"), codegen.WithByteOrder(binary.LittleEndian))
+	var address *uint32
+	address, err = ReadOptionalField[uint32](ctx, "address", ReadUnsignedInt(readBuffer, uint8(24)), addressed, codegen.WithEncoding("UTF8"), codegen.WithByteOrder(binary.LittleEndian))
 	if err != nil {
 		return nil, errors.Wrap(err, fmt.Sprintf("Error parsing 'address' field"))
 	}
@@ -324,15 +328,15 @@ func (m *_InformationObject) parse(ctx context.Context, readBuffer utils.ReadBuf
 	var _child InformationObject
 	switch {
 	case numTimeByte == uint8(0): // InformationObjectWithoutTime
-		if _child, err = new(_InformationObjectWithoutTime).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime for type-switch of InformationObject")
 		}
 	case numTimeByte == uint8(3): // InformationObjectWithTreeByteTime
-		if _child, err = new(_InformationObjectWithTreeByteTime).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithTreeByteTime).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithTreeByteTime for type-switch of InformationObject")
 		}
 	case numTimeByte == uint8(7): // InformationObjectWithSevenByteTime
-		if _child, err = new(_InformationObjectWithSevenByteTime).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithSevenByteTime).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithSevenByteTime for type-switch of InformationObject")
 		}
 	default:
@@ -358,7 +362,7 @@ func (pm *_InformationObject) serializeParent(ctx context.Context, writeBuffer u
 		return errors.Wrap(pushErr, "Error pushing for InformationObject")
 	}
 
-	if err := WriteSimpleField[uint32](ctx, "address", m.GetAddress(), WriteUnsignedInt(writeBuffer, 24), codegen.WithEncoding("UTF8"), codegen.WithByteOrder(binary.LittleEndian)); err != nil {
+	if err := WriteOptionalField[uint32](ctx, "address", m.GetAddress(), WriteUnsignedInt(writeBuffer, 24), true, codegen.WithEncoding("UTF8"), codegen.WithByteOrder(binary.LittleEndian)); err != nil {
 		return errors.Wrap(err, "Error serializing 'address' field")
 	}
 
@@ -385,7 +389,7 @@ func (m *_InformationObject) deepCopy() *_InformationObject {
 	}
 	_InformationObjectCopy := &_InformationObject{
 		nil, // will be set by child
-		m.Address,
+		utils.CopyPtr[uint32](m.Address),
 	}
 	return _InformationObjectCopy
 }

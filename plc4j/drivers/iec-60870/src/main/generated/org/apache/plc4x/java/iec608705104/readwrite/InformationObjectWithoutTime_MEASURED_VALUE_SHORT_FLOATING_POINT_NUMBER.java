@@ -66,8 +66,8 @@ public class InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NU
   }
 
   public static InformationObjectWithoutTimeBuilder staticParseInformationObjectWithoutTimeBuilder(
-      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte) throws
-      BufferException {
+      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte,
+      boolean addressed) throws BufferException {
     readBuffer.pushContext(WithOption.WithName("InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
     int startPos = readBuffer.getPositionInBits();
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
@@ -124,7 +124,7 @@ public class InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NU
       this.qds = qds;
     }
 
-    public InformationObjectWithoutTime build(int address) {
+    public InformationObjectWithoutTime build(Integer address) {
       return new InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER(address, value, qds);
     }
   }

@@ -61,7 +61,7 @@ var _ InformationObjectWithoutTime_REGULATING_STEP_COMMAND = (*_InformationObjec
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_REGULATING_STEP_COMMAND)(nil)
 
 // NewInformationObjectWithoutTime_REGULATING_STEP_COMMAND factory function for _InformationObjectWithoutTime_REGULATING_STEP_COMMAND
-func NewInformationObjectWithoutTime_REGULATING_STEP_COMMAND(address uint32, rco RegulatingStepCommand) *_InformationObjectWithoutTime_REGULATING_STEP_COMMAND {
+func NewInformationObjectWithoutTime_REGULATING_STEP_COMMAND(address *uint32, rco RegulatingStepCommand) *_InformationObjectWithoutTime_REGULATING_STEP_COMMAND {
 	if rco == nil {
 		panic("rco of type RegulatingStepCommand for InformationObjectWithoutTime_REGULATING_STEP_COMMAND must not be nil")
 	}
@@ -244,7 +244,7 @@ func (m *_InformationObjectWithoutTime_REGULATING_STEP_COMMAND) GetLengthInBytes
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_REGULATING_STEP_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_REGULATING_STEP_COMMAND InformationObjectWithoutTime_REGULATING_STEP_COMMAND, err error) {
+func (m *_InformationObjectWithoutTime_REGULATING_STEP_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_REGULATING_STEP_COMMAND InformationObjectWithoutTime_REGULATING_STEP_COMMAND, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

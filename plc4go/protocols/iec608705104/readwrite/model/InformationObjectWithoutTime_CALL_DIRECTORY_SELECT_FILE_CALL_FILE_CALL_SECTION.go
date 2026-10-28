@@ -67,7 +67,7 @@ var _ InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SEC
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION)(nil)
 
 // NewInformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION factory function for _InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION
-func NewInformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION(address uint32, nof NameOfFile, nos NameOfSection, scq SelectAndCallQualifier) *_InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION {
+func NewInformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION(address *uint32, nof NameOfFile, nos NameOfSection, scq SelectAndCallQualifier) *_InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION {
 	if nof == nil {
 		panic("nof of type NameOfFile for InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION must not be nil")
 	}
@@ -316,7 +316,7 @@ func (m *_InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION, err error) {
+func (m *_InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

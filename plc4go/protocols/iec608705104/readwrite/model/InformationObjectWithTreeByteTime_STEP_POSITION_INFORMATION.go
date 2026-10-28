@@ -67,7 +67,7 @@ var _ InformationObjectWithTreeByteTime_STEP_POSITION_INFORMATION = (*_Informati
 var _ InformationObjectWithTreeByteTimeRequirements = (*_InformationObjectWithTreeByteTime_STEP_POSITION_INFORMATION)(nil)
 
 // NewInformationObjectWithTreeByteTime_STEP_POSITION_INFORMATION factory function for _InformationObjectWithTreeByteTime_STEP_POSITION_INFORMATION
-func NewInformationObjectWithTreeByteTime_STEP_POSITION_INFORMATION(address uint32, vti ValueWithTransientStateIndication, qds QualityDescriptor, cp24Time2a ThreeOctetBinaryTime) *_InformationObjectWithTreeByteTime_STEP_POSITION_INFORMATION {
+func NewInformationObjectWithTreeByteTime_STEP_POSITION_INFORMATION(address *uint32, vti ValueWithTransientStateIndication, qds QualityDescriptor, cp24Time2a ThreeOctetBinaryTime) *_InformationObjectWithTreeByteTime_STEP_POSITION_INFORMATION {
 	if vti == nil {
 		panic("vti of type ValueWithTransientStateIndication for InformationObjectWithTreeByteTime_STEP_POSITION_INFORMATION must not be nil")
 	}
@@ -316,7 +316,7 @@ func (m *_InformationObjectWithTreeByteTime_STEP_POSITION_INFORMATION) GetLength
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithTreeByteTime_STEP_POSITION_INFORMATION) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithTreeByteTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithTreeByteTime_STEP_POSITION_INFORMATION InformationObjectWithTreeByteTime_STEP_POSITION_INFORMATION, err error) {
+func (m *_InformationObjectWithTreeByteTime_STEP_POSITION_INFORMATION) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithTreeByteTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithTreeByteTime_STEP_POSITION_INFORMATION InformationObjectWithTreeByteTime_STEP_POSITION_INFORMATION, err error) {
 	m.InformationObjectWithTreeByteTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

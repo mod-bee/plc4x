@@ -21,6 +21,7 @@ package iec608705104
 
 import (
 	"encoding/hex"
+	"math"
 	"testing"
 	"time"
 
@@ -58,6 +59,26 @@ func asduBytes(typeIdentification byte, causeOfTransmission byte, asduAddress ui
 		asdu = append(asdu, object...)
 	}
 	return asdu
+}
+
+// sequenceAsduBytes assembles an ASDU with the structure qualifier set: one address, that of the
+// first object, then the payloads of the objects at the addresses after it.
+func sequenceAsduBytes(typeIdentification byte, causeOfTransmission byte, asduAddress uint16, firstAddress uint32, payloads ...[]byte) []byte {
+	asdu := []byte{typeIdentification, 0x80 | byte(len(payloads)), causeOfTransmission, 0x00}
+	asdu = append(asdu, littleEndianUint16(asduAddress)...)
+	asdu = append(asdu, byte(firstAddress), byte(firstAddress>>8), byte(firstAddress>>16))
+	for _, payload := range payloads {
+		asdu = append(asdu, payload...)
+	}
+	return asdu
+}
+
+// addressAt is the information object address of an ASDU's index-th object.
+func addressAt(t *testing.T, asdu readWriteModel.ASDU, index int) uint32 {
+	t.Helper()
+	address, ok := objectAddress(asdu, index)
+	require.True(t, ok, "object %d has no address", index)
+	return address
 }
 
 // iFormatFrame wraps an ASDU in an I-format APCI. Both sequence numbers sit in the control field
@@ -98,7 +119,7 @@ func decodePointAt(t *testing.T, frame []byte, index int) (apiValues.PlcValue, s
 	require.True(t, ok, "%T is not an I-format frame", apdu)
 	objects := iFormat.GetAsdu().GetInformationObjects()
 	require.Greater(t, len(objects), index)
-	return decodePoint(iFormat.GetAsdu(), objects[index])
+	return decodePoint(iFormat.GetAsdu(), objects[index], addressAt(t, iFormat.GetAsdu(), index))
 }
 
 // nested walks into a struct value along a path of keys.
@@ -378,7 +399,7 @@ func TestDecodePoint_SevenOctetTimeTag(t *testing.T) {
 	objects := iFormat.GetAsdu().GetInformationObjects()
 	require.Len(t, objects, 1)
 
-	value, _, code := decodePoint(iFormat.GetAsdu(), objects[0])
+	value, _, code := decodePoint(iFormat.GetAsdu(), objects[0], addressAt(t, iFormat.GetAsdu(), 0))
 
 	require.Equal(t, apiModel.PlcResponseCode_OK, code)
 	assert.Equal(t, uint32(13), nested(t, value, fieldObjectAddress).GetUint32())
@@ -423,7 +444,7 @@ func TestDecodePoint_SingleCommand(t *testing.T) {
 	objects := iFormat.GetAsdu().GetInformationObjects()
 	require.Len(t, objects, 1)
 
-	value, _, code := decodePoint(iFormat.GetAsdu(), objects[0])
+	value, _, code := decodePoint(iFormat.GetAsdu(), objects[0], addressAt(t, iFormat.GetAsdu(), 0))
 
 	require.Equal(t, apiModel.PlcResponseCode_OK, code)
 	assert.Equal(t, "SINGLE_COMMAND", nested(t, value, fieldTypeName).GetString())
@@ -440,7 +461,7 @@ func TestDecodePoint_EndOfInitialisation(t *testing.T) {
 	objects := iFormat.GetAsdu().GetInformationObjects()
 	require.Len(t, objects, 1)
 
-	value, _, code := decodePoint(iFormat.GetAsdu(), objects[0])
+	value, _, code := decodePoint(iFormat.GetAsdu(), objects[0], addressAt(t, iFormat.GetAsdu(), 0))
 
 	require.Equal(t, apiModel.PlcResponseCode_OK, code)
 	assert.Equal(t, "END_OF_INITIALISATION", nested(t, value, fieldTypeName).GetString())
@@ -456,7 +477,7 @@ func TestDecodePoint_InterrogationCommand(t *testing.T) {
 	objects := iFormat.GetAsdu().GetInformationObjects()
 	require.Len(t, objects, 1)
 
-	value, _, code := decodePoint(iFormat.GetAsdu(), objects[0])
+	value, _, code := decodePoint(iFormat.GetAsdu(), objects[0], addressAt(t, iFormat.GetAsdu(), 0))
 
 	require.Equal(t, apiModel.PlcResponseCode_OK, code)
 	assert.Equal(t, "INTERROGATION_COMMAND", nested(t, value, fieldTypeName).GetString())
@@ -559,7 +580,7 @@ func TestDecodePoint_EveryObjectOfAnAsduIsItsOwnPoint(t *testing.T) {
 	require.Len(t, objects, 4)
 
 	for index, informationObject := range objects {
-		value, _, code := decodePoint(iFormat.GetAsdu(), informationObject)
+		value, _, code := decodePoint(iFormat.GetAsdu(), informationObject, addressAt(t, iFormat.GetAsdu(), index))
 		require.Equal(t, apiModel.PlcResponseCode_OK, code)
 		assert.Equal(t, uint16(10), nested(t, value, fieldAsduAddress).GetUint16())
 		assert.Equal(t, uint32(index+1), nested(t, value, fieldObjectAddress).GetUint32())
@@ -567,4 +588,51 @@ func TestDecodePoint_EveryObjectOfAnAsduIsItsOwnPoint(t *testing.T) {
 		assert.False(t, nested(t, value, fieldValue).GetBool())
 	}
 	_ = testutils.TestContext(t)
+}
+
+// A sequence of objects (structure qualifier set) carries the first object's address only, and the
+// objects after it are at the addresses after it. This is how lib60870 stations answer a general
+// interrogation for consecutive points: here two double points at ASDU 48, addresses 22 (OFF) and
+// 23 (ON) - the bytes a c104 station sent.
+func TestDecodePoint_SequenceOfObjectsNumbersOnFromTheFirstAddress(t *testing.T) {
+	frame := iFormatFrame(0, 0, sequenceAsduBytes(0x03, 0x14, 48, 22, []byte{0x01}, []byte{0x02}))
+	iFormat, ok := parseApdu(t, frame).(readWriteModel.APDUIFormat)
+	require.True(t, ok)
+	asdu := iFormat.GetAsdu()
+	require.True(t, asdu.GetStructureQualifier())
+	require.Len(t, asdu.GetInformationObjects(), 2)
+
+	for index, want := range []struct {
+		address uint32
+		state   string
+	}{{22, "OFF"}, {23, "ON"}} {
+		value, _, code := decodePoint(asdu, asdu.GetInformationObjects()[index], addressAt(t, asdu, index))
+		require.Equal(t, apiModel.PlcResponseCode_OK, code)
+		assert.Equal(t, want.address, nested(t, value, fieldObjectAddress).GetUint32())
+		assert.Equal(t, want.state, nested(t, value, fieldState).GetString())
+	}
+
+	// And it goes back on the wire as it came.
+	serialized, err := iFormat.Serialize()
+	require.NoError(t, err)
+	assert.Equal(t, frame, serialized)
+}
+
+// A three-object sequence of floats: the address arithmetic carries past the first object, and
+// each payload is read whole (no address octets eaten from the next value).
+func TestDecodePoint_SequenceOfFloats(t *testing.T) {
+	float := func(f float32) []byte {
+		bits := math.Float32bits(f)
+		return []byte{byte(bits), byte(bits >> 8), byte(bits >> 16), byte(bits >> 24), 0x00}
+	}
+	frame := iFormatFrame(0, 0, sequenceAsduBytes(0x0D, 0x14, 7, 0x010000, float(1.5), float(-2.25), float(42)))
+	iFormat, ok := parseApdu(t, frame).(readWriteModel.APDUIFormat)
+	require.True(t, ok)
+	asdu := iFormat.GetAsdu()
+	for index, want := range []float32{1.5, -2.25, 42} {
+		value, _, code := decodePoint(asdu, asdu.GetInformationObjects()[index], addressAt(t, asdu, index))
+		require.Equal(t, apiModel.PlcResponseCode_OK, code)
+		assert.Equal(t, uint32(0x010000+index), nested(t, value, fieldObjectAddress).GetUint32())
+		assert.Equal(t, want, nested(t, value, fieldValue).GetFloat32())
+	}
 }

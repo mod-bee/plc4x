@@ -76,8 +76,8 @@ public class InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_PO
   }
 
   public static InformationObjectWithSevenByteTimeBuilder staticParseInformationObjectWithSevenByteTimeBuilder(
-      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte) throws
-      BufferException {
+      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte,
+      boolean addressed) throws BufferException {
     readBuffer.pushContext(WithOption.WithName("InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
     int startPos = readBuffer.getPositionInBits();
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
@@ -147,7 +147,7 @@ public class InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_PO
       this.cp56Time2a = cp56Time2a;
     }
 
-    public InformationObjectWithSevenByteTime build(int address) {
+    public InformationObjectWithSevenByteTime build(Integer address) {
       return new InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER(address, value, qds, cp56Time2a);
     }
   }

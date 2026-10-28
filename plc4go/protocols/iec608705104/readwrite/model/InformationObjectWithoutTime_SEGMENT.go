@@ -67,7 +67,7 @@ var _ InformationObjectWithoutTime_SEGMENT = (*_InformationObjectWithoutTime_SEG
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_SEGMENT)(nil)
 
 // NewInformationObjectWithoutTime_SEGMENT factory function for _InformationObjectWithoutTime_SEGMENT
-func NewInformationObjectWithoutTime_SEGMENT(address uint32, nof NameOfFile, nos NameOfSection, los LengthOfSegment) *_InformationObjectWithoutTime_SEGMENT {
+func NewInformationObjectWithoutTime_SEGMENT(address *uint32, nof NameOfFile, nos NameOfSection, los LengthOfSegment) *_InformationObjectWithoutTime_SEGMENT {
 	if nof == nil {
 		panic("nof of type NameOfFile for InformationObjectWithoutTime_SEGMENT must not be nil")
 	}
@@ -316,7 +316,7 @@ func (m *_InformationObjectWithoutTime_SEGMENT) GetLengthInBytes(ctx context.Con
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_SEGMENT) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_SEGMENT InformationObjectWithoutTime_SEGMENT, err error) {
+func (m *_InformationObjectWithoutTime_SEGMENT) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_SEGMENT InformationObjectWithoutTime_SEGMENT, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

@@ -67,7 +67,7 @@ var _ InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUM
 var _ InformationObjectWithSevenByteTimeRequirements = (*_InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER)(nil)
 
 // NewInformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER factory function for _InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER
-func NewInformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER(address uint32, value float32, qds QualityDescriptor, cp56Time2a SevenOctetBinaryTime) *_InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER {
+func NewInformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER(address *uint32, value float32, qds QualityDescriptor, cp56Time2a SevenOctetBinaryTime) *_InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER {
 	if qds == nil {
 		panic("qds of type QualityDescriptor for InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER must not be nil")
 	}
@@ -298,7 +298,7 @@ func (m *_InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithSevenByteTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER, err error) {
+func (m *_InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithSevenByteTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER InformationObjectWithSevenByteTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER, err error) {
 	m.InformationObjectWithSevenByteTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

@@ -61,7 +61,7 @@ var _ InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION = (*_InformationObje
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION)(nil)
 
 // NewInformationObjectWithoutTime_DOUBLE_POINT_INFORMATION factory function for _InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION
-func NewInformationObjectWithoutTime_DOUBLE_POINT_INFORMATION(address uint32, diq DoublePointInformation) *_InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION {
+func NewInformationObjectWithoutTime_DOUBLE_POINT_INFORMATION(address *uint32, diq DoublePointInformation) *_InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION {
 	if diq == nil {
 		panic("diq of type DoublePointInformation for InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION must not be nil")
 	}
@@ -244,7 +244,7 @@ func (m *_InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION) GetLengthInByte
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_DOUBLE_POINT_INFORMATION InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION, err error) {
+func (m *_InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_DOUBLE_POINT_INFORMATION InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

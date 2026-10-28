@@ -61,7 +61,7 @@ var _ InformationObjectWithoutTime_SINGLE_COMMAND = (*_InformationObjectWithoutT
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_SINGLE_COMMAND)(nil)
 
 // NewInformationObjectWithoutTime_SINGLE_COMMAND factory function for _InformationObjectWithoutTime_SINGLE_COMMAND
-func NewInformationObjectWithoutTime_SINGLE_COMMAND(address uint32, sco SingleCommand) *_InformationObjectWithoutTime_SINGLE_COMMAND {
+func NewInformationObjectWithoutTime_SINGLE_COMMAND(address *uint32, sco SingleCommand) *_InformationObjectWithoutTime_SINGLE_COMMAND {
 	if sco == nil {
 		panic("sco of type SingleCommand for InformationObjectWithoutTime_SINGLE_COMMAND must not be nil")
 	}
@@ -244,7 +244,7 @@ func (m *_InformationObjectWithoutTime_SINGLE_COMMAND) GetLengthInBytes(ctx cont
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_SINGLE_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_SINGLE_COMMAND InformationObjectWithoutTime_SINGLE_COMMAND, err error) {
+func (m *_InformationObjectWithoutTime_SINGLE_COMMAND) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_SINGLE_COMMAND InformationObjectWithoutTime_SINGLE_COMMAND, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

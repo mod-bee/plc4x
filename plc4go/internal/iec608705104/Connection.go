@@ -26,6 +26,7 @@ import (
 	"slices"
 	"sync"
 	"sync/atomic"
+	"time"
 
 	"github.com/rs/zerolog"
 
@@ -89,6 +90,15 @@ type Connection struct {
 	// nextExpectedSequenceNo is the send sequence number the station is expected to use next, which
 	// is exactly what an S-format acknowledgement has to carry.
 	nextExpectedSequenceNo uint16
+	// sendSequenceNo is the send sequence number of the next I-format frame this side sends (V(S) in
+	// the standard). The only I-format frames sent are interrogation commands.
+	sendSequenceNo uint16
+
+	// lastReceived is when the station last sent anything (UnixNano): any frame proves the link.
+	lastReceived atomic.Int64
+	// testFrameSentAt is when the keep-alive test frame now awaiting its confirmation went out
+	// (UnixNano), zero when none is outstanding.
+	testFrameSentAt atomic.Int64
 
 	// subscribersMutex guards the subscriber list, which Subscribe writes while the
 	// incoming-message worker reads it.
@@ -99,6 +109,7 @@ type Connection struct {
 	// and without, a preceding Connect.
 	lifecycleMutex sync.Mutex
 	workerCancel   context.CancelFunc
+	workerCtx      context.Context
 
 	wg sync.WaitGroup // use to track spawned go routines
 
@@ -183,8 +194,106 @@ func (c *Connection) Connect(ctx context.Context) error {
 		return errors.Wrap(err, "error during the IEC 60870-5-104 connect handshake")
 	}
 	c.handshakeComplete.Store(true)
+	c.lastReceived.Store(time.Now().UnixNano())
+	c.startKeepAlive()
 	c.log.Info().Msg("IEC 60870-5-104 data transfer started")
 	return nil
+}
+
+// startKeepAlive runs the standard's t3/t1 supervision: after t3 without any frame from the station a
+// test frame goes out, and if t1 passes without anything coming back the connection is reported as no
+// longer connected - IsConnected turns false and the owner reconnects. Before this a station that went
+// away silently (a pulled cable, a powered-off RTU) left the connection looking connected forever, and
+// a healthy station with nothing to report looked exactly like a dead one.
+func (c *Connection) startKeepAlive() {
+	if c.configuration.t3 <= 0 {
+		return
+	}
+	c.lifecycleMutex.Lock()
+	workerCtx := c.workerCtx
+	c.lifecycleMutex.Unlock()
+	if workerCtx == nil {
+		return
+	}
+	tick := min(c.configuration.t3, c.configuration.t1) / 4
+	tick = max(10*time.Millisecond, min(tick, time.Second))
+	c.wg.Go(func() {
+		ticker := time.NewTicker(tick)
+		defer ticker.Stop()
+		for {
+			select {
+			case <-workerCtx.Done():
+				return
+			case <-ticker.C:
+				if !c.superviseLink(workerCtx, time.Now()) {
+					return
+				}
+			}
+		}
+	})
+}
+
+// superviseLink is one step of the keep-alive; false once the link is taken as broken.
+func (c *Connection) superviseLink(ctx context.Context, now time.Time) bool {
+	if !c.handshakeComplete.Load() {
+		return false
+	}
+	if sentAt := c.testFrameSentAt.Load(); sentAt != 0 {
+		if now.Sub(time.Unix(0, sentAt)) < c.configuration.t1 {
+			return true
+		}
+		c.log.Warn().Dur("t1", c.configuration.t1).Msg("No answer to the test frame: the link to the station is broken")
+		c.handshakeComplete.Store(false)
+		return false
+	}
+	if now.Sub(time.Unix(0, c.lastReceived.Load())) < c.configuration.t3 {
+		return true
+	}
+	c.testFrameSentAt.Store(now.UnixNano())
+	testFrame := readWriteModel.NewAPDUUFormatTestFrameActivation(commandTestFrameActivation)
+	if err := c.messageCodec.Send(ctx, "keepAlive", testFrame); err != nil {
+		c.log.Warn().Err(err).Msg("Could not send the keep-alive test frame: the link to the station is broken")
+		c.handshakeComplete.Store(false)
+		return false
+	}
+	return true
+}
+
+// interrogate sends a station interrogation (C_IC_NA_1, QOI 20, activation) to the configured common
+// address. The station answers with the current value of every point (cause of transmission 20,
+// interrogated by station), then ACTCON and ACTTERM - all of which arrive as ordinary I-format frames.
+func (c *Connection) interrogate(ctx context.Context) {
+	if !c.configuration.generalInterrogation || !c.handshakeComplete.Load() {
+		return
+	}
+	c.ackMutex.Lock()
+	sendSequenceNo := c.sendSequenceNo
+	c.sendSequenceNo = (sendSequenceNo + 1) & sequenceNumberMask
+	// An I-format frame acknowledges everything received so far, exactly as an S-format frame would.
+	receiveSequenceNo := c.nextExpectedSequenceNo
+	c.unacknowledged = 0
+	c.ackMutex.Unlock()
+
+	// A station-wide command is addressed to information object 0 ("irrelevant", IEC 60870-5-101
+	// 7.2.5), carried in front of the object as every object of a non-sequence ASDU is.
+	irrelevantObjectAddress := uint32(0)
+	asdu := readWriteModel.NewASDU(
+		readWriteModel.TypeIdentification_INTERROGATION_COMMAND, false, false, false,
+		readWriteModel.CauseOfTransmission_ACTIVATION_ACT, c.configuration.originatorAddress,
+		c.configuration.interrogationAsduAddress, nil,
+		[]readWriteModel.InformationObject{
+			readWriteModel.NewInformationObjectWithoutTime_INTERROGATION_COMMAND(&irrelevantObjectAddress, readWriteModel.NewQualifierOfInterrogation(stationInterrogation)),
+		})
+	// Both sequence numbers sit in their control octet pairs shifted left by one, the low bit being
+	// the format discriminator (zero for the I format).
+	frame := readWriteModel.NewAPDUIFormat(sendSequenceNo<<1, receiveSequenceNo<<1, asdu)
+	sendCtx, cancel := context.WithTimeout(ctx, c.configuration.requestTimeout)
+	defer cancel()
+	if err := c.messageCodec.Send(sendCtx, "interrogation", frame); err != nil {
+		c.log.Warn().Err(err).Msg("Could not send the general interrogation")
+		return
+	}
+	c.log.Debug().Uint16("asduAddress", c.configuration.interrogationAsduAddress).Msg("General interrogation sent")
 }
 
 // handshake proves the link with a test frame and then starts data transfer, the same two round
@@ -289,6 +398,7 @@ func (c *Connection) startIncomingWorker() {
 	workerCtx, workerCancel := context.WithCancel(context.Background())
 	c.lifecycleMutex.Lock()
 	c.workerCancel = workerCancel
+	c.workerCtx = workerCtx
 	c.lifecycleMutex.Unlock()
 
 	incomingMessageChannel := c.messageCodec.GetDefaultIncomingMessageChannel()
@@ -319,6 +429,10 @@ func (c *Connection) startIncomingWorker() {
 
 // handleIncomingMessage sorts one frame the station sent.
 func (c *Connection) handleIncomingMessage(ctx context.Context, message spi.Message) {
+	// Whatever the station sends proves the link is there, so it also settles a test frame still
+	// waiting for its confirmation.
+	c.lastReceived.Store(time.Now().UnixNano())
+	c.testFrameSentAt.Store(0)
 	switch typed := message.(type) {
 	case readWriteModel.APDUIFormat:
 		c.handleDataFrame(ctx, typed)
@@ -329,9 +443,12 @@ func (c *Connection) handleIncomingMessage(ctx context.Context, message spi.Mess
 		if err := c.messageCodec.Send(ctx, "testFrame", confirmation); err != nil {
 			c.log.Error().Err(err).Msg("Failed to confirm a test frame")
 		}
+	case readWriteModel.APDUUFormatTestFrameConfirmation:
+		// The answer to a keep-alive test frame; the bookkeeping above already settled it.
+		c.log.Trace().Msg("Test frame confirmed")
 	case readWriteModel.APDUSFormat:
-		// The station acknowledging frames we sent. This driver sends no I-format frames at all, so
-		// there is nothing outstanding for it to acknowledge.
+		// The station acknowledging frames we sent. The only I-format frames this driver sends are
+		// interrogation commands, which nothing waits on, so there is nothing to settle.
 		c.log.Trace().Uint16("receiveSequenceNo", typed.GetReceiveSequenceNo()>>1).Msg("Supervisory frame")
 	default:
 		c.log.Debug().Type("message", message).Msg("Unexpected IEC 60870-5-104 frame")
@@ -364,32 +481,9 @@ func (c *Connection) handleDataFrame(ctx context.Context, apdu readWriteModel.AP
 		c.log.Debug().Msg("An I-format frame without an ASDU")
 		return
 	}
-	if !decodableAsdu(asdu) {
-		// A sequence-of-objects ASDU (structure qualifier set) carries one information object
-		// address followed by that many payloads with no addresses of their own. The mspec reads an
-		// address in front of every object regardless, so the generated model lines the payloads up
-		// against the wrong addresses - and where the arithmetic happens to work out it does so
-		// without any error at all. Publishing that would put a reading of one point under the
-		// address of another, which in grid telemetry is worse than publishing nothing, so the whole
-		// ASDU is refused. The frame is still acknowledged: it did arrive.
-		c.log.Warn().
-			Uint16("asduAddress", asdu.GetAsduAddressField()).
-			Stringer("typeIdentification", asdu.GetTypeIdentification()).
-			Int("numberOfObjects", len(asdu.GetInformationObjects())).
-			Msg("Dropping a sequence-of-objects ASDU: the generated model cannot address its objects")
-		return
-	}
 	for _, subscriber := range c.activeSubscribers() {
 		subscriber.publish(asdu)
 	}
-}
-
-// decodableAsdu reports whether the objects of an ASDU can be trusted to belong to the addresses the
-// model read them under. With the structure qualifier clear every object carries its own address, so
-// they always can; with it set they only can when there is a single object, which is the one case in
-// which both layouts are the same bytes.
-func decodableAsdu(asdu readWriteModel.ASDU) bool {
-	return !asdu.GetStructureQualifier() || len(asdu.GetInformationObjects()) <= 1
 }
 
 // noteReceivedDataFrame records an I-format frame and reports the sequence number to acknowledge
@@ -410,13 +504,17 @@ func (c *Connection) noteReceivedDataFrame(sendSequenceNo uint16) (uint16, bool)
 // Subscribers
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// addSubscriber registers a subscriber and interrogates the station, so the new subscription starts
+// with the current value of every point it covers.
 func (c *Connection) addSubscriber(subscriber *Subscriber) {
 	c.subscribersMutex.Lock()
-	defer c.subscribersMutex.Unlock()
 	if slices.Contains(c.subscribers, subscriber) {
+		c.subscribersMutex.Unlock()
 		return
 	}
 	c.subscribers = append(c.subscribers, subscriber)
+	c.subscribersMutex.Unlock()
+	c.interrogate(context.Background())
 }
 
 func (c *Connection) removeSubscriber(subscriber *Subscriber) {

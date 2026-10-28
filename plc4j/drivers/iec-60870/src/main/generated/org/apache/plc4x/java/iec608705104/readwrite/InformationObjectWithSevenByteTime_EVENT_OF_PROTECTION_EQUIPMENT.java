@@ -66,8 +66,8 @@ public class InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT ex
   }
 
   public static InformationObjectWithSevenByteTimeBuilder staticParseInformationObjectWithSevenByteTimeBuilder(
-      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte) throws
-      BufferException {
+      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte,
+      boolean addressed) throws BufferException {
     readBuffer.pushContext(WithOption.WithName("InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
     int startPos = readBuffer.getPositionInBits();
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
@@ -125,7 +125,7 @@ public class InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT ex
       this.cp56Time2a = cp56Time2a;
     }
 
-    public InformationObjectWithSevenByteTime build(int address) {
+    public InformationObjectWithSevenByteTime build(Integer address) {
       return new InformationObjectWithSevenByteTime_EVENT_OF_PROTECTION_EQUIPMENT(address, cp16Time2a, cp56Time2a);
     }
   }

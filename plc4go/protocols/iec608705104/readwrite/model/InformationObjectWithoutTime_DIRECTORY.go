@@ -70,7 +70,7 @@ var _ InformationObjectWithoutTime_DIRECTORY = (*_InformationObjectWithoutTime_D
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_DIRECTORY)(nil)
 
 // NewInformationObjectWithoutTime_DIRECTORY factory function for _InformationObjectWithoutTime_DIRECTORY
-func NewInformationObjectWithoutTime_DIRECTORY(address uint32, nof NameOfFile, lof LengthOfFile, sof StatusOfFile, cp56Time2a SevenOctetBinaryTime) *_InformationObjectWithoutTime_DIRECTORY {
+func NewInformationObjectWithoutTime_DIRECTORY(address *uint32, nof NameOfFile, lof LengthOfFile, sof StatusOfFile, cp56Time2a SevenOctetBinaryTime) *_InformationObjectWithoutTime_DIRECTORY {
 	if nof == nil {
 		panic("nof of type NameOfFile for InformationObjectWithoutTime_DIRECTORY must not be nil")
 	}
@@ -352,7 +352,7 @@ func (m *_InformationObjectWithoutTime_DIRECTORY) GetLengthInBytes(ctx context.C
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_DIRECTORY) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_DIRECTORY InformationObjectWithoutTime_DIRECTORY, err error) {
+func (m *_InformationObjectWithoutTime_DIRECTORY) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_DIRECTORY InformationObjectWithoutTime_DIRECTORY, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

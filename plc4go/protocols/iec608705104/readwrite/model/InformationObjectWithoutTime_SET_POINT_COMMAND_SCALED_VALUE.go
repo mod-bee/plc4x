@@ -64,7 +64,7 @@ var _ InformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE = (*_Informati
 var _ InformationObjectWithoutTimeRequirements = (*_InformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE)(nil)
 
 // NewInformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE factory function for _InformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE
-func NewInformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE(address uint32, sva ScaledValue, qos QualifierOfSetPointCommand) *_InformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE {
+func NewInformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE(address *uint32, sva ScaledValue, qos QualifierOfSetPointCommand) *_InformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE {
 	if sva == nil {
 		panic("sva of type ScaledValue for InformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE must not be nil")
 	}
@@ -280,7 +280,7 @@ func (m *_InformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE) GetLength
 	return m.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE InformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE, err error) {
+func (m *_InformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObjectWithoutTime, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE InformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE, err error) {
 	m.InformationObjectWithoutTimeContract = parent
 	parent._SubType = m
 	positionAware := readBuffer

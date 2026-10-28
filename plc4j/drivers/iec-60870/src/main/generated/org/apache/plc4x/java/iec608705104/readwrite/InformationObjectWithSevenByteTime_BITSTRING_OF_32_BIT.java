@@ -76,8 +76,8 @@ public class InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT extends Info
   }
 
   public static InformationObjectWithSevenByteTimeBuilder staticParseInformationObjectWithSevenByteTimeBuilder(
-      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte) throws
-      BufferException {
+      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte,
+      boolean addressed) throws BufferException {
     readBuffer.pushContext(WithOption.WithName("InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
     int startPos = readBuffer.getPositionInBits();
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
@@ -147,7 +147,7 @@ public class InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT extends Info
       this.cp56Time2a = cp56Time2a;
     }
 
-    public InformationObjectWithSevenByteTime build(int address) {
+    public InformationObjectWithSevenByteTime build(Integer address) {
       return new InformationObjectWithSevenByteTime_BITSTRING_OF_32_BIT(address, bsi, qds, cp56Time2a);
     }
   }

@@ -55,8 +55,8 @@ public class InformationObjectWithoutTime_INTEGRATED_TOTALS extends InformationO
   }
 
   public static InformationObjectWithoutTimeBuilder staticParseInformationObjectWithoutTimeBuilder(
-      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte) throws
-      BufferException {
+      ReadBuffer readBuffer, TypeIdentification typeIdentification, byte numTimeByte,
+      boolean addressed) throws BufferException {
     readBuffer.pushContext(WithOption.WithName("InformationObjectWithoutTime_INTEGRATED_TOTALS"), WithOption.WithFloatEncoding("IEEE754"), WithOption.WithSignedIntegerEncoding("twos-complement"), WithOption.WithUnsignedIntegerEncoding("unsigned-binary"), WithByteBasedOption.WithByteOrder("LITTLE_ENDIAN"), WithOption.WithStringEncoding("UTF8"));
     int startPos = readBuffer.getPositionInBits();
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
@@ -101,7 +101,7 @@ public class InformationObjectWithoutTime_INTEGRATED_TOTALS extends InformationO
       this.bcr = bcr;
     }
 
-    public InformationObjectWithoutTime build(int address) {
+    public InformationObjectWithoutTime build(Integer address) {
       return new InformationObjectWithoutTime_INTEGRATED_TOTALS(address, bcr);
     }
   }

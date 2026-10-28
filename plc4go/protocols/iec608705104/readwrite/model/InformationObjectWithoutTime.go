@@ -76,7 +76,7 @@ type _InformationObjectWithoutTime struct {
 var _ InformationObjectWithoutTimeContract = (*_InformationObjectWithoutTime)(nil)
 
 // NewInformationObjectWithoutTime factory function for _InformationObjectWithoutTime
-func NewInformationObjectWithoutTime(address uint32) *_InformationObjectWithoutTime {
+func NewInformationObjectWithoutTime(address *uint32) *_InformationObjectWithoutTime {
 	_result := &_InformationObjectWithoutTime{
 		InformationObjectContract: NewInformationObject(address),
 	}
@@ -682,7 +682,7 @@ func (m *_InformationObjectWithoutTime) GetLengthInBytes(ctx context.Context) ui
 	return m._SubType.GetLengthInBits(ctx) / 8
 }
 
-func (m *_InformationObjectWithoutTime) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObject, typeIdentification TypeIdentification, numTimeByte uint8) (__informationObjectWithoutTime InformationObjectWithoutTime, err error) {
+func (m *_InformationObjectWithoutTime) parse(ctx context.Context, readBuffer utils.ReadBuffer, parent *_InformationObject, typeIdentification TypeIdentification, numTimeByte uint8, addressed bool) (__informationObjectWithoutTime InformationObjectWithoutTime, err error) {
 	m.InformationObjectContract = parent
 	positionAware := readBuffer
 	_ = positionAware
@@ -696,147 +696,147 @@ func (m *_InformationObjectWithoutTime) parse(ctx context.Context, readBuffer ut
 	var _child InformationObjectWithoutTime
 	switch {
 	case typeIdentification == TypeIdentification_SINGLE_POINT_INFORMATION: // InformationObjectWithoutTime_SINGLE_POINT_INFORMATION
-		if _child, err = new(_InformationObjectWithoutTime_SINGLE_POINT_INFORMATION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_SINGLE_POINT_INFORMATION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_SINGLE_POINT_INFORMATION for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_DOUBLE_POINT_INFORMATION: // InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION
-		if _child, err = new(_InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_DOUBLE_POINT_INFORMATION for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_STEP_POSITION_INFORMATION: // InformationObjectWithoutTime_STEP_POSITION_INFORMATION
-		if _child, err = new(_InformationObjectWithoutTime_STEP_POSITION_INFORMATION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_STEP_POSITION_INFORMATION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_STEP_POSITION_INFORMATION for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_BITSTRING_OF_32_BIT: // InformationObjectWithoutTime_BITSTRING_OF_32_BIT
-		if _child, err = new(_InformationObjectWithoutTime_BITSTRING_OF_32_BIT).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_BITSTRING_OF_32_BIT).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_BITSTRING_OF_32_BIT for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_MEASURED_VALUE_NORMALISED_VALUE: // InformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE
-		if _child, err = new(_InformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_MEASURED_VALUE_NORMALISED_VALUE for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_MEASURED_VALUE_SCALED_VALUE: // InformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE
-		if _child, err = new(_InformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_MEASURED_VALUE_SCALED_VALUE for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER: // InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER
-		if _child, err = new(_InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_MEASURED_VALUE_SHORT_FLOATING_POINT_NUMBER for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_INTEGRATED_TOTALS: // InformationObjectWithoutTime_INTEGRATED_TOTALS
-		if _child, err = new(_InformationObjectWithoutTime_INTEGRATED_TOTALS).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_INTEGRATED_TOTALS).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_INTEGRATED_TOTALS for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_PACKED_SINGLE_POINT_INFORMATION_WITH_STATUS_CHANGE_DETECTION: // InformationObjectWithoutTime_PACKED_SINGLE_POINT_INFORMATION_WITH_STATUS_CHANGE_DETECTION
-		if _child, err = new(_InformationObjectWithoutTime_PACKED_SINGLE_POINT_INFORMATION_WITH_STATUS_CHANGE_DETECTION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_PACKED_SINGLE_POINT_INFORMATION_WITH_STATUS_CHANGE_DETECTION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_PACKED_SINGLE_POINT_INFORMATION_WITH_STATUS_CHANGE_DETECTION for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_MEASURED_VALUE_NORMALIZED_VALUE_WITHOUT_QUALITY_DESCRIPTOR: // InformationObjectWithoutTime_MEASURED_VALUE_NORMALIZED_VALUE_WITHOUT_QUALITY_DESCRIPTOR
-		if _child, err = new(_InformationObjectWithoutTime_MEASURED_VALUE_NORMALIZED_VALUE_WITHOUT_QUALITY_DESCRIPTOR).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_MEASURED_VALUE_NORMALIZED_VALUE_WITHOUT_QUALITY_DESCRIPTOR).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_MEASURED_VALUE_NORMALIZED_VALUE_WITHOUT_QUALITY_DESCRIPTOR for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_SINGLE_COMMAND: // InformationObjectWithoutTime_SINGLE_COMMAND
-		if _child, err = new(_InformationObjectWithoutTime_SINGLE_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_SINGLE_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_SINGLE_COMMAND for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_DOUBLE_COMMAND: // InformationObjectWithoutTime_DOUBLE_COMMAND
-		if _child, err = new(_InformationObjectWithoutTime_DOUBLE_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_DOUBLE_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_DOUBLE_COMMAND for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_REGULATING_STEP_COMMAND: // InformationObjectWithoutTime_REGULATING_STEP_COMMAND
-		if _child, err = new(_InformationObjectWithoutTime_REGULATING_STEP_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_REGULATING_STEP_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_REGULATING_STEP_COMMAND for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_SET_POINT_COMMAND_NORMALISED_VALUE: // InformationObjectWithoutTime_SET_POINT_COMMAND_NORMALISED_VALUE
-		if _child, err = new(_InformationObjectWithoutTime_SET_POINT_COMMAND_NORMALISED_VALUE).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_SET_POINT_COMMAND_NORMALISED_VALUE).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_SET_POINT_COMMAND_NORMALISED_VALUE for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_SET_POINT_COMMAND_SCALED_VALUE: // InformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE
-		if _child, err = new(_InformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_SET_POINT_COMMAND_SCALED_VALUE for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_SET_POINT_COMMAND_SHORT_FLOATING_POINT_NUMBER: // InformationObjectWithoutTime_SET_POINT_COMMAND_SHORT_FLOATING_POINT_NUMBER
-		if _child, err = new(_InformationObjectWithoutTime_SET_POINT_COMMAND_SHORT_FLOATING_POINT_NUMBER).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_SET_POINT_COMMAND_SHORT_FLOATING_POINT_NUMBER).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_SET_POINT_COMMAND_SHORT_FLOATING_POINT_NUMBER for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_BITSTRING_32_BIT_COMMAND: // InformationObjectWithoutTime_BITSTRING_32_BIT_COMMAND
-		if _child, err = new(_InformationObjectWithoutTime_BITSTRING_32_BIT_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_BITSTRING_32_BIT_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_BITSTRING_32_BIT_COMMAND for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_END_OF_INITIALISATION: // InformationObjectWithoutTime_END_OF_INITIALISATION
-		if _child, err = new(_InformationObjectWithoutTime_END_OF_INITIALISATION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_END_OF_INITIALISATION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_END_OF_INITIALISATION for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_INTERROGATION_COMMAND: // InformationObjectWithoutTime_INTERROGATION_COMMAND
-		if _child, err = new(_InformationObjectWithoutTime_INTERROGATION_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_INTERROGATION_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_INTERROGATION_COMMAND for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_COUNTER_INTERROGATION_COMMAND: // InformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND
-		if _child, err = new(_InformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_COUNTER_INTERROGATION_COMMAND for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_READ_COMMAND: // InformationObjectWithoutTime_READ_COMMAND
-		if _child, err = new(_InformationObjectWithoutTime_READ_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_READ_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_READ_COMMAND for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_CLOCK_SYNCHRONISATION_COMMAND: // InformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND
-		if _child, err = new(_InformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_CLOCK_SYNCHRONISATION_COMMAND for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_TEST_COMMAND: // InformationObjectWithoutTime_TEST_COMMAND
-		if _child, err = new(_InformationObjectWithoutTime_TEST_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_TEST_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_TEST_COMMAND for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_RESET_PROCESS_COMMAND: // InformationObjectWithoutTime_RESET_PROCESS_COMMAND
-		if _child, err = new(_InformationObjectWithoutTime_RESET_PROCESS_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_RESET_PROCESS_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_RESET_PROCESS_COMMAND for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_DELAY_ACQUISITION_COMMAND: // InformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND
-		if _child, err = new(_InformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_DELAY_ACQUISITION_COMMAND for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_PARAMETER_OF_MEASURED_VALUES_NORMALIZED_VALUE: // InformationObjectWithoutTime_PARAMETER_OF_MEASURED_VALUES_NORMALIZED_VALUE
-		if _child, err = new(_InformationObjectWithoutTime_PARAMETER_OF_MEASURED_VALUES_NORMALIZED_VALUE).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_PARAMETER_OF_MEASURED_VALUES_NORMALIZED_VALUE).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_PARAMETER_OF_MEASURED_VALUES_NORMALIZED_VALUE for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_PARAMETER_OF_MEASURED_VALUES_SCALED_VALUE: // InformationObjectWithoutTime_PARAMETER_OF_MEASURED_VALUES_SCALED_VALUE
-		if _child, err = new(_InformationObjectWithoutTime_PARAMETER_OF_MEASURED_VALUES_SCALED_VALUE).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_PARAMETER_OF_MEASURED_VALUES_SCALED_VALUE).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_PARAMETER_OF_MEASURED_VALUES_SCALED_VALUE for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_PARAMETER_OF_MEASURED_VALUES_SHORT_FLOATING_POINT_NUMBER: // InformationObjectWithoutTime_PARAMETER_OF_MEASURED_VALUES_SHORT_FLOATING_POINT_NUMBER
-		if _child, err = new(_InformationObjectWithoutTime_PARAMETER_OF_MEASURED_VALUES_SHORT_FLOATING_POINT_NUMBER).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_PARAMETER_OF_MEASURED_VALUES_SHORT_FLOATING_POINT_NUMBER).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_PARAMETER_OF_MEASURED_VALUES_SHORT_FLOATING_POINT_NUMBER for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_PARAMETER_ACTIVATION: // InformationObjectWithoutTime_PARAMETER_ACTIVATION
-		if _child, err = new(_InformationObjectWithoutTime_PARAMETER_ACTIVATION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_PARAMETER_ACTIVATION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_PARAMETER_ACTIVATION for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_FILE_READY: // InformationObjectWithoutTime_FILE_READY
-		if _child, err = new(_InformationObjectWithoutTime_FILE_READY).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_FILE_READY).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_FILE_READY for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_SECTION_READY: // InformationObjectWithoutTime_SECTION_READY
-		if _child, err = new(_InformationObjectWithoutTime_SECTION_READY).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_SECTION_READY).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_SECTION_READY for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION: // InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION
-		if _child, err = new(_InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_CALL_DIRECTORY_SELECT_FILE_CALL_FILE_CALL_SECTION for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_LAST_SECTION_LAST_SEGMENT: // InformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT
-		if _child, err = new(_InformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_LAST_SECTION_LAST_SEGMENT for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_ACK_FILE_ACK_SECTION: // InformationObjectWithoutTime_ACK_FILE_ACK_SECTION
-		if _child, err = new(_InformationObjectWithoutTime_ACK_FILE_ACK_SECTION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_ACK_FILE_ACK_SECTION).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_ACK_FILE_ACK_SECTION for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_SEGMENT: // InformationObjectWithoutTime_SEGMENT
-		if _child, err = new(_InformationObjectWithoutTime_SEGMENT).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_SEGMENT).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_SEGMENT for type-switch of InformationObjectWithoutTime")
 		}
 	case typeIdentification == TypeIdentification_DIRECTORY: // InformationObjectWithoutTime_DIRECTORY
-		if _child, err = new(_InformationObjectWithoutTime_DIRECTORY).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte)); err != nil {
+		if _child, err = new(_InformationObjectWithoutTime_DIRECTORY).parse(ctx, readBuffer, m, typeIdentification, uint8(numTimeByte), addressed); err != nil {
 			return nil, errors.Wrap(err, "Error parsing sub-type InformationObjectWithoutTime_DIRECTORY for type-switch of InformationObjectWithoutTime")
 		}
 	default:
