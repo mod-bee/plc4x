@@ -49,6 +49,10 @@ public abstract class CANOpenPayload implements Message {
     CANOpenPayloadBuilder builder = null;
     if (EvaluationHelper.equals(service, (CANOpenService) (CANOpenService.NMT))) {
       builder = CANOpenNetworkPayload.staticParseCANOpenPayloadBuilder(readBuffer, service);
+    } else if (EvaluationHelper.equals(service, (CANOpenService) (CANOpenService.SYNC))) {
+      builder = CANOpenSyncPayload.staticParseCANOpenPayloadBuilder(readBuffer, service);
+    } else if (EvaluationHelper.equals(service, (CANOpenService) (CANOpenService.EMCY))) {
+      builder = CANOpenEmergencyPayload.staticParseCANOpenPayloadBuilder(readBuffer, service);
     } else if (EvaluationHelper.equals(service, (CANOpenService) (CANOpenService.TIME))) {
       builder = CANOpenTimeSynchronization.staticParseCANOpenPayloadBuilder(readBuffer, service);
     } else if (EvaluationHelper.equals(service, (CANOpenService) (CANOpenService.RECEIVE_PDO_1))) {
