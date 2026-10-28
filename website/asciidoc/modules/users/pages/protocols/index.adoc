@@ -49,7 +49,7 @@ implementation's driver manager - a protocol specification on its own is not eno
 |CAN (raw)
 |icon:times[role="red"]
 |icon:times[role="red"]
-|icon:times[role="red"]
+|icon:check[role="green"]
 |icon:check[role="green"]
 |icon:times[role="red"]
 
@@ -196,7 +196,8 @@ Notes on the partially implemented drivers:
 * *BACnet/IP* (Java) passively receives broadcast traffic and exposes it as subscriptions; it does
 not read or write properties. The Go driver is the complete one: it reads and writes properties,
 discovers devices and subscribes to COV notifications.
-* *CAN (raw)* (Java) writes and subscribes; there is no read support.
+* *CAN (raw)* (Java) writes and subscribes; there is no read support. The Go driver also reads: a read
+answers the last frame the connection received with the tag's identifier.
 * *CBus* (Java) is a skeleton that connects but implements no operations. The Go driver is the complete one.
 * *ctrlX* (Java) answers pings; that is the only operation it completes. Discovery is offered by
 the driver, but `CtrlXPlcDiscoverer.discoverWithHandler` is an unimplemented TODO that returns
