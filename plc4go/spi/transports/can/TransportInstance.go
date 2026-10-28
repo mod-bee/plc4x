@@ -164,7 +164,11 @@ func (m *TransportInstance) GetNumBytesAvailableInBuffer() (uint32, error) {
 	// none at all would block the codec's receive worker until the bus speaks.
 	if m.reader.Buffered() == 0 {
 		_ = m.conn.SetReadDeadline(time.Now().Add(10 * time.Millisecond))
-		_, _ = m.reader.Peek(1)
+		if _, err := m.reader.Peek(1); err != nil && !transports.ErrorIs(err, os.ErrDeadlineExceeded) {
+			// The endpoint failed (the interface was deleted or taken down: ENODEV, ENETDOWN). The socket says so once,
+			// so it is passed on rather than lost to the poll: the codec decides the connection is over.
+			return 0, err
+		}
 	}
 	return uint32(m.reader.Buffered()), nil
 }
