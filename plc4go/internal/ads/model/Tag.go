@@ -92,6 +92,17 @@ func (m DirectPlcTag) TransferSizeInBytes() uint32 {
 	return m.DataType.GetSize()
 }
 
+// EncodeArrayInfo is the shape to encode a written value into: what DecodeArrayInfo reads, as the
+// encoder takes it. Writing used the declared shape, so writing one element of an array (MAIN.arr[3])
+// demanded a list for the whole array and was refused, and a written range was laid out as all of it.
+func (m DirectPlcTag) EncodeArrayInfo() []apiModel.ArrayInfo {
+	var out []apiModel.ArrayInfo
+	for _, a := range m.DecodeArrayInfo() {
+		out = append(out, &spiModel.DefaultArrayInfo{LowerBound: a.GetLowerBound(), UpperBound: a.GetUpperBound(), Base: a.GetLowerBound(), Range: true})
+	}
+	return out
+}
+
 // DecodeArrayInfo is the shape to decode into, which the address may have narrowed.
 func (m DirectPlcTag) DecodeArrayInfo() []readWriteModel.AdsDataTypeArrayInfo {
 	if m.SelectedSizeInBytes > 0 {

@@ -24,7 +24,6 @@ import (
 	"encoding/binary"
 	"fmt"
 	"runtime/debug"
-	"strings"
 
 	"github.com/apache/plc4x/plc4go/internal/ads/model"
 	apiModel "github.com/apache/plc4x/plc4go/pkg/api/model"
@@ -205,21 +204,21 @@ func (m *Connection) multiRead(ctx context.Context, readRequest apiModel.PlcRead
 
 // arrayItemTypeFor is the type of one element of a shape being decoded or encoded.
 //
-// A declared array names its element type in its own name ("ARRAY [0..9] OF DINT"), and that is
-// where the shape usually comes from. A shape can also come from the address instead - a
-// selection out of a location whose type is already the element type, as every direct array tag
-// is ("0x4020/0[0..3]:DINT" resolves to DINT). Such a type names no element type because it *is*
-// the element type, which is what the fallback says.
-func (m *Connection) arrayItemTypeFor(dataType driverModel.AdsDataTypeTableEntry) (driverModel.AdsDataTypeTableEntry, error) {
-	name := dataType.GetSecondaryName()
-	separator := strings.Index(name, " OF ")
-	if separator < 0 {
+// A declared array's entry names its element type as its secondary name: TwinCAT uploads
+// "ARRAY [0..9] OF DINT" with the secondary name "DINT", as the Java driver reads it. Reading the
+// element type out of the secondary name's " OF " found none on a real TwinCAT table, so every
+// symbolic array read and write failed against one. A shape can also come from the address instead
+// - a selection out of a location whose type is already the element type, as every direct array
+// tag is ("0x4020/0[0..3]:DINT" resolves to DINT). Such a type declares no array of its own because
+// it *is* the element type, which is what the first case says.
+func (m *DriverContext) arrayItemTypeFor(dataType driverModel.AdsDataTypeTableEntry) (driverModel.AdsDataTypeTableEntry, error) {
+	if len(dataType.GetArrayInfo()) == 0 {
 		return dataType, nil
 	}
-	itemTypeName := name[separator+4:]
-	itemType, ok := m.driverContext.dataTypeTable[itemTypeName]
+	itemTypeName := dataType.GetSecondaryName()
+	itemType, ok := m.dataTypeTable[itemTypeName]
 	if !ok {
-		return nil, fmt.Errorf("couldn't resolve array item type %s", itemTypeName)
+		return nil, fmt.Errorf("couldn't resolve the element type %q of array type %s", itemTypeName, dataType.GetMainName())
 	}
 	return itemType, nil
 }
@@ -231,7 +230,7 @@ func (m *Connection) parsePlcValue(dataType driverModel.AdsDataTypeTableEntry, a
 	if len(arrayInfo) > 0 {
 		// This is an Array/List type.
 		curArrayInfo := arrayInfo[0]
-		arrayItemType, err := m.arrayItemTypeFor(dataType)
+		arrayItemType, err := m.driverContext.arrayItemTypeFor(dataType)
 		if err != nil {
 			return nil, err
 		}
@@ -276,7 +275,7 @@ func (m *Connection) parsePlcValue(dataType driverModel.AdsDataTypeTableEntry, a
 		return spiValues.NewPlcStructOrdered(plcValues, memberOrder), nil
 	} else {
 		// This is a primitive type.
-		valueType, stringLength := m.getPlcValueForAdsDataTypeTableEntry(dataType)
+		valueType, stringLength := m.driverContext.getPlcValueForAdsDataTypeTableEntry(dataType)
 		if valueType == apiValues.NULL {
 			return nil, errors.New(fmt.Sprintf("error converting %s into plc4x plc-value type", dataType.GetSecondaryName()))
 		}
