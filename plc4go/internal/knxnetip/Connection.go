@@ -287,17 +287,8 @@ func (m *Connection) Connect(ctx context.Context) error {
 	m.metadata.DeviceSerialNumber = dibDeviceInfo.GetKnxNetIpDeviceSerialNumber()
 	m.metadata.DeviceMulticastAddress = dibDeviceInfo.GetKnxNetIpDeviceMulticastAddress().GetAddr()
 	m.metadata.DeviceMacAddress = dibDeviceInfo.GetKnxNetIpDeviceMacAddress().GetAddr()
-	m.metadata.SupportedServices = []string{}
-	supportsTunneling := false
-	for _, serviceId := range searchResponse.GetDibSuppSvcFamilies().GetServiceIds() {
-		m.metadata.SupportedServices = append(m.metadata.SupportedServices, serviceId.(interface{ GetTypeName() string }).GetTypeName())
-		// If this is an instance of the "tunneling", service, this connection supports tunneling
-		_, ok := serviceId.(driverModel.KnxNetIpTunneling)
-		if ok {
-			supportsTunneling = true
-			break
-		}
-	}
+	var supportsTunneling bool
+	m.metadata.SupportedServices, supportsTunneling = supportedServiceFamilies(searchResponse)
 
 	// If the current device supports tunneling, create a tunneling connection.
 	// Via this connection we then get access to the entire KNX network this Gateway is connected to.
@@ -405,6 +396,45 @@ func (m *Connection) Connect(ctx context.Context) error {
 
 	m.invalidated.Store(false)
 	return nil
+}
+
+// supportedServiceFamilies lists the service families a gateway announces in its search
+// response - every one of them, not only the ones up to tunneling - and says whether
+// tunneling is one of them.
+func supportedServiceFamilies(searchResponse driverModel.SearchResponse) ([]string, bool) {
+	names := []string{}
+	supportsTunneling := false
+	for _, serviceId := range searchResponse.GetDibSuppSvcFamilies().GetServiceIds() {
+		names = append(names, serviceFamilyName(serviceId))
+		// If this is an instance of the "tunneling", service, this connection supports tunneling
+		if _, ok := serviceId.(driverModel.KnxNetIpTunneling); ok {
+			supportsTunneling = true
+		}
+	}
+	return names, supportsTunneling
+}
+
+// serviceFamilyName is how a service family is listed in the connection's metadata; one this
+// driver doesn't know is listed by its number.
+func serviceFamilyName(serviceId driverModel.ServiceId) string {
+	switch serviceId.(type) {
+	case driverModel.KnxNetIpCore:
+		return "core"
+	case driverModel.KnxNetIpDeviceManagement:
+		return "device-management"
+	case driverModel.KnxNetIpTunneling:
+		return "tunneling"
+	case driverModel.KnxNetIpRouting:
+		return "routing"
+	case driverModel.KnxNetRemoteLogging:
+		return "remote-logging"
+	case driverModel.KnxNetRemoteConfigurationAndDiagnosis:
+		return "remote-configuration-and-diagnosis"
+	case driverModel.KnxNetObjectServer:
+		return "object-server"
+	default:
+		return fmt.Sprintf("service-family-0x%02x", serviceId.GetServiceType())
+	}
 }
 
 func (m *Connection) doSomethingAndClose(something func() error) error {
