@@ -83,7 +83,11 @@ func (m *MessageCodec) Receive(ctx context.Context) (spi.Message, error) {
 		return nil, errors.New("Transport instance not connected")
 	}
 	available, err := transportInstance.GetNumBytesAvailableInBuffer()
-	if err != nil || available < can.FrameSize {
+	if err != nil {
+		// The transport's endpoint failed; the default codec classifies the error and stops when it is fatal.
+		return nil, errors.Wrap(err, "error polling the CAN transport")
+	}
+	if available < can.FrameSize {
 		return nil, nil
 	}
 	theBytes, err := transportInstance.Read(ctx, can.FrameSize)
