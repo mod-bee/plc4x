@@ -485,20 +485,47 @@ func (m *Connection) getKeepaliveInterval() time.Duration {
 	return connectionStateInterval
 }
 
-// sendKeepalive sends a single ConnectionStateRequest and logs the outcome.
+// connectionStateRepeats is how often a heartbeat is repeated before the tunnel is given up:
+// "If the KNXnet/IP Client does not receive the CONNECTIONSTATE_RESPONSE within the
+// CONNECTIONSTATE_REQUEST_TIMEOUT, or the status of a received response indicates an error, it
+// shall repeat the CONNECTIONSTATE_REQUEST three times and then terminate the connection"
+// (KNXnet/IP Core, 03.08.02 5.4).
+const connectionStateRepeats = 3
+
+// sendKeepalive is one heartbeat: a ConnectionStateRequest, repeated up to three times while
+// the gateway doesn't answer or answers with an error. When none of them gets a good answer the
+// tunnel is gone - the gateway restarted and doesn't know the channel any more, or it can't be
+// reached - and the connection is invalidated, so it reports itself as not connected instead
+// of answering reads from a cache nothing updates any more.
 func (m *Connection) sendKeepalive() {
-	ctx, cancelFunc := utils.WithNamedTimeout(context.Background(), "connection state request timeout", m.getRequestTimeout())
+	var err error
+	for attempt := 0; attempt <= connectionStateRepeats; attempt++ {
+		if err = m.pingOnce(context.Background()); err == nil {
+			return
+		}
+		m.log.Warn().Err(err).Int("attempt", attempt+1).Msg("connection state request failed")
+		if m.IsInvalidated() {
+			return
+		}
+	}
+	m.log.Warn().Err(err).Msg("the gateway didn't confirm the tunnel, invalidating the connection")
+	m.Invalidate()
+}
+
+// pingOnce sends one ConnectionStateRequest and says whether the gateway still knows the
+// tunnel: an answer with any status other than NO_ERROR (INVALID_CONNECTION_ID from a gateway which
+// restarted, a broken data or KNX connection) means it doesn't.
+func (m *Connection) pingOnce(ctx context.Context) error {
+	ctx, cancelFunc := utils.WithNamedTimeout(ctx, "connection state request timeout", m.getRequestTimeout())
 	defer cancelFunc()
 	connectionStateResponse, err := m.sendConnectionStateRequest(ctx)
 	if err != nil {
-		m.log.Warn().Err(err).Msg("Error sending connection state request")
-		return
+		return errors.Wrap(err, "got an error")
 	}
-	if connectionStateResponse.GetStatus() != driverModel.Status_NO_ERROR {
-		m.log.Warn().
-			Stringer("status", connectionStateResponse.GetStatus()).
-			Msg("Got a non-OK status for the connection state request")
+	if status := connectionStateResponse.GetStatus(); status != driverModel.Status_NO_ERROR {
+		return errors.Errorf("the gateway doesn't confirm the tunnel: %s", status)
 	}
+	return nil
 }
 
 // stopConnectionStateTimer stops the keepalive-ticker. Calling it more than once
@@ -566,10 +593,7 @@ func (m *Connection) Ping(ctx context.Context) error {
 		return errors.New("connection has been invalidated")
 	}
 	// Send the connection state request
-	if _, err := m.sendConnectionStateRequest(ctx); err != nil {
-		return errors.Wrap(err, "got an error")
-	}
-	return nil
+	return m.pingOnce(ctx)
 }
 
 func (m *Connection) Invalidate() {
