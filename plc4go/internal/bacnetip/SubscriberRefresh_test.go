@@ -81,7 +81,9 @@ func refreshOnce(t *testing.T, s *Subscriber, codec *captureCodec, now time.Time
 // subscriber must re-issue it at lifetime/2, and only then.
 func TestSubscriber_RefreshDueReissuesAtHalfTheLifetime(t *testing.T) {
 	codec := newCaptureCodec(nil)
-	issued := time.Now()
+	// Issued a minute ago: a successful refresh stamps the handle with time.Now(), which on a
+	// coarse clock (Windows) can equal an issued time taken a moment earlier, and After fails.
+	issued := time.Now().Add(-time.Minute)
 	s, handle := newRefreshSubscriber(t, codec, 600, issued)
 
 	assert.False(t, refreshOnce(t, s, codec, issued.Add(299*time.Second), true), "not due before lifetime/2")
