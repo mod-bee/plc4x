@@ -201,3 +201,33 @@ func TestTagHandler_GroupAddressBracketsAreAMatchExpression(t *testing.T) {
 		assert.NoError(t, err, address)
 	}
 }
+
+// TestTagHandler_DatapointTypeNamesWithDigits: most datapoint-type names carry digits
+// (DPT_Value_2_Count, DPT_String_8859_1, DPT_ActiveEnergy_V64), and a group address with one
+// used to be refused as no address at all.
+func TestTagHandler_DatapointTypeNamesWithDigits(t *testing.T) {
+	handler := NewTagHandler()
+
+	for address, want := range map[string]driverModel.KnxDatapointType{
+		"1/2/3:DPT_Value_2_Count":   driverModel.KnxDatapointType_DPT_Value_2_Count,
+		"1/2/3:DPT_String_8859_1":   driverModel.KnxDatapointType_DPT_String_8859_1,
+		"3/50:DPT_Value_1_Ucount":   driverModel.KnxDatapointType_DPT_Value_1_Ucount,
+		"1234:DPT_ActiveEnergy_V64": driverModel.KnxDatapointType_DPT_ActiveEnergy_V64,
+		"1/*/3:DPT_Value_4_Ucount":  driverModel.KnxDatapointType_DPT_Value_4_Ucount,
+		"1/2/3:DPT_Value_Temp":      driverModel.KnxDatapointType_DPT_Value_Temp,
+	} {
+		tag, err := handler.ParseTag(address)
+		if !assert.NoError(t, err, address) {
+			continue
+		}
+		groupAddressTag, ok := tag.(GroupAddressTag)
+		if assert.True(t, ok, address) {
+			assert.Equal(t, want, *groupAddressTag.GetTagType(), address)
+		}
+	}
+
+	_, err := handler.ParseTag("1/2/3:2_Count")
+	assert.Error(t, err, "a type name starts with a letter or an underscore")
+	_, err = handler.ParseTag("1/2/3:DPT_No_Such_Type_9")
+	assert.Error(t, err, "an unknown type name is refused")
+}
