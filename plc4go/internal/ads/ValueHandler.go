@@ -76,9 +76,19 @@ func (t ValueHandler) parseType(tag apiModel.PlcTag, value any) (apiValues.PlcVa
 		return t.AdsParseType(directTagPointer.DataType, directTagPointer.DecodeArrayInfo(), value)
 	case model.DirectPlcTag:
 		directTag = tag.(model.DirectPlcTag)
+	case *model.DirectPlcTag:
+		directTag = *tag.(*model.DirectPlcTag)
+	default:
+		return nil, fmt.Errorf("invalid tag type %T", tag)
 	}
 
-	return t.AdsParseType(directTag.DataType, directTag.DataType.GetArrayInfo(), value)
+	// A direct address leaves its data type to the device's table, as the read and the write
+	// complete it; without that the data type was nil here and every direct write panicked.
+	completed, err := t.driverContext.completeDirectTag(directTag)
+	if err != nil {
+		return nil, err
+	}
+	return t.AdsParseType(completed.DataType, completed.DecodeArrayInfo(), value)
 }
 
 func (t ValueHandler) AdsParseType(datatype readWriteModel.AdsDataTypeTableEntry, arrayInfo []readWriteModel.AdsDataTypeArrayInfo, value any) (apiValues.PlcValue, error) {

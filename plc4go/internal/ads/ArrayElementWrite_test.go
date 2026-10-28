@@ -100,3 +100,23 @@ func TestArrayWrite_aWholeArrayIsAListOfTheElementType(t *testing.T) {
 	require.Len(t, value.GetList(), 10)
 	assert.Equal(t, int32(4), value.GetList()[3].GetInt32())
 }
+
+// A direct address (0x4020/104:DINT) names its type and leaves its data type entry to the device's
+// table. The value handler never looked it up: a direct write dereferenced the missing entry and
+// panicked, taking the driver down with it.
+func TestDirectWrite_theValueTakesTheTypeTheAddressNames(t *testing.T) {
+	c := connectionWithArraySymbol()
+	th := NewTagHandlerWithDriverContext(c.driverContext)
+	vh := NewValueHandlerWithDriverContext(c.driverContext, th)
+	for _, address := range []string{"0x4020/104:DINT", "0x4020/100[0..2]:DINT"} {
+		tag, err := th.ParseTag(address)
+		require.NoError(t, err, address)
+		var value any = int32(-5)
+		if address != "0x4020/104:DINT" {
+			value = []int32{1, 2, 3}
+		}
+		v, err := vh.NewPlcValue(tag, value)
+		require.NoError(t, err, address)
+		assert.Equal(t, address != "0x4020/104:DINT", v.IsList(), address)
+	}
+}
