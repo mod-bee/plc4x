@@ -140,6 +140,9 @@ func constructedDataToPlcValue(data model.BACnetConstructedData) apiValues.PlcVa
 		if pv, ok := taggedEnumToPlcValue(v); ok {
 			return pv
 		}
+		if pv, ok := priorityArrayToPlcValue(v); ok {
+			return pv
+		}
 		// Composite types: stringify until we add typed mappings (DateTime,
 		// ObjectReference, BACnetTimeStamp, ...).
 		return spiValues.NewPlcSTRING(fmt.Sprintf("%v", v))
@@ -247,6 +250,55 @@ func taggedEnumToPlcValue(v any) (apiValues.PlcValue, bool) {
 		return spiValues.NewPlcSTRING(out.String()), true
 	}
 	return nil, false
+}
+
+// priorityArrayToPlcValue decodes a commandable object's PRIORITY_ARRAY. It is not array-shaped the way OBJECT_LIST
+// is (its count and slots sit on the BACnetPriorityArray that GetActualValue returns), so without this it fell
+// through to the stringified composite. A read of one slot (priority-array[8]) yields that slot's value - NULL when
+// it is relinquished; a read of index 0 the count; a whole-array read a PlcList of the sixteen slots.
+func priorityArrayToPlcValue(v any) (apiValues.PlcValue, bool) {
+	priorityArray, ok := v.(model.BACnetPriorityArray)
+	if !ok || priorityArray == nil {
+		return nil, false
+	}
+	if priorityArray.GetIsIndexedAccess() {
+		return priorityValueToPlcValue(priorityArray.GetIndexEntry()), true
+	}
+	if count := priorityArray.GetNumberOfDataElements(); count != nil && len(priorityArray.GetData()) == 0 {
+		return appTagToPlcValue(count), true
+	}
+	slots := make([]apiValues.PlcValue, 0, len(priorityArray.GetData()))
+	for _, slot := range priorityArray.GetData() {
+		slots = append(slots, priorityValueToPlcValue(slot))
+	}
+	return spiValues.NewPlcList(slots), true
+}
+
+// priorityValueToPlcValue is one priority-array slot's value. Each BACnetPriorityValue choice (Null, Real,
+// Enumerated, Unsigned, ...) carries its value behind one accessor returning an application tag (GetRealValue,
+// GetNullValue, ...), or constructed data for the constructed-value choice.
+func priorityValueToPlcValue(slot model.BACnetPriorityValue) apiValues.PlcValue {
+	if slot == nil {
+		return spiValues.NewPlcNULL()
+	}
+	rv := reflect.ValueOf(slot)
+	for i := 0; i < rv.NumMethod(); i++ {
+		name := rv.Type().Method(i).Name
+		if !strings.HasPrefix(name, "Get") || strings.HasPrefix(name, "GetPeeked") {
+			continue
+		}
+		method := rv.Method(i)
+		if method.Type().NumIn() != 0 || method.Type().NumOut() != 1 {
+			continue
+		}
+		switch value := method.Call(nil)[0].Interface().(type) {
+		case model.BACnetApplicationTag:
+			return appTagToPlcValue(value)
+		case model.BACnetConstructedData:
+			return constructedDataToPlcValue(value)
+		}
+	}
+	return spiValues.NewPlcNULL()
 }
 
 // elementsToPlcValue collapses a list of BACnetConstructedDataElement to a

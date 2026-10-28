@@ -210,3 +210,40 @@ func TestConstructedDataToPlcValue_ObjectList_Count(t *testing.T) {
 	assert.True(t, got.IsUint32(), "OBJECT_LIST[0] count should be numeric, got %T", got)
 	assert.Equal(t, uint32(5), got.GetUint32())
 }
+
+// A commandable object's PRIORITY_ARRAY decodes to values, not a stringified composite: one slot to that slot's value
+// (NULL when relinquished), the whole array to a list of its slots.
+func TestConstructedDataToPlcValue_PriorityArray(t *testing.T) {
+	real55 := readWriteModel.NewBACnetPriorityValueReal(readWriteModel.NewBACnetTagHeader(4, 0, 4, nil, nil, nil, nil),
+		readWriteModel.CreateBACnetApplicationTagReal(55))
+	null := readWriteModel.NewBACnetPriorityValueNull(readWriteModel.NewBACnetTagHeader(0, 0, 0, nil, nil, nil, nil),
+		readWriteModel.CreateBACnetApplicationTagNull())
+	data := func(slots ...readWriteModel.BACnetPriorityValue) readWriteModel.BACnetConstructedData {
+		return readWriteModel.NewBACnetConstructedDataPriorityArray(
+			readWriteModel.CreateBACnetOpeningTag(3),
+			readWriteModel.NewBACnetTagHeader(4, 0, 4, nil, nil, nil, nil),
+			readWriteModel.CreateBACnetClosingTag(3),
+			readWriteModel.NewBACnetPriorityArray(nil, slots))
+	}
+
+	slot := constructedDataToPlcValue(data(real55))
+	require.Equal(t, apiValues.REAL, slot.GetPlcValueType(), "priority-array[8] holding 55.0")
+	assert.Equal(t, float32(55), slot.GetFloat32())
+
+	relinquished := constructedDataToPlcValue(data(null))
+	assert.Equal(t, apiValues.NULL, relinquished.GetPlcValueType(), "a relinquished slot")
+
+	slots := []readWriteModel.BACnetPriorityValue{}
+	for i := 0; i < 16; i++ {
+		if i == 7 {
+			slots = append(slots, real55)
+		} else {
+			slots = append(slots, null)
+		}
+	}
+	whole := constructedDataToPlcValue(data(slots...))
+	require.True(t, whole.IsList())
+	require.Len(t, whole.GetList(), 16)
+	assert.Equal(t, float32(55), whole.GetList()[7].GetFloat32())
+	assert.Equal(t, apiValues.NULL, whole.GetList()[0].GetPlcValueType())
+}

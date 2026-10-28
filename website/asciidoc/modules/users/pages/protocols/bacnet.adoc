@@ -59,6 +59,15 @@ Neither driver supports `browse`. The Go driver does support device *discovery*
 discovery API rather than a browse request, that finds devices on the network rather
 than enumerating objects on one.
 
+Across subnets a broadcast does not reach, the Go discoverer runs as a *foreign device*
+(ASHRAE 135 Annex J.5): with the protocol-specific discovery option
+`foreign-device-bbmd` (`host` or `host:port`) it registers with that BBMD
+(`foreign-device-ttl`, seconds, default 60), waits for the BBMD to accept, and has it
+distribute the `WhoIs` (Distribute-Broadcast-To-Network). Each device found is reported
+at its own address (from the BBMD's Forwarded-NPDU) with the option `via-bbmd`; a
+refused or unanswered registration is an error that says so. No local broadcast is sent
+in this mode.
+
 == Connection String
 
 BACnet/IP has the following connection string format:
