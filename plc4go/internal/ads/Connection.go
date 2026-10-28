@@ -377,8 +377,16 @@ func (m *Connection) directTagFor(ctx context.Context, tag apiModel.PlcTag) (*mo
 	default:
 		return nil, errors.Errorf("invalid tag type %T", tag)
 	}
+	return m.driverContext.completeDirectTag(directTag)
+}
+
+// completeDirectTag gives a direct tag what its address leaves to the device: its data type entry,
+// by the type the address names, and the shape of what it selects. The reader, the writer and the
+// value handler all complete a direct tag this way; the value handler did not, and dereferenced the
+// missing data type on every direct write.
+func (m *DriverContext) completeDirectTag(directTag model.DirectPlcTag) (*model.DirectPlcTag, error) {
 	if directTag.DataType == nil {
-		dataType, ok := m.driverContext.dataTypeTable[directTag.ValueType.String()]
+		dataType, ok := m.dataTypeTable[directTag.ValueType.String()]
 		if !ok {
 			return nil, errors.Errorf("no entry for data type %s in the data type table", directTag.ValueType)
 		}
