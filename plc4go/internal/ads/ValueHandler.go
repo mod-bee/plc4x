@@ -68,7 +68,12 @@ func (t ValueHandler) parseType(tag apiModel.PlcTag, value any) (apiValues.PlcVa
 		if err != nil {
 			return nil, fmt.Errorf("couldn't resolve address %s to a valid tag on the PLC", symbolicTag.SymbolicAddress)
 		}
-		directTag = *directTagPointer
+		// The value has the shape the address selected, as the read and the write narrow it: one
+		// element of an array (MAIN.arr[3]) is one value of the element's type, not the whole array.
+		if directTagPointer, err = t.driverContext.applySymbolicSelection(directTagPointer, symbolicTag.ArrayInfo, symbolicTag.SymbolicAddress); err != nil {
+			return nil, err
+		}
+		return t.AdsParseType(directTagPointer.DataType, directTagPointer.DecodeArrayInfo(), value)
 	case model.DirectPlcTag:
 		directTag = tag.(model.DirectPlcTag)
 	}

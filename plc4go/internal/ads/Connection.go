@@ -433,14 +433,14 @@ func (m *Connection) resolveSymbolicTag(ctx context.Context, symbolicTag model.S
 	// resolved location to read. Applying it here is what makes MAIN.arr[1..4] read those four
 	// elements; without it the resolved location was the whole array at its original offset, and
 	// the selection was parsed, rendered and silently discarded.
-	return m.applySymbolicSelection(resolved, symbolicTag.ArrayInfo, symbolicAddress)
+	return m.driverContext.applySymbolicSelection(resolved, symbolicTag.ArrayInfo, symbolicAddress)
 }
 
 // applySymbolicSelection narrows a resolved location to the elements the address selected.
 //
 // A selection is refused rather than approximated when it cannot be applied exactly: reading the
 // wrong elements is indistinguishable from reading the right ones once the values come back.
-func (m *Connection) applySymbolicSelection(tag *model.DirectPlcTag, selection []apiModel.ArrayInfo, address string) (*model.DirectPlcTag, error) {
+func (m *DriverContext) applySymbolicSelection(tag *model.DirectPlcTag, selection []apiModel.ArrayInfo, address string) (*model.DirectPlcTag, error) {
 	if len(selection) == 0 {
 		return tag, nil
 	}
@@ -547,7 +547,7 @@ func (m *Connection) resolveSymbolicAddress(ctx context.Context, addressParts []
 				Range:      true,
 			})
 		}
-		plcValueType, stringLength := m.getPlcValueForAdsDataTypeTableEntry(curDataType)
+		plcValueType, stringLength := m.driverContext.getPlcValueForAdsDataTypeTableEntry(curDataType)
 		return &model.DirectPlcTag{
 			ArrayInfo:    arrayInfo,
 			IndexGroup:   indexGroup,
@@ -576,7 +576,7 @@ func (m *Connection) resolveSymbolicAddress(ctx context.Context, addressParts []
 		curAddressPart, curDataType.GetSecondaryName())
 }
 
-func (m *Connection) getPlcValueForAdsDataTypeTableEntry(entry readWriteModel.AdsDataTypeTableEntry) (apiValues.PlcValueType, int32) {
+func (m *DriverContext) getPlcValueForAdsDataTypeTableEntry(entry readWriteModel.AdsDataTypeTableEntry) (apiValues.PlcValueType, int32) {
 	stringLength := -1
 	// The main name carries the type's name ("BYTE", "STRING(80)", ...); the secondary
 	// name is only set for aliased types (matching the Java driver's use of getMainName()).
