@@ -2221,3 +2221,39 @@ func Test_byteReadBuffer_PullContext_boundsNesting(t *testing.T) {
 		assert.Error(t, rb.PullContext("oneTooDeep"))
 	})
 }
+
+// A signed field narrower than its Go type carries its sign in its own top bit: INTEGER24, 40, 48 and 56 (CANopen,
+// CAN) are read sign-extended, in either byte order, and a narrow field read whole is unchanged.
+func TestReadBuffer_ReadNarrowSignedIntsSignExtended(t *testing.T) {
+	little := func(data ...byte) ReadBufferByteBased {
+		return NewReadBufferByteBased(data, WithByteOrderForReadBufferByteBased(binary.LittleEndian))
+	}
+	big := func(data ...byte) ReadBufferByteBased { return NewReadBufferByteBased(data) }
+
+	v32, err := little(0x60, 0x79, 0xFE).ReadInt32("", 24)
+	assert.NoError(t, err)
+	assert.Equal(t, int32(-100000), v32)
+	v32, err = big(0xFE, 0x79, 0x60).ReadInt32("", 24)
+	assert.NoError(t, err)
+	assert.Equal(t, int32(-100000), v32)
+	v32, err = little(0xA0, 0x86, 0x01).ReadInt32("", 24)
+	assert.NoError(t, err)
+	assert.Equal(t, int32(100000), v32, "a positive one stays as it is")
+
+	v64, err := little(0xFE, 0xFF, 0xFF, 0xFF, 0xFF).ReadInt64("", 40)
+	assert.NoError(t, err)
+	assert.Equal(t, int64(-2), v64)
+	v64, err = little(0x00, 0x00, 0x00, 0x00, 0x00, 0x80).ReadInt64("", 48)
+	assert.NoError(t, err)
+	assert.Equal(t, int64(-1)<<47, v64)
+	v64, err = big(0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE).ReadInt64("", 56)
+	assert.NoError(t, err)
+	assert.Equal(t, int64(-2), v64)
+
+	v8, err := big(0xF0).ReadInt8("", 4)
+	assert.NoError(t, err)
+	assert.Equal(t, int8(-1), v8, "int 4 0b1111")
+	v16, err := little(0xFE, 0xFF).ReadInt16("", 16)
+	assert.NoError(t, err)
+	assert.Equal(t, int16(-2), v16)
+}

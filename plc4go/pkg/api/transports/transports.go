@@ -26,8 +26,10 @@ import (
 	"github.com/apache/plc4x/plc4go/spi/options/converter"
 	spiTransports "github.com/apache/plc4x/plc4go/spi/transports"
 	"github.com/apache/plc4x/plc4go/spi/transports/serial"
+	"github.com/apache/plc4x/plc4go/spi/transports/socketcan"
 	"github.com/apache/plc4x/plc4go/spi/transports/tcp"
 	"github.com/apache/plc4x/plc4go/spi/transports/udp"
+	"github.com/apache/plc4x/plc4go/spi/transports/virtualcan"
 )
 
 // TransportError exposes the SPI transport error wrapper on the public API so callers can perform
@@ -65,4 +67,16 @@ func RegisterUdpTransport(driverManager plc4go.PlcDriverManager, _options ...con
 // RegisterSerialTransport registers the serial transport implementation with the supplied driver manager using the provided options.
 func RegisterSerialTransport(driverManager plc4go.PlcDriverManager, _options ...config.WithOption) {
 	driverManager.(spi.TransportAware).RegisterTransport(serial.NewTransport(converter.WithOptionToInternal(_options...)...))
+}
+
+// RegisterSocketCanTransport registers the SocketCAN transport (can-socketcan, Linux only) with the supplied driver
+// manager using the provided options.
+func RegisterSocketCanTransport(driverManager plc4go.PlcDriverManager, _options ...config.WithOption) {
+	driverManager.(spi.TransportAware).RegisterTransport(socketcan.NewTransport(converter.WithOptionToInternal(_options...)...))
+}
+
+// RegisterVirtualCanTransport registers the in-process virtual CAN bus transport (can-virtualcan) with the supplied
+// driver manager using the provided options.
+func RegisterVirtualCanTransport(driverManager plc4go.PlcDriverManager, _options ...config.WithOption) {
+	driverManager.(spi.TransportAware).RegisterTransport(virtualcan.NewTransport(converter.WithOptionToInternal(_options...)...))
 }

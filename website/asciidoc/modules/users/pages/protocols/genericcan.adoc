@@ -43,7 +43,9 @@ xref:protocols/canopen.adoc[CANopen].
 
 |===
 
-There is no read support; the driver only writes and subscribes.
+There is no read support in Java; the driver only writes and subscribes. The Go driver also reads: a
+read answers the last frame the connection received with the tag's identifier, and waits for one until
+`request-timeout-ms` when none has come yet.
 
 == Connection String
 
