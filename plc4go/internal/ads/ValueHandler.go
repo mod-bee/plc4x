@@ -115,11 +115,23 @@ func (t ValueHandler) AdsParseListType(dataType readWriteModel.AdsDataTypeTableE
 			" doesn't match tag size " + strconv.Itoa(int(curArrayInfo.GetNumElements())))
 	}
 
+	// The innermost level holds the elements: values of the array's element type, not of the array's
+	// own type, which converted every element of a whole-array write to NULL. An outer level keeps the
+	// array's type for the levels inside it.
+	next := dataType
+	if len(restArrayInfo) == 0 && t.driverContext != nil {
+		itemType, err := t.driverContext.arrayItemTypeFor(dataType)
+		if err != nil {
+			return nil, err
+		}
+		next = itemType
+	}
+
 	// Actually convert the current array info level.
 	var plcValues []apiValues.PlcValue
 	for i := uint32(0); i < curArrayInfo.GetNumElements(); i++ {
 		curValue := curValues[i]
-		plcValue, err := t.AdsParseListType(dataType, restArrayInfo, curValue)
+		plcValue, err := t.AdsParseListType(next, restArrayInfo, curValue)
 		if err != nil {
 			return nil, errors.New("error parsing PlcValue: " + err.Error())
 		}
