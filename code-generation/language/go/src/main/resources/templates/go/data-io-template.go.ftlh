@@ -162,6 +162,9 @@ func ${type.name}ParseWithBuffer(ctx context.Context, readBuffer utils.ReadBuffe
 			if _${helper.getGoSafeName(manualField.name)}Err != nil {
 				return nil, errors.Wrap(_${helper.getGoSafeName(manualField.name)}Err, "Error parsing '${manualField.name}' field")<@emitImport import="github.com/apache/plc4x/plc4go/spi/errors" />
 			}
+					<#if case.name == "Struct">
+			_map["${manualField.name}"] = ${helper.getPlcValueTypeForTypeReference(manualField.type)}(${helper.getGoSafeName(manualField.name)})
+					</#if>
 					<#if manualField.name == "value">
 						<#assign valueDefined=true>
 					</#if>

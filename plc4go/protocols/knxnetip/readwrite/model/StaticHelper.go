@@ -67,3 +67,16 @@ func SerializeKnxScaled(_ context.Context, writeBuffer utils.WriteBuffer, value 
 	}
 	return writeBuffer.WriteUint64("value", width, uint64(raw))
 }
+
+// SerializeKnxScaledField writes one field of a composite datapoint type that has a
+// coefficient, as SerializeKnxScaled writes a single one: value is the struct, field the name.
+func SerializeKnxScaledField(ctx context.Context, writeBuffer utils.WriteBuffer, value apiValues.PlcValue, field string, width uint8, signed bool, fullScale float64, largest float64) error {
+	if value == nil || !value.IsStruct() {
+		return errors.Errorf("no structure to write the field %s of", field)
+	}
+	fieldValue := value.GetValue(field)
+	if fieldValue == nil {
+		return errors.Errorf("the structure has no field %s", field)
+	}
+	return SerializeKnxScaled(ctx, writeBuffer, fieldValue, width, signed, fullScale, largest)
+}
