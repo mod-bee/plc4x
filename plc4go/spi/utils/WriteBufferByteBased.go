@@ -263,6 +263,16 @@ func (wb *byteWriteBuffer) WriteBigInt(_ string, bitLength uint8, value *big.Int
 
 func (wb *byteWriteBuffer) WriteFloat32(_ string, bitLength uint8, value float32, _ ...WithWriterArgs) error {
 	wb.move(uint(bitLength))
+	if bitLength == 16 {
+		res, err := encodeKnxFloat16(value)
+		if err != nil {
+			return err
+		}
+		if wb.byteOrder == binary.LittleEndian {
+			res = bits.ReverseBytes16(res)
+		}
+		return wb.bits.WriteBits(uint64(res), bitLength)
+	}
 	res := math.Float32bits(value)
 	if wb.byteOrder == binary.LittleEndian {
 		res = bits.ReverseBytes32(res)
