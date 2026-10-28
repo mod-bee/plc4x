@@ -147,7 +147,7 @@ func Test_Reader_readGroupAddress_fromCache(t *testing.T) {
 		},
 		{
 			name:    "a datapoint-type which needs its own data byte",
-			tagType: driverModel.KnxDatapointType_DPT_Scaling,
+			tagType: driverModel.KnxDatapointType_DPT_DecimalFactor,
 			payload: []byte{0x00, 0x80},
 			assertion: func(t *testing.T, value apiValues.PlcValue) {
 				assert.Equal(t, uint8(0x80), value.GetUint8())

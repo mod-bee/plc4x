@@ -44,7 +44,7 @@ var groupAddress123 = []byte{1<<3 | 2, 3}
 // single byte holding the embedded data bits, no data bytes follow it.
 var switchPayload = []byte{0x01}
 
-// scalingPayload is the group-value payload for a DPT_Scaling (8 bit) tag: the embedded-data
+// scalingPayload is the group-value payload for a DPT_DecimalFactor (8 bit, unscaled) tag: the embedded-data
 // byte stays empty and the value follows as a data byte.
 var scalingPayload = []byte{0x00, 0x80}
 
@@ -245,7 +245,7 @@ func Test_Subscriber_handleValueChange_decodesThePayload(t *testing.T) {
 		},
 		{
 			name:       "a datapoint-type which needs its own data byte",
-			tagAddress: "1/2/3:DPT_Scaling",
+			tagAddress: "1/2/3:DPT_DecimalFactor",
 			payload:    scalingPayload,
 			assertion: func(t *testing.T, value apiValues.PlcValue) {
 				assert.Equal(t, uint8(0x80), value.GetUint8())
