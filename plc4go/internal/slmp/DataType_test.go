@@ -323,3 +323,39 @@ func TestDataType_EncodeDecodeRoundTrip(t *testing.T) {
 		})
 	}
 }
+
+// Bits go out four to a point, two points to a byte, the first in the high nibble; an odd count
+// leaves the last low nibble 0.
+func TestEncodeBits(t *testing.T) {
+	bools := func(values ...bool) apiValues.PlcValue {
+		list := make([]apiValues.PlcValue, 0, len(values))
+		for _, value := range values {
+			list = append(list, spiValues.NewPlcBOOL(value))
+		}
+		return spiValues.NewPlcList(list)
+	}
+	data, err := EncodeBits(bools(true, true, false, true), 4)
+	require.NoError(t, err)
+	assert.Equal(t, []byte{0x11, 0x01}, data)
+
+	data, err = EncodeBits(spiValues.NewPlcBOOL(true), 1)
+	require.NoError(t, err)
+	assert.Equal(t, []byte{0x10}, data)
+
+	_, err = EncodeBits(bools(true), 2)
+	assert.Error(t, err, "a count that does not match")
+	_, err = EncodeBits(spiValues.NewPlcSTRING("on"), 1)
+	assert.Error(t, err, "not a boolean")
+}
+
+// A bit device's word holds its lowest device number in its least significant bit.
+func TestDecodeBits(t *testing.T) {
+	value, err := DecodeBits([]byte{0x00, 0x80, 0x01, 0x00}, 15, 2)
+	require.NoError(t, err)
+	require.True(t, value.IsList())
+	assert.True(t, value.GetList()[0].GetBool(), "bit 15 of the first word")
+	assert.True(t, value.GetList()[1].GetBool(), "bit 0 of the second word")
+
+	_, err = DecodeBits([]byte{0x00, 0x80}, 15, 2)
+	assert.Error(t, err, "the second word is missing")
+}

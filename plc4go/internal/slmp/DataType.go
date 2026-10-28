@@ -34,7 +34,7 @@ import (
 //
 // The wire layer leaves the read response's and the write request's payload as raw bytes on purpose
 // (see the mspec), so typed encoding and decoding lives here rather than in the generated model.
-// Word units only - plc4j's first version has no bit-unit support and neither does this one.
+// BOOL is a bit device's point: read in word units (sixteen to a word) and written in bit units.
 type DataType uint8
 
 const (
@@ -45,6 +45,8 @@ const (
 	DataTypeDINT
 	DataTypeUDINT
 	DataTypeREAL
+	// DataTypeBOOL is one point of a bit device (M, X, Y, B, L, ...).
+	DataTypeBOOL
 )
 
 // dataTypeNames is the spelling of each type in a tag address, which is also the plc4x value type
@@ -56,11 +58,12 @@ var dataTypeNames = map[DataType]string{
 	DataTypeDINT:  "DINT",
 	DataTypeUDINT: "UDINT",
 	DataTypeREAL:  "REAL",
+	DataTypeBOOL:  "BOOL",
 }
 
 // SupportedDataTypeNames is every type name a tag address may name, in the order plc4j's enum
 // declares them. Used for the "supported: ..." part of the parse error.
-var SupportedDataTypeNames = []string{"WORD", "INT", "UINT", "DINT", "UDINT", "REAL"}
+var SupportedDataTypeNames = []string{"WORD", "INT", "UINT", "DINT", "UDINT", "REAL", "BOOL"}
 
 func (d DataType) String() string {
 	if name, ok := dataTypeNames[d]; ok {
@@ -106,6 +109,9 @@ func (d DataType) GetValueType() apiValues.PlcValueType {
 // Deliberately tolerant of a payload that is longer than required: a device is free to answer with
 // the points that were asked for and nothing about the extra bytes makes the requested ones wrong.
 func (d DataType) Decode(responseData []byte, quantity uint16) (apiValues.PlcValue, error) {
+	if d == DataTypeBOOL {
+		return DecodeBits(responseData, 0, quantity)
+	}
 	requiredBytes := int(quantity) * int(d.WordsPerElement()) * 2
 	if len(responseData) < requiredBytes {
 		return nil, errors.Errorf("SLMP response carries %d byte(s) but %d are needed for %d %s element(s)",
@@ -151,6 +157,9 @@ func (d DataType) decodeOne(data []byte) apiValues.PlcValue {
 // A type or arity mismatch is an error the caller maps to INVALID_DATA, symmetric with Decode and
 // with plc4j's SlmpDataType.encode returning null for it.
 func (d DataType) Encode(value apiValues.PlcValue, quantity uint16) ([]byte, error) {
+	if d == DataTypeBOOL {
+		return EncodeBits(value, quantity)
+	}
 	stride := int(d.WordsPerElement()) * 2
 	data := make([]byte, int(quantity)*stride)
 	if value == nil {
@@ -218,4 +227,63 @@ func (d DataType) encodeOne(data []byte, value apiValues.PlcValue) error {
 		return errors.Errorf("unsupported SLMP data type %d", uint8(d))
 	}
 	return nil
+}
+
+// DecodeBits reads quantity bits from words a bit device was read in, starting offset bits into the
+// first word. A word holds sixteen points, the lowest device number in its least significant bit.
+func DecodeBits(responseData []byte, offset uint16, quantity uint16) (apiValues.PlcValue, error) {
+	words := (int(offset) + int(quantity) + 15) / 16
+	if len(responseData) < words*2 {
+		return nil, errors.Errorf("SLMP response carries %d byte(s) but %d are needed for %d bit(s)",
+			len(responseData), words*2, quantity)
+	}
+	bit := func(index int) apiValues.PlcValue {
+		point := int(offset) + index
+		word := binary.LittleEndian.Uint16(responseData[(point/16)*2:])
+		return spiValues.NewPlcBOOL(word>>(point%16)&1 == 1)
+	}
+	if quantity == 1 {
+		return bit(0), nil
+	}
+	elements := make([]apiValues.PlcValue, 0, quantity)
+	for i := 0; i < int(quantity); i++ {
+		elements = append(elements, bit(i))
+	}
+	return spiValues.NewPlcList(elements), nil
+}
+
+// EncodeBits packs quantity bits the way a bit-unit Batch Write carries them: four bits per point,
+// two points to a byte, the first point in the high nibble, ON as 1 (SH-080008 section 8.2).
+func EncodeBits(value apiValues.PlcValue, quantity uint16) ([]byte, error) {
+	if value == nil {
+		return nil, errors.Errorf("no value to write as %d BOOL element(s)", quantity)
+	}
+	elements := []apiValues.PlcValue{value}
+	if quantity == 1 {
+		if value.IsList() {
+			return nil, errors.Errorf("a scalar BOOL tag can't be written from a list of %d value(s)", len(value.GetList()))
+		}
+	} else {
+		if !value.IsList() {
+			return nil, errors.Errorf("a BOOL[%d] tag needs a list of %d values", quantity, quantity)
+		}
+		elements = value.GetList()
+		if len(elements) != int(quantity) {
+			return nil, errors.Errorf("a BOOL[%d] tag needs exactly %d values but got %d", quantity, quantity, len(elements))
+		}
+	}
+	data := make([]byte, (int(quantity)+1)/2)
+	for i, element := range elements {
+		if element == nil || !element.IsBool() {
+			return nil, errors.Errorf("value %d of a BOOL tag isn't a boolean: %v", i, element)
+		}
+		if element.GetBool() {
+			if i%2 == 0 {
+				data[i/2] |= 0x10
+			} else {
+				data[i/2] |= 0x01
+			}
+		}
+	}
+	return data, nil
 }

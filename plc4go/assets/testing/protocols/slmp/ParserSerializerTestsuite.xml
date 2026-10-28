@@ -276,4 +276,71 @@
     </xml>
   </testcase>
 
+  <testcase>
+    <name>3E Batch Write Request in bit units - M5..M7 = ON, OFF, ON</name>
+    <raw>500000ffff03000e000000011401000500009003001010</raw>
+    <root-type>SlmpMessage</root-type>
+    <xml>
+      <SlmpMessage>
+        <subHeader dataType="uint" bitLength="8">80</subHeader>
+        <subHeaderReserved dataType="uint" bitLength="8">0</subHeaderReserved>
+        <SlmpRequestFrame3E>
+          <network dataType="uint" bitLength="8">0</network>
+          <pcNumber dataType="uint" bitLength="8">255</pcNumber>
+          <requestDestModuleIoNo dataType="uint" bitLength="16">1023</requestDestModuleIoNo>
+          <requestDestModuleStation dataType="uint" bitLength="8">0</requestDestModuleStation>
+          <requestDataLength dataType="uint" bitLength="16">14</requestDataLength>
+          <monitoringTimer dataType="uint" bitLength="16">0</monitoringTimer>
+          <command dataType="uint" bitLength="16">5121</command>
+          <subCommand dataType="uint" bitLength="16">1</subCommand>
+          <requestData>
+            <SlmpRequestData>
+              <SlmpBitWriteRequest>
+                <headDeviceNumber dataType="uint" bitLength="24">5</headDeviceNumber>
+                <deviceCode>
+                  <SlmpDeviceCode dataType="uint" bitLength="8" stringRepresentation="M">144</SlmpDeviceCode>
+                </deviceCode>
+                <numberOfPoints dataType="uint" bitLength="16">3</numberOfPoints>
+                <writeData dataType="byte" bitLength="16">0x1010</writeData>
+              </SlmpBitWriteRequest>
+            </SlmpRequestData>
+          </requestData>
+        </SlmpRequestFrame3E>
+      </SlmpMessage>
+    </xml>
+  </testcase>
+
+  <testcase>
+    <name>3E Batch Read Request - D350, 1 word, routed to station 3 on network 2</name>
+    <raw>50000203ff03000c000000010400005e0100a80100</raw>
+    <root-type>SlmpMessage</root-type>
+    <xml>
+      <SlmpMessage>
+        <subHeader dataType="uint" bitLength="8">80</subHeader>
+        <subHeaderReserved dataType="uint" bitLength="8">0</subHeaderReserved>
+        <SlmpRequestFrame3E>
+          <network dataType="uint" bitLength="8">2</network>
+          <pcNumber dataType="uint" bitLength="8">3</pcNumber>
+          <requestDestModuleIoNo dataType="uint" bitLength="16">1023</requestDestModuleIoNo>
+          <requestDestModuleStation dataType="uint" bitLength="8">0</requestDestModuleStation>
+          <requestDataLength dataType="uint" bitLength="16">12</requestDataLength>
+          <monitoringTimer dataType="uint" bitLength="16">0</monitoringTimer>
+          <command dataType="uint" bitLength="16">1025</command>
+          <subCommand dataType="uint" bitLength="16">0</subCommand>
+          <requestData>
+            <SlmpRequestData>
+              <SlmpReadRequest>
+                <headDeviceNumber dataType="uint" bitLength="24">350</headDeviceNumber>
+                <deviceCode>
+                  <SlmpDeviceCode dataType="uint" bitLength="8" stringRepresentation="D">168</SlmpDeviceCode>
+                </deviceCode>
+                <numberOfPoints dataType="uint" bitLength="16">1</numberOfPoints>
+              </SlmpReadRequest>
+            </SlmpRequestData>
+          </requestData>
+        </SlmpRequestFrame3E>
+      </SlmpMessage>
+    </xml>
+  </testcase>
+
 </test:testsuite>

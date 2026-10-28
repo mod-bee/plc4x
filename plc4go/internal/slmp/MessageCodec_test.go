@@ -120,7 +120,7 @@ func TestFrameSizeFromHeader(t *testing.T) {
 func TestMessageCodec_SendSerializesTheReferenceFrames(t *testing.T) {
 	t.Run("batch read", func(t *testing.T) {
 		codec, transportInstance := newTestCodec(t)
-		request := readWriteModel.NewSlmpRequestFrame3E(0x0000, commandBatchRead, subCommandWordUnits,
+		request := readWriteModel.NewSlmpRequestFrame3E(0x00, 0xFF, 0x03FF, 0x00, 0x0000, commandBatchRead, subCommandWordUnits,
 			readWriteModel.NewSlmpReadRequest(350, readWriteModel.SlmpDeviceCode_D, 2))
 		require.NoError(t, codec.Send(testutils.TestContext(t), "read", request))
 		want := mustDecodeHex(t, batchReadRequestHex)
@@ -128,7 +128,7 @@ func TestMessageCodec_SendSerializesTheReferenceFrames(t *testing.T) {
 	})
 	t.Run("batch write", func(t *testing.T) {
 		codec, transportInstance := newTestCodec(t)
-		request := readWriteModel.NewSlmpRequestFrame3E(0x0000, commandBatchWrite, subCommandWordUnits,
+		request := readWriteModel.NewSlmpRequestFrame3E(0x00, 0xFF, 0x03FF, 0x00, 0x0000, commandBatchWrite, subCommandWordUnits,
 			readWriteModel.NewSlmpWriteRequest(350, readWriteModel.SlmpDeviceCode_D, 2,
 				[]byte{0x34, 0x12, 0x78, 0x56}))
 		require.NoError(t, codec.Send(testutils.TestContext(t), "write", request))

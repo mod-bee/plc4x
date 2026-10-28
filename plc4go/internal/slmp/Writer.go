@@ -95,15 +95,21 @@ func (m *Writer) writeSingleTag(ctx context.Context, tagName string, tag PlcTag,
 		m.log.Warn().Err(err).Str("tagName", tagName).Msg("value can't be encoded for this tag")
 		return apiModel.PlcResponseCode_INVALID_DATA
 	}
-	// Invariant DataType.Encode guarantees: len(payload) == numberOfPoints * 2, so the frame's
-	// announced point count and its payload length agree. The generated serializer derives the
+	// Invariant DataType.Encode guarantees: len(payload) == numberOfPoints * 2 for words, and
+	// (quantity + 1) / 2 for bits, so the frame's announced point count and its payload length agree. The generated serializer derives the
 	// payload length from numberOfPoints, so a disagreement would go out as a frame no device
 	// accepts.
 	requestCtx, cancelRequest := context.WithTimeout(ctx, m.configuration.requestTimeout)
 	defer cancelRequest()
 
-	frame := newRequestFrame(m.configuration, commandBatchWrite,
+	// A bit device's points are written in bit units, so exactly the points named change and the
+	// rest of their word is left alone (a word write would overwrite all sixteen).
+	frame := newRequestFrame(m.configuration, commandBatchWrite, subCommandWordUnits,
 		readWriteModel.NewSlmpWriteRequest(tag.GetDeviceNumber(), tag.GetDeviceCode(), tag.GetNumberOfPoints(), payload))
+	if tag.GetDataType() == DataTypeBOOL {
+		frame = newRequestFrame(m.configuration, commandBatchWrite, subCommandBitUnits,
+			readWriteModel.NewSlmpBitWriteRequest(tag.GetDeviceNumber(), tag.GetDeviceCode(), tag.GetQuantity(), payload))
+	}
 
 	response, err := sendTransactedRequestAndWait(requestCtx, m.log, m.messageCodec, m.tm, "write", frame)
 	if err != nil {

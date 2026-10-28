@@ -38,6 +38,29 @@ public class SlmpConfiguration implements Configuration {
     @Description("Client-side timeout in milliseconds awaiting a response.")
     private int requestTimeout;
 
+    // The 3E frame's access route (SH-080008 chapter 6). The defaults address the connected station
+    // itself: network 0, station 0xFF, module I/O 0x03FF, multidrop station 0. The initializers
+    // say the same for a configuration built in code rather than from a connection string.
+    @ConfigurationParameter("network-number")
+    @IntDefaultValue(0x00)
+    @Description("Access route: network number of the station addressed (0 = the connected station's own network).")
+    private int networkNumber;
+
+    @ConfigurationParameter("station-number")
+    @IntDefaultValue(0xFF)
+    @Description("Access route: station number on that network (255 = the connected station).")
+    private int stationNumber = 0xFF;
+
+    @ConfigurationParameter("module-io-number")
+    @IntDefaultValue(0x03FF)
+    @Description("Access route: request destination module I/O number (1023 = 0x03FF, the connected station's CPU; 992-995 = CPU No. 1-4 of a multiple-CPU system).")
+    private int moduleIoNumber = 0x03FF;
+
+    @ConfigurationParameter("multidrop-station-number")
+    @IntDefaultValue(0x00)
+    @Description("Access route: request destination multidrop station number (0 unless the module I/O number names a multidrop link).")
+    private int multidropStationNumber;
+
     public int getMonitoringTimer() {
         return monitoringTimer;
     }
@@ -54,9 +77,45 @@ public class SlmpConfiguration implements Configuration {
         this.requestTimeout = requestTimeout;
     }
 
+    public int getNetworkNumber() {
+        return networkNumber;
+    }
+
+    public void setNetworkNumber(int networkNumber) {
+        this.networkNumber = networkNumber;
+    }
+
+    public int getStationNumber() {
+        return stationNumber;
+    }
+
+    public void setStationNumber(int stationNumber) {
+        this.stationNumber = stationNumber;
+    }
+
+    public int getModuleIoNumber() {
+        return moduleIoNumber;
+    }
+
+    public void setModuleIoNumber(int moduleIoNumber) {
+        this.moduleIoNumber = moduleIoNumber;
+    }
+
+    public int getMultidropStationNumber() {
+        return multidropStationNumber;
+    }
+
+    public void setMultidropStationNumber(int multidropStationNumber) {
+        this.multidropStationNumber = multidropStationNumber;
+    }
+
     @Override
     public String toString() {
         return "SlmpConfiguration{monitoringTimer=" + monitoringTimer
-            + ", requestTimeout=" + requestTimeout + '}';
+            + ", requestTimeout=" + requestTimeout
+            + ", networkNumber=" + networkNumber
+            + ", stationNumber=" + stationNumber
+            + ", moduleIoNumber=" + moduleIoNumber
+            + ", multidropStationNumber=" + multidropStationNumber + '}';
     }
 }

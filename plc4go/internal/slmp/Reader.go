@@ -102,8 +102,16 @@ func (m *Reader) readSingleTag(ctx context.Context, tagName string, tag PlcTag) 
 	requestCtx, cancelRequest := context.WithTimeout(ctx, m.configuration.requestTimeout)
 	defer cancelRequest()
 
-	frame := newRequestFrame(m.configuration, commandBatchRead,
-		readWriteModel.NewSlmpReadRequest(tag.GetDeviceNumber(), tag.GetDeviceCode(), tag.GetNumberOfPoints()))
+	// A bit device is read in word units too, sixteen points to a word: from the word its first
+	// point is in, as many words as its points reach into.
+	headDeviceNumber, numberOfPoints, bitOffset := tag.GetDeviceNumber(), tag.GetNumberOfPoints(), uint16(0)
+	if tag.GetDataType() == DataTypeBOOL {
+		bitOffset = uint16(headDeviceNumber % 16)
+		headDeviceNumber -= uint32(bitOffset)
+		numberOfPoints = (bitOffset + tag.GetQuantity() + 15) / 16
+	}
+	frame := newRequestFrame(m.configuration, commandBatchRead, subCommandWordUnits,
+		readWriteModel.NewSlmpReadRequest(headDeviceNumber, tag.GetDeviceCode(), numberOfPoints))
 
 	response, err := sendTransactedRequestAndWait(requestCtx, m.log, m.messageCodec, m.tm, "read", frame)
 	if err != nil {
@@ -115,12 +123,13 @@ func (m *Reader) readSingleTag(ctx context.Context, tagName string, tag PlcTag) 
 		}
 		return apiModel.PlcResponseCode_INTERNAL_ERROR, nil
 	}
-	return m.decodeReadResponse(tagName, tag, response)
+	return m.decodeReadResponse(tagName, tag, bitOffset, response)
 }
 
 // decodeReadResponse maps one Batch Read response onto a response code and a value. Ported from
 // plc4j's SlmpResponseMapper.mapTag.
-func (m *Reader) decodeReadResponse(tagName string, tag PlcTag, response readWriteModel.SlmpResponseFrame3E) (apiModel.PlcResponseCode, apiValues.PlcValue) {
+// bitOffset is how far into the first word a BOOL tag's first point is.
+func (m *Reader) decodeReadResponse(tagName string, tag PlcTag, bitOffset uint16, response readWriteModel.SlmpResponseFrame3E) (apiModel.PlcResponseCode, apiValues.PlcValue) {
 	if endCode := response.GetEndCode(); endCode != endCodeNormalCompletion {
 		// On abnormal completion the payload carries error information rather than device data; the
 		// driver has no use for it beyond the log line, the way plc4j's mapper logs the end code.
@@ -130,7 +139,13 @@ func (m *Reader) decodeReadResponse(tagName string, tag PlcTag, response readWri
 			Msg("SLMP device answered the read with an error end code")
 		return apiModel.PlcResponseCode_REMOTE_ERROR, nil
 	}
-	value, err := tag.GetDataType().Decode(response.GetResponseData(), tag.GetQuantity())
+	var value apiValues.PlcValue
+	var err error
+	if tag.GetDataType() == DataTypeBOOL {
+		value, err = DecodeBits(response.GetResponseData(), bitOffset, tag.GetQuantity())
+	} else {
+		value, err = tag.GetDataType().Decode(response.GetResponseData(), tag.GetQuantity())
+	}
 	if err != nil {
 		m.log.Warn().Err(err).Str("tagName", tagName).Msg("SLMP response can't be decoded for this tag")
 		return apiModel.PlcResponseCode_INVALID_DATA, nil

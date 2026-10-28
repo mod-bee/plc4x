@@ -31,7 +31,7 @@ import (
 )
 
 // Configuration is what an slmp connection string can say about the connection. Ported from plc4j's
-// SlmpConfiguration, which knows exactly these two options.
+// SlmpConfiguration.
 type Configuration struct {
 	// monitoringTimer is the SLMP monitoring timer written into every 3E request frame. Zero means
 	// "wait infinitely" as far as the device is concerned; the client-side bound is requestTimeout.
@@ -40,6 +40,23 @@ type Configuration struct {
 	monitoringTimer uint16
 	// requestTimeout bounds every single read and write.
 	requestTimeout time.Duration
+	// route is the 3E frame's access route: which station the connected one passes the request on to.
+	route Route
+}
+
+// Route is a 3E frame's access route (SH-080008 chapter 6). The connected station itself is the
+// default: network 0, station 0xFF, module I/O 0x03FF, multidrop station 0.
+type Route struct {
+	// Network is the network number of the station addressed (0 = the connected station's own).
+	Network uint8
+	// Station is the station number on that network (0xFF = the connected station).
+	Station uint8
+	// ModuleIo is the request destination module I/O number: 0x03FF is the CPU of the connected
+	// station; 0x03E0-0x03E3 are CPUs No. 1-4 of a multiple-CPU system; others reach a multidrop
+	// link through the module at that I/O number.
+	ModuleIo uint16
+	// MultidropStation is the multidrop station number when ModuleIo names a multidrop link (else 0).
+	MultidropStation uint8
 }
 
 const (
@@ -49,11 +66,15 @@ const (
 	defaultRequestTimeout = 5 * time.Second
 )
 
+// ownStation is the access route of the connected station itself.
+var ownStation = Route{Network: 0x00, Station: 0xFF, ModuleIo: 0x03FF, MultidropStation: 0x00}
+
 // DefaultConfiguration is a connection without any options set.
 func DefaultConfiguration() Configuration {
 	return Configuration{
 		monitoringTimer: defaultMonitoringTimer,
 		requestTimeout:  defaultRequestTimeout,
+		route:           ownStation,
 	}
 }
 
@@ -92,9 +113,30 @@ func ParseFromOptions(localLog zerolog.Logger, connectionOptions map[string][]st
 		configuration.requestTimeout = time.Duration(parsedInt) * time.Millisecond
 	}
 
+	for _, field := range []struct {
+		name string
+		bits int
+		set  func(uint64)
+	}{
+		{"network-number", 8, func(v uint64) { configuration.route.Network = uint8(v) }},
+		{"station-number", 8, func(v uint64) { configuration.route.Station = uint8(v) }},
+		{"module-io-number", 16, func(v uint64) { configuration.route.ModuleIo = uint16(v) }},
+		{"multidrop-station-number", 8, func(v uint64) { configuration.route.MultidropStation = uint8(v) }},
+	} {
+		if text := reader.Get(field.name); text != "" {
+			// Base 0: decimal, or hex with 0x - the manual spells the module I/O numbers in hex.
+			parsed, err := strconv.ParseUint(text, 0, field.bits)
+			if err != nil {
+				return Configuration{}, errors.Wrapf(err, "Error parsing %s %s (an unsigned %d-bit field of the 3E access route)", field.name, text, field.bits)
+			}
+			field.set(parsed)
+		}
+	}
+
 	return configuration, nil
 }
 
 func (c Configuration) String() string {
-	return fmt.Sprintf("slmp.Configuration{monitoringTimer: 0x%04X, requestTimeout: %s}", c.monitoringTimer, c.requestTimeout)
+	return fmt.Sprintf("slmp.Configuration{monitoringTimer: 0x%04X, requestTimeout: %s, route: network %d station 0x%02X module I/O 0x%04X multidrop %d}",
+		c.monitoringTimer, c.requestTimeout, c.route.Network, c.route.Station, c.route.ModuleIo, c.route.MultidropStation)
 }

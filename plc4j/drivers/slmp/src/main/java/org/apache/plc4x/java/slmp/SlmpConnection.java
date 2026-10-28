@@ -30,6 +30,7 @@ import org.apache.plc4x.java.api.value.PlcValue;
 import org.apache.plc4x.java.slmp.config.SlmpConfiguration;
 import org.apache.plc4x.java.slmp.readwrite.SlmpMessage;
 import org.apache.plc4x.java.slmp.readwrite.SlmpReadRequest;
+import org.apache.plc4x.java.slmp.readwrite.SlmpRequestData;
 import org.apache.plc4x.java.slmp.readwrite.SlmpRequestFrame3E;
 import org.apache.plc4x.java.slmp.readwrite.SlmpResponseFrame3E;
 import org.apache.plc4x.java.slmp.readwrite.SlmpWriteRequest;
@@ -101,6 +102,18 @@ public class SlmpConnection extends PollingSubscriptionConnectionBase<SlmpConfig
         if (requestTimeout <= 0) {
             throw new PlcConnectionException("request-timeout-ms must be > 0 ms but was " + requestTimeout
                 + " (a non-positive value would time out every request immediately)");
+        }
+        // The access route's fields are unsigned 8- and 16-bit fields of the 3E frame.
+        checkRouteField("network-number", configuration.getNetworkNumber(), 0xFF);
+        checkRouteField("station-number", configuration.getStationNumber(), 0xFF);
+        checkRouteField("module-io-number", configuration.getModuleIoNumber(), 0xFFFF);
+        checkRouteField("multidrop-station-number", configuration.getMultidropStationNumber(), 0xFF);
+    }
+
+    private static void checkRouteField(String name, int value, int max) throws PlcConnectionException {
+        if (value < 0 || value > max) {
+            throw new PlcConnectionException(name + " must be in [0, " + max + "] but was " + value
+                + " (it is a field of the 3E frame's access route)");
         }
     }
 
@@ -250,11 +263,21 @@ public class SlmpConnection extends PollingSubscriptionConnectionBase<SlmpConfig
         });
     }
 
+    /**
+     * One 3E request frame in word units, along the configured access route.
+     */
+    private SlmpRequestFrame3E newRequestFrame(int command, SlmpRequestData data) {
+        SlmpConfiguration configuration = getConfiguration();
+        return new SlmpRequestFrame3E(
+            (short) configuration.getNetworkNumber(), (short) configuration.getStationNumber(),
+            configuration.getModuleIoNumber(), (short) configuration.getMultidropStationNumber(),
+            configuration.getMonitoringTimer(), command, 0x0000, data);
+    }
+
     private CompletableFuture<PlcResponseItem<PlcValue>> readSingleTag(SlmpTag tag) {
         SlmpReadRequest data = new SlmpReadRequest(
             tag.getDeviceNumber(), tag.getDeviceCode(), tag.getNumberOfPoints());
-        SlmpRequestFrame3E frame = new SlmpRequestFrame3E(
-            getConfiguration().getMonitoringTimer(), 0x0401, 0x0000, data);
+        SlmpRequestFrame3E frame = newRequestFrame(0x0401, data);
         return executeThrottled(() ->
             sendRequest(frame).thenApply(response ->
                 SlmpResponseMapper.mapTag(tag, response.getEndCode(), response.getResponseData())));
@@ -312,8 +335,7 @@ public class SlmpConnection extends PollingSubscriptionConnectionBase<SlmpConfig
         // serialize path derives length from writeData.length, so this must hold by construction).
         SlmpWriteRequest data = new SlmpWriteRequest(
             tag.getDeviceNumber(), tag.getDeviceCode(), tag.getNumberOfPoints(), payload);
-        SlmpRequestFrame3E frame = new SlmpRequestFrame3E(
-            getConfiguration().getMonitoringTimer(), 0x1401, 0x0000, data);
+        SlmpRequestFrame3E frame = newRequestFrame(0x1401, data);
         return executeThrottled(() ->
             sendRequest(frame).thenApply(response ->
                 SlmpResponseMapper.mapWriteTag(tag, response.getEndCode(), response.getResponseData())));
